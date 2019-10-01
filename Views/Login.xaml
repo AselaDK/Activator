@@ -22,9 +22,9 @@
         <Rectangle Height="280" VerticalAlignment="Top">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF2281D1"/>
-                    <GradientStop Color="#FF34268A" Offset="1"/>
-                    <GradientStop Color="#FF33288B" Offset="0.546"/>
+                    <GradientStop Color="#00FF00"/>
+                    <GradientStop Color="#006400" Offset="1"/>
+                    <GradientStop Color="#008000" Offset="0.546"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
@@ -41,8 +41,21 @@
                 <PasswordBox Name="txtpassword" Margin="0,10" materialDesign:HintAssist.Hint="PASSWORD" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" />
             </StackPanel>
         </Grid>
-        <Button Name="btnLogin" Click="BtnSubmit_Click" Width="150" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,65" Content="LOGIN"/>
-        <Button Name="btnForget" Click="BtnForget_Click" Content="Forgot Password?" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="109,0,100,33" Foreground="Gray" Cursor="Hand" Background="Transparent"/>
-        <Image Source="..\images\alogo22.jpg" Height="150" VerticalAlignment="Top" Margin="100,10,100,0"/>
+        <Button Name="btnLogin" Click="BtnSubmit_Click" Background="#008000" Width="150" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,65" Content="LOGIN">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=txtuid, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=txtpassword, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button Name="btnForget" Click="BtnForget_Click" Content="Problem in logging ?" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="91,0,88,33" Foreground="Gray" Cursor="Hand" Background="Transparent" Width="171"/>
+        <Image Source="..\images\actlogo1.png" Height="165" VerticalAlignment="Top" Margin="91,10,92,0"/>
     </Grid>
 </Window>
