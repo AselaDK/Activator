@@ -17,19 +17,19 @@ using Amazon.DynamoDBv2.DocumentModel;
 using static Amazon.Internal.RegionEndpointProviderV2;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
 using System.Security.Cryptography;
+using Caliburn.Micro;
 
-namespace Activator.Views
-{
+namespace Activator.ViewModels
+{ 
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class Login : Window
+    public partial class LoginViewModel : Screen
     {
-        public Login()
+        public LoginViewModel()
         {
-            InitializeComponent();
         }
-
+        /*
         private void BtnSubmit_Click(object sender, RoutedEventArgs e)
         {
             String aId = txtuid.Text;
@@ -41,7 +41,7 @@ namespace Activator.Views
 
             try
             {
-                
+
                 string tableName = "admin";
 
                 var client = new AmazonDynamoDBClient();
@@ -50,7 +50,7 @@ namespace Activator.Views
 
                 //Console.WriteLine(item["aPassword"]);
 
-                if (item!=null && item["aPassword"] == hashPassword)
+                if (item != null && item["aPassword"] == hashPassword)
                 {
                     Console.WriteLine("Successfully Logged in!!!");
                     MainWindow dashboard = new MainWindow();
@@ -65,13 +65,13 @@ namespace Activator.Views
                     txtuid.Text = "";
                     txtuid.BorderBrush = Brushes.Red;
                     //txtuid.Background = Brushes.LightSalmon;
-                   
+
                     txtpassword.Password = "";
                     txtpassword.BorderBrush = Brushes.Red;
                     //txtpassword.Background = Brushes.LightSalmon;
                 }
 
-    
+
             }
             catch (AmazonDynamoDBException ex)
             {
@@ -82,7 +82,7 @@ namespace Activator.Views
                 MessageBox.Show("Message : Unknown Error", ex.Message);
             }
         }
-
+        */
         private void BtnForget_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Please Contact the Developer Team. Thank You!");
