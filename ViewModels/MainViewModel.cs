@@ -17,6 +17,9 @@ namespace Activator.ViewModels
     {
         public MainViewModel()
         {
+            LoginView logwin = new LoginView();
+            logwin.Close();
+
             HomePageView setpage = new HomePageView();
             CurrentPage = setpage;
         }
