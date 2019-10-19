@@ -36,10 +36,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.Core.3.3.103.42\lib\net45\AWSSDK.Core.dll</HintPath>
+      <HintPath>packages\AWSSDK.Core.3.3.103.52\lib\net45\AWSSDK.Core.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.DynamoDBv2, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
       <HintPath>packages\AWSSDK.DynamoDBv2.3.3.101.69\lib\net45\AWSSDK.DynamoDBv2.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.Rekognition, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>packages\AWSSDK.Rekognition.3.3.101.27\lib\net45\AWSSDK.Rekognition.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>packages\AWSSDK.S3.3.3.104.40\lib\net45\AWSSDK.S3.dll</HintPath>
     </Reference>
     <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
@@ -104,6 +110,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="IHavePassword.cs" />
+    <Compile Include="Models\FaceCollection.cs" />
+    <Compile Include="Models\MyAWSConfigs.cs" />
+    <Compile Include="Models\S3Bucket.cs" />
+    <Compile Include="Models\Starter.cs" />
+    <Compile Include="Models\StreamManager.cs" />
     <Compile Include="ViewModels\CamerasPageViewModel.cs" />
     <Compile Include="ViewModels\HomePageViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -171,6 +182,8 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="packages\AWSSDK.DynamoDBv2.3.3.101.69\analyzers\dotnet\cs\AWSSDK.DynamoDBv2.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.Rekognition.3.3.101.27\analyzers\dotnet\cs\AWSSDK.Rekognition.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.S3.3.3.104.40\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\activatorlogo1.png" />
@@ -181,8 +194,6 @@
   <ItemGroup>
     <Resource Include="images\actlogo1.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
