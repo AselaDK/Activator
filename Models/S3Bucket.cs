@@ -12,17 +12,17 @@ namespace Activator.Models
 {
     class S3Bucket
     {
-        // bucket setup
+        // setup
         private static string bucketName = MyAWSConfigs.refImagesBucketName;
         private static RegionEndpoint bucketRegion = MyAWSConfigs.refImagesBucketRegion;
 
         private static IAmazonS3 s3Client;
 
+        // upload a single file
         public static void UploadFile(string _filePath)
         {
             string filePath = _filePath;
 
-            // uploading
             using (s3Client = new AmazonS3Client(bucketRegion))
             {
                 UploadFileAsync().Wait();
@@ -49,6 +49,7 @@ namespace Activator.Models
             }
         }
 
+        // return all the file's names in the s3 bucket
         public static List<string> GetFilesList()
         {
             List<String> refNames = new List<string>();
@@ -101,7 +102,6 @@ namespace Activator.Models
 
             return refNames;
         }
- }
-        
+    }    
 }
 
