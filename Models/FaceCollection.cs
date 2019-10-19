@@ -15,12 +15,7 @@ namespace Activator.Models
         private static RegionEndpoint collectionRegion = MyAWSConfigs.faceCollectionRegion;
         private static string bucket = MyAWSConfigs.refImagesBucketName;
 
-        public static List<string> CollectionList
-        {
-            get { return GetFaceCollectionList(); }
-        }
-
-        private static List<String> GetFaceCollectionList()
+        public static List<String> GetFaceCollectionList()
         {
             List<String> _faceCollectionList = new List<string>();
             _faceCollectionList.Clear();
@@ -72,7 +67,7 @@ namespace Activator.Models
 
         public static string Create(string _collectionId)
         {
-            if (CollectionList.Contains(_collectionId)) return "";
+            if (GetFaceCollectionList().Contains(_collectionId)) return "";
 
             string collectionId = _collectionId;
             string collectionArn = "";
