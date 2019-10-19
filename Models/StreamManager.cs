@@ -141,8 +141,9 @@ namespace Activator.Models
             Console.WriteLine("Last update timestamp - " + describeStreamProcessorResult.LastUpdateTimestamp);
         }
 
-        public void ListStreamProcessors()
+        public List<string> ListStreamProcessors()
         {
+            List<string> streamProcessors = new List<string>();
             ListStreamProcessorsResponse listStreamProcessorsResponse =
                     rekognitionClient.ListStreamProcessors(new ListStreamProcessorsRequest()
                     {
@@ -152,9 +153,12 @@ namespace Activator.Models
             //List all stream processors (and state) returned from Rekognition
             foreach (StreamProcessor streamProcessor in listStreamProcessorsResponse.StreamProcessors)
             {
+                streamProcessors.Add(streamProcessor.Name);
                 Console.WriteLine("StreamProcessor name - " + streamProcessor.Name);
                 Console.WriteLine("Status - " + streamProcessor.Status + "\n");
             }
+
+            return streamProcessors;
         }
     }
 }
