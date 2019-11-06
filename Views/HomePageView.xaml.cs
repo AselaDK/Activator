@@ -18,7 +18,7 @@ namespace Activator.Views
     /// <summary>
     /// Interaction logic for HomePageView.xaml
     /// </summary>
-    public partial class HomePageView : Page
+    public partial class HomePageView : UserControl
     {
         public HomePageView()
         {

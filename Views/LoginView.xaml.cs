@@ -24,7 +24,7 @@ namespace Activator.Views
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class LoginView : Window
+    public partial class LoginView : Window, IClosable
     {
 
 
@@ -36,7 +36,8 @@ namespace Activator.Views
             string passwd = TxtPassword.Password;
             string hashPassword = MD5Hash(passwd);
             Console.WriteLine(hashPassword.GetType());
-            
+
+            DataContext = new LoginViewModel();
 
             //LoginViewModel.
 

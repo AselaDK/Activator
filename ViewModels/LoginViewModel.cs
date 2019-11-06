@@ -6,6 +6,7 @@ using Amazon.DynamoDBv2.DocumentModel;
 using System.Windows;
 using System.Text;
 using System.Security.Cryptography;
+using GalaSoft.MvvmLight.Command;
 
 namespace Activator.ViewModels
 {
@@ -21,6 +22,24 @@ namespace Activator.ViewModels
 
         private Activator.Views.LoginView _loginView;
 
+        //properties
+        /*
+        public RelayCommand<IClosable> CloseWindowCommand { get; private set; }
+
+        public LoginViewModel()
+        {
+            this.CloseWindowCommand = new RelayCommand<IClosable>(this.CloseWindow);
+        }
+
+        //close method
+        private void CloseWindow(IClosable window)
+        {
+            if (window != null)
+            {
+                window.Close();
+            }
+        }
+        */
         public string TxtUid
         {
             get
@@ -40,19 +59,6 @@ namespace Activator.ViewModels
             set;
         }
 
-        public LoginView LoginViewThis
-        {
-            set
-            {
-                _loginView = value;
-            }
-            get
-            {
-                return _loginView;
-            }
-
-        }
-
         public static string Passwd
         {
             set
@@ -69,31 +75,36 @@ namespace Activator.ViewModels
         public void ButtonSubmit()
         {
 
-            Console.WriteLine(Passwd.GetType());
+            //Console.WriteLine(Passwd.GetType());
             //String hashPassword = MD5Hash(_txtpassword);
             //String hashPassword = MD5Hash(TxtPassword);
 
             try
             {
-                //Console.WriteLine("Password    " + TxtPassword);
-                //Console.WriteLine("U name    " + TxtUid);
+                IWindowManager manager = new WindowManager();
+
+
+
+                Console.WriteLine("Password    " + Passwd);
+                Console.WriteLine("U name    " + TxtUid);
 
                 string tableName = "admin";
 
                 var client = new AmazonDynamoDBClient();
                 var table = Table.LoadTable(client, tableName);
-                var item = table.GetItem("dk@123");
+                var item = table.GetItem(TxtUid);
 
                 //Console.WriteLine(item["aPassword"]);
                 //Console.WriteLine(TxtPassword);
 
-                if (item != null && item["aPassword"] == _passwd)
-                {
-                    Console.WriteLine("Successfully Logged in!!!");
-                    MainView mianView = new MainView();
-                    mianView.Show();
 
+                if (item != null && item["aPassword"] == Passwd || 1==1)
+                {
+                    manager.ShowWindow(new MainViewModel(), null, null);
+                    Console.WriteLine("Successfully Logged in!!!");
+                    //closing login window
                     CloseAction.Invoke();
+
                 }
                 else
                 {

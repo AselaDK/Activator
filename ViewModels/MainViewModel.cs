@@ -13,15 +13,19 @@ namespace Activator.ViewModels
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainViewModel : Screen
+    public partial class MainViewModel : Conductor<object>
     {
         public MainViewModel()
         {
             LoginView logwin = new LoginView();
             logwin.Close();
 
-            HomePageView setpage = new HomePageView();
-            CurrentPage = setpage;
+            ButtonMenuHome();
+        }
+
+        public void ButtonMenuHome()
+        {
+            this.ActivateItem(new HomePageViewModel());
         }
 
         //close button
@@ -60,30 +64,11 @@ namespace Activator.ViewModels
             //ButtonCloseMenu.Visibility = Visibility.Collapsed;
         }
 
-        //set Home Page to frame
-        static readonly HomePageView setpage = new HomePageView();
-        private Page _currentpage = setpage;
-
-        //show Home Page when no menu is selected
-        public Page CurrentPage
-        {
-            get
-            {
-                return _currentpage;
-            }
-            set
-            {
-                _currentpage = value;
-                NotifyOfPropertyChange(() => CurrentPage);
-            }
-        }
-
         //navigate to cameras page
         public void ButtonMenuCameras()
         {
-            //Console.WriteLine("EVGWEGWEGWEG");
-            CamerasPageView camp = new CamerasPageView();
-            CurrentPage.Content = camp;
+            Console.WriteLine("EVGWEGWEGWEG");
+            this.ActivateItem(new CamerasPageViewModel());
         }
     }
 }

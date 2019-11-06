@@ -8,7 +8,11 @@ using Caliburn.Micro;
 
 namespace Activator.ViewModels
 {
-    class CamerasPageViewModel
+    class CamerasPageViewModel: Screen
     {
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+        }
     }
 }

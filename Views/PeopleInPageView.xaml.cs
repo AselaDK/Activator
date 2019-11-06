@@ -16,13 +16,13 @@ using System.Windows.Shapes;
 namespace Activator.Views
 {
     /// <summary>
-    /// Interaction logic for CameraPageView.xaml
+    /// Interaction logic for PeopleInPageView.xaml
     /// </summary>
-    public partial class CamerasPageView : UserControl
+    public partial class PeopleInPageView : UserControl
     {
-        public CamerasPageView()
+        public PeopleInPageView()
         {
-            
+            InitializeComponent();
         }
     }
 }
