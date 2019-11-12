@@ -64,7 +64,7 @@
         <Image Source="..\images\actlogo1.png" Height="165" VerticalAlignment="Top" Margin="91,10,92,0"/>
 
 
-        <Button x:Name="ButtonClose" Command="{Binding CloseCommand, Mode=OneWay }" CommandParameter="{Binding ElementName=MyWindow}" Height="50" Width="50" Background="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Top" >
+        <Button x:Name="ButtonCloseApplication" Command="{Binding CloseCommand, Mode=OneWay }" CommandParameter="{Binding ElementName=MyWindow}" Height="50" Width="50" Background="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Top" >
             <materialDesign:PackIcon  Kind="CloseBox" Height="30" Width="30" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0"/>
         </Button>
     </Grid>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Activator.ViewModels
 {
-    class AllPeoplePageViewModel:Screen
+    class ReadersViewModel : Screen
     {
         protected override void OnActivate()
         {

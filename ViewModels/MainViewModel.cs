@@ -17,19 +17,23 @@ namespace Activator.ViewModels
     {
         public MainViewModel()
         {
-            LoginView logwin = new LoginView();
-            logwin.Close();
+            LoginView login = new LoginView();
+            login.Close();
 
             ButtonMenuHome();
         }
 
-        public void ButtonMenuHome()
-        {
-            this.ActivateItem(new HomePageViewModel());
-        }
+        IWindowManager manager = new WindowManager();
 
         //close button
-        public void ButtonCloseApplication() => Application.Current.Shutdown();
+        public void ButtonCloseApplication()
+        {
+            manager.ShowWindow(new CloseConfirmViewModel(), null, null);
+        }
+            
+            
+            
+            //=> Application.Current.Shutdown();
 
         //visibility of the MENU button
         private Visibility _myPropertyo;
@@ -64,11 +68,32 @@ namespace Activator.ViewModels
             //ButtonCloseMenu.Visibility = Visibility.Collapsed;
         }
 
-        //navigate to cameras page
+        //navigation through menu
+        //navigate to Home Page
+        public void ButtonMenuHome()
+        {
+            this.ActivateItem(new HomePageViewModel());
+        }
+        //navigate to PeopleIn Page
+        public void ButtonMenuPeopleIn()
+        {
+            this.ActivateItem(new PeopleInPageViewModel());
+        }
+        //navigate to AllPeople Page
+        public void ButtonMenuAllPeople()
+        {
+            this.ActivateItem(new AllPeoplePageViewModel());
+        }
+        //navigate to Readers Page
+        public void ButtonMenuReaders()
+        {
+            this.ActivateItem(new ReadersViewModel());
+        }
+        //navigate to Cameras Page
         public void ButtonMenuCameras()
         {
-            Console.WriteLine("EVGWEGWEGWEG");
             this.ActivateItem(new CamerasPageViewModel());
+            ButtonOpenMenu();
         }
     }
 }

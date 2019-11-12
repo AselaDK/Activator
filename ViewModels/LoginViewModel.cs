@@ -20,7 +20,8 @@ namespace Activator.ViewModels
 
         private static string _passwd;
 
-        private Activator.Views.LoginView _loginView;
+        //close button
+        public void ButtonCloseApplication() => Application.Current.Shutdown();
 
         //properties
         /*
