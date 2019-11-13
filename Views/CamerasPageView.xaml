@@ -29,9 +29,16 @@
             <materialDesign:PackIcon x:Name="icnSearch" Kind="Search" Width="30" Height="30" VerticalAlignment="Center"  HorizontalAlignment="Right" Cursor="Hand" Margin="0,5"/>
         </StackPanel>
 
-        <StackPanel Width="Auto" Height="40" VerticalAlignment="Top">
-
-        </StackPanel>
+        <Grid Width="Auto" Height="985" VerticalAlignment="Top" Margin="0,95,0,0">
+            
+            <DataGrid Name="datagrid" ItemsSource="{Binding CamerasPageModel}" AutoGenerateColumns="False" CanUserAddRows="False" Margin="5" HorizontalAlignment="Left">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="600" Header="Id" Binding="{Binding Path='camId'}" IsReadOnly="True"/>
+                    <DataGridTextColumn Width="600" Header="Country" Binding="{Binding Path='loaction'}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="600" Header="Date" Binding="{Binding Path='quality'}" IsReadOnly="True" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
 
 
 

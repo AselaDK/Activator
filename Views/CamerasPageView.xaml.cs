@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Activator.ViewModels;
 
 namespace Activator.Views
 {
@@ -20,9 +21,12 @@ namespace Activator.Views
     /// </summary>
     public partial class CamerasPageView : UserControl
     {
+        CamerasPageViewModel co;
         public CamerasPageView()
         {
-            
+            InitializeComponent();
+            co = new CamerasPageViewModel();
+            base.DataContext = co;
         }
     }
 }
