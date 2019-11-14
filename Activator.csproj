@@ -112,7 +112,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Models\CamerasPageModel.cs" />
+    <Compile Include="Models\Camera.cs" />
     <Compile Include="Models\FaceCollection.cs" />
     <Compile Include="Models\MyAWSConfigs.cs" />
     <Compile Include="Models\S3Bucket.cs" />

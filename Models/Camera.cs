@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Activator.Models
 {
-    class CamerasPageModel
+    class Camera
     {
         public string camId { get; set; }
         public string location { get; set; }
