@@ -20,6 +20,19 @@ namespace Activator.Views
     /// </summary>
     public partial class CloseConfirmView : Window
     {
-        
+        public CloseConfirmView()
+        {
+            InitializeComponent();
+        }
+
+        private void ConfirmClose_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void DenieClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
