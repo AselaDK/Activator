@@ -27,9 +27,7 @@ namespace Activator.Views
     {
       
         private AmazonDynamoDBClient client;
-        //private ObservableCollection<Camera> cameras;
-        //private IObservableCollection<Camera> cameras = new IObservableCollection<Camera>();
-
+        
         public CamerasPageView()
         {
             InitializeComponent();
@@ -38,7 +36,6 @@ namespace Activator.Views
             try
             {
                 this.client = new AmazonDynamoDBClient();
-                //this.Cameras = new ObservableCollection<Camera>();
                 this.LoadData(null);
             }
             catch (Exception ex)
@@ -54,7 +51,7 @@ namespace Activator.Views
             //scan the table for get all details
             var search = table.Scan(new Amazon.DynamoDBv2.DocumentModel.Expression());
 
-
+            // create DynamoDB document with scanned data 
             var documentList = new List<Document>();
             do
             {
@@ -62,9 +59,11 @@ namespace Activator.Views
 
             } while (!search.IsDone);
 
+            // create a Collection
             //Camera is the name of the model in <Camera>, it is in Models Folder(Camera.cs)
             var cameras = new ObservableCollection<Camera>();
 
+            // getting DynamoDB Document data to Collection
             foreach (var doc in documentList)
             {
                 var camera = new Camera();
@@ -87,13 +86,13 @@ namespace Activator.Views
                         Console.WriteLine("quality",camera.quality);
                     }
                 }
-                //give itemsource to datagrid, DataGrid's name is CamerasDataGrid
+
+                //Add camera data to collection
+                cameras.Add(camera);
+                //give itemsource to datagrid in the frontend, DataGrid's name is CamerasDataGrid
                 CamerasDataGrid.ItemsSource = cameras;
 
-                cameras.Add(camera);
             }
-
-            //this.cameras = cameras;
         }
     }
 }
