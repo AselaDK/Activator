@@ -10,9 +10,11 @@ namespace Activator.Models
     class MyAWSConfigs
     {
         public static readonly String refImagesBucketName = "refimagesbucket";
+        public static readonly String faceCollectionID = "RefCollection";
+        public static readonly String refPersonsDBTableName = "ref_persons";
+
         public static readonly RegionEndpoint refImagesBucketRegion = RegionEndpoint.USWest2;
         public static readonly RegionEndpoint faceCollectionRegion = RegionEndpoint.USWest2;
         public static readonly RegionEndpoint dynamodbRegion = RegionEndpoint.APSoutheast2;
-        public static readonly String faceCollectionID = "RefCollection";
     }
 }
