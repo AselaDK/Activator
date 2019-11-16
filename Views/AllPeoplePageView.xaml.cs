@@ -24,5 +24,11 @@ namespace Activator.Views
         {
             InitializeComponent();
         }
+
+        private void BtnAddNewRef_Click(object sender, RoutedEventArgs e)
+        {
+            AddNewRef addNewRef = new AddNewRef();
+            addNewRef.Show();
+        }
     }
 }

@@ -19,9 +19,10 @@ namespace Activator.Models
         private static IAmazonS3 s3Client;
 
         // upload a single file
-        public static void UploadFile(string _filePath)
+        public static void UploadFile(string _filePath, string _fileName)
         {
             string filePath = _filePath;
+            string fileName = _fileName;
 
             using (s3Client = new AmazonS3Client(bucketRegion))
             {
@@ -34,7 +35,7 @@ namespace Activator.Models
                 {
                     var fileTransferUtility = new TransferUtility(s3Client);
 
-                    await fileTransferUtility.UploadAsync(filePath, bucketName).ConfigureAwait(false);
+                    await fileTransferUtility.UploadAsync(filePath, bucketName, fileName).ConfigureAwait(false);
                     Console.WriteLine("upload finished");
 
                 }
