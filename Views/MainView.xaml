@@ -228,12 +228,12 @@
 
                 <!-- Open/Close Menu Button-->
                 <StackPanel  Width="45" Height="45" Background="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0" RenderTransformOrigin="0.45,-2.9">
-                    <Button x:Name="ButtonCloseMenu" Command="{Binding ButtonClick}"  Visibility="{Binding MyPropertyC}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="45" Height="45" Padding="5" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0">
+                    <Button x:Name="ButtonCloseMenu" Click="ButtonCloseMenu_Click" Command="{Binding ButtonClick}"  Visibility="{Binding MyPropertyC}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="45" Height="45" Padding="5" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0">
                         <materialDesign:PackIcon Kind="Menu" Foreground="White"  Height="25" Width="25" Background="LightGray" />
                     </Button>
                 </StackPanel>
                 <StackPanel  Width="45" Height="45" Background="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0" RenderTransformOrigin="0.45,-2.9">
-                    <Button x:Name="ButtonOpenMenu" Command="{Binding ButtonClick}" Visibility="{Binding MyPropertyO}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="45" Height="45" Padding="5" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0" RenderTransformOrigin="0.52,-4.14">
+                    <Button x:Name="ButtonOpenMenu" Click="ButtonOpenMenu_Click" Command="{Binding ButtonClick}" Visibility="{Binding MyPropertyO}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="45" Height="45" Padding="5" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0" RenderTransformOrigin="0.52,-4.14">
                         <materialDesign:PackIcon Kind="Menu" Background="DarkSeaGreen" Foreground="White" Height="35" Width="35" RenderTransformOrigin="0,0.2" />
                     </Button>
                 </StackPanel>

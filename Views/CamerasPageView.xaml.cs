@@ -27,12 +27,11 @@ namespace Activator.Views
     {
       
         private AmazonDynamoDBClient client;
-        
+
         public CamerasPageView()
         {
             InitializeComponent();
 
-            
             try
             {
                 this.client = new AmazonDynamoDBClient();
@@ -44,7 +43,9 @@ namespace Activator.Views
             }
         }
 
-        private void LoadData(object obj)
+
+
+        protected void LoadData(object obj)
         {
             //load DynamoDB table
             var table = Table.LoadTable(client, "Cameras");
@@ -93,6 +94,25 @@ namespace Activator.Views
                 CamerasDataGrid.ItemsSource = cameras;
 
             }
+        }
+
+        private void AddNewCamera_Click(object sender, RoutedEventArgs e)
+        {
+            AddCameraView acv = new AddCameraView();
+            acv.ShowDialog();
+        }
+
+        private void CamerasDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            
+
+
+            EditCameraView ecv = new EditCameraView();
+            ecv.DataContext = CamerasDataGrid.SelectedItem;
+            //ecv.TxtCamId.Text = row
+            //ecv.TxtLocation.Text = Convert.ToString(ColLocation);
+            //ecv.TxtQuality.Text = Convert.ToString(ColQuality);
+            ecv.ShowDialog();
         }
     }
 }

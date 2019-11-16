@@ -36,16 +36,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.Core.3.3.103.64\lib\net45\AWSSDK.Core.dll</HintPath>
+      <HintPath>packages\AWSSDK.Core.3.3.103.62\lib\net45\AWSSDK.Core.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.DynamoDBv2, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.DynamoDBv2.3.3.102.2\lib\net45\AWSSDK.DynamoDBv2.dll</HintPath>
+      <HintPath>packages\AWSSDK.DynamoDBv2.3.3.101.88\lib\net45\AWSSDK.DynamoDBv2.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.Rekognition, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.Rekognition.3.3.101.39\lib\net45\AWSSDK.Rekognition.dll</HintPath>
+      <HintPath>packages\AWSSDK.Rekognition.3.3.101.27\lib\net45\AWSSDK.Rekognition.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.S3.3.3.106.6\lib\net45\AWSSDK.S3.dll</HintPath>
+      <HintPath>packages\AWSSDK.S3.3.3.106.4\lib\net45\AWSSDK.S3.dll</HintPath>
     </Reference>
     <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
@@ -113,15 +113,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\Camera.cs" />
-    <Compile Include="Models\Dynamodb.cs" />
     <Compile Include="Models\FaceCollection.cs" />
     <Compile Include="Models\MyAWSConfigs.cs" />
-    <Compile Include="Models\RefPerson.cs" />
     <Compile Include="Models\S3Bucket.cs" />
     <Compile Include="Models\Starter.cs" />
     <Compile Include="Models\StreamManager.cs" />
-    <Compile Include="Views\AddNewRef.xaml.cs">
-      <DependentUpon>AddNewRef.xaml</DependentUpon>
+    <Compile Include="Views\AddCameraView.xaml.cs">
+      <DependentUpon>AddCameraView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AllPeoplePageView.xaml.cs">
       <DependentUpon>AllPeoplePageView.xaml</DependentUpon>
@@ -131,6 +129,9 @@
     </Compile>
     <Compile Include="Views\CloseConfirmView.xaml.cs">
       <DependentUpon>CloseConfirmView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditCameraView.xaml.cs">
+      <DependentUpon>EditCameraView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HomePageView.xaml.cs">
       <DependentUpon>HomePageView.xaml</DependentUpon>
@@ -151,7 +152,7 @@
     <Compile Include="Views\ReadersView.xaml.cs">
       <DependentUpon>ReadersView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\AddNewRef.xaml">
+    <Page Include="Views\AddCameraView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -164,6 +165,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CloseConfirmView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditCameraView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -216,6 +221,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Analyzer Include="packages\AWSSDK.DynamoDBv2.3.3.101.88\analyzers\dotnet\cs\AWSSDK.DynamoDBv2.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.Rekognition.3.3.101.27\analyzers\dotnet\cs\AWSSDK.Rekognition.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.S3.3.3.106.4\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="images\activatorlogo1.png" />
   </ItemGroup>
   <ItemGroup>
@@ -224,10 +234,6 @@
   <ItemGroup>
     <Resource Include="images\actlogo1.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="packages\AWSSDK.DynamoDBv2.3.3.102.2\analyzers\dotnet\cs\AWSSDK.DynamoDBv2.CodeAnalysis.dll" />
-    <Analyzer Include="packages\AWSSDK.Rekognition.3.3.101.39\analyzers\dotnet\cs\AWSSDK.Rekognition.CodeAnalysis.dll" />
-    <Analyzer Include="packages\AWSSDK.S3.3.3.106.6\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
