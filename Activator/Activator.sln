@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Activator", "Activator.csproj", "{78F55665-21B9-46DB-90D7-7B763C2B148C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kinesisMyDataStreamFunction", "..\..\Test S3 Upload\kinesisMyDataStreamFunction\kinesisMyDataStreamFunction.csproj", "{15C4A960-4228-4CCA-8FB9-127BAFF065C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kinesisMyDataStreamFunction", "..\kinesisMyDataStreamFunction\kinesisMyDataStreamFunction.csproj", "{1B1CE14E-3F00-4352-B23D-23BF13426784}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{78F55665-21B9-46DB-90D7-7B763C2B148C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78F55665-21B9-46DB-90D7-7B763C2B148C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78F55665-21B9-46DB-90D7-7B763C2B148C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{15C4A960-4228-4CCA-8FB9-127BAFF065C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15C4A960-4228-4CCA-8FB9-127BAFF065C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{15C4A960-4228-4CCA-8FB9-127BAFF065C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15C4A960-4228-4CCA-8FB9-127BAFF065C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B1CE14E-3F00-4352-B23D-23BF13426784}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B1CE14E-3F00-4352-B23D-23BF13426784}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B1CE14E-3F00-4352-B23D-23BF13426784}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B1CE14E-3F00-4352-B23D-23BF13426784}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
