@@ -118,6 +118,9 @@
     <Compile Include="Models\S3Bucket.cs" />
     <Compile Include="Models\Starter.cs" />
     <Compile Include="Models\StreamManager.cs" />
+    <Compile Include="Views\AddCameraView.xaml.cs">
+      <DependentUpon>AddCameraView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AllPeoplePageView.xaml.cs">
       <DependentUpon>AllPeoplePageView.xaml</DependentUpon>
     </Compile>
@@ -126,6 +129,9 @@
     </Compile>
     <Compile Include="Views\CloseConfirmView.xaml.cs">
       <DependentUpon>CloseConfirmView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditCameraView.xaml.cs">
+      <DependentUpon>EditCameraView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HomePageView.xaml.cs">
       <DependentUpon>HomePageView.xaml</DependentUpon>
@@ -146,6 +152,10 @@
     <Compile Include="Views\ReadersView.xaml.cs">
       <DependentUpon>ReadersView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\AddCameraView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AllPeoplePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -155,6 +165,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CloseConfirmView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditCameraView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

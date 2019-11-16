@@ -31,17 +31,17 @@ namespace Activator.Views
             CloseConfirmView closeconf = new CloseConfirmView();
             closeconf.ShowDialog();
         }
-  
-        private void ButtonOpenMenu_Click(object sender, RoutedEventArgs e)
-        {
-            ButtonOpenMenu.Visibility = Visibility.Collapsed;
-            ButtonCloseMenu.Visibility = Visibility.Visible;
-        }
 
         private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
         {
             ButtonOpenMenu.Visibility = Visibility.Visible;
             ButtonCloseMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private void ButtonOpenMenu_Click(object sender, RoutedEventArgs e)
+        {
+            ButtonOpenMenu.Visibility = Visibility.Collapsed;
+            ButtonCloseMenu.Visibility = Visibility.Visible;
         }
 
         private void ButtonMenuHome_Click(object sender, RoutedEventArgs e)
@@ -74,5 +74,6 @@ namespace Activator.Views
             CamerasPageView cams = new CamerasPageView();
             MenuPage.Content = cams;
         }
+
     }
 }

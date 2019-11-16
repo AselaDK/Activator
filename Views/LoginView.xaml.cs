@@ -79,7 +79,7 @@ namespace Activator.Views
                 {
                     Console.WriteLine("Successfully Logged in!!!");
                     MainView dashboard = new MainView();
-                    dashboard.Show();
+                    dashboard.ShowDialog();
                     this.Close();
                 }
                 else
