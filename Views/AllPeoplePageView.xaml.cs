@@ -27,8 +27,8 @@ namespace Activator.Views
 
         private void BtnAddNewRef_Click(object sender, RoutedEventArgs e)
         {
-            AddNewRef addNewRef = new AddNewRef();
-            addNewRef.Show();
+            //AddNewRef addNewRef = new AddNewRef();
+            //addNewRef.Show();
         }
     }
 }

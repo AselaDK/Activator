@@ -12,18 +12,23 @@
          TextElement.FontSize="13"
          TextOptions.TextFormattingMode="Ideal"
          TextOptions.TextRenderingMode="Auto"
-         Background="DarkSeaGreen"
-         WindowStartupLocation="CenterScreen" 
+        WindowStartupLocation="CenterScreen" 
+        Background="DarkSeaGreen"
+         FontFamily="{DynamicResource MaterialDesignFont}"
         Title="Add Camera" Height="470.902" Width="800" >
 
-    <Grid VerticalAlignment="Bottom" Margin="35,0,35,80" Height="290" Background="White">
+    <Grid VerticalAlignment="Bottom" Margin="35,0,35,80" Height="290" Background="{x:Null}">
 
         <Rectangle Height="331" VerticalAlignment="Bottom" Margin="0,-39,0,-22" RadiusY="10" RadiusX="10" Fill="White">
             <Rectangle.Effect>
                 <DropShadowEffect BlurRadius="15" Direction="0" RenderingBias="Quality" ShadowDepth="1" Color="#FFBBBBBB"/>
             </Rectangle.Effect>
         </Rectangle>
-
+        <Button x:Name="BtnDeleteCamera" Click="BtnDeleteCamera_Click" Cursor="Hand" Height="50" Width="50" Margin="660,-15,24,265">
+            <StackPanel Height="40" Width="40">
+                <materialDesign:PackIcon Kind="Delete" Width="50" Height="35" VerticalAlignment="Center" Foreground="Red" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Button>
         <Label Content="Edit Camera" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="298,-19,300,0" Foreground="Gray" FontSize="18" Width="126"/>
         <StackPanel VerticalAlignment="Center" Margin="15">
             <TextBox x:Name="TxtCamId" Text="{Binding camId}" IsReadOnly="True" Margin="0,10" materialDesign:HintAssist.Hint="Camera ID" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>

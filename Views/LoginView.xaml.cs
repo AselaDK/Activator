@@ -55,7 +55,7 @@ namespace Activator.Views
             return strBuilder.ToString();
         }
 
-        private void ButtonSubmit_Click(object sender, RoutedEventArgs e)
+        private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
             String aId = TxtUid.Text;
             String aPassword = TxtPassword.Password;
@@ -118,5 +118,6 @@ namespace Activator.Views
         {
             MessageBox.Show("Please Contact the Developer Team. Thank You!");
         }
+
     }
 }

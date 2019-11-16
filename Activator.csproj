@@ -130,6 +130,9 @@
     <Compile Include="Views\CloseConfirmView.xaml.cs">
       <DependentUpon>CloseConfirmView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ConfirmDeleteCamera.xaml.cs">
+      <DependentUpon>ConfirmDeleteCamera.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EditCameraView.xaml.cs">
       <DependentUpon>EditCameraView.xaml</DependentUpon>
     </Compile>
@@ -165,6 +168,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CloseConfirmView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfirmDeleteCamera.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

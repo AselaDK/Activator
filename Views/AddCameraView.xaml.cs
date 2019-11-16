@@ -16,6 +16,7 @@ using Amazon.DynamoDBv2.DocumentModel;
 using static Amazon.Internal.RegionEndpointProviderV2;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
 using Activator.Models;
+using Amazon.DynamoDBv2.Model;
 
 namespace Activator.Views
 {
@@ -79,6 +80,7 @@ namespace Activator.Views
                     }
                     else
                     {
+                        CreateCameraTable(tableName);
                         MessageBox.Show("Camera ID is already exist! (Please try a different one)");
                     }
                 }
@@ -87,7 +89,10 @@ namespace Activator.Views
                     MessageBox.Show("Table scan doesn't gives results");
                 }
 
-
+                MainView mainv = new MainView();
+                CamerasPageView cams = new CamerasPageView();
+                mainv.MenuPage.Content = cams;
+                mainv.Show();
             }
             catch (AmazonDynamoDBException ex)
             {
@@ -97,9 +102,64 @@ namespace Activator.Views
             {
                 MessageBox.Show("Message : Unknown Error", ex.Message);
             }
+        }
 
+        private void CreateCameraTable(string tblName)
+        {
+            List<string> currentTables = client.ListTables().TableNames;
 
+            if (!currentTables.Contains(tblName))
+            {
+                CreateTableRequest createRequest = new CreateTableRequest
+                {
+                    TableName = tblName,
+                    AttributeDefinitions = new List<AttributeDefinition>()
+                {
+                    new AttributeDefinition
+                    {
+                        AttributeName = "camId",
+                        AttributeType = "S"
+                    },
+                    new AttributeDefinition
+                    {
+                        AttributeName = "location",
+                        AttributeType = "S"
+                    },
+                    new AttributeDefinition
+                    {
+                        AttributeName = "quality",
+                        AttributeType = "S"
+                    }
+                },
+                    KeySchema = new List<KeySchemaElement>()
+                {
+                    new KeySchemaElement
+                    {
+                        AttributeName = "camId",
+                        KeyType = "HASH"
+                    },
+                    new KeySchemaElement
+                    {
+                        AttributeName = "camId",
+                        KeyType = "RANGE"
+                    }
+                },
+                };
 
+                createRequest.ProvisionedThroughput = new ProvisionedThroughput(1, 1);
+
+                CreateTableResponse createResponse;
+                try
+                {
+                    createResponse = client.CreateTable(createRequest);
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine("Error: failed to create the new table; " + ex.Message);
+
+                    return;
+                }
+            }
         }
     }
 }
