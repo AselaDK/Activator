@@ -6,15 +6,17 @@
         xmlns:local="clr-namespace:Activator.Views"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="New Person" Height="450" Width="800" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Topmost="True" WindowStartupLocation="Manual" WindowStyle="ToolWindow">
-    <Grid>
+        Title="New Person" Height="450" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
+    <Grid Width="793">
         <Label Content="Name" HorizontalAlignment="Left" Margin="113,150,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="txtName" HorizontalAlignment="Left" Height="23" Margin="267,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Height="23" Margin="267,216,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Height="23" Margin="267,208,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="buttonSubmit" Content="Submit" HorizontalAlignment="Left" Margin="693,379,0,0" VerticalAlignment="Top" Width="91" Click="ButtonSubmit_Click"/>
         <Label Content="Description" HorizontalAlignment="Left" Margin="113,208,0,0" VerticalAlignment="Top"/>
-        <Image x:Name="uploadImage" HorizontalAlignment="Left" Height="233" Margin="465,40,0,0" VerticalAlignment="Top" Width="218"/>
+        <Image x:Name="imgUploadImage" HorizontalAlignment="Left" Height="233" Margin="465,40,0,0" VerticalAlignment="Top" Width="218"/>
         <Button x:Name="buttonChooseImage" Content="Choose Image" HorizontalAlignment="Left" Margin="519,278,0,0" VerticalAlignment="Top" Width="131" Click="ButtonChooseImage_Click"/>
+        <Label Content="ID" HorizontalAlignment="Left" Margin="113,83,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtId" HorizontalAlignment="Left" Height="23" Margin="267,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
 
     </Grid>
 </Controls:MetroWindow>

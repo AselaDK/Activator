@@ -9,22 +9,24 @@ namespace Activator.Models
 {
     class Dynamodb
     {
-        public static void AddItem(Document item, string tableName)
+        public static void PutItem(Document item, string tableName)
         {
             try
             {
-                var client = new AmazonDynamoDBClient(MyAWSConfigs.dynamodbRegion);
-                var table = Table.LoadTable(client, tableName);
-    
-                table.PutItem(item);
+                AmazonDynamoDBClient client;
+                using (client = new AmazonDynamoDBClient(MyAWSConfigs.dynamodbRegion))
+                {
+                    var table = Table.LoadTable(client, tableName);
+                    table.PutItem(item);
+                }
             }
             catch (AmazonDynamoDBException e)
             {
-                Console.WriteLine("Error encountered on server" + e);
+                Console.WriteLine("AmazonDynamoDBException: " + e);                
             }
             catch (Exception e)
             {
-                Console.WriteLine("Unknown encountered on server" + e);                
+                Console.WriteLine("Error: " + e);                
             }
         }
 
@@ -32,20 +34,23 @@ namespace Activator.Models
         {
             try
             {
-                var client = new AmazonDynamoDBClient(MyAWSConfigs.dynamodbRegion);
-                var table = Table.LoadTable(client, tableName);
-                Document item = table.GetItem(itemId);
+                AmazonDynamoDBClient client;
+                using (client = new AmazonDynamoDBClient(MyAWSConfigs.dynamodbRegion))
+                {
+                    var table = Table.LoadTable(client, tableName);
+                    Document item = table.GetItem(itemId);
 
-                return item;
+                    return item;
+                }
             }
             catch (AmazonDynamoDBException e)
             {
-                Console.WriteLine("Error encountered on server" + e);
+                Console.WriteLine("AmazonDynamoDBException: " + e);
                 return new Document();
             }
             catch (Exception e)
             {
-                Console.WriteLine("Unknown encountered on server" + e);
+                Console.WriteLine("Error: " + e);
                 return new Document();
             }
         }

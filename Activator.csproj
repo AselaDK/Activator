@@ -116,6 +116,7 @@
     <Compile Include="Models\Dynamodb.cs" />
     <Compile Include="Models\FaceCollection.cs" />
     <Compile Include="Models\MyAWSConfigs.cs" />
+    <Compile Include="Models\RefPerson.cs" />
     <Compile Include="Models\S3Bucket.cs" />
     <Compile Include="Models\Starter.cs" />
     <Compile Include="Models\StreamManager.cs" />

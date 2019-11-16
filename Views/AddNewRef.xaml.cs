@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
+using System.Collections.Generic;
 
 namespace Activator.Views
 {
@@ -23,7 +24,50 @@ namespace Activator.Views
 
         private async void ButtonSubmit_Click(object sender, RoutedEventArgs e)
         {
-            await SubmitAsync();
+            try
+            {
+                bool isNameEmpty = string.IsNullOrEmpty(txtName.Text);
+                bool isDescriptionEmpty = string.IsNullOrEmpty(txtDescription.Text);
+                bool isFilePathEmpty = string.IsNullOrEmpty(uploadFilePath);
+                bool isFileIdEmpty = string.IsNullOrEmpty(txtId.Text);
+
+                if (!isNameEmpty && !isDescriptionEmpty && !isFilePathEmpty && !isFileIdEmpty && !txtId.Text.Contains(" "))
+                {
+                    ProgressDialogController controller = await this.ShowProgressAsync("Please wait...", "Uploading data");
+                    controller.SetIndeterminate();
+                    controller.SetCancelable(false);
+
+                    //string[] temp = uploadFilePath.Split('.');
+                    //string fileId = $"{txtId.Text}.{temp[temp.Length - 1]}";
+
+                    //var item = new Document();
+
+                    //item["id"] = fileId;
+                    //item["name"] = txtName.Text;
+                    //item["description"] = txtDescription.Text;
+
+                    //await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId));
+                    //await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.refPersonsDBTableName));
+                    //await Task.Run(() => Models.FaceCollection.AddFace(fileId, Models.MyAWSConfigs.faceCollectionID));
+
+                    await controller.CloseAsync();
+
+                    await this.ShowMessageAsync("Success", "New Person added", MessageDialogStyle.Affirmative);
+
+                    txtName.Text = "";
+                    txtDescription.Text = "";
+                    txtId.Text = "";
+                    imgUploadImage.Source = null;
+                }
+                else
+                {
+                    await this.ShowMessageAsync("Error", "Fill All The Fields", MessageDialogStyle.Affirmative);
+                }
+            }
+            catch
+            {
+                await this.ShowMessageAsync("Error", "Task not completed", MessageDialogStyle.Affirmative);
+            }
         }
 
         public AddNewRef()
@@ -40,52 +84,10 @@ namespace Activator.Views
 
             if (openFileDialog.ShowDialog() == true)
             {
-                uploadFilePath = openFileDialog.FileName;              
+                uploadFilePath = openFileDialog.FileName;
+
                 Uri fileUri = new Uri(uploadFilePath);
-                uploadImage.Source = new BitmapImage(fileUri);
-            }
-        }
-
-        private async Task SubmitAsync()
-        {
-            bool isNameEmpty = string.IsNullOrEmpty(txtName.Text);
-            bool isDescriptionEmpty = string.IsNullOrEmpty(txtDescription.Text);
-            bool isFilePatthEmpty = string.IsNullOrEmpty(uploadFilePath);
-
-            if (!isNameEmpty && !isDescriptionEmpty && !isFilePatthEmpty)
-            {
-                // show progressbar
-                ProgressDialogController controller = await this.ShowProgressAsync("Please wait...", "Uploading data");
-                controller.SetIndeterminate();
-                controller.SetCancelable(false);
-
-                try
-                {
-                    // upload image
-                    await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath));
-
-                    // add new item to the dynamodb
-                    var item = new Document();
-
-                    item["name"] = txtName.Text;
-                    item["description"] = txtDescription.Text;
-
-                    await Task.Run(() => Models.Dynamodb.AddItem(item, Models.MyAWSConfigs.refPersonsDBTableName));
-
-                    // close progressbar
-                    await controller.CloseAsync();
-
-                    // show success dialog
-                    await this.ShowMessageAsync("Success", "New Person added", MessageDialogStyle.Affirmative);
-                }
-                catch
-                {
-                    // close progressbar
-                    await controller.CloseAsync();
-
-                    // show error dialog
-                    await this.ShowMessageAsync("Error", "Task not completed", MessageDialogStyle.Affirmative);
-                }
+                imgUploadImage.Source = new BitmapImage(fileUri);
             }
         }
     }

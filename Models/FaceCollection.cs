@@ -107,6 +107,42 @@ namespace Activator.Models
             return collectionArn;
         }
 
+        public static void Delete(string _collectionId)
+        {
+            if (GetFaceCollectionList().Contains(_collectionId))
+            {
+                string collectionId = _collectionId;
+                try
+                {
+                    using (rekognitionClient = new AmazonRekognitionClient(collectionRegion))
+                    {
+                        DeletingCollection();
+                    }
+
+                    void DeletingCollection()
+                    {
+                        Console.WriteLine("Deleting collection: " + collectionId);
+
+                        DeleteCollectionRequest deleteCollectionRequest = new DeleteCollectionRequest()
+                        {
+                            CollectionId = collectionId
+                        };
+
+                        DeleteCollectionResponse deleteCollectionResponse = rekognitionClient.DeleteCollection(deleteCollectionRequest);
+                        Console.WriteLine(collectionId + ": " + deleteCollectionResponse.StatusCode);                        
+                    }
+                }
+                catch (AmazonRekognitionException e)
+                {
+                    Console.WriteLine("AmazonRekognitionException: " + e);                   
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: " + e);                    
+                }
+            }
+        }
+
         public static void AddFace(string _externalImageId, string _collectionId)
         {
             try
@@ -157,10 +193,10 @@ namespace Activator.Models
             }
         }
 
-        public static List<string> GetFaceList(string _collectionId)
+        public static Dictionary<string, string> GetFaceList(string _collectionId)
         {
             string collectionId = _collectionId;
-            List<string> _faceList = new List<string>();
+            Dictionary<string, string> _faceList = new Dictionary<string, string>();
             _faceList.Clear();
 
             using (rekognitionClient = new AmazonRekognitionClient(collectionRegion))
@@ -189,7 +225,7 @@ namespace Activator.Models
 
                         listFacesResponse = rekognitionClient.ListFaces(listFacesRequest);
                         foreach (Face face in listFacesResponse.Faces)
-                            _faceList.Add(face.ExternalImageId);
+                            _faceList[face.FaceId] = face.ExternalImageId;
 
                     } while (listFacesResponse != null && !String.IsNullOrEmpty(listFacesResponse.NextToken));
                 }

@@ -28,10 +28,10 @@
             <materialDesign:PackIcon x:Name="icnSearch" Kind="Search" Width="30" Height="30" VerticalAlignment="Center"  HorizontalAlignment="Right" Cursor="Hand" Margin="0,5"/>
         </StackPanel>
 
-        <StackPanel Width="Auto" Height="40" VerticalAlignment="Top">
-
+        <StackPanel Width="Auto" Height="40" VerticalAlignment="Top"/>
+        <StackPanel Width="Auto" Height="Auto">
+            
         </StackPanel>
-
 
 
     </Grid>
