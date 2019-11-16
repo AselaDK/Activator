@@ -1,5 +1,7 @@
 ﻿using Amazon.Rekognition;
+using Amazon.Rekognition.Model;
 using System;
+using System.Collections.Generic;
 
 namespace Activator.Models
 {
@@ -84,11 +86,13 @@ namespace Activator.Models
             }
         }
 
-        public static void ListStreamProcessors()
+        public static List<string> ListStreamProcessors()
         {
+            List<string> temp = new List<string>();
+
             try
             {
-                sm.ListStreamProcessors();
+                temp = sm.ListStreamProcessors();
             }
             catch (AmazonRekognitionException e)
             {
@@ -98,13 +102,16 @@ namespace Activator.Models
             {
                 Console.WriteLine("Error: " + e);
             }
+            return temp;
         }
 
-        public static void DescribeStreamProcessor()
+        public static StreamProcessor DescribeStreamProcessor()
         {
+            StreamProcessor sp = new StreamProcessor();
+
             try
             {
-                sm.DescribeStreamProcessor();
+                sp = sm.DescribeStreamProcessor();
             }
             catch (AmazonRekognitionException e)
             {
@@ -114,6 +121,8 @@ namespace Activator.Models
             {
                 Console.WriteLine("Error: " + e);
             }
+
+            return sp;
         }
     }
 }

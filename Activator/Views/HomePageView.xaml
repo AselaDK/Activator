@@ -13,9 +13,9 @@
         </Grid>
         <Grid Height="50" Background="White" Margin="5">
             <StackPanel Orientation="Horizontal" Height="50" Background="AliceBlue">
-                <Button Content="START" Width="75" Margin="5,0,0,0"/>
-                <Button Content="STOP" Width="75" Margin="5,0,0,0"/>
-                <Button Content="DETAILS" Width="75" Margin="5,0,0,0"/>
+                <Button x:Name="btnStart" Content="START" Width="75" Margin="5,0,0,0" Click="BtnStart_Click"/>
+                <Button x:Name="btnStop" Content="STOP" Width="75" Margin="5,0,0,0"  Click="BtnStop_Click"/>
+                <Button x:Name="btnDetails" Content="DETAILS" Width="75" Margin="5,0,0,0"/>
             </StackPanel>
         </Grid>
         <Grid Height="350">
