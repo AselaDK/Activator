@@ -6,9 +6,33 @@
              xmlns:local="clr-namespace:Activator.Views"
              mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800">
-    <!--Title="HomePageView"-->
 
-    <Grid>
-        <TextBlock Text="Home"></TextBlock>
-    </Grid>
+    <StackPanel Background="AliceBlue">
+        <Grid Height="50" Background="White">
+            <Label Content="Live" VerticalAlignment="Center" FontSize="24"></Label>
+        </Grid>
+        <Grid Height="50" Background="White" Margin="5">
+            <StackPanel Orientation="Horizontal" Height="50" Background="AliceBlue">
+                <Button Content="START" Width="75" Margin="5,0,0,0"/>
+                <Button Content="STOP" Width="75" Margin="5,0,0,0"/>
+                <Button Content="DETAILS" Width="75" Margin="5,0,0,0"/>
+            </StackPanel>
+        </Grid>
+        <Grid Height="350">
+            <DataGrid x:Name="dataGridDetectedPersons" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding image}" Width="100" Height="100" Stretch="Uniform"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Width="2*" Header="Name" Binding="{Binding name}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="4*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </StackPanel>
+    
 </UserControl>

@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Activator.Views
 {
@@ -23,12 +16,53 @@ namespace Activator.Views
         public AllPeoplePageView()
         {
             InitializeComponent();
+            InitData();            
         }
 
         private void BtnAddNewRef_Click(object sender, RoutedEventArgs e)
         {
             AddNewRef addNewRef = new AddNewRef();
             addNewRef.Show();
+        }
+
+        private void InitData()
+        {
+            LoadPersonsData();
+        }
+
+        private void LoadPersonsData()
+        {
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                //Dictionary<string, string> faceList = new Dictionary<string, string>();
+
+                //faceList = Models.FaceCollection.GetFaceList(Models.MyAWSConfigs.faceCollectionID);
+
+                //foreach (KeyValuePair<string, string> entry in faceList)
+                //{
+                //    Console.WriteLine($"Face Id: {entry.Key} - External Id: {entry.Value}");
+                //}
+
+                List<Models.RefPerson> refPersons = new List<Models.RefPerson>();
+
+                refPersons = Models.Dynamodb.GetAllRefPersons();
+
+                lblLoading.Visibility = Visibility.Hidden;
+
+                dataGridAllRefPersons.ItemsSource = refPersons;
+                dataGridAllRefPersons.Items.Refresh();
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
+            
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            LoadPersonsData();
         }
     }
 }

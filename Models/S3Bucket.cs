@@ -4,6 +4,7 @@ using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +38,38 @@ namespace Activator.Models
 
                     await fileTransferUtility.UploadAsync(filePath, bucketName, fileName).ConfigureAwait(false);
                     Console.WriteLine("upload finished");
+
+                }
+                catch (AmazonS3Exception e)
+                {
+                    Console.WriteLine("AmazonS3Exception: " + e);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: " + e);
+                }
+            }
+        }
+
+        // downlaod a single file to " Resources/Images/ "
+        public static void DownloadFile(string fileName)
+        {
+            if (!Directory.Exists("Resources/Images")) Directory.CreateDirectory("Resources/Images");
+            string filePath = $"Resources/Images/{fileName}";
+            
+            using (s3Client = new AmazonS3Client(bucketRegion))
+            {
+                DownloadFileAsync().Wait();
+            }
+
+            async Task DownloadFileAsync()
+            {
+                try
+                {
+                    var fileTransferUtility = new TransferUtility(s3Client);
+
+                    await fileTransferUtility.DownloadAsync(filePath, bucketName, fileName).ConfigureAwait(false);
+                    Console.WriteLine("download finished");
 
                 }
                 catch (AmazonS3Exception e)

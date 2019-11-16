@@ -238,7 +238,6 @@
                     </Button>
                 </StackPanel>
 
-
                 <!--Currrent page -->
                 <UserControl x:Name="MenuPage" Background="Aqua"  Margin="0,45,0,0" />
                 

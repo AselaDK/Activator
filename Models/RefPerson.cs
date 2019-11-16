@@ -1,36 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Amazon.DynamoDBv2.DataModel;
+using System.Windows.Media.Imaging;
 
 namespace Activator.Models
 {
-    class RefPerson
+    [DynamoDBTable("ref_persons")]
+    public class RefPerson
     {
-        private string name;
-
-        public string Name
+        [DynamoDBHashKey]
+        public string id
         {
-            get { return name; }
-            set { name = value; }
+            get; set;
         }
 
-        private string description;
-
-        public string Description
+        public string name
         {
-            get { return description; }
-            set { description = value; }
+            get; set;
         }
 
-        private string id;
-
-        public string Id
+        public string description
         {
-            get { return id; }
-            set { id = value; }
+            get; set;
         }
 
+        public BitmapImage image
+        {
+            get; set;
+        }
     }
 }

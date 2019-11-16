@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace Activator.Views
 {
@@ -37,18 +38,18 @@ namespace Activator.Views
                     controller.SetIndeterminate();
                     controller.SetCancelable(false);
 
-                    //string[] temp = uploadFilePath.Split('.');
-                    //string fileId = $"{txtId.Text}.{temp[temp.Length - 1]}";
+                    string[] temp = uploadFilePath.Split('.');
+                    string fileId = $"{txtId.Text}.{temp[temp.Length - 1]}";
 
-                    //var item = new Document();
+                    var item = new Document();
 
-                    //item["id"] = fileId;
-                    //item["name"] = txtName.Text;
-                    //item["description"] = txtDescription.Text;
+                    item["id"] = fileId;
+                    item["name"] = txtName.Text;
+                    item["description"] = txtDescription.Text;
 
-                    //await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId));
-                    //await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.refPersonsDBTableName));
-                    //await Task.Run(() => Models.FaceCollection.AddFace(fileId, Models.MyAWSConfigs.faceCollectionID));
+                    await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId));
+                    await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.refPersonsDBTableName));
+                    await Task.Run(() => Models.FaceCollection.AddFace(fileId, Models.MyAWSConfigs.faceCollectionID));
 
                     await controller.CloseAsync();
 
@@ -58,6 +59,7 @@ namespace Activator.Views
                     txtDescription.Text = "";
                     txtId.Text = "";
                     imgUploadImage.Source = null;
+                    
                 }
                 else
                 {

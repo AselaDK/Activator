@@ -1,18 +1,14 @@
 ﻿using Amazon.Rekognition;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Activator.Models
 {
     class Starter
     {
-        static String streamProcessorName = "my-stream-processor";
-        static String kinesisVideoStreamArn = "arn:aws:kinesisvideo:us-west-2:358403828169:stream/my-stream/1569206107887";
-        static String kinesisDataStreamArn = "arn:aws:kinesis:us-west-2:358403828169:stream/AmazonRekognitionMyDataStream";
-        static String roleArn = "arn:aws:iam::358403828169:role/RekognitionServiceRole";
+        static String streamProcessorName = MyAWSConfigs.streamProcessorName;
+        static String kinesisVideoStreamArn = MyAWSConfigs.kinesisVideoStreamArn;
+        static String kinesisDataStreamArn = MyAWSConfigs.kinesisDataStreamArn;
+        static String roleArn = MyAWSConfigs.roleArn;
         static String collectionId = MyAWSConfigs.faceCollectionID;
         static float matchThreshold = 50f;
 
