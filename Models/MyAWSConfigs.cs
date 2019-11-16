@@ -1,9 +1,5 @@
 ﻿using Amazon;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Activator.Models
 {
@@ -12,7 +8,6 @@ namespace Activator.Models
         public static readonly String refImagesBucketName = "refimagesbucket";
         public static readonly String faceCollectionID = "RefCollection";
         public static readonly String refPersonsDBTableName = "ref_persons";
-
 
         public static readonly String streamProcessorName = "my-stream-processor";
         public static readonly String kinesisVideoStreamArn = "arn:aws:kinesisvideo:us-west-2:358403828169:stream/my-stream/1569206107887";
