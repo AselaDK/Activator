@@ -1,4 +1,4 @@
-# AWS Lambda Empty Function Project
+# AWS Lambda Simple Kinesis Function Project
 
 This starter project consists of:
 * Function.cs - class file containing a class with a single function handler method
@@ -6,7 +6,9 @@ This starter project consists of:
 
 You may also have a test project depending on the options selected.
 
-The generated function handler is a simple method accepting a string argument that returns the uppercase equivalent of the input string. Replace the body of this method, and parameters, to suit your needs. 
+The generated function handler responds to events on an Amazon Kinesis stream and serializes the record data to a string which is then written to the function's execution log. Replace the body of this method, and parameters, to suit your needs.
+
+After deploying your function you must configure an Amazon Kinesis stream as an event source to trigger your Lambda function.
 
 ## Here are some steps to follow from Visual Studio:
 
@@ -38,12 +40,12 @@ If already installed check if new version is available.
 
 Execute unit tests
 ```
-    cd "KinesisLambda/test/KinesisLambda.Tests"
+    cd "SimpleKinesisFunction/test/SimpleKinesisFunction.Tests"
     dotnet test
 ```
 
 Deploy function to AWS Lambda
 ```
-    cd "KinesisLambda/src/KinesisLambda"
+    cd "SimpleKinesisFunction/src/SimpleKinesisFunction"
     dotnet lambda deploy-function
 ```
