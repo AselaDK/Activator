@@ -81,13 +81,10 @@ namespace Activator.Views
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
-                Task.Run(() =>
+                if (!Models.Starter.ListStreamProcessors().Contains(Models.MyAWSConfigs.streamProcessorName))
                 {
-                    if (!Models.Starter.ListStreamProcessors().Contains(Models.MyAWSConfigs.streamProcessorName))
-                    {
-                        Models.Starter.CreateStreamProcessor();
-                    }
-                });
+                    Models.Starter.CreateStreamProcessor();
+                }
             }
             finally
             {

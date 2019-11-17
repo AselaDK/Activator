@@ -1,4 +1,5 @@
-﻿using Amazon.Rekognition;
+﻿using Amazon.Kinesis.Model;
+using Amazon.Rekognition;
 using Amazon.Rekognition.Model;
 using System;
 using System.Collections.Generic;
@@ -43,7 +44,7 @@ namespace Activator.Views
             finally
             {
                 Mouse.OverrideCursor = null;
-            }                      
+            }
         }
 
         private void BtnStop_Click(object sender, RoutedEventArgs e)
@@ -61,7 +62,9 @@ namespace Activator.Views
             finally
             {
                 Mouse.OverrideCursor = null;
-            }            
+            }
         }
+
+        
     }
 }
