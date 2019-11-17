@@ -8,8 +8,8 @@ using Amazon.Lambda.Core;
 using Amazon.Lambda.KinesisEvents;
 
 using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
+using Newtonsoft.Json;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
@@ -31,16 +31,31 @@ namespace kinesisMyDataStreamFunction
                 string recordData = GetRecordContents(record.Kinesis);
                 string eventID = record.EventId;
 
-                //context.Logger.LogLine($"Record Data:");
-                context.Logger.LogLine(recordData);
+                Rootobject dataObject = JsonConvert.DeserializeObject<Rootobject>(recordData);
 
-                var item = new Document();
+                if (dataObject.FaceSearchResponse.Length != 0)
+                {
+                    if (dataObject.FaceSearchResponse[0].MatchedFaces.Length != 0)
+                    {
+                        //context.Logger.LogLine($"Record Data:");
+                        context.Logger.LogLine(recordData);
 
-                item["id"] = eventID;
-                item["data"] = recordData;
+                        foreach (Facesearchresponse facesearchresponse in dataObject.FaceSearchResponse)
+                        {
+                            foreach (Matchedface matchedface in facesearchresponse.MatchedFaces)
+                            {
+                                var item = new Document();
 
-                WriteItemAsync(item, context);
+                                item["id"] = eventID.ToString();
+                                item["similarity"] = matchedface.Similarity;
+                                item["confidence"] = matchedface.Face.Confidence;
+                                item["externalImageId"] = matchedface.Face.ExternalImageId;
 
+                                WriteItemAsync(item, context);
+                            }
+                        }                      
+                    }                    
+                }            
             }
 
             //context.Logger.LogLine("Stream processing complete.");
@@ -68,12 +83,12 @@ namespace kinesisMyDataStreamFunction
             }
             catch (AmazonDynamoDBException e)
             {
-                context.Logger.LogLine("AmazonDynamoDBException: " + e);                
+                context.Logger.LogLine("AmazonDynamoDBException: " + e);
             }
             catch (Exception e)
             {
-                context.Logger.LogLine("Error: " + e);               
+                context.Logger.LogLine("Error: " + e);
             }
-        }
+        }        
     }
 }

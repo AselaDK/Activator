@@ -128,7 +128,7 @@ namespace Activator.Models
 
             StreamProcessor sp = new StreamProcessor() {
                 Name = describeStreamProcessorResult.Name,
-                Status = describeStreamProcessorResult.Status
+                Status = describeStreamProcessorResult.Status,
             };          
 
             return sp;

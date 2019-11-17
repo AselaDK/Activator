@@ -65,6 +65,71 @@ namespace Activator.Views
             }
         }
 
-        
+        private void BtnDetails_Click(object sender, RoutedEventArgs e)
+        {
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                StreamProcessor sp = Models.Starter.DescribeStreamProcessor();
+
+                Console.WriteLine(sp.Name);
+                Console.WriteLine(sp.Status);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
+        }
+
+        private void CheckAndCreateStreamProcessor()
+        {
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                if (!Models.Starter.ListStreamProcessors().Contains(Models.MyAWSConfigs.streamProcessorName))
+                {
+                    Models.Starter.CreateStreamProcessor();
+                }
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
+        }
+
+        private void BtnCreate_Click(object sender, RoutedEventArgs e)
+        {
+            CheckAndCreateStreamProcessor();
+        }
+
+        private void BtnList_Click(object sender, RoutedEventArgs e)
+        {
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                List<string> temp = Models.Starter.ListStreamProcessors();
+                foreach (string item in temp)
+                {
+                    Console.WriteLine(item);
+                }
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
+        }
+
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                Models.Starter.DeleteStreamProcessor();
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
+        }
     }
 }
