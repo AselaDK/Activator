@@ -57,55 +57,59 @@ namespace Activator.Views
 
         private void ButtonSubmit_Click(object sender, RoutedEventArgs e)
         {
-            String aId = TxtUid.Text;
-            String aPassword = TxtPassword.Password;
-            String hashPassword = MD5Hash(aPassword);
+            MainView dashboard = new MainView();
+            dashboard.ShowDialog();
+            this.Close();
 
-            //Console.WriteLine(aId);
-            //Console.WriteLine(aPassword);
+            //String aId = TxtUid.Text;
+            //String aPassword = TxtPassword.Password;
+            //String hashPassword = MD5Hash(aPassword);
 
-            try
-            {
+            ////Console.WriteLine(aId);
+            ////Console.WriteLine(aPassword);
 
-                string tableName = "admin";
+            //try
+            //{
 
-                var client = new AmazonDynamoDBClient();
-                var table = Table.LoadTable(client, tableName);
-                var item = table.GetItem(aId);
+            //    string tableName = "admin";
 
-                //Console.WriteLine(item["aPassword"]);
+            //    var client = new AmazonDynamoDBClient();
+            //    var table = Table.LoadTable(client, tableName);
+            //    var item = table.GetItem(aId);
 
-                if (item != null && item["aPassword"] == hashPassword)
-                {
-                    Console.WriteLine("Successfully Logged in!!!");
-                    MainView dashboard = new MainView();
-                    dashboard.ShowDialog();
-                    this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Username or Password is incorrect!");
+            //    //Console.WriteLine(item["aPassword"]);
 
-                    //clear texboxes
-                    TxtUid.Text = "";
-                    TxtUid.BorderBrush = Brushes.Red;
-                    //txtuid.Background = Brushes.LightSalmon;
+            //    if (item != null && item["aPassword"] == hashPassword)
+            //    {
+            //        Console.WriteLine("Successfully Logged in!!!");
+            //        MainView dashboard = new MainView();
+            //        dashboard.ShowDialog();
+            //        this.Close();
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("Username or Password is incorrect!");
 
-                    TxtPassword.Password = "";
-                    TxtPassword.BorderBrush = Brushes.Red;
-                    //txtpassword.Background = Brushes.LightSalmon;
-                }
+            //        //clear texboxes
+            //        TxtUid.Text = "";
+            //        TxtUid.BorderBrush = Brushes.Red;
+            //        //txtuid.Background = Brushes.LightSalmon;
+
+            //        TxtPassword.Password = "";
+            //        TxtPassword.BorderBrush = Brushes.Red;
+            //        //txtpassword.Background = Brushes.LightSalmon;
+            //    }
 
 
-            }
-            catch (AmazonDynamoDBException ex)
-            {
-                MessageBox.Show("Message : Server Error", ex.Message);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Message : Unknown Error", ex.Message);
-            }
+            //}
+            //catch (AmazonDynamoDBException ex)
+            //{
+            //    MessageBox.Show("Message : Server Error", ex.Message);
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Message : Unknown Error", ex.Message);
+            //}
 
         }
 

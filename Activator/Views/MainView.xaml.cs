@@ -24,6 +24,7 @@ namespace Activator.Views
             InitializeComponent();
             HomePageView home = new HomePageView();
             MenuPage.Content = home;
+            CheckStreamProcessorStatus();
         }
 
         private void ButtonCloseApplication_Click(object sender, RoutedEventArgs e)
@@ -75,5 +76,20 @@ namespace Activator.Views
             MenuPage.Content = cams;
         }
 
+        private void CheckStreamProcessorStatus()
+        {
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                if (!Models.Starter.ListStreamProcessors().Contains(Models.MyAWSConfigs.streamProcessorName))
+                {
+                    Models.Starter.CreateStreamProcessor();
+                }
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
+        }
     }
 }

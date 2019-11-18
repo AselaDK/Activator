@@ -28,8 +28,8 @@
                 <Button Margin="10,0,0,0" Click="Button_Click">
                     <materialDesign:PackIcon Kind="Refresh" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0"/>
                 </Button>
-                <TextBox x:Name="txtSearch"  materialDesign:HintAssist.Hint="Search" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Width="500" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                <materialDesign:PackIcon x:Name="icnSearch" Kind="Search" Width="30" Height="30" VerticalAlignment="Center"  HorizontalAlignment="Center" Cursor="Hand" Margin="10,0,0,0"/>
+                <!--<TextBox x:Name="txtSearch"  materialDesign:HintAssist.Hint="Search" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Width="500" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                <materialDesign:PackIcon x:Name="icnSearch" Kind="Search" Width="30" Height="30" VerticalAlignment="Center"  HorizontalAlignment="Center" Cursor="Hand" Margin="10,0,0,0"/>-->
                 
             </StackPanel>
         </Grid>

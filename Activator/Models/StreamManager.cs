@@ -118,7 +118,7 @@ namespace Activator.Models
             Console.WriteLine("Stream Processor " + streamProcessorName + " deleted.");
         }
 
-        public void DescribeStreamProcessor()
+        public StreamProcessor DescribeStreamProcessor()
         {
             DescribeStreamProcessorResponse describeStreamProcessorResult = rekognitionClient
                     .DescribeStreamProcessor(new DescribeStreamProcessorRequest()
@@ -126,19 +126,12 @@ namespace Activator.Models
                         Name = streamProcessorName,
                     });
 
-            //Display various stream processor attributes.
-            Console.WriteLine("Arn - " + describeStreamProcessorResult.StreamProcessorArn);
-            Console.WriteLine("Input kinesisVideo stream - "
-                    + describeStreamProcessorResult.Input.KinesisVideoStream.Arn);
-            Console.WriteLine("Output kinesisData stream - "
-                    + describeStreamProcessorResult.Output.KinesisDataStream.Arn);
-            Console.WriteLine("RoleArn - " + describeStreamProcessorResult.RoleArn);
-            Console.WriteLine(
-                    "CollectionId - " + describeStreamProcessorResult.Settings.FaceSearch.CollectionId);
-            Console.WriteLine("Status - " + describeStreamProcessorResult.Status);
-            Console.WriteLine("Status message - " + describeStreamProcessorResult.StatusMessage);
-            Console.WriteLine("Creation timestamp - " + describeStreamProcessorResult.CreationTimestamp);
-            Console.WriteLine("Last update timestamp - " + describeStreamProcessorResult.LastUpdateTimestamp);
+            StreamProcessor sp = new StreamProcessor() {
+                Name = describeStreamProcessorResult.Name,
+                Status = describeStreamProcessorResult.Status,
+            };          
+
+            return sp;
         }
 
         public List<string> ListStreamProcessors()

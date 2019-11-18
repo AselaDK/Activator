@@ -35,15 +35,6 @@ namespace Activator.Views
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
-                //Dictionary<string, string> faceList = new Dictionary<string, string>();
-
-                //faceList = Models.FaceCollection.GetFaceList(Models.MyAWSConfigs.faceCollectionID);
-
-                //foreach (KeyValuePair<string, string> entry in faceList)
-                //{
-                //    Console.WriteLine($"Face Id: {entry.Key} - External Id: {entry.Value}");
-                //}
-
                 List<Models.RefPerson> refPersons = new List<Models.RefPerson>();
 
                 refPersons = Models.Dynamodb.GetAllRefPersons();
@@ -56,8 +47,7 @@ namespace Activator.Views
             finally
             {
                 Mouse.OverrideCursor = null;
-            }
-            
+            }            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
