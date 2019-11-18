@@ -45,7 +45,7 @@ namespace Activator.Views
 
         private void ButtonAddCamera_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("QWFQf");
+            //Console.WriteLine("QWFQf");
             string camid = TxtCamId.Text;
             string location = TxtLocation.Text;
             string quality = TxtQuality.Text;
@@ -69,11 +69,7 @@ namespace Activator.Views
                     {
                         //Console.WriteLine("search  = ", search);
                         //Console.WriteLine("search.count  = ", search.Count);
-                        Document camObj = new Document();
-                        camObj["camId"] = camid;
-                        camObj["location"] = loc;
-                        camObj["quality"] = qlty;
-                        table.PutItem(camObj);
+                        
 
                         this.Close();
                         MessageBox.Show("New Camera Was Successfully Added!");
@@ -83,6 +79,12 @@ namespace Activator.Views
                         CreateCameraTable(tableName);
                         MessageBox.Show("Camera ID is already exist! (Please try a different one)");
                     }
+
+                    Document camObj = new Document();
+                    camObj["camId"] = camid;
+                    camObj["location"] = loc;
+                    camObj["quality"] = qlty;
+                    table.PutItem(camObj);
                 }
                 else
                 {
