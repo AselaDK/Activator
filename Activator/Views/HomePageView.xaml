@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Activator.Views"
              mc:Ignorable="d"
-      d:DesignHeight="450" d:DesignWidth="800">
+      Height="1080" Width="1670">
 
     <StackPanel Background="AliceBlue">
         <Grid Height="50" Background="LightGreen">
@@ -21,7 +21,7 @@
                 <Button x:Name="btnDelete" Content="DELETE" Width="75" Height="30" Margin="5,0,0,0" Click="BtnDelete_Click"/>
             </StackPanel>
         </Grid>
-        <Grid Height="350">
+        <Grid Height="980">
             <DataGrid x:Name="dataGridDetectedPersons" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
@@ -31,7 +31,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Width="2*" Header="Staus" Binding="{Binding staus}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="2*" Header="Staus" Binding="{Binding status}" IsReadOnly="True" />
                     <DataGridTextColumn Width="4*" Header="Name" Binding="{Binding name}" IsReadOnly="True" />
                     <DataGridTextColumn Width="4*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />                    
                 </DataGrid.Columns>
