@@ -1,9 +1,10 @@
-﻿<Window x:Class="Activator.Views.MainView"
+﻿<Controls:MetroWindow x:Class="Activator.Views.MainView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Activator"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
          TextElement.FontWeight="Regular"
@@ -12,9 +13,12 @@
          TextOptions.TextRenderingMode="Auto"
          Background="{DynamicResource MaterialDesignPaper}"
          FontFamily="{DynamicResource MaterialDesignFont}"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" Height="Auto" Width="Auto" WindowState="Maximized" WindowStyle="None" WindowStartupLocation="CenterScreen"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" Height="Auto" Width="Auto" WindowState="Maximized" WindowStartupLocation="CenterScreen"
         x:Name="MainWindow"
-    Title="MainWindow">
+    Title="MainWindow" ResizeMode="NoResize" WindowStyle="None" ShowTitleBar="False"
+                      ShowCloseButton="False" 
+    ShowMaxRestoreButton="False" 
+    ShowMinButton="False"    >
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0"/>
     </WindowChrome.WindowChrome>
@@ -105,11 +109,8 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </StackPanel.RenderTransform>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="100" HorizontalAlignment="Center">
-                <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Width="50" Height="50" Margin="10" Foreground="White">
-                    <materialDesign:PackIcon Kind="Settings" Width="40" Height="40"/>
-                </Button>
-                <Button x:Name="button" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" BorderBrush="{x:Null}" Padding="0" Width="80" Height="80" Margin="10" RenderTransformOrigin="0.5,0.5">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="175" HorizontalAlignment="Center" Margin="27,10" Width="168">
+                <Button x:Name="button" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" BorderBrush="{x:Null}" Padding="0" Width="150" Height="150" Margin="10" RenderTransformOrigin="0.5,0.5">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -122,12 +123,12 @@
                         <ImageBrush ImageSource="..\images\actlogo1.png"/>
                     </Button.Background>
                 </Button>
-                <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Width="50" Height="50" Margin="10" Foreground="White">
+                <!--<Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Width="50" Height="50" Margin="10" Foreground="White">
                     <materialDesign:PackIcon Kind="InformationOutline" Width="40" Height="40"/>
-                </Button>
+                </Button>-->
             </StackPanel>
-            <StackPanel>
-                <Button x:Name="ButtonMenuHome" Click="ButtonMenuHome_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="10,0">
+            <StackPanel Margin="0,50,0,0">
+                <Button x:Name="ButtonMenuHome" Click="ButtonMenuHome_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -138,24 +139,10 @@
                     </Button.RenderTransform>
                     <StackPanel Orientation="Horizontal" Margin="10 0">
                         <materialDesign:PackIcon Kind="Home" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="White"/>
-                        <TextBlock Text="Home" Margin="10" VerticalAlignment="Center" Height="36" Foreground="White" FontSize="24"/>
+                        <TextBlock Text="HOME" Margin="10" VerticalAlignment="Center" Height="36" Foreground="White" FontSize="24"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="ButtonMenuPeopleIn" Click="ButtonMenuPeopleIn_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="10,0">
-                    <Button.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Button.RenderTransform>
-                    <StackPanel Orientation="Horizontal" Margin="10 0">
-                        <materialDesign:PackIcon Kind="AccountGroup" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="White"/>
-                        <TextBlock Text="People-In" Margin="10" VerticalAlignment="Center" Height="36" Foreground="White" FontSize="24"/>
-                    </StackPanel>
-                </Button>
-                <Button x:Name="ButtonMenuAllPeople" Click="ButtonMenuAllPeople_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="10,0">
+                <Button x:Name="ButtonMenuAllPeople" Click="ButtonMenuAllPeople_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -166,10 +153,24 @@
                     </Button.RenderTransform>
                     <StackPanel Orientation="Horizontal" Margin="10 0">
                         <materialDesign:PackIcon Kind="AccountGroupOutline" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="White"/>
-                        <TextBlock Text="All People" Margin="10" VerticalAlignment="Center" Height="35" Foreground="White" FontSize="24"/>
+                        <TextBlock Text="ALL PEOPLE" Margin="10" VerticalAlignment="Center" Height="35" Foreground="White" FontSize="24"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="ButtonMenuReaders" Click="ButtonMenuReaders_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="10,0">
+                <Button x:Name="ButtonMenuPeopleIn" Click="ButtonMenuPeopleIn_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <StackPanel Orientation="Horizontal" Margin="10 0">
+                        <materialDesign:PackIcon Kind="AccountGroup" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="White"/>
+                        <TextBlock Text="HISTORY" Margin="10" VerticalAlignment="Center" Height="36" Foreground="White" FontSize="24"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="ButtonMenuReaders" Click="ButtonMenuReaders_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -180,10 +181,10 @@
                     </Button.RenderTransform>
                     <StackPanel Orientation="Horizontal" Margin="10 0">
                         <materialDesign:PackIcon Kind="Read" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="White"/>
-                        <TextBlock Text="Readers" Margin="10" VerticalAlignment="Center" Foreground="White" FontSize="24"/>
+                        <TextBlock Text="READERS" Margin="10" VerticalAlignment="Center" Foreground="White" FontSize="24"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="ButtonMenuCameras" Click="ButtonMenuCameras_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="10,0">
+                <Button x:Name="ButtonMenuCameras" Click="ButtonMenuCameras_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -194,12 +195,12 @@
                     </Button.RenderTransform>
                     <StackPanel Orientation="Horizontal" Margin="10 0">
                         <materialDesign:PackIcon Kind="Cctv" Width="30" Height="30" Foreground="White" VerticalAlignment="Center" Margin="5"/>
-                        <TextBlock Text="Cameras" Margin="10" VerticalAlignment="Center" Foreground="White" FontSize="24"/>
+                        <TextBlock Text="CAMERAS" Margin="10" VerticalAlignment="Center" Foreground="White" FontSize="24"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
         </StackPanel>
-        <Grid x:Name="GridMain" Background="DarkSeaGreen" Width="Auto" RenderTransformOrigin="0.5,0.5" Margin="10,0,9.6,-0.2" Grid.ColumnSpan="2">
+        <Grid x:Name="GridMain" Background="Transparent" Width="Auto" RenderTransformOrigin="0.5,0.5" Margin="10,0,9.6,-0.2" Grid.ColumnSpan="2">
             <Grid.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -224,21 +225,23 @@
                         <ImageBrush ImageSource="..\images\alogo22.jpg" Stretch="UniformToFill"/>
                     </Ellipse.Fill>
                 </Ellipse>
-                <TextBlock Text="John" Foreground="White" FontSize="28" FontFamily="Nirmala UI Semilight" Margin="10,158,10,0" VerticalAlignment="Top"/>
+                <TextBlock Text="ADMIN" FontWeight="Normal" Foreground="White" FontSize="28" FontFamily="Nirmala UI" Margin="10,158,10,0" VerticalAlignment="Top"/>
 
             </Grid>
 
             <Grid>
-
+                <StackPanel>
+                    <Label x:Name="lblTitle" Content="Home" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0" FontSize="22"></Label>
+                </StackPanel>
                 <!-- Open/Close Menu Button-->
-                <StackPanel  Width="45" Height="45" Background="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0" RenderTransformOrigin="0.45,-2.9">
+                <StackPanel Width="45" Height="45" Background="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0" RenderTransformOrigin="0.45,-2.9">
                     <Button x:Name="ButtonCloseMenu" Click="ButtonCloseMenu_Click" Command="{Binding ButtonClick}"  Visibility="{Binding MyPropertyC}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="45" Height="45" Padding="5" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0">
-                        <materialDesign:PackIcon Kind="Menu" Foreground="White"  Height="25" Width="25" Background="LightGray" />
+                        <materialDesign:PackIcon Kind="Menu" Foreground="White"  Height="25" Width="25" Background="Transparent" />
                     </Button>
                 </StackPanel>
-                <StackPanel  Width="45" Height="45" Background="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0" RenderTransformOrigin="0.45,-2.9">
+                <StackPanel Width="45" Height="45" Background="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0" RenderTransformOrigin="0.45,-2.9">
                     <Button x:Name="ButtonOpenMenu" Click="ButtonOpenMenu_Click" Command="{Binding ButtonClick}" Visibility="{Binding MyPropertyO}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="45" Height="45" Padding="5" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0" RenderTransformOrigin="0.52,-4.14">
-                        <materialDesign:PackIcon Kind="Menu" Background="DarkSeaGreen" Foreground="White" Height="35" Width="35" RenderTransformOrigin="0,0.2" />
+                        <materialDesign:PackIcon Kind="Menu" Background="Transparent" Foreground="White" Height="35" Width="35" RenderTransformOrigin="0,0.2" />
                     </Button>
                 </StackPanel>
 
@@ -250,13 +253,19 @@
 
             </Grid>
         </Grid>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="34" HorizontalAlignment="Right" Margin="0,10,9.6,0" Width="83" Grid.Column="1">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="34" HorizontalAlignment="Right" Margin="0,10,9.6,0" Width="200" Grid.Column="1">
             <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="34" Height="Auto" Margin="10,0" Padding="00" Background="{x:Null}" BorderBrush="{x:Null}" >
-                <materialDesign:PackIcon Kind="Bell" Height="30" Width="30" Foreground="White"/>
+                <materialDesign:PackIcon Kind="Settings" Height="25" Width="25" Foreground="White"/>
+            </Button>
+            <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="34" Height="Auto" Margin="10,0" Padding="00" Background="{x:Null}" BorderBrush="{x:Null}" >
+                <materialDesign:PackIcon Kind="InfoCircle" Height="25" Width="25" Foreground="White"/>
+            </Button>
+            <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="34" Height="Auto" Margin="10,0" Padding="00" Background="{x:Null}" BorderBrush="{x:Null}" >
+                <materialDesign:PackIcon Kind="Bell" Height="25" Width="25" Foreground="White"/>
             </Button>
             <Button x:Name="ButtonCloseApplication" Click="ButtonCloseApplication_Click" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="34" Height="Auto" Padding="0" Background="{x:Null}" BorderBrush="{x:Null}" >
-                <materialDesign:PackIcon Kind="Power" Height="30" Width="30" Foreground="Red"/>
-            </Button>
+                <materialDesign:PackIcon Kind="Power" Height="30" Width="30" Foreground="White"/>
+            </Button>            
         </StackPanel>
     </Grid>
-</Window>
+</Controls:MetroWindow>

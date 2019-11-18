@@ -57,60 +57,63 @@ namespace Activator.Views
 
         private void ButtonSubmit_Click(object sender, RoutedEventArgs e)
         {
-            MainView dashboard = new MainView();
-            dashboard.ShowDialog();
-            this.Close();
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                String aId = TxtUid.Text;
+                String aPassword = TxtPassword.Password;
+                String hashPassword = MD5Hash(aPassword);
 
-            //String aId = TxtUid.Text;
-            //String aPassword = TxtPassword.Password;
-            //String hashPassword = MD5Hash(aPassword);
+                ////Console.WriteLine(aId);
+                ////Console.WriteLine(aPassword);
 
-            ////Console.WriteLine(aId);
-            ////Console.WriteLine(aPassword);
+                try
+                {
 
-            //try
-            //{
+                    string tableName = "admin";
 
-            //    string tableName = "admin";
+                    var client = new AmazonDynamoDBClient();
+                    var table = Table.LoadTable(client, tableName);
+                    var item = table.GetItem(aId);
 
-            //    var client = new AmazonDynamoDBClient();
-            //    var table = Table.LoadTable(client, tableName);
-            //    var item = table.GetItem(aId);
+                    //Console.WriteLine(item["aPassword"]);
 
-            //    //Console.WriteLine(item["aPassword"]);
+                    if (item != null && item["aPassword"] == hashPassword)
+                    {
+                        //Console.WriteLine("Successfully Logged in!!!");
+                        MainView dashboard = new MainView();
+                        dashboard.ShowDialog();
+                        this.Close();
+                    }
+                    else
+                    {
+                        //MessageBox.Show("Username or Password is incorrect!");
 
-            //    if (item != null && item["aPassword"] == hashPassword)
-            //    {
-            //        Console.WriteLine("Successfully Logged in!!!");
-            //        MainView dashboard = new MainView();
-            //        dashboard.ShowDialog();
-            //        this.Close();
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("Username or Password is incorrect!");
+                        //clear texboxes
+                        TxtUid.Text = "";
+                        TxtUid.BorderBrush = Brushes.Red;
+                        //txtuid.Background = Brushes.LightSalmon;
 
-            //        //clear texboxes
-            //        TxtUid.Text = "";
-            //        TxtUid.BorderBrush = Brushes.Red;
-            //        //txtuid.Background = Brushes.LightSalmon;
-
-            //        TxtPassword.Password = "";
-            //        TxtPassword.BorderBrush = Brushes.Red;
-            //        //txtpassword.Background = Brushes.LightSalmon;
-            //    }
+                        TxtPassword.Password = "";
+                        TxtPassword.BorderBrush = Brushes.Red;
+                        //txtpassword.Background = Brushes.LightSalmon;
+                    }
 
 
-            //}
-            //catch (AmazonDynamoDBException ex)
-            //{
-            //    MessageBox.Show("Message : Server Error", ex.Message);
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("Message : Unknown Error", ex.Message);
-            //}
-
+                }
+                catch (AmazonDynamoDBException ex)
+                {
+                    MessageBox.Show("Message : Server Error", ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Message : Unknown Error", ex.Message);
+                }
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }           
         }
 
         private void ButtonCloseApplication_Click(object sender, RoutedEventArgs e)
