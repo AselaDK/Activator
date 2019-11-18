@@ -11,7 +11,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Activator.Views;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
@@ -19,16 +18,15 @@ using Table = Amazon.DynamoDBv2.DocumentModel.Table;
 namespace Activator.Views
 {
     /// <summary>
-    /// Interaction logic for EditCameraView.xaml
+    /// Interaction logic for ConfirmDeleteCamera.xaml
     /// </summary>
-    public partial class EditCameraView : Window
+    public partial class ConfirmDeleteCamera : Window
     {
         private AmazonDynamoDBClient client;
 
-        public EditCameraView()
+        public ConfirmDeleteCamera()
         {
             InitializeComponent();
-
             try
             {
                 this.client = new AmazonDynamoDBClient();
@@ -37,39 +35,32 @@ namespace Activator.Views
             {
                 Console.Error.WriteLine("Error: failed to create a DynamoDB client; " + ex.Message);
             }
-
         }
-        
-        private void UpdateCamera(string cid, string loc, string qlty)
+        public string DeleteCamId { get; set; }
+
+        private void BtnConfirmDelete_Click(object sender, RoutedEventArgs e)
         {
             var tableName = "Cameras";
             //load DynamoDB table
             var table = Table.LoadTable(client, tableName);
-            var item = table.GetItem(cid);
+            var item = table.GetItem(DeleteCamId);
 
             try
             {
-                //Console.WriteLine(item["aPassword"]);
 
                 if (item != null)
                 {
-                    Document camObj = new Document();
-                    camObj["camId"] = cid;
-                    camObj["location"] = loc;
-                    camObj["quality"] = qlty;
-                    table.PutItem(camObj);
-                    MessageBox.Show("Successfully Updated!");
+                    table.DeleteItem(item);
+                    MessageBox.Show("Successfully Deleted!");
                 }
                 else
                 {
                     MessageBox.Show("There is no such a Camera!");
                 }
-
                 MainView mainv = new MainView();
                 CamerasPageView cams = new CamerasPageView();
                 mainv.MenuPage.Content = cams;
                 mainv.Show();
-
             }
             catch (AmazonDynamoDBException ex)
             {
@@ -79,23 +70,6 @@ namespace Activator.Views
             {
                 MessageBox.Show("Message : Unknown Error", ex.Message);
             }
-
-        }
-
-        private void ButtonUpdateCamera_Click(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine("QWFQf");
-            string camid = TxtCamId.Text;
-            string location = TxtLocation.Text;
-            string quality = TxtQuality.Text;
-            UpdateCamera(camid, location, quality);
-        }
-
-        private void BtnDeleteCamera_Click(object sender, RoutedEventArgs e)
-        {
-            ConfirmDeleteCamera cdc = new ConfirmDeleteCamera();
-            cdc.DeleteCamId = TxtCamId.Text;
-            cdc.ShowDialog();
         }
     }
 }

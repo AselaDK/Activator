@@ -12,7 +12,8 @@
          TextOptions.TextRenderingMode="Auto"
          Background="{DynamicResource MaterialDesignPaper}"
          FontFamily="{DynamicResource MaterialDesignFont}"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" Height="Auto" Width="Auto" WindowState="Maximized" WindowStyle="None" WindowStartupLocation="CenterScreen"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Height="Auto" Width="Auto" WindowState="Maximized" WindowStyle="None" WindowStartupLocation="CenterScreen"
         x:Name="MainWindow"
     Title="MainWindow">
     <WindowChrome.WindowChrome>

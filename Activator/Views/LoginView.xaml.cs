@@ -55,7 +55,7 @@ namespace Activator.Views
             return strBuilder.ToString();
         }
 
-        private void ButtonSubmit_Click(object sender, RoutedEventArgs e)
+        private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
             MainView dashboard = new MainView();
             dashboard.ShowDialog();
@@ -122,5 +122,6 @@ namespace Activator.Views
         {
             MessageBox.Show("Please Contact the Developer Team. Thank You!");
         }
+
     }
 }
