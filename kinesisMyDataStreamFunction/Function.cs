@@ -22,6 +22,7 @@ namespace kinesisMyDataStreamFunction
 {
     public class Function
     {
+        List<string> allRefPersonsId = new List<string>();
 
         public void FunctionHandler(KinesisEvent kinesisEvent, ILambdaContext context)
         {
@@ -37,12 +38,13 @@ namespace kinesisMyDataStreamFunction
 
                 Rootobject dataObject = JsonConvert.DeserializeObject<Rootobject>(recordData);
 
+                GetAllRefPersonsId(context).Wait();                
+
                 if (dataObject.FaceSearchResponse.Length != 0)
                 {
                     if (dataObject.FaceSearchResponse[0].MatchedFaces.Length != 0)
                     {
-                        //context.Logger.LogLine(recordData);
-                        AllRefPersonsId(context).Wait();
+                        //context.Logger.LogLine(recordData);                                                                       
 
                         var itemEvent = new Document();
 
@@ -55,6 +57,19 @@ namespace kinesisMyDataStreamFunction
                         {
                             foreach (Matchedface matchedface in facesearchresponse.MatchedFaces)
                             {
+                                foreach (string id in allRefPersonsId)
+                                {
+                                    if (id != matchedface.Face.ExternalImageId)
+                                    {
+                                        var itemUpdate = new Document();
+
+                                        itemUpdate["id"] = id;
+                                        itemUpdate["status"] = false;
+
+                                        UpdateItemAsync(itemUpdate, context, "ref_persons");
+                                    }
+                                }
+
                                 var item = new Document();
 
                                 item["id"] = matchedface.Face.ExternalImageId;
@@ -63,8 +78,32 @@ namespace kinesisMyDataStreamFunction
                                 UpdateItemAsync(item, context, "ref_persons");
                             }
                         }                      
-                    }                    
-                }            
+                    }  
+                    else
+                    {
+                        foreach (string id in allRefPersonsId)
+                        {
+                            var itemUpdate = new Document();
+
+                            itemUpdate["id"] = id;
+                            itemUpdate["status"] = false;
+
+                            UpdateItemAsync(itemUpdate, context, "ref_persons");
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (string id in allRefPersonsId)
+                    {
+                        var itemUpdate = new Document();
+
+                        itemUpdate["id"] = id;
+                        itemUpdate["status"] = false;
+
+                        UpdateItemAsync(itemUpdate, context, "ref_persons");
+                    }
+                }
             }
 
             //context.Logger.LogLine("Stream processing complete.");
@@ -121,8 +160,8 @@ namespace kinesisMyDataStreamFunction
             }            
         }
 
-        private async Task AllRefPersonsId(ILambdaContext context)
-        {
+        private async Task GetAllRefPersonsId(ILambdaContext context)
+        {            
             try
             {
                 AmazonDynamoDBClient client;
@@ -146,13 +185,12 @@ namespace kinesisMyDataStreamFunction
                         foreach (Dictionary<string, AttributeValue> item
                           in response.Items)
                         {
-                            context.Logger.Log(item["id"].S + " "); 
+                            if (!allRefPersonsId.Contains(item["id"].S)) allRefPersonsId.Add(item["id"].S);                            
                         }
                         lastKeyEvaluated = response.LastEvaluatedKey;
 
                     } while (lastKeyEvaluated != null && lastKeyEvaluated.Count != 0);
-                }
-                context.Logger.LogLine("");
+                }                
             }
             catch (AmazonDynamoDBException e)
             {
@@ -162,86 +200,6 @@ namespace kinesisMyDataStreamFunction
             {
                 context.Logger.LogLine("Error: " + e);
             }            
-        }
-
-        //private async Task ReadStream(ILambdaContext context)
-        //{
-        //    string streamArn = "arn:aws:dynamodb:ap-southeast-2:358403828169:table/ref_persons/stream/2019-11-18T05:31:40.045";
-
-        //    try
-        //    {
-        //        AmazonDynamoDBStreamsClient streamsClient;
-        //        using (streamsClient = new AmazonDynamoDBStreamsClient(RegionEndpoint.APSoutheast2))
-        //        {
-        //            String lastEvaluatedShardId = null;
-
-        //            do
-        //            {
-        //                DescribeStreamRequest describeStreamRequest = new DescribeStreamRequest() {
-        //                    StreamArn = streamArn,
-        //                    ExclusiveStartShardId = lastEvaluatedShardId,
-        //                };                               
-
-        //                DescribeStreamResponse describeStreamResponse = await streamsClient.DescribeStreamAsync(describeStreamRequest);
-
-        //                List<Shard> shards = describeStreamResponse.StreamDescription.Shards;
-
-        //                // Process each shard on this page
-
-        //                foreach (Shard shard in shards)
-        //                {
-        //                    String shardId = shard.ShardId;
-
-        //                    // Get an iterator for the current shard
-
-        //                    GetShardIteratorRequest getShardIteratorRequest = new GetShardIteratorRequest() {
-        //                        StreamArn = streamArn,
-        //                        ShardId = shardId,
-        //                        ShardIteratorType = ShardIteratorType.LATEST,                                
-        //                    };
-                                
-        //                    GetShardIteratorResponse getShardIteratorResponse =
-        //                        await streamsClient.GetShardIteratorAsync(getShardIteratorRequest);
-
-        //                    String currentShardIter = getShardIteratorResponse.ShardIterator;
-                                                       
-        //                    int processedRecordCount = 0;
-        //                    while (currentShardIter != null && processedRecordCount < maxItemCount)
-        //                    {
-        //                        // Use the shard iterator to read the stream records
-
-        //                        GetRecordsRequest getRecordsRequest = new GetRecordsRequest() {
-        //                               ShardIterator = currentShardIter
-        //                        };
-
-        //                        GetRecordsResponse getRecordsResponse = await streamsClient.GetRecordsAsync(getRecordsRequest);
-
-        //                        List<Record> records = getRecordsResponse.Records;
-
-        //                        foreach (Record record in records)
-        //                        {
-        //                            System.out.println("        " + record.Dynamodb.);
-        //                        }
-        //                        processedRecordCount += records.Count;
-        //                        currentShardIter = getRecordsResponse.NextShardIterator;
-        //                    }
-        //                }
-
-        //                // If LastEvaluatedShardId is set, then there is
-        //                // at least one more page of shard IDs to retrieve
-        //                lastEvaluatedShardId = describeStreamResponse.StreamDescription.LastEvaluatedShardId;
-
-        //            } while (lastEvaluatedShardId != null);
-        //        }
-        //    }
-        //    catch (AmazonDynamoDBException e)
-        //    {
-        //        context.Logger.LogLine("AmazonDynamoDBException: " + e);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        context.Logger.LogLine("Error: " + e);
-        //    }            
-        //}
+        }        
     }
 }
