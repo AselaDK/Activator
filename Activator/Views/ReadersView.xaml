@@ -6,7 +6,21 @@
         xmlns:local="clr-namespace:Activator.Views"
         mc:Ignorable="d"
         Title="ReadersView" Height="450" Width="800">
-    <Grid>
+    <Grid Background="LightGreen">
+        <Grid.RowDefinitions >
+            <RowDefinition Height="56*"/>
+            <RowDefinition Height="363*"/>
+        </Grid.RowDefinitions>
+        <Button Background="Green" Margin="10,10,160,10" HorizontalAlignment="Center" Content="Add Readers" Click="Add_Readers" />
         
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="251*"/>
+            <ColumnDefinition Width="291*"/>
+            <ColumnDefinition Width="250*"/>
+        </Grid.ColumnDefinitions>
+
+        
+
     </Grid>
 </Window>

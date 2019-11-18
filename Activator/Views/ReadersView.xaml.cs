@@ -23,5 +23,15 @@ namespace Activator.Views
         {
             InitializeComponent();
         }
+
+        private void Add_Readers(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Add readers ");
+        }
+
+        private void CamerasDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -32,9 +32,14 @@
         </StackPanel>
 
         <Grid Width="Auto" Height="985" VerticalAlignment="Top" Margin="0,95,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="84*"/>
+                <ColumnDefinition Width="18*"/>
+                <ColumnDefinition Width="733*"/>
+            </Grid.ColumnDefinitions>
 
-            <DataGrid x:Name="CamerasDataGrid" ItemsSource="{Binding}" Cursor="Hand" MouseDoubleClick="CamerasDataGrid_MouseDoubleClick"   AutoGenerateColumns="False" CanUserAddRows="True" CanUserDeleteRows="True" Margin="5" HorizontalAlignment="Left">
-                
+            <DataGrid x:Name="CamerasDataGrid" ItemsSource="{Binding}" Cursor="Hand" MouseDoubleClick="CamerasDataGrid_MouseDoubleClick"   AutoGenerateColumns="False" CanUserAddRows="True" CanUserDeleteRows="True" Margin="5,5,0,5" HorizontalAlignment="Left" Grid.ColumnSpan="3">
+
                 <DataGrid.Columns>
                     <DataGridTextColumn x:Name="ColCameraId" Width="*" Header="Id" Binding="{Binding camId}" IsReadOnly="True"/>
                     <DataGridTextColumn x:Name="ColLocation" Width="*" Header="Location" Binding="{Binding location}" IsReadOnly="True" />
