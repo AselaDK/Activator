@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800">
 
     <StackPanel Background="AliceBlue">
-        <Grid Height="50" Background="White">
+        <Grid Height="50" Background="LightGreen">
             <Label Content="Live" VerticalAlignment="Center" FontSize="24"></Label>
         </Grid>
         <Grid Height="50" Background="White" Margin="5">
@@ -31,8 +31,9 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Width="2*" Header="Name" Binding="{Binding name}" IsReadOnly="True" />
-                    <DataGridTextColumn Width="4*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="2*" Header="Staus" Binding="{Binding staus}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="4*" Header="Name" Binding="{Binding name}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="4*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />                    
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
