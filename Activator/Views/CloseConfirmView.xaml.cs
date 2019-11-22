@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,21 +20,19 @@ namespace Activator.Views
     /// <summary>
     /// Interaction logic for CloseConfirmView.xaml
     /// </summary>
-    public partial class CloseConfirmView : Window
+    public partial class CloseConfirmView : MetroWindow
     {
         public CloseConfirmView()
         {
             InitializeComponent();
+            InitDialog();
         }
 
-        private void ConfirmClose_Click(object sender, RoutedEventArgs e)
+        private async Task InitDialog()
         {
-            Application.Current.Shutdown();
-        }
-
-        private void DenieClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+            var result = await this.ShowMessageAsync("Are You Sure Want To Quit?", "", MessageDialogStyle.AffirmativeAndNegative);
+            if (result == MessageDialogResult.Affirmative) Application.Current.Shutdown();
+            else this.Close();
+        }        
     }
 }

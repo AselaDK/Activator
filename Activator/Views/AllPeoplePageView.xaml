@@ -11,30 +11,24 @@
              Height="1080" Width="1670">
 
     <StackPanel Background="WhiteSmoke">
-        <Grid Height="50" Background="LightGreen">
-            <Label Content="All People (References)" Foreground="Black" FontSize="24" FontWeight="Normal" VerticalContentAlignment="Center"/>
+        <Grid Height="50" Background="White">
+            <Label Content="REFERENCESS" Foreground="Black" FontSize="24" FontWeight="Bold" VerticalContentAlignment="Center"/>
         </Grid>
-        <Grid Height="20">
-
-        </Grid>
-        <Grid Height="50">
+        <Grid Height="50" Margin="5">
             <StackPanel Orientation="Horizontal">
-                <Button Click="BtnAddNewRef_Click" Margin="10,0,0,0">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="Add" Width="30" Height="30" VerticalAlignment="Center" Margin="0"/>
-                        <TextBlock Text="Add New" Margin="10" VerticalAlignment="Center" />
-                    </StackPanel>
+                <Button Click="BtnAddNewRef_Click" Margin="10,0,0,0" Height="40" Width="40">
+                    <materialDesign:PackIcon Kind="Add" Width="20" Height="20" VerticalAlignment="Center" Margin="0"/>
                 </Button>
-                <Button Margin="10,0,0,0" Click="Button_Click">
-                    <materialDesign:PackIcon Kind="Refresh" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0"/>
+                <Button Margin="10,0,0,0" Click="Button_Click" Height="40" Width="40">
+                    <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
                 </Button>
                 <!--<TextBox x:Name="txtSearch"  materialDesign:HintAssist.Hint="Search" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Width="500" Margin="10,0,0,0" VerticalAlignment="Center"/>
                 <materialDesign:PackIcon x:Name="icnSearch" Kind="Search" Width="30" Height="30" VerticalAlignment="Center"  HorizontalAlignment="Center" Cursor="Hand" Margin="10,0,0,0"/>-->
-                
+
             </StackPanel>
         </Grid>
-        <Grid Height="960">
-            <DataGrid x:Name="dataGridAllRefPersons"  ItemsSource="{Binding}" Cursor="Hand" MouseDoubleClick="dataGridAllRefPersons_MouseDoubleClick"   AutoGenerateColumns="False" CanUserAddRows="False" Margin="5" HorizontalAlignment="Left">
+        <Grid Height="980">            
+            <DataGrid x:Name="dataGridAllRefPersons" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Grid.ColumnSpan="2">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
@@ -47,7 +41,7 @@
                     <DataGridTextColumn Width="4*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
                 </DataGrid.Columns>
             </DataGrid>
-            <Label x:Name="lblLoading" Content="Loading..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24"/>
+            <Label x:Name="lblLoading" Content="Loading..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Grid.Column="1" Margin="714,469,780.4,469"/>
         </Grid>
     </StackPanel>
 </UserControl>

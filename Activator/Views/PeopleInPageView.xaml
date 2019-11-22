@@ -9,24 +9,9 @@
             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
             xmlns:activator="clr-namespace:Activator"
             Height="1080" Width="1670">
-    <StackPanel Background="AliceBlue">
-        <Grid Height="50" Background="WhiteSmoke">
-            <Label Content="Detected People" VerticalAlignment="Center" FontSize="24"></Label>
-        </Grid>
-        <Grid Height="1030">
-            <DataGrid x:Name="dataGridDetectedPersons" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Image Source="{Binding image}" Width="100" Height="100" Stretch="Uniform"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Width="2*" Header="Name" Binding="{Binding name}" IsReadOnly="True" />
-                    <DataGridTextColumn Width="4*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
-                </DataGrid.Columns>
-            </DataGrid>
+    <StackPanel Background="White">
+        <Grid>
+            <TextBlock Text="Comming soon" Margin="100,100" FontSize="24"></TextBlock>
         </Grid>
     </StackPanel>
 </UserControl>

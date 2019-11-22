@@ -63,7 +63,7 @@ namespace Activator.Views
                 }
                 else
                 {
-                    await this.ShowMessageAsync("Error", "Fill All The Fields", MessageDialogStyle.Affirmative);
+                    await this.ShowMessageAsync("Error", "Please check all fields", MessageDialogStyle.Affirmative);
                 }
             }
             catch
@@ -91,6 +91,11 @@ namespace Activator.Views
                 Uri fileUri = new Uri(uploadFilePath);
                 imgUploadImage.Source = new BitmapImage(fileUri);
             }
+        }
+
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
