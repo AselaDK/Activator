@@ -22,6 +22,11 @@ namespace Activator.Models
             get; set;
         }
 
+        public string camera
+        {
+            get; set;
+        }
+
         public string description
         {
             get; set;
