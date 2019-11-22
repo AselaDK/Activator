@@ -46,7 +46,7 @@
                 <PasswordBox x:Name="TxtPassword" Margin="0,10" materialDesign:HintAssist.Hint="PASSWORD" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" />
             </StackPanel>
         </Grid>
-        <Button x:Name="ButtonLogin" Click="ButtonSubmit_Click" Background="#008000" Width="150" Height="35" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,65" Content="LOGIN" Cursor="Hand">
+        <Button x:Name="ButtonLogin" Click="ButtonLogin_Click" Background="#008000" Width="150" Height="35" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,65" Content="LOGIN" Cursor="Hand">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Style.Triggers>
