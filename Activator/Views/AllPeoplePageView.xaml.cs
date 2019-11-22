@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.Model;
 
 namespace Activator.Views
 {
@@ -53,6 +55,16 @@ namespace Activator.Views
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             LoadPersonsData();
+        }
+
+        private void dataGridAllRefPersons_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            EditRef er = new EditRef();
+            er.DataContext = dataGridAllRefPersons.SelectedItem;
+            //ecv.TxtCamId.Text = row
+            //ecv.TxtLocation.Text = Convert.ToString(ColLocation);
+            //ecv.TxtQuality.Text = Convert.ToString(ColQuality);
+            er.ShowDialog();
         }
     }
 }

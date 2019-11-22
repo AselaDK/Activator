@@ -34,7 +34,7 @@
             </StackPanel>
         </Grid>
         <Grid Height="960">
-            <DataGrid x:Name="dataGridAllRefPersons" AutoGenerateColumns="False" CanUserAddRows="False" Margin="5" HorizontalAlignment="Left">
+            <DataGrid x:Name="dataGridAllRefPersons"  ItemsSource="{Binding}" Cursor="Hand" MouseDoubleClick="dataGridAllRefPersons_MouseDoubleClick"   AutoGenerateColumns="False" CanUserAddRows="False" Margin="5" HorizontalAlignment="Left">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
