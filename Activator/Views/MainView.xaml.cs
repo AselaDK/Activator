@@ -66,8 +66,10 @@ namespace Activator.Views
 
         private void ButtonMenuReaders_Click(object sender, RoutedEventArgs e)
         {
-            ReadersView readers = new ReadersView();
-            MenuPage.Content = readers;
+            Readers apin = new Readers();
+            MenuPage.Content = apin;
+
+
         }
 
         private void ButtonMenuCameras_Click(object sender, RoutedEventArgs e)

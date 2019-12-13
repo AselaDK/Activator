@@ -136,8 +136,8 @@
     <Compile Include="Views\PeopleInPageView.xaml.cs">
       <DependentUpon>PeopleInPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ReadersView.xaml.cs">
-      <DependentUpon>ReadersView.xaml</DependentUpon>
+    <Compile Include="Views\Readers.xaml.cs">
+      <DependentUpon>Readers.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\AddCameraView.xaml">
       <SubType>Designer</SubType>
@@ -179,7 +179,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ReadersView.xaml">
+    <Page Include="Views\Readers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

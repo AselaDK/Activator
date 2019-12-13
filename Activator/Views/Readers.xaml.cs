@@ -10,28 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Activator.Views
 {
     /// <summary>
-    /// Interaction logic for ReadersView.xaml
+    /// Interaction logic for Readers.xaml
     /// </summary>
-    public partial class ReadersView : Window
+    public partial class Readers : UserControl
     {
-        public ReadersView()
+        public Readers()
         {
             InitializeComponent();
-        }
-
-        private void Add_Readers(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Add readers ");
-        }
-
-        private void CamerasDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }
