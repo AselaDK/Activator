@@ -13,7 +13,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using Amazon.DynamoDBv2.DocumentModel;
+
 namespace Activator.Views
+    
 {
     /// <summary>
     /// Interaction logic for Readers.xaml
@@ -23,6 +26,24 @@ namespace Activator.Views
         public Readers()
         {
             InitializeComponent();
+            Document item = new Document();
+            item["indexNo"] ="17000203";
+            item["name"] = "sahan";
+            Task.Run(() => Models.Dynamodb.PutItem(item, "bodima"));
+            MessageBox.Show("this is from db");
+
+            
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("this is one");
+
+
+        }
+        private void message()
+        {
+            MessageBox.Show("this is one of the message");
         }
     }
 }

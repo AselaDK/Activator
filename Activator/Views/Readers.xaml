@@ -7,12 +7,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="Yellow">
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="28*"/>
             <RowDefinition Height="197*"/>
         </Grid.RowDefinitions>
         <Grid Background="Green"></Grid>
+        <Button Content="Add Readers" FontSize="20" HorizontalAlignment="Left" Height="74" Margin="139,74,0,0" Grid.Row="1" VerticalAlignment="Top" Width="262" Click="Button_Click"/>
 
 
     </Grid>
