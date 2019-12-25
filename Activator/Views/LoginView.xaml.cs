@@ -113,5 +113,9 @@ namespace Activator.Views
             MessageBox.Show("Please Contact the Developer Team. Thank You!");
         }
 
+        private void ButtonLogin_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
