@@ -14,8 +14,8 @@ namespace Activator.Models
     class S3Bucket
     {
         // setup
-        private static string bucketName = MyAWSConfigs.refImagesBucketName;
-        private static RegionEndpoint bucketRegion = MyAWSConfigs.refImagesBucketRegion;
+        private static string bucketName = MyAWSConfigs.RefImagesBucketName;
+        private static RegionEndpoint bucketRegion = MyAWSConfigs.S3BucketRegion;
 
         private static IAmazonS3 s3Client;
 

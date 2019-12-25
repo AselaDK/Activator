@@ -1,20 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Data.SqlClient;
 using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DocumentModel;
-using static Amazon.Internal.RegionEndpointProviderV2;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
 using System.Security.Cryptography;
 
@@ -25,8 +15,6 @@ namespace Activator.Views
     /// </summary>
     public partial class LoginView : Window
     {
-
-
         public LoginView()
         {
             InitializeComponent();
@@ -64,8 +52,9 @@ namespace Activator.Views
                 String aPassword = TxtPassword.Password;
                 String hashPassword = MD5Hash(aPassword);
 
-                ////Console.WriteLine(aId);
-                ////Console.WriteLine(aPassword);
+                //this.Hide();
+                //MainView dashboard = new MainView();
+                //dashboard.ShowDialog();
 
                 try
                 {
@@ -81,9 +70,9 @@ namespace Activator.Views
                     if (item != null && item["aPassword"] == hashPassword)
                     {
                         //Console.WriteLine("Successfully Logged in!!!");
+                        this.Hide();
                         MainView dashboard = new MainView();
                         dashboard.ShowDialog();
-                        this.Close();
                     }
                     else
                     {
@@ -98,8 +87,6 @@ namespace Activator.Views
                         TxtPassword.BorderBrush = Brushes.Red;
                         //txtpassword.Background = Brushes.LightSalmon;
                     }
-
-
                 }
                 catch (AmazonDynamoDBException ex)
                 {
