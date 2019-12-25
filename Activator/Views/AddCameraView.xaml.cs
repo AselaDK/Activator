@@ -81,6 +81,10 @@ namespace Activator.Views
                     {
                         MessageBox.Show("Camera ID is already exist! (Please try a different one)");
                     }
+                    MainView mainv = new MainView();
+                    CamerasPageView cams = new CamerasPageView();
+                    mainv.MenuPage.Content = cams;
+                    mainv.Show();
                 }
                 else
                 {

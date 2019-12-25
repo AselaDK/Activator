@@ -32,84 +32,84 @@ namespace Activator.Views
         {
             InitializeComponent();
 
-            //try
-            //{
-            //    this.client = new AmazonDynamoDBClient();
-            //    this.LoadData(null);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.Error.WriteLine("Error: failed to create a DynamoDB client; " + ex.Message);
-            //}
+            try
+            {
+                this.client = new AmazonDynamoDBClient();
+                this.LoadData(null);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine("Error: failed to create a DynamoDB client; " + ex.Message);
+            }
         }
 
 
 
-        //protected void LoadData(object obj)
-        //{
-        //    //load DynamoDB table
-        //    var table = Table.LoadTable(client, "Cameras");
-        //    //scan the table for get all details
-        //    var search = table.Scan(new Amazon.DynamoDBv2.DocumentModel.Expression());
+        protected void LoadData(object obj)
+        {
+            //load DynamoDB table
+            var table = Table.LoadTable(client, "Cameras");
+            //scan the table for get all details
+            var search = table.Scan(new Amazon.DynamoDBv2.DocumentModel.Expression());
 
-        //    // create DynamoDB document with scanned data 
-        //    var documentList = new List<Document>();
-        //    do
-        //    {
-        //        documentList.AddRange(search.GetNextSet());
+            // create DynamoDB document with scanned data 
+            var documentList = new List<Document>();
+            do
+            {
+                documentList.AddRange(search.GetNextSet());
 
-        //    } while (!search.IsDone);
+            } while (!search.IsDone);
 
-        //    // create a Collection
-        //    //Camera is the name of the model in <Camera>, it is in Models Folder(Camera.cs)
-        //    var cameras = new ObservableCollection<Camera>();
+            // create a Collection
+            //Camera is the name of the model in <Camera>, it is in Models Folder(Camera.cs)
+            var cameras = new ObservableCollection<Camera>();
 
-        //    // getting DynamoDB Document data to Collection
-        //    foreach (var doc in documentList)
-        //    {
-        //        var camera = new Camera();
-        //        foreach (var attribute in doc.GetAttributeNames())
-        //        {
-        //            var value = doc[attribute];
-        //            if (attribute == "camId")
-        //            {
-        //                camera.camId = value.AsPrimitive().Value.ToString();
-        //                //Console.WriteLine(camera.camId);
-        //            }
-        //            else if (attribute == "location")
-        //            {
-        //                camera.location = value.AsPrimitive().Value.ToString();
-        //                //Console.WriteLine(camera.location);
-        //            }
-        //            else if (attribute == "quality")
-        //            {
-        //                camera.quality = value.AsPrimitive().Value.ToString();
-        //                //Console.WriteLine("quality",camera.quality);
-        //            }
-        //        }
+            // getting DynamoDB Document data to Collection
+            foreach (var doc in documentList)
+            {
+                var camera = new Camera();
+                foreach (var attribute in doc.GetAttributeNames())
+                {
+                    var value = doc[attribute];
+                    if (attribute == "camId")
+                    {
+                        camera.camId = value.AsPrimitive().Value.ToString();
+                        //Console.WriteLine(camera.camId);
+                    }
+                    else if (attribute == "location")
+                    {
+                        camera.location = value.AsPrimitive().Value.ToString();
+                        //Console.WriteLine(camera.location);
+                    }
+                    else if (attribute == "quality")
+                    {
+                        camera.quality = value.AsPrimitive().Value.ToString();
+                        //Console.WriteLine("quality",camera.quality);
+                    }
+                }
 
-        //        //Add camera data to collection
-        //        cameras.Add(camera);
-        //        //give itemsource to datagrid in the frontend, DataGrid's name is CamerasDataGrid
-        //        CamerasDataGrid.ItemsSource = cameras;
+                //Add camera data to collection
+                cameras.Add(camera);
+                //give itemsource to datagrid in the frontend, DataGrid's name is CamerasDataGrid
+                CamerasDataGrid.ItemsSource = cameras;
 
-        //    }
-        //}
+            }
+        }
 
-        //private void AddNewCamera_Click(object sender, RoutedEventArgs e)
-        //{
-        //    AddCameraView acv = new AddCameraView();
-        //    acv.ShowDialog();
-        //}
+        private void AddNewCamera_Click(object sender, RoutedEventArgs e)
+        {
+            AddCameraView acv = new AddCameraView();
+            acv.ShowDialog();
+        }
 
-        //private void CamerasDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        //{    
-        //    EditCameraView ecv = new EditCameraView();
-        //    ecv.DataContext = CamerasDataGrid.SelectedItem;
-        //    //ecv.TxtCamId.Text = row
-        //    //ecv.TxtLocation.Text = Convert.ToString(ColLocation);
-        //    //ecv.TxtQuality.Text = Convert.ToString(ColQuality);
-        //    ecv.ShowDialog();
-        //}
+        private void CamerasDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            EditCameraView ecv = new EditCameraView();
+            ecv.DataContext = CamerasDataGrid.SelectedItem;
+            //ecv.TxtCamId.Text = row
+            //ecv.TxtLocation.Text = Convert.ToString(ColLocation);
+            //ecv.TxtQuality.Text = Convert.ToString(ColQuality);
+            ecv.ShowDialog();
+        }
     }
 }

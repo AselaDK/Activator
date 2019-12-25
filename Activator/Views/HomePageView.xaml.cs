@@ -160,7 +160,7 @@ namespace Activator.Views
             dataGridDetectedPersons.Items.Refresh();
 
             string streamArn = "arn:aws:dynamodb:ap-southeast-2:358403828169:table/ref_persons/stream/2019-11-18T05:31:40.045";
-            int maxItemCount = 100;
+            //int maxItemCount = 100;
 
             try
             {
@@ -202,7 +202,8 @@ namespace Activator.Views
                             String currentShardIter = getShardIteratorResponse.ShardIterator;
 
                             int processedRecordCount = 0;
-                            while (currentShardIter != null && processedRecordCount < maxItemCount)
+                            //&& processedRecordCount < maxItemCount
+                            while (currentShardIter != null)
                             {
                                 // Use the shard iterator to read the stream records
 
@@ -256,6 +257,7 @@ namespace Activator.Views
                                         }
                                         else
                                         {
+                                            //p => p.id == refPerson.id
                                             refPersons.RemoveAll(p => p.id == refPerson.id);
                                         }
 
