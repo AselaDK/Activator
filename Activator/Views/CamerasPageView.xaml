@@ -10,10 +10,17 @@
       mc:Ignorable="d"
       Height="1080" Width="1670">
 
+    <!--<StackPanel Background="White">
+        <Grid>
+            <TextBlock Text="Comming soon" Margin="100,100" FontSize="24"></TextBlock>
+        </Grid>
+    </StackPanel>-->
+    
     <Grid Background="#e9e9e9" >
+        
         <TextBlock Text="Cameras" Foreground="#FF3580BF" FontSize="30" FontWeight="Bold" Margin="5,0,5,0" Grid.Row="1"/>
 
-        <!--Search Box-->
+        
         <StackPanel Orientation="Horizontal" Width="Auto" Background="White" Height="40" VerticalAlignment="Top" Margin="10,50,10,0" >
             <Border CornerRadius="6" Margin="100,0,300,0" BorderBrush="Gray" Background="LightGray" BorderThickness="2" DockPanel.Dock="Top" Width="150">
                 <Button x:Name="AddNewCamera" Click="AddNewCamera_Click" Background="SeaGreen" Cursor="Hand" BorderBrush="White" Foreground="White">
@@ -33,9 +40,9 @@
             <DataGrid x:Name="CamerasDataGrid" ItemsSource="{Binding}" Cursor="Hand" MouseDoubleClick="CamerasDataGrid_MouseDoubleClick"   AutoGenerateColumns="False" CanUserAddRows="True" CanUserDeleteRows="True" Margin="5" HorizontalAlignment="Left">
                 
                 <DataGrid.Columns>
-                    <DataGridTextColumn x:Name="ColCameraId" Width="*" Header="Id" Binding="{Binding CamId}" IsReadOnly="True" />
-                    <DataGridTextColumn x:Name="ColLocation" Width="*" Header="Location" Binding="{Binding Location}" IsReadOnly="True" />
-                    <DataGridTextColumn x:Name="ColQuality" Width="*" Header="Quality" Binding="{Binding Quality}" IsReadOnly="True" />
+                    <DataGridTextColumn x:Name="ColCameraId" Width="*" Header="Id" Binding="{Binding camId}" IsReadOnly="True"/>
+                    <DataGridTextColumn x:Name="ColLocation" Width="*" Header="Location" Binding="{Binding location}" IsReadOnly="True" />
+                    <DataGridTextColumn x:Name="ColQuality" Width="*" Header="Quality" Binding="{Binding quality}" IsReadOnly="True" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

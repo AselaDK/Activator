@@ -16,7 +16,6 @@ using Amazon.DynamoDBv2.DocumentModel;
 using static Amazon.Internal.RegionEndpointProviderV2;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
 using Activator.Models;
-using Amazon.DynamoDBv2.Model;
 
 namespace Activator.Views
 {
@@ -45,7 +44,7 @@ namespace Activator.Views
 
         private void ButtonAddCamera_Click(object sender, RoutedEventArgs e)
         {
-            //Console.WriteLine("QWFQf");
+            Console.WriteLine("QWFQf");
             string camid = TxtCamId.Text;
             string location = TxtLocation.Text;
             string quality = TxtQuality.Text;
@@ -69,32 +68,30 @@ namespace Activator.Views
                     {
                         //Console.WriteLine("search  = ", search);
                         //Console.WriteLine("search.count  = ", search.Count);
-                        
+                        Document camObj = new Document();
+                        camObj["camId"] = camid;
+                        camObj["location"] = loc;
+                        camObj["quality"] = qlty;
+                        table.PutItem(camObj);
 
                         this.Close();
                         MessageBox.Show("New Camera Was Successfully Added!");
                     }
                     else
                     {
-                        CreateCameraTable(tableName);
                         MessageBox.Show("Camera ID is already exist! (Please try a different one)");
                     }
-
-                    Document camObj = new Document();
-                    camObj["camId"] = camid;
-                    camObj["location"] = loc;
-                    camObj["quality"] = qlty;
-                    table.PutItem(camObj);
+                    MainView mainv = new MainView();
+                    CamerasPageView cams = new CamerasPageView();
+                    mainv.MenuPage.Content = cams;
+                    mainv.Show();
                 }
                 else
                 {
                     MessageBox.Show("Table scan doesn't gives results");
                 }
 
-                MainView mainv = new MainView();
-                CamerasPageView cams = new CamerasPageView();
-                mainv.MenuPage.Content = cams;
-                mainv.Show();
+
             }
             catch (AmazonDynamoDBException ex)
             {
@@ -104,64 +101,9 @@ namespace Activator.Views
             {
                 MessageBox.Show("Message : Unknown Error", ex.Message);
             }
-        }
 
-        private void CreateCameraTable(string tblName)
-        {
-            List<string> currentTables = client.ListTables().TableNames;
 
-            if (!currentTables.Contains(tblName))
-            {
-                CreateTableRequest createRequest = new CreateTableRequest
-                {
-                    TableName = tblName,
-                    AttributeDefinitions = new List<AttributeDefinition>()
-                {
-                    new AttributeDefinition
-                    {
-                        AttributeName = "camId",
-                        AttributeType = "S"
-                    },
-                    new AttributeDefinition
-                    {
-                        AttributeName = "location",
-                        AttributeType = "S"
-                    },
-                    new AttributeDefinition
-                    {
-                        AttributeName = "quality",
-                        AttributeType = "S"
-                    }
-                },
-                    KeySchema = new List<KeySchemaElement>()
-                {
-                    new KeySchemaElement
-                    {
-                        AttributeName = "camId",
-                        KeyType = "HASH"
-                    },
-                    new KeySchemaElement
-                    {
-                        AttributeName = "camId",
-                        KeyType = "RANGE"
-                    }
-                },
-                };
 
-                createRequest.ProvisionedThroughput = new ProvisionedThroughput(1, 1);
-
-                CreateTableResponse createResponse;
-                try
-                {
-                    createResponse = client.CreateTable(createRequest);
-                }
-                catch (Exception ex)
-                {
-                    Console.Error.WriteLine("Error: failed to create the new table; " + ex.Message);
-
-                    return;
-                }
-            }
         }
     }
 }
