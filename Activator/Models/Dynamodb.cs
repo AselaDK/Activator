@@ -17,7 +17,7 @@ namespace Activator.Models
             try
             {
                 AmazonDynamoDBClient client;
-                using (client = new AmazonDynamoDBClient(MyAWSConfigs.dynamodbRegion))
+                using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
                 {
                     var table = Table.LoadTable(client, tableName);
                     table.PutItem(item);
@@ -38,7 +38,7 @@ namespace Activator.Models
             try
             {
                 AmazonDynamoDBClient client;
-                using (client = new AmazonDynamoDBClient(MyAWSConfigs.dynamodbRegion))
+                using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
                 {
                     var table = Table.LoadTable(client, tableName);
                     Document item = table.GetItem(itemId);
@@ -64,12 +64,12 @@ namespace Activator.Models
 
             List<RefPerson> refPersons = new List<RefPerson>();
 
-            string tableName = MyAWSConfigs.refPersonsDBTableName;
+            string tableName = MyAWSConfigs.RefPersonsDBTableName;
 
             try
             {
                 AmazonDynamoDBClient client;
-                using (client = new AmazonDynamoDBClient(MyAWSConfigs.dynamodbRegion))
+                using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
                 {                    
                     DynamoDBContext context = new DynamoDBContext(client);                    
                     IEnumerable<RefPerson> refPersonsData = context.Scan<RefPerson>();                    

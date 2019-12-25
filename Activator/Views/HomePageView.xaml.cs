@@ -22,100 +22,100 @@ namespace Activator.Views
         public HomePageView()
         {
             InitializeComponent();
+            InitCheckStreamProcessor();
             ReadStream();
-            InitCheckStreamProcessor();            
         }
 
         private void InitCheckStreamProcessor()
         {
-            StreamProcessor sp = Models.Starter.DescribeStreamProcessor();
+            //StreamProcessor sp = Models.Starter.DescribeStreamProcessor();
 
-            if (sp.Status == StreamProcessorStatus.STOPPED)
-            {
-                btnStart.Content = "RUN";
-                liveIcon.Foreground = Brushes.White;
-            }
-            else if (sp.Status == StreamProcessorStatus.RUNNING)
-            {
-                btnStart.Content = "STOP";
-                liveIcon.Foreground = Brushes.Red;
-            }
+            //if (sp.Status == StreamProcessorStatus.STOPPED)
+            //{
+            //    btnStart.Content = "RUN";
+            //    liveIcon.Foreground = Brushes.White;
+            //}
+            //else if (sp.Status == StreamProcessorStatus.RUNNING)
+            //{
+            //    btnStart.Content = "STOP";
+            //    liveIcon.Foreground = Brushes.Red;
+            //}
         }
 
         private void BtnStart_Click(object sender, RoutedEventArgs e)
         {
-            Mouse.OverrideCursor = Cursors.Wait;
-            try
-            {
-                StreamProcessor sp = Models.Starter.DescribeStreamProcessor();
+            //Mouse.OverrideCursor = Cursors.Wait;
+            //try
+            //{
+            //    StreamProcessor sp = Models.Starter.DescribeStreamProcessor();
 
-                if (sp.Status == StreamProcessorStatus.STOPPED)
-                {
-                    Models.Starter.StartStreamProcessor();
-                    btnStart.Content = "STOP";
-                    liveIcon.Foreground = Brushes.Red;
-                }
-                else if(sp.Status == StreamProcessorStatus.RUNNING)
-                {
-                    Models.Starter.StopStreamProcessor();
-                    btnStart.Content = "RUN";
-                    liveIcon.Foreground = Brushes.White;
-                }
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
-            }
+            //    if (sp.Status == StreamProcessorStatus.STOPPED)
+            //    {
+            //        Models.Starter.StartStreamProcessor();
+            //        btnStart.Content = "STOP";
+            //        liveIcon.Foreground = Brushes.Red;
+            //    }
+            //    else if(sp.Status == StreamProcessorStatus.RUNNING)
+            //    {
+            //        Models.Starter.StopStreamProcessor();
+            //        btnStart.Content = "RUN";
+            //        liveIcon.Foreground = Brushes.White;
+            //    }
+            //}
+            //finally
+            //{
+            //    Mouse.OverrideCursor = null;
+            //}
         }
 
         private void BtnStop_Click(object sender, RoutedEventArgs e)
         {
-            Mouse.OverrideCursor = Cursors.Wait;
-            try
-            {
-                StreamProcessor sp = Models.Starter.DescribeStreamProcessor();
+            //Mouse.OverrideCursor = Cursors.Wait;
+            //try
+            //{
+            //    StreamProcessor sp = Models.Starter.DescribeStreamProcessor();
 
-                if (sp.Status == StreamProcessorStatus.RUNNING)
-                {
-                    Models.Starter.StopStreamProcessor();
-                }
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
-            }
+            //    if (sp.Status == StreamProcessorStatus.RUNNING)
+            //    {
+            //        Models.Starter.StopStreamProcessor();
+            //    }
+            //}
+            //finally
+            //{
+            //    Mouse.OverrideCursor = null;
+            //}
         }
 
         private void BtnDetails_Click(object sender, RoutedEventArgs e)
         {
-            Mouse.OverrideCursor = Cursors.Wait;
-            try
-            {
-                StreamProcessor sp = Models.Starter.DescribeStreamProcessor();
+            //Mouse.OverrideCursor = Cursors.Wait;
+            //try
+            //{
+            //    StreamProcessor sp = Models.Starter.DescribeStreamProcessor();
 
-                Console.WriteLine(sp.Name);
-                Console.WriteLine(sp.Status);
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
-            }
+            //    Console.WriteLine(sp.Name);
+            //    Console.WriteLine(sp.Status);
+            //}
+            //finally
+            //{
+            //    Mouse.OverrideCursor = null;
+            //}
         }
 
         private void CheckAndCreateStreamProcessor()
         {
-            Mouse.OverrideCursor = Cursors.Wait;
-            try
-            {
-                if (!Models.Starter.ListStreamProcessors().Contains(Models.MyAWSConfigs.streamProcessorName))
-                {
-                    Models.Starter.CreateStreamProcessor();
-                }
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
-            }
+            //Mouse.OverrideCursor = Cursors.Wait;
+            //try
+            //{
+            //    if (!Models.Starter.ListStreamProcessors().Contains(Models.MyAWSConfigs.StreamProcessorName))
+            //    {
+            //        Models.Starter.CreateStreamProcessor();
+            //    }
+            //}
+            //finally
+            //{
+            //    Mouse.OverrideCursor = null;
+            //}
         }
 
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
@@ -125,32 +125,32 @@ namespace Activator.Views
 
         private void BtnList_Click(object sender, RoutedEventArgs e)
         {
-            Mouse.OverrideCursor = Cursors.Wait;
-            try
-            {
-                List<string> temp = Models.Starter.ListStreamProcessors();
-                foreach (string item in temp)
-                {
-                    Console.WriteLine(item);
-                }
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
-            }
+            //Mouse.OverrideCursor = Cursors.Wait;
+            //try
+            //{
+            //    List<string> temp = Models.Starter.ListStreamProcessors();
+            //    foreach (string item in temp)
+            //    {
+            //        Console.WriteLine(item);
+            //    }
+            //}
+            //finally
+            //{
+            //    Mouse.OverrideCursor = null;
+            //}
         }
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
-            Mouse.OverrideCursor = Cursors.Wait;
-            try
-            {
-                Models.Starter.DeleteStreamProcessor();
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
-            }
+            //Mouse.OverrideCursor = Cursors.Wait;
+            //try
+            //{
+            //    Models.Starter.DeleteStreamProcessor();
+            //}
+            //finally
+            //{
+            //    Mouse.OverrideCursor = null;
+            //}
         }
 
         private async Task ReadStream()
@@ -165,7 +165,7 @@ namespace Activator.Views
             try
             {
                 AmazonDynamoDBStreamsClient streamsClient;
-                using (streamsClient = new AmazonDynamoDBStreamsClient(Models.MyAWSConfigs.dynamodbRegion))
+                using (streamsClient = new AmazonDynamoDBStreamsClient(Models.MyAWSConfigs.DynamodbRegion))
                 {
                     String lastEvaluatedShardId = null;
 

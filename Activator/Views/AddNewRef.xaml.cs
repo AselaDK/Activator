@@ -48,8 +48,8 @@ namespace Activator.Views
                     item["description"] = txtDescription.Text;
 
                     await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId));
-                    await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.refPersonsDBTableName));
-                    await Task.Run(() => Models.FaceCollection.AddFace(fileId, Models.MyAWSConfigs.faceCollectionID));
+                    await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.RefPersonsDBTableName));
+                    await Task.Run(() => Models.FaceCollection.AddFace(fileId, Models.MyAWSConfigs.FaceCollectionID));
 
                     await controller.CloseAsync();
 
