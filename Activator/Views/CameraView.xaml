@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="Activator.Views.CameraView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Activator.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             Height="1080" Width="1670">
+    
+    <StackPanel Background="WhiteSmoke">
+        <Grid Height="50" Background="White">
+            <Label Content="CAMERA" Foreground="Black" FontSize="24" FontWeight="Bold" VerticalContentAlignment="Center"/>
+        </Grid>
+        <Grid Height="50" Margin="5">
+            <StackPanel Orientation="Horizontal">
+                <Button Click="BtnAddNewCamera_Click" Margin="10,0,0,0" Height="40" Width="40">
+                    <materialDesign:PackIcon Kind="Add" Width="20" Height="20" VerticalAlignment="Center" Margin="0"/>
+                </Button>
+                <Button Margin="10,0,0,0" Click="BtnRefresh_Click" Height="40" Width="40">
+                    <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
+                </Button>
+                <!--<TextBox x:Name="txtSearch"  materialDesign:HintAssist.Hint="Search" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Width="500" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                <materialDesign:PackIcon x:Name="icnSearch" Kind="Search" Width="30" Height="30" VerticalAlignment="Center"  HorizontalAlignment="Center" Cursor="Hand" Margin="10,0,0,0"/>-->
+
+            </StackPanel>
+        </Grid>
+        <Grid Height="980">
+            <DataGrid x:Name="dataGridCameras" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Grid.ColumnSpan="2">
+                <DataGrid.Columns>               
+                    <DataGridTextColumn Width="2*" Header="Stream Name" Binding="{Binding streamName}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="2*" Header="Location" Binding="{Binding location}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="2*" Header="Status" Binding="{Binding status}" IsReadOnly="True" />
+                    <DataGridTemplateColumn  Width="1*" Header="Start" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Click="BtnStartSP">Details</Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn  Width="1*" Header="Stop" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Click="BtnStopSP">Details</Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>            
+        </Grid>
+    </StackPanel>
+</UserControl>

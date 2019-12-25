@@ -125,26 +125,26 @@ namespace Activator.Views
 
         private void ButtonMenuCameras_Click(object sender, RoutedEventArgs e)
         {
-            CamerasPageView cams = new CamerasPageView();
-            MenuPage.Content = cams;
+            CameraView cameraView = new CameraView();
+            MenuPage.Content = cameraView;
             lblTitle.Content = "CAMERAS";
             
         }
 
         private void CheckStreamProcessorStatus()
         {
-            Mouse.OverrideCursor = Cursors.Wait;
-            try
-            {
-                if (!Models.Starter.ListStreamProcessors().Contains(Models.MyAWSConfigs.streamProcessorName))
-                {
-                    Models.Starter.CreateStreamProcessor();
-                }
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
-            }
+            //Mouse.OverrideCursor = Cursors.Wait;
+            //try
+            //{
+            //    if (!Models.Starter.ListStreamProcessors().Contains(Models.MyAWSConfigs.StreamProcessorName))
+            //    {
+            //        Models.Starter.CreateStreamProcessor();
+            //    }
+            //}
+            //finally
+            //{
+            //    Mouse.OverrideCursor = null;
+            //}
         }
 
         // function for check a window is open & avoid opening it twice
