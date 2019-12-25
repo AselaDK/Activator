@@ -17,3 +17,19 @@
     </StackPanel>
     
 </Controls:MetroWindow>
+            WindowStartupLocation="CenterScreen" 
+             d:DesignHeight="300" d:DesignWidth="800"
+            Title="Confirm Close">
+    <Grid Height="300" Width="800">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" Height="300" Width="800" >
+            <TextBlock Text="Activator" Height="75" FontSize="48" Foreground="White" Background="MediumSeaGreen" FontWeight="Bold"/>
+            <TextBlock Text="Do you want to close the application ?" Height="50" FontSize="30" Background="White" FontWeight="Light"/>
+            <TextBlock Text="(This will not stop the system)" Foreground="red" Height="50" FontSize="20" Background="White" FontWeight="Light"/>
+            <StackPanel Orientation="Horizontal" Background="MediumSeaGreen" >
+                <Button x:Name="ConfirmClose" Click="ConfirmClose_Click" Foreground="White" Content="Yes" Background="Red" Margin="10 10 10 10" FontSize="30" Width="380" Height="100" />
+                <Button x:Name="DenieClose" Click="DenieClose_Click" Foreground="White" Content="No" Background="Green" FontSize="30" Width="380" Margin="10 10 10 10"  Height="100"/>
+            </StackPanel>
+        </StackPanel>
+            
+    </Grid>
+</Window>
