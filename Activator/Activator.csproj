@@ -120,13 +120,18 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\Camera.cs" />
+    <Compile Include="Models\Dynamodb.cs" />
     <Compile Include="Models\FaceCollection.cs" />
     <Compile Include="Models\MyAWSConfigs.cs" />
+    <Compile Include="Models\RefPerson.cs" />
     <Compile Include="Models\S3Bucket.cs" />
     <Compile Include="Models\Starter.cs" />
     <Compile Include="Models\StreamManager.cs" />
     <Compile Include="Views\AddCameraView.xaml.cs">
       <DependentUpon>AddCameraView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddNewRef.xaml.cs">
+      <DependentUpon>AddNewRef.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AllPeoplePageView.xaml.cs">
       <DependentUpon>AllPeoplePageView.xaml</DependentUpon>
@@ -165,6 +170,10 @@
     <Page Include="Views\AddCameraView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddNewRef.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AllPeoplePageView.xaml">
       <SubType>Designer</SubType>
