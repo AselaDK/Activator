@@ -17,7 +17,8 @@
     </StackPanel>
     
 </Controls:MetroWindow>
-            WindowStartupLocation="CenterScreen" 
+    
+            <!--WindowStartupLocation="CenterScreen" 
              d:DesignHeight="300" d:DesignWidth="800"
             Title="Confirm Close">
     <Grid Height="300" Width="800">
@@ -31,5 +32,4 @@
             </StackPanel>
         </StackPanel>
             
-    </Grid>
-</Window>
+    </Grid>-->
