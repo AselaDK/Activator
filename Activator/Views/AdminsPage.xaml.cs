@@ -1,34 +1,29 @@
-﻿using System;
+﻿using Activator.Models;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DocumentModel;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Amazon.DynamoDBv2;
-using Activator.Models;
-using System.Collections.ObjectModel;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
-using Amazon.DynamoDBv2.DocumentModel;
 
 namespace Activator.Views
 {
     /// <summary>
     /// Interaction logic for CameraPageView.xaml
     /// </summary>
-    public partial class CamerasPageView : UserControl
+    public partial class AdminsPage : UserControl
     {
-      
+
         private AmazonDynamoDBClient client;
 
-        public CamerasPageView()
+        public object AdminPropic { get; private set; }
+
+        public AdminsPage()
         {
             InitializeComponent();
 
@@ -47,9 +42,9 @@ namespace Activator.Views
 
         protected void LoadData(object obj)
         {
+            var tableName = "admin";
             //load DynamoDB table
-            var tblName = "cameras";
-            var table = Table.LoadTable(client, tblName);
+            var table = Table.LoadTable(client, tableName);
             //scan the table for get all details
             var search = table.Scan(new Amazon.DynamoDBv2.DocumentModel.Expression());
 
@@ -63,52 +58,66 @@ namespace Activator.Views
 
             // create a Collection
             //Camera is the name of the model in <Camera>, it is in Models Folder(Camera.cs)
-            var cameras = new ObservableCollection<Camera>();
+            var admins = new ObservableCollection<Admin>();
 
             // getting DynamoDB Document data to Collection
             foreach (var doc in documentList)
             {
-                var camera = new Camera();
+                var admin = new Admin();
                 foreach (var attribute in doc.GetAttributeNames())
                 {
                     var value = doc[attribute];
-                    Console.WriteLine(value);
-
-                    if (attribute == "camId")
+                    if (attribute == "aId")
                     {
-                        camera.CamId = value.AsPrimitive().Value.ToString();
-                        //Console.WriteLine(camera.camId);
+                        admin.AId = value.AsPrimitive().Value.ToString();
+                        Console.WriteLine(admin.AId);
                     }
-                    else if (attribute == "location")
+                    else if (attribute == "aName")
                     {
-                        camera.Location = value.AsPrimitive().Value.ToString();
-                        //Console.WriteLine(camera.location);
+                        admin.AName = value.AsPrimitive().Value.ToString();
+                        Console.WriteLine(admin.AName);
                     }
-                    else if (attribute == "quality")
+                    else if (attribute == "aPhone")
                     {
-                        camera.Quality = value.AsPrimitive().Value.ToString();
-                        //Console.WriteLine("quality",camera.quality);
+                        admin.APhone = value.AsPrimitive().Value.ToString();
+                        Console.WriteLine("phone", admin.APhone);
+                    }
+                    else if (attribute == "aPropic")
+                    {
+                        string imagename = value.AsPrimitive().Value.ToString();
+                        Console.WriteLine("propic name >>>>>>>>",imagename);
+                        //MessageBox.Show("propic name >>>>>>>>", imagename);
+                        S3Bucket.DownloadFile(imagename);
+                        //$"Resources/Images/{fileName}"
+                        string propicUri = AppDomain.CurrentDomain.BaseDirectory + "Resources/Images/activatorlogo1.png";
+                        propicUri = AppDomain.CurrentDomain.BaseDirectory + $"Resources/Images/{imagename}";
+                        ImageSource imageSource = new BitmapImage(new Uri(@propicUri, UriKind.Relative));
+                        //BitmapSource bmp = (BitmapSource)img;
+                        ////...
+                        //this.image2.Source = bmp;
+                        //admin.AImage = (BitmapImage)imageSource;
+                        AdminPropic = imageSource;
                     }
                 }
 
                 //Add camera data to collection
-                cameras.Add(camera);
+                admins.Add(admin);
                 //give itemsource to datagrid in the frontend, DataGrid's name is CamerasDataGrid
-                CamerasDataGrid.ItemsSource = cameras;
+                AdminDataGrid.ItemsSource = admins;
 
             }
         }
 
-        private void AddNewCamera_Click(object sender, RoutedEventArgs e)
+        private void RegAdmin_Click(object sender, RoutedEventArgs e)
         {
-            AddCameraView acv = new AddCameraView();
+            RegisterAdmin acv = new RegisterAdmin();
             acv.ShowDialog();
         }
 
         private void CamerasDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             EditCameraView ecv = new EditCameraView();
-            ecv.DataContext = CamerasDataGrid.SelectedItem;
+            ecv.DataContext = AdminDataGrid.SelectedItem;
             //ecv.TxtCamId.Text = row
             //ecv.TxtLocation.Text = Convert.ToString(ColLocation);
             //ecv.TxtQuality.Text = Convert.ToString(ColQuality);

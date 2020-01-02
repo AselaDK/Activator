@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Activator.Views;
-using Amazon.DynamoDBv2;
+﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
+using System;
+using System.Windows;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
 
 namespace Activator.Views
@@ -23,7 +11,7 @@ namespace Activator.Views
     /// </summary>
     public partial class EditCameraView : Window
     {
-        private AmazonDynamoDBClient client;
+        private readonly AmazonDynamoDBClient client;
 
         public EditCameraView()
         {
@@ -42,7 +30,7 @@ namespace Activator.Views
         
         private void UpdateCamera(string cid, string loc, string qlty)
         {
-            var tableName = "Cameras";
+            var tableName = "cameras";
             //load DynamoDB table
             var table = Table.LoadTable(client, tableName);
             var item = table.GetItem(cid);
@@ -53,12 +41,26 @@ namespace Activator.Views
 
                 if (item != null)
                 {
+                    Console.WriteLine("\n*** Executing UpdateMultipleAttributes() ***");
+                    Console.WriteLine("\nUpdating multiple attributes....");
+                    string partitionKey = cid;
+
                     Document camObj = new Document();
-                    camObj["camId"] = cid;
                     camObj["location"] = loc;
                     camObj["quality"] = qlty;
-                    table.PutItem(camObj);
+
+                    // Optional parameters.
+                    UpdateItemOperationConfig config = new UpdateItemOperationConfig
+                    {
+                        // Get updated item in response.
+                        ReturnValues = ReturnValues.AllNewAttributes
+                    };
+                    Document updatedadmin = table.UpdateItem(camObj, config);
+                    Console.WriteLine("UpdateMultipleAttributes: Printing item after updates ...");
                     MessageBox.Show("Successfully Updated!");
+
+                    this.Close();
+
                 }
                 else
                 {
