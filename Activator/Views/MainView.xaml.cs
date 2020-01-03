@@ -1,4 +1,4 @@
-﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -185,6 +185,7 @@ namespace Activator.Views
             AdminProfile adminProfile = new AdminProfile(myid);
             MenuPage.Content = adminProfile;
             lblTitle.Content = "My Profile";
+
         }
     }
 }

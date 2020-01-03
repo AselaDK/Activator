@@ -1,9 +1,10 @@
-﻿using Activator.Models;
+using Activator.Models;
 using Amazon.DynamoDBv2;
 using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
 
 namespace Activator.Views
@@ -14,6 +15,7 @@ namespace Activator.Views
     public partial class LoginView : Window
     {
         private readonly AmazonDynamoDBClient client;
+
         public LoginView()
         {
             InitializeComponent();
@@ -37,8 +39,9 @@ namespace Activator.Views
                 String aPassword = TxtPassword.Password;
                 String hashPassword = HashMD5.MD5Hash(aPassword);
 
-                ////Console.WriteLine(aId);
-                ////Console.WriteLine(aPassword);
+                //this.Hide();
+                //MainView dashboard = new MainView();
+                //dashboard.ShowDialog();
 
                 try
                 {
@@ -60,9 +63,10 @@ namespace Activator.Views
 
 
                         Session session = new Session(status, AdminId);
+                        this.Hide();
                         MainView dashboard = new MainView(AdminId, AdminName);
+
                         dashboard.ShowDialog();
-                        this.Close();
                     }
                     else
                     {
@@ -77,8 +81,6 @@ namespace Activator.Views
                         TxtPassword.BorderBrush = Brushes.Red;
                         //txtpassword.Background = Brushes.LightSalmon;
                     }
-
-
                 }
                 catch (AmazonDynamoDBException ex)
                 {
