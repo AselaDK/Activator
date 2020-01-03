@@ -37,7 +37,9 @@ namespace Activator.Views
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("this is one");
+           //  adding form when click 
+            AddNewRef addNewRef = new AddNewRef();
+            addNewRef.Show();
 
 
         }
