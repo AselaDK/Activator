@@ -13,7 +13,7 @@
             <RowDefinition Height="197*"/>
         </Grid.RowDefinitions>
         <Grid Background="Green"></Grid>
-        <Button Content="Add Readers" FontSize="20" HorizontalAlignment="Left" Height="74" Margin="139,74,0,0" Grid.Row="1" VerticalAlignment="Top" Width="262" Click="Button_Click"/>
+        <Button Content="Add Readers" FontSize="20" HorizontalAlignment="Left" Height="48" Margin="27,24,0,0" Grid.Row="1" VerticalAlignment="Top" Width="171" Click="Button_Click"/>
 
 
     </Grid>
