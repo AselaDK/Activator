@@ -55,9 +55,9 @@ namespace Activator.Views
             AdminName.Text = myname;
             this.myid = adminid;
             S3Bucket.DownloadFile(myid);
-            string propicUri = "../Resources/Images/activatorlogo1.png";
-            propicUri = $"../bin/Debug/Resources/Images{myid}";
-            ImageSource imageSource = new BitmapImage(new Uri(@propicUri, UriKind.Relative));
+            var BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
+            string filePath = BaseDirectoryPath + $"Resources/Images/{imagename}";
+            ImageSource imageSource = new BitmapImage(new Uri(filePath, UriKind.Relative));
             //MyPropicImage.Source = new BitmapImage(new Uri($@"\myserver\folder1\Customer Data\{myid}"));
             MyPropicImage.Source = imageSource;
             //Console.WriteLine(MyAdminName);
