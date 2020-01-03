@@ -49,7 +49,7 @@ namespace Activator.Views
 
                     //Console.WriteLine(item["aPassword"]);
 
-                    if (1==1 || (item != null && item["aPassword"] == hashPassword))
+                    if ( (item != null && item["aPassword"] == hashPassword))
                     {
 
                         //Console.WriteLine("Successfully Logged in!!!");

@@ -31,7 +31,6 @@ namespace Activator.Views
 
         private void ShowProfileData(string myid)
         {
-            Mouse.OverrideCursor = Cursors.Wait;
             try
             {
                 Console.WriteLine("name   vvvvv- - - ", myid);
@@ -56,7 +55,8 @@ namespace Activator.Views
 
                         string imagename = item["aPropic"];
                         S3Bucket.DownloadFile(imagename);
-                        string filePath = AppDomain.CurrentDomain.BaseDirectory + $"Resources/Images/{imagename}";
+                        var BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
+                        string filePath = BaseDirectoryPath + $"Resources/Images/{imagename}";
                         AdminDp.Source = new BitmapImage(new Uri(filePath));
 
                         // Create Image and set its width and height  
@@ -111,7 +111,7 @@ namespace Activator.Views
 
         private void BtnEditPassword_Click(object sender, RoutedEventArgs e)
         {
-            ChangeAdminPassword changeAdminPassword = new ChangeAdminPassword();
+            ChangeAdminPassword changeAdminPassword = new ChangeAdminPassword(myId);
             changeAdminPassword.ShowDialog();
         }
     }

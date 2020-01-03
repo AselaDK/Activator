@@ -35,7 +35,7 @@
                     <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Image x:Name="AdminPropic" Source="{Binding AImage}" Width="100" Height="100" Stretch="Uniform"/>
+                                <Image x:Name="AdminPropic"  Width="100" Height="100" Stretch="Uniform"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
