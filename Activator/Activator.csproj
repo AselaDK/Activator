@@ -136,6 +136,9 @@
     <Compile Include="Views\PeopleInPageView.xaml.cs">
       <DependentUpon>PeopleInPageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ReaderForm.xaml.cs">
+      <DependentUpon>ReaderForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Readers.xaml.cs">
       <DependentUpon>Readers.xaml</DependentUpon>
     </Compile>
@@ -176,6 +179,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PeopleInPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReaderForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

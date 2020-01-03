@@ -37,9 +37,12 @@ namespace Activator.Views
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-           //  adding form when click 
-            AddNewRef addNewRef = new AddNewRef();
-            addNewRef.Show();
+           // M adding form when click 
+           // AddNewRef addNewRef = new AddNewRef();
+           // addNewRef.Show();
+            ReaderForm readerForm= new ReaderForm();
+            readerForm.Show();
+            
 
 
         }
