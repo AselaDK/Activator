@@ -87,6 +87,7 @@ namespace Activator.Views
             if (openFileDialog.ShowDialog() == true)
             {
                 uploadFilePath = openFileDialog.FileName;
+                Console.WriteLine(uploadFilePath);
 
                 Uri fileUri = new Uri(uploadFilePath);
                 imgUploadImage.Source = new BitmapImage(fileUri);

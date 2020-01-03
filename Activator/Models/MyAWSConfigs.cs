@@ -1,10 +1,14 @@
-﻿using Amazon;
+using Amazon;
 using System;
 
 namespace Activator.Models
 {
     class MyAWSConfigs
     {
+        public static readonly String refImagesBucketName = "refimagesbucket";
+        public static readonly String faceCollectionID = "RefCollection";
+        public static readonly String refPersonsDBTableName = "ref_persons";
+        public static readonly String adminDBTableName = "admin";
         public static readonly String RefImagesBucketName = "refimagesbucket";
         public static readonly String FaceCollectionID = "RefCollection";
 
