@@ -53,7 +53,6 @@ namespace Activator.Views
         {
             this.myname = adminname;
             AdminName.Text = myname;
-            string imagename = null;
             this.myid = adminid;
             S3Bucket.DownloadFile(myid);
             var BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
