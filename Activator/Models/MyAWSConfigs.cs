@@ -5,6 +5,9 @@ namespace Activator.Models
 {
     class MyAWSConfigs
     {
+        public static readonly string readerDBtableName = "readers"; 
+
+
         public static readonly String refImagesBucketName = "refimagesbucket";
         public static readonly String faceCollectionID = "RefCollection";
         public static readonly String refPersonsDBTableName = "ref_persons";
