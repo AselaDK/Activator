@@ -211,7 +211,7 @@ namespace Activator.Views
 
                                         if (!File.Exists(directoryPath + refPerson.id))
                                         {
-                                            Models.S3Bucket.DownloadFile(refPerson.id);
+                                            Models.S3Bucket.DownloadFile(refPerson.id,Models.MyAWSConfigs.refImagesBucketName);
                                         }
 
                                         string exeDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";

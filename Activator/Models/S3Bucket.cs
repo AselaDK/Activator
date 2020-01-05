@@ -14,13 +14,13 @@ namespace Activator.Models
     class S3Bucket
     {
         // setup
-        private static string bucketName = MyAWSConfigs.refImagesBucketName;
+    //    private static string bucketName = MyAWSConfigs.refImagesBucketName;  // bucket name eka;
         private static RegionEndpoint bucketRegion = MyAWSConfigs.refImagesBucketRegion;
 
         private static IAmazonS3 s3Client;
 
         // upload a single file
-        public static void UploadFile(string _filePath, string _fileName)
+        public static void UploadFile(string _filePath, string _fileName,string _bucketName)
         {
             string filePath = _filePath;
             string fileName = _fileName;
@@ -36,8 +36,9 @@ namespace Activator.Models
                 {
                     var fileTransferUtility = new TransferUtility(s3Client);
 
-                    await fileTransferUtility.UploadAsync(filePath, bucketName, fileName).ConfigureAwait(false);
+                    await fileTransferUtility.UploadAsync(filePath, _bucketName, fileName).ConfigureAwait(false);
                     Console.WriteLine("upload finished");
+                    
 
                 }
                 catch (AmazonS3Exception e)
@@ -52,7 +53,7 @@ namespace Activator.Models
         }
 
         // downlaod a single file to " Resources/Images/ "
-        public static void DownloadFile(string fileName)
+        public static void DownloadFile(string fileName,string _bucketName)
         {
             if (!Directory.Exists("Resources/Images")) Directory.CreateDirectory("Resources/Images");
             string filePath = $"Resources/Images/{fileName}";
@@ -68,7 +69,7 @@ namespace Activator.Models
                 {
                     var fileTransferUtility = new TransferUtility(s3Client);
 
-                    await fileTransferUtility.DownloadAsync(filePath, bucketName, fileName).ConfigureAwait(false);
+                    await fileTransferUtility.DownloadAsync(filePath, _bucketName, fileName).ConfigureAwait(false);
                     Console.WriteLine("download finished");
 
                 }
@@ -84,7 +85,7 @@ namespace Activator.Models
         }
 
         // return all the file's names in the s3 bucket
-        public static List<string> GetFilesList()
+        public static List<string> GetFilesList(string _bucketName)
         {
             List<String> refNames = new List<string>();
             refNames.Clear();
@@ -100,7 +101,7 @@ namespace Activator.Models
                 {
                     ListObjectsRequest request = new ListObjectsRequest
                     {
-                        BucketName = bucketName,
+                        BucketName = _bucketName,
                         MaxKeys = 2
                     };
 

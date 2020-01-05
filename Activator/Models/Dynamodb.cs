@@ -72,13 +72,13 @@ namespace Activator.Models
                 using (client = new AmazonDynamoDBClient(MyAWSConfigs.dynamodbRegion))
                 {                    
                     DynamoDBContext context = new DynamoDBContext(client);                    
-                    IEnumerable<RefPerson> refPersonsData = context.Scan<RefPerson>();                    
+                    IEnumerable<RefPerson> refPersonsData = context.Scan<RefPerson>();      //object widihata hadila enawa              
                     refPersons = refPersonsData.ToList();
                     foreach (RefPerson person in refPersons)
                     {
                         if (!File.Exists(directoryPath+person.id))
                         {
-                            Models.S3Bucket.DownloadFile(person.id);
+                            Models.S3Bucket.DownloadFile(person.id,Models.MyAWSConfigs.refImagesBucketName);
                         }
                         
                         string exeDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
