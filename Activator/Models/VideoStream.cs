@@ -12,34 +12,45 @@ namespace Activator.Models
         {
             string streamArn = "";
 
-            List<StreamInfo> streamlList = GetVideoStreamList();
-
-            if (streamlList != null)
+            try
             {
-                if (streamlList.FindAll(spInfp => spInfp.StreamName == streamName).Count > 0)
-                    streamArn = "contain";
-                else
+                List<StreamInfo> streamlList = GetVideoStreamList();
+
+                if (streamlList != null)
                 {
-                    AmazonKinesisVideoClient kinesisVideoClient;
-
-                    using (kinesisVideoClient = new AmazonKinesisVideoClient(Models.MyAWSConfigs.KinesisRegion))
+                    if (streamlList.FindAll(videoStream => videoStream.StreamName == streamName).Count > 0)
+                        streamArn = "contain";
+                    else
                     {
-                        CreateStreamRequest createStreamRequest = new CreateStreamRequest()
+                        AmazonKinesisVideoClient kinesisVideoClient;
+
+                        using (kinesisVideoClient = new AmazonKinesisVideoClient(Models.MyAWSConfigs.KinesisRegion))
                         {
-                            StreamName = streamName,
-                            DataRetentionInHours = 1,
-                            MediaType = "video/h264",
-                        };
+                            CreateStreamRequest createStreamRequest = new CreateStreamRequest()
+                            {
+                                StreamName = streamName,
+                                DataRetentionInHours = 1,
+                                MediaType = "video/h264",
+                            };
 
-                        CreateStreamResponse createStreamResponse = kinesisVideoClient.CreateStream(createStreamRequest);
+                            CreateStreamResponse createStreamResponse = kinesisVideoClient.CreateStream(createStreamRequest);
 
-                        if (createStreamResponse.HttpStatusCode == System.Net.HttpStatusCode.OK)
-                            streamArn = createStreamResponse.StreamARN;
-                        else
-                            Console.WriteLine("Error creating kinesis video stream");
+                            if (createStreamResponse.HttpStatusCode == System.Net.HttpStatusCode.OK)
+                                streamArn = createStreamResponse.StreamARN;
+                            else
+                                Console.WriteLine("Error creating kinesis video stream");
+                        }
                     }
                 }
             }
+            catch (AmazonKinesisVideoException e)
+            {
+                Console.WriteLine("AmazonKinesisVideoException: " + e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e);
+            }           
 
             return streamArn;
         }
@@ -48,19 +59,30 @@ namespace Activator.Models
         {
             List<StreamInfo> streamList = null;
 
-            AmazonKinesisVideoClient kinesisVideoClient;
-
-            using (kinesisVideoClient = new AmazonKinesisVideoClient(Models.MyAWSConfigs.KinesisRegion))
+            try
             {
-                ListStreamsRequest listStreamsRequest = new ListStreamsRequest();
-                ListStreamsResponse listStreamsResponse = kinesisVideoClient.ListStreams(listStreamsRequest);
+                AmazonKinesisVideoClient kinesisVideoClient;
 
-                if (listStreamsResponse.HttpStatusCode == System.Net.HttpStatusCode.OK)
-                    streamList = listStreamsResponse.StreamInfoList;
-                else
-                    Console.WriteLine("Error listing kinesis video streams");
+                using (kinesisVideoClient = new AmazonKinesisVideoClient(Models.MyAWSConfigs.KinesisRegion))
+                {
+                    ListStreamsRequest listStreamsRequest = new ListStreamsRequest();
+                    ListStreamsResponse listStreamsResponse = kinesisVideoClient.ListStreams(listStreamsRequest);
+
+                    if (listStreamsResponse.HttpStatusCode == System.Net.HttpStatusCode.OK)
+                        streamList = listStreamsResponse.StreamInfoList;
+                    else
+                        Console.WriteLine("Error listing kinesis video streams");
+                }
             }
-     
+            catch (AmazonKinesisVideoException e)
+            {
+                Console.WriteLine("AmazonKinesisVideoException: " + e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e);
+            }            
+
             return streamList;
         }
     }

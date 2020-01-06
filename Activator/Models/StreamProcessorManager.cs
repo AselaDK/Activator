@@ -8,7 +8,6 @@ namespace Activator.Models
 {
     class StreamProcessorManager
     {
-        private static String kinesisDataStreamArn = MyAWSConfigs.KinesisDataStreamArn;
         private static String roleArn = MyAWSConfigs.RoleArn;
         private static String collectionId = MyAWSConfigs.FaceCollectionID;
 
@@ -16,12 +15,12 @@ namespace Activator.Models
 
         private static AmazonRekognitionClient rekognitionClient = null;
 
-        public static bool CreateStreamProcessor(String streamProcessorName, String kinesisVideoStreamArn)
+        public static bool CreateStreamProcessor(String streamProcessorName, String VideoStreamArn, String DataStreamArn)
         {
-            //Setup input parameters
+            // Setup input parameters
             KinesisVideoStream kinesisVideoStream = new KinesisVideoStream()
             {
-                Arn = kinesisVideoStreamArn,
+                Arn = VideoStreamArn,
             };
 
             StreamProcessorInput streamProcessorInput = new StreamProcessorInput()
@@ -31,7 +30,7 @@ namespace Activator.Models
 
             KinesisDataStream kinesisDataStream = new KinesisDataStream()
             {
-                Arn = kinesisDataStreamArn,
+                Arn = DataStreamArn,
             };
 
             StreamProcessorOutput streamProcessorOutput = new StreamProcessorOutput()
@@ -52,7 +51,7 @@ namespace Activator.Models
 
             using (rekognitionClient = new AmazonRekognitionClient(MyAWSConfigs.KinesisRegion))
             {
-                //Create the stream processor
+                // Create the stream processor
                 CreateStreamProcessorResponse createStreamProcessorResponse = rekognitionClient.CreateStreamProcessor(
                         new CreateStreamProcessorRequest()
                         {
@@ -63,7 +62,7 @@ namespace Activator.Models
                             Name = streamProcessorName,
                         });
 
-                //Display result
+                // Display result
                 Console.WriteLine("Stream Processor " + streamProcessorName + " created.");
                 Console.WriteLine("StreamProcessorArn - " + createStreamProcessorResponse.StreamProcessorArn);
 
@@ -146,7 +145,7 @@ namespace Activator.Models
                 {
                     streamProcessors = new List<string>();
 
-                    //List all stream processors (and state) returned from Rekognition
+                    // List all stream processors (and state) returned from Rekognition
                     foreach (StreamProcessor streamProcessor in listStreamProcessorsResponse.StreamProcessors)
                     {
                         streamProcessors.Add(streamProcessor.Name);

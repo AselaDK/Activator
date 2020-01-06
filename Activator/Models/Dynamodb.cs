@@ -1,5 +1,5 @@
 ﻿using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.Model;
 using Amazon.DynamoDBv2.DocumentModel;
 using System;
 using System.Collections.Generic;
@@ -56,6 +56,36 @@ namespace Activator.Models
                 Console.WriteLine("Error: " + e);
                 return new Document();
             }
+        }
+
+        public static long GetItemCount(string tableName)
+        {
+            long itemCount = 0;
+
+            try
+            {
+                AmazonDynamoDBClient client;
+                using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
+                {
+                    DescribeTableRequest request = new DescribeTableRequest
+                    {
+                        TableName = tableName
+                    };
+
+                    TableDescription tableDescription = client.DescribeTable(request).Table;
+                    itemCount = tableDescription.ItemCount;
+                }
+            }
+            catch (AmazonDynamoDBException e)
+            {
+                Console.WriteLine("AmazonDynamoDBException: " + e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e);
+            }
+
+            return itemCount;
         }
     }
 }

@@ -30,49 +30,75 @@ namespace Activator.Views
             Mouse.OverrideCursor = Cursors.Wait;
             if (!string.IsNullOrEmpty(txtLocation.Text) && !string.IsNullOrEmpty(txtStreamName.Text))
             {
-                string streamName = txtStreamName.Text;
-                string location = txtLocation.Text;                
-                string streamProcessorName = streamName + "_processor";
-                string videoStreamArn = null;
+                long nextCamID = Models.Dynamodb.GetItemCount(Models.MyAWSConfigs.CamerasDBTableName) + 1;
 
-                // create video stream
-                videoStreamArn = Models.VideoStream.CreateVideoStream(streamName);
-
-                if (string.IsNullOrEmpty(videoStreamArn))
+                // Maximum 10 cameras currently can have
+                if (nextCamID > 10)
                 {
                     Mouse.OverrideCursor = null;
-                    await this.ShowMessageAsync("Error creating video stream. Please try again later.", "", MessageDialogStyle.Affirmative);
-                    return;
-                }
-                else if (videoStreamArn == "contain")
-                {
-                    Mouse.OverrideCursor = null;
-                    txtStreamName.BorderBrush = Brushes.Red;
-                    await this.ShowMessageAsync("Stream Name already exist", "", MessageDialogStyle.Affirmative);
+                    await this.ShowMessageAsync("You reach the camera limit. Please contact Administrator.", "", MessageDialogStyle.Affirmative);
                     return;
                 }
 
-                // create data stream
+                string description = txtStreamName.Text;
+                string location = txtLocation.Text;
 
-                // create stream processor
-                bool success = Models.StreamManager.CreateStreamProcessor(streamProcessorName, videoStreamArn);
+                string videoStreamName = $"VideoStreamCam{nextCamID}";
+                string dataStreamName = $"AmazonRekognitionDataStreamCam{nextCamID}";
+                string streamProcessorName = $"StreamProcessorCam{nextCamID}";
+
+                string videoStreamArn = "";
+                string dataStreamArn = "";
+
+                // Create video stream
+                videoStreamArn = Models.VideoStream.CreateVideoStream(videoStreamName);
+                if (videoStreamArn == "contain" || string.IsNullOrEmpty(videoStreamArn))
+                {
+                    Mouse.OverrideCursor = null;
+                    await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", "video stream error", MessageDialogStyle.Affirmative);
+                    return;
+                }
+
+                // Create data stream
+                dataStreamArn = Models.DataStream.CreateDataStream(dataStreamName);
+                if (dataStreamArn == "contain" || string.IsNullOrEmpty(dataStreamArn))
+                {
+                    Mouse.OverrideCursor = null;
+                    // TODO: Delete added video stream
+                    await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", "data stream error", MessageDialogStyle.Affirmative);
+                    return;
+                }
+
+                // Add kinesis trigger to lambda
+                bool success = Models.Lambda.CreateEventSourceMapping(dataStreamArn);
 
                 if (!success)
                 {
                     Mouse.OverrideCursor = null;
-                    await this.ShowMessageAsync("Error creating stream processor. Please try again later.", "", MessageDialogStyle.Affirmative);
-                    // delete created video stream
+                    // TODO: Delete added video stream & Data stream
+                    await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", "event source mapping error", MessageDialogStyle.Affirmative);
                     return;
                 }
 
-                // add new trigger to lambda function
+                // Create stream processor
+                success = Models.StreamProcessorManager.CreateStreamProcessor(streamProcessorName, videoStreamArn, dataStreamArn);
 
-                // create dynamodb record
+                if (!success)
+                {
+                    Mouse.OverrideCursor = null;
+                    // TODO: Delete added video stream, Data stream, & remove kinesis trigger
+                    await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", "stream processor error", MessageDialogStyle.Affirmative);
+                    return;
+                }
+
+                // Create dynamodb record
                 Document camera = new Document();
-                camera["streamName"] = streamName;
+                camera["id"] = nextCamID.ToString();
+                camera["description"] = description;
                 camera["location"] = location;
                 Models.Dynamodb.PutItem(camera, Models.MyAWSConfigs.CamerasDBTableName);
 
+                // Succeess message
                 Mouse.OverrideCursor = null;
                 await this.ShowMessageAsync("Success", "", MessageDialogStyle.Affirmative);
                 this.Close();
@@ -80,7 +106,7 @@ namespace Activator.Views
             else
             {
                 Mouse.OverrideCursor = null;
-                await this.ShowMessageAsync("Error", "Please check all fields", MessageDialogStyle.Affirmative);
+                await this.ShowMessageAsync("Error", "Please check all the fields", MessageDialogStyle.Affirmative);
             }
             Mouse.OverrideCursor = null;
         }

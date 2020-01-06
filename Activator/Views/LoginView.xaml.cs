@@ -19,6 +19,9 @@ namespace Activator.Views
         {
             InitializeComponent();
             Console.WriteLine("Set");
+
+            List<string> temp = Models.StreamProcessorManager.ListStreamProcessors();
+            Console.WriteLine(temp[0]);
         }
 
         //encrypter password
@@ -52,50 +55,50 @@ namespace Activator.Views
                 String aPassword = TxtPassword.Password;
                 String hashPassword = MD5Hash(aPassword);
 
-                //this.Hide();
-                //MainView dashboard = new MainView();
-                //dashboard.ShowDialog();
+                this.Hide();
+                MainView dashboard = new MainView();
+                dashboard.ShowDialog();
 
-                try
-                {
+                //try
+                //{
 
-                    string tableName = "admin";
+                //    string tableName = "admin";
 
-                    var client = new AmazonDynamoDBClient();
-                    var table = Table.LoadTable(client, tableName);
-                    var item = table.GetItem(aId);
+                //    var client = new AmazonDynamoDBClient();
+                //    var table = Table.LoadTable(client, tableName);
+                //    var item = table.GetItem(aId);
 
-                    //Console.WriteLine(item["aPassword"]);
+                //    //Console.WriteLine(item["aPassword"]);
 
-                    if (item != null && item["aPassword"] == hashPassword)
-                    {
-                        //Console.WriteLine("Successfully Logged in!!!");
-                        this.Hide();
-                        MainView dashboard = new MainView();
-                        dashboard.ShowDialog();
-                    }
-                    else
-                    {
-                        //MessageBox.Show("Username or Password is incorrect!");
+                //    if (item != null && item["aPassword"] == hashPassword)
+                //    {
+                //        //Console.WriteLine("Successfully Logged in!!!");
+                //        this.Hide();
+                //        MainView dashboard = new MainView();
+                //        dashboard.ShowDialog();
+                //    }
+                //    else
+                //    {
+                //        //MessageBox.Show("Username or Password is incorrect!");
 
-                        //clear texboxes
-                        TxtUid.Text = "";
-                        TxtUid.BorderBrush = Brushes.Red;
-                        //txtuid.Background = Brushes.LightSalmon;
+                //        //clear texboxes
+                //        TxtUid.Text = "";
+                //        TxtUid.BorderBrush = Brushes.Red;
+                //        //txtuid.Background = Brushes.LightSalmon;
 
-                        TxtPassword.Password = "";
-                        TxtPassword.BorderBrush = Brushes.Red;
-                        //txtpassword.Background = Brushes.LightSalmon;
-                    }
-                }
-                catch (AmazonDynamoDBException ex)
-                {
-                    MessageBox.Show("Message : Server Error", ex.Message);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Message : Unknown Error", ex.Message);
-                }
+                //        TxtPassword.Password = "";
+                //        TxtPassword.BorderBrush = Brushes.Red;
+                //        //txtpassword.Background = Brushes.LightSalmon;
+                //    }
+                //}
+                //catch (AmazonDynamoDBException ex)
+                //{
+                //    MessageBox.Show("Message : Server Error", ex.Message);
+                //}
+                //catch (Exception ex)
+                //{
+                //    MessageBox.Show("Message : Unknown Error", ex.Message);
+                //}
             }
             finally
             {
