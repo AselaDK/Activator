@@ -16,7 +16,6 @@ namespace Activator.Views
     public partial class AdminProfile : UserControl
     {
         private string myId = "";
-        public string MyAdminId { get; set; }
 
         public AdminProfile()
         {

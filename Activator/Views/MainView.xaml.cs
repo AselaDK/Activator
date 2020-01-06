@@ -53,6 +53,7 @@ namespace Activator.Views
         {
             this.myname = adminname;
             AdminName.Text = myname;
+            string imagename = null;
             this.myid = adminid;
             S3Bucket.DownloadFile(myid);
             var BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
@@ -170,7 +171,7 @@ namespace Activator.Views
 
         private void ButtonMenuAdmins_Click(object sender, RoutedEventArgs e)
         {
-            AdminsPage admins = new AdminsPage();
+            AdminsPage admins = new AdminsPage(myid);
             MenuPage.Content = admins;
             lblTitle.Content = "Admins";
         }

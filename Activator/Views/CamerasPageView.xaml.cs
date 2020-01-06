@@ -76,17 +76,17 @@ namespace Activator.Views
 
                     if (attribute == "camId")
                     {
-                        camera.camId = value.AsPrimitive().Value.ToString();
+                        camera.CamId = value.AsPrimitive().Value.ToString();
                         //Console.WriteLine(camera.camId);
                     }
                     else if (attribute == "location")
                     {
-                        camera.location = value.AsPrimitive().Value.ToString();
+                        camera.Location = value.AsPrimitive().Value.ToString();
                         //Console.WriteLine(camera.location);
                     }
                     else if (attribute == "quality")
                     {
-                        camera.quality = value.AsPrimitive().Value.ToString();
+                        camera.Quality = value.AsPrimitive().Value.ToString();
                         //Console.WriteLine("quality",camera.quality);
                     }
                 }
