@@ -23,6 +23,7 @@ namespace Activator.Views
         public CameraView()
         {
             InitializeComponent();
+            //Models.StreamManager.DeleteStreamProcessor("indoorcam_processor");
         }
 
         private void BtnAddNewCamera_Click(object sender, RoutedEventArgs e)

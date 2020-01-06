@@ -130,7 +130,7 @@
     <Compile Include="Models\MyAWSConfigs.cs" />
     <Compile Include="Models\RefPerson.cs" />
     <Compile Include="Models\S3Bucket.cs" />
-    <Compile Include="Models\StreamManager.cs" />
+    <Compile Include="Models\StreamProcessorManager.cs" />
     <Compile Include="Models\VideoStream.cs" />
     <Compile Include="Views\AddNewCameraView.xaml.cs">
       <DependentUpon>AddNewCameraView.xaml</DependentUpon>

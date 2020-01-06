@@ -1,14 +1,12 @@
-﻿using Amazon.Rekognition;
-using Amazon.Rekognition.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using Amazon.Rekognition;
+using Amazon.Rekognition.Model;
 
 namespace Activator.Models
 {
-    class StreamManager
+    class StreamProcessorManager
     {
         private static String kinesisDataStreamArn = MyAWSConfigs.KinesisDataStreamArn;
         private static String roleArn = MyAWSConfigs.RoleArn;
@@ -52,7 +50,7 @@ namespace Activator.Models
                 FaceSearch = faceSearchSettings,
             };
 
-            using(rekognitionClient = new AmazonRekognitionClient(MyAWSConfigs.KinesisRegion))
+            using (rekognitionClient = new AmazonRekognitionClient(MyAWSConfigs.KinesisRegion))
             {
                 //Create the stream processor
                 CreateStreamProcessorResponse createStreamProcessorResponse = rekognitionClient.CreateStreamProcessor(
@@ -85,7 +83,7 @@ namespace Activator.Models
                 Console.WriteLine("Stream Processor " + streamProcessorName + " started.");
 
                 return startStreamProcessorResponse.HttpStatusCode == System.Net.HttpStatusCode.OK ? true : false;
-            }                
+            }
         }
 
         public static bool StopStreamProcessor(String streamProcessorName)
@@ -100,7 +98,7 @@ namespace Activator.Models
                 Console.WriteLine("Stream Processor " + streamProcessorName + " stopped.");
 
                 return stopStreamProcessorResponse.HttpStatusCode == System.Net.HttpStatusCode.OK ? true : false;
-            }                
+            }
         }
 
         public static bool DeleteStreamProcessor(String streamProcessorName)
@@ -115,7 +113,7 @@ namespace Activator.Models
                 Console.WriteLine("Stream Processor " + streamProcessorName + " deleted.");
 
                 return deleteStreamProcessorResponse.HttpStatusCode == System.Net.HttpStatusCode.OK ? true : false;
-            }                
+            }
         }
 
         public static DescribeStreamProcessorResponse DescribeStreamProcessor(String streamProcessorName)
@@ -129,7 +127,7 @@ namespace Activator.Models
                     });
 
                 return describeStreamProcessorResponse;
-            }                
+            }
         }
 
         public static List<string> ListStreamProcessors()
@@ -158,7 +156,7 @@ namespace Activator.Models
                 }
 
                 return streamProcessors;
-            }                
+            }
         }
     }
 }
