@@ -112,6 +112,15 @@ namespace Activator.Views
             
         }
 
+
+        private void ButtonMenuGetHelp_Click(object sender, RoutedEventArgs e)
+        {
+            GetHelpPageView gethelp = new GetHelpPageView(); /* check*/
+            MenuPage.Content = gethelp;
+            lblTitle.Content = "GET HELP";
+
+        }
+
         private void CheckStreamProcessorStatus()
         {
             Mouse.OverrideCursor = Cursors.Wait;

@@ -58,6 +58,35 @@ namespace Activator.Models
             }
         }
 
+        public static List<Logs> GetAllLogs()
+        {
+            string tableName = MyAWSConfigs.logsDBTableName;
+
+            List<Logs> logsList = new List<Logs>();
+
+            try
+            {
+                AmazonDynamoDBClient client;
+                using (client = new AmazonDynamoDBClient(MyAWSConfigs.dynamodbRegion))
+                {
+                    DynamoDBContext context = new DynamoDBContext(client);
+                    IEnumerable<Logs> logsData = context.Scan<Logs>();
+                    logsList = logsData.ToList();
+                    
+                }
+            }
+            catch (AmazonDynamoDBException e)
+            {
+                Console.WriteLine("AmazonDynamoDBException: " + e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e);
+            }
+
+            return logsList;
+        }
+
         public static List<RefPerson> GetAllRefPersons()
         {
             string directoryPath = "Resources/Images/";

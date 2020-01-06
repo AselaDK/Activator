@@ -100,7 +100,7 @@
             <ColumnDefinition Width="96*"/>
             <ColumnDefinition Width="665*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel x:Name="StackPanelMenu" Width="250" HorizontalAlignment="Left" Margin="-250,0,0,-0.2" RenderTransformOrigin="0.5,0.5">
+        <StackPanel x:Name="StackPanelMenu" Width="220" HorizontalAlignment="Left" Margin="-250,0,0,-363" RenderTransformOrigin="0.5,0.5">
             <StackPanel.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -128,7 +128,7 @@
                 </Button>-->
             </StackPanel>
             <StackPanel Margin="0,50,0,0">
-                <Button x:Name="ButtonMenuHome" Click="ButtonMenuHome_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
+                <Button x:Name="ButtonMenuHome" Click="ButtonMenuHome_Click" Height="50" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -139,10 +139,10 @@
                     </Button.RenderTransform>
                     <StackPanel Orientation="Horizontal" Margin="10 0">
                         <materialDesign:PackIcon Kind="Home" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="White"/>
-                        <TextBlock Text="HOME" Margin="10" VerticalAlignment="Center" Height="36" Foreground="White" FontSize="24"/>
+                        <TextBlock Text="HOME" Margin="10" VerticalAlignment="Center" Height="30" Foreground="White" FontSize="20"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="ButtonMenuAllPeople" Click="ButtonMenuAllPeople_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
+                <Button x:Name="ButtonMenuAllPeople" Click="ButtonMenuAllPeople_Click" Height="50" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -153,10 +153,10 @@
                     </Button.RenderTransform>
                     <StackPanel Orientation="Horizontal" Margin="10 0">
                         <materialDesign:PackIcon Kind="AccountGroupOutline" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="White"/>
-                        <TextBlock Text="ALL PEOPLE" Margin="10" VerticalAlignment="Center" Height="35" Foreground="White" FontSize="24"/>
+                        <TextBlock Text="ALL PEOPLE" Margin="10" VerticalAlignment="Center" Height="30" Foreground="White" FontSize="20"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="ButtonMenuPeopleIn" Click="ButtonMenuPeopleIn_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
+                <Button x:Name="ButtonMenuPeopleIn" Click="ButtonMenuPeopleIn_Click" Height="50" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -167,10 +167,11 @@
                     </Button.RenderTransform>
                     <StackPanel Orientation="Horizontal" Margin="10 0">
                         <materialDesign:PackIcon Kind="AccountGroup" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="White"/>
-                        <TextBlock Text="HISTORY" Margin="10" VerticalAlignment="Center" Height="36" Foreground="White" FontSize="24"/>
+                        <TextBlock Text="HISTORY" Margin="10" VerticalAlignment="Center" Height="30" Foreground="White" FontSize="20"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="ButtonMenuReaders" Click="ButtonMenuReaders_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
+
+                <Button x:Name="ButtonMenuReaders" Click="ButtonMenuReaders_Click" Height="50" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -181,10 +182,10 @@
                     </Button.RenderTransform>
                     <StackPanel Orientation="Horizontal" Margin="10 0">
                         <materialDesign:PackIcon Kind="Read" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="White"/>
-                        <TextBlock Text="READERS" Margin="10" VerticalAlignment="Center" Foreground="White" FontSize="24"/>
+                        <TextBlock Text="READERS" Margin="10" VerticalAlignment="Center" Height="30" Foreground="White" FontSize="20"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="ButtonMenuCameras" Click="ButtonMenuCameras_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
+                <Button x:Name="ButtonMenuCameras" Click="ButtonMenuCameras_Click" Height="50" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -195,7 +196,22 @@
                     </Button.RenderTransform>
                     <StackPanel Orientation="Horizontal" Margin="10 0">
                         <materialDesign:PackIcon Kind="Cctv" Width="30" Height="30" Foreground="White" VerticalAlignment="Center" Margin="5"/>
-                        <TextBlock Text="CAMERAS" Margin="10" VerticalAlignment="Center" Foreground="White" FontSize="24"/>
+                        <TextBlock Text="CAMERAS" Margin="10" VerticalAlignment="Center" Height="30" Foreground="White" FontSize="20"/>
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="ButtonMenuGetHelp" Click="ButtonMenuGetHelp_Click" Height="50" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <StackPanel Orientation="Horizontal" Margin="10 0">
+                        <materialDesign:PackIcon Kind="Help" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="White"/>
+                        <TextBlock Text = "GET HELP" Margin="10" VerticalAlignment="Center" Height="30" Foreground="White" FontSize="20"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -214,7 +230,7 @@
                 <ColumnDefinition Width="250"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="1" Background="MediumSeaGreen" >
+            <Grid Grid.Column="1" Background="MediumSeaGreen" Margin="0,0,0,0" >
                 <Image Height="150" Opacity=".5" VerticalAlignment="Top" Source="..\images\actlogo1.png" Stretch="UniformToFill" Margin="0,45,0,0">
                     <Image.Effect>
                         <BlurEffect Radius="10"/>

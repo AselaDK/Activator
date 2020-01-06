@@ -131,6 +131,7 @@
     <Compile Include="Models\Camera.cs" />
     <Compile Include="Models\Dynamodb.cs" />
     <Compile Include="Models\FaceCollection.cs" />
+    <Compile Include="Models\Logs.cs" />
     <Compile Include="Models\MyAWSConfigs.cs" />
     <Compile Include="Models\RefPerson.cs" />
     <Compile Include="Models\S3Bucket.cs" />
@@ -160,11 +161,17 @@
     <Compile Include="Views\EditRef.xaml.cs">
       <DependentUpon>EditRef.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GetHelpPageView.xaml.cs">
+      <DependentUpon>GetHelpPageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HomePageView.xaml.cs">
       <DependentUpon>HomePageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Logs.xaml.cs">
+      <DependentUpon>Logs.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -211,11 +218,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\GetHelpPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\HomePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Logs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -8,6 +8,7 @@ namespace Activator.Models
         public static readonly String refImagesBucketName = "refimagesbucket";
         public static readonly String faceCollectionID = "RefCollection";
         public static readonly String refPersonsDBTableName = "ref_persons";
+        public static readonly String logsDBTableName = "logs";
 
         public static readonly String streamProcessorName = "my-stream-processor";
         public static readonly String kinesisVideoStreamArn = "arn:aws:kinesisvideo:us-west-2:358403828169:stream/demo-stream/1574012507733";

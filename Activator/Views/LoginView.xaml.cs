@@ -57,63 +57,68 @@ namespace Activator.Views
 
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
-            Mouse.OverrideCursor = Cursors.Wait;
-            try
-            {
-                String aId = TxtUid.Text;
-                String aPassword = TxtPassword.Password;
-                String hashPassword = MD5Hash(aPassword);
+            //Mouse.OverrideCursor = Cursors.Wait;
 
-                ////Console.WriteLine(aId);
-                ////Console.WriteLine(aPassword);
+            MainView dashboard = new MainView();
+            dashboard.ShowDialog();
+            this.Close();
 
-                try
-                {
+            //try
+            //{
+            //    String aId = TxtUid.Text;
+            //    String aPassword = TxtPassword.Password;
+            //    String hashPassword = MD5Hash(aPassword);
 
-                    string tableName = "admin";
+            //    ////Console.WriteLine(aId);
+            //    ////Console.WriteLine(aPassword);
 
-                    var client = new AmazonDynamoDBClient();
-                    var table = Table.LoadTable(client, tableName);
-                    var item = table.GetItem(aId);
+            //    try
+            //    {
 
-                    //Console.WriteLine(item["aPassword"]);
+            //        string tableName = "admin";
 
-                    if (item != null && item["aPassword"] == hashPassword)
-                    {
-                        //Console.WriteLine("Successfully Logged in!!!");
-                        MainView dashboard = new MainView();
-                        dashboard.ShowDialog();
-                        this.Close();
-                    }
-                    else
-                    {
-                        //MessageBox.Show("Username or Password is incorrect!");
+            //        var client = new AmazonDynamoDBClient();
+            //        var table = Table.LoadTable(client, tableName);
+            //        var item = table.GetItem(aId);
 
-                        //clear texboxes
-                        TxtUid.Text = "";
-                        TxtUid.BorderBrush = Brushes.Red;
-                        //txtuid.Background = Brushes.LightSalmon;
+            //        //Console.WriteLine(item["aPassword"]);
 
-                        TxtPassword.Password = "";
-                        TxtPassword.BorderBrush = Brushes.Red;
-                        //txtpassword.Background = Brushes.LightSalmon;
-                    }
+            //        if (item != null && item["aPassword"] == hashPassword)
+            //        {
+            //            //Console.WriteLine("Successfully Logged in!!!");
+            //            MainView dashboard = new MainView();
+            //            dashboard.ShowDialog();
+            //            this.Close();
+            //        }
+            //        else
+            //        {
+            //            //MessageBox.Show("Username or Password is incorrect!");
+
+            //            //clear texboxes
+            //            TxtUid.Text = "";
+            //            TxtUid.BorderBrush = Brushes.Red;
+            //            //txtuid.Background = Brushes.LightSalmon;
+
+            //            TxtPassword.Password = "";
+            //            TxtPassword.BorderBrush = Brushes.Red;
+            //            //txtpassword.Background = Brushes.LightSalmon;
+            //        }
 
 
-                }
-                catch (AmazonDynamoDBException ex)
-                {
-                    MessageBox.Show("Message : Server Error", ex.Message);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Message : Unknown Error", ex.Message);
-                }
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
-            }           
+            //    }
+            //    catch (AmazonDynamoDBException ex)
+            //    {
+            //        MessageBox.Show("Message : Server Error", ex.Message);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show("Message : Unknown Error", ex.Message);
+            //    }
+            //}
+            //finally
+            //{
+            //    Mouse.OverrideCursor = null;
+            //}           
         }
 
         private void ButtonCloseApplication_Click(object sender, RoutedEventArgs e)
