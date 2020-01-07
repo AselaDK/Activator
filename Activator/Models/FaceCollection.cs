@@ -12,8 +12,8 @@ namespace Activator.Models
     class FaceCollection
     {
         private static AmazonRekognitionClient rekognitionClient;
-        private static RegionEndpoint collectionRegion = MyAWSConfigs.faceCollectionRegion;
-        private static string bucket = MyAWSConfigs.refImagesBucketName;
+        private static RegionEndpoint collectionRegion = MyAWSConfigs.KinesisRegion;
+        private static string bucket = MyAWSConfigs.RefImagesBucketName;
 
         public static List<String> GetFaceCollectionList()
         {

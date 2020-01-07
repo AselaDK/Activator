@@ -9,7 +9,11 @@
         WindowStartupLocation="CenterScreen" 
         Title="Confirm Delete Camera" Height="200" Width="600">
     <Grid Background="SeaGreen">
-        <TextBlock FontSize="35" Text="Do you want to delete this ?" Foreground="White"></TextBlock>
-        <Button x:Name="BtnConfirmDelete" Click="BtnConfirmDelete_Click" Content="Delete" Background="Red" Foreground="White" FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="43" Width="147" Margin="0,0,62,52"></Button>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="205*"/>
+            <ColumnDefinition Width="92*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock FontSize="35" Text="Do you want to delete this ?" Foreground="White" Grid.ColumnSpan="2"></TextBlock>
+        <Button x:Name="BtnConfirmDelete" Click="BtnConfirmDelete_Click" Content="Delete" Background="Red" Foreground="White" FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="43" Width="147" Margin="0,0,62,52" Grid.ColumnSpan="2"></Button>
     </Grid>
 </Window>

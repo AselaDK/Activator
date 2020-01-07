@@ -1,7 +1,8 @@
-﻿using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using System;
 using System.Windows;
+
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
 
 namespace Activator.Views
@@ -12,6 +13,7 @@ namespace Activator.Views
     public partial class EditCameraView : Window
     {
         private readonly AmazonDynamoDBClient client;
+        private AmazonDynamoDBClient client;
 
         public EditCameraView()
         {
@@ -31,6 +33,7 @@ namespace Activator.Views
         private void UpdateCamera(string cid, string loc, string qlty)
         {
             var tableName = "cameras";
+
             //load DynamoDB table
             var table = Table.LoadTable(client, tableName);
             var item = table.GetItem(cid);
@@ -60,6 +63,7 @@ namespace Activator.Views
                     MessageBox.Show("Successfully Updated!");
 
                     this.Close();
+
 
                 }
                 else

@@ -48,8 +48,7 @@ namespace Activator.Views
         protected void LoadData(object obj)
         {
             //load DynamoDB table
-            var tblName = "cameras";
-            var table = Table.LoadTable(client, tblName);
+            var table = Table.LoadTable(client, "Cameras");
             //scan the table for get all details
             var search = table.Scan(new Amazon.DynamoDBv2.DocumentModel.Expression());
 
@@ -72,21 +71,19 @@ namespace Activator.Views
                 foreach (var attribute in doc.GetAttributeNames())
                 {
                     var value = doc[attribute];
-                    Console.WriteLine(value);
-
                     if (attribute == "camId")
                     {
-                        camera.CamId = value.AsPrimitive().Value.ToString();
+                        camera.camId = value.AsPrimitive().Value.ToString();
                         //Console.WriteLine(camera.camId);
                     }
                     else if (attribute == "location")
                     {
-                        camera.Location = value.AsPrimitive().Value.ToString();
+                        camera.location = value.AsPrimitive().Value.ToString();
                         //Console.WriteLine(camera.location);
                     }
                     else if (attribute == "quality")
                     {
-                        camera.Quality = value.AsPrimitive().Value.ToString();
+                        camera.quality = value.AsPrimitive().Value.ToString();
                         //Console.WriteLine("quality",camera.quality);
                     }
                 }

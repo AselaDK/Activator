@@ -16,19 +16,13 @@ using System.Windows.Shapes;
 namespace Activator.Views
 {
     /// <summary>
-    /// Interaction logic for AllPeoplePageView.xaml
+    /// Interaction logic for GetHelpView.xaml
     /// </summary>
-    public partial class AllPeoplePageView : UserControl
+    public partial class GetHelpPageView : UserControl
     {
-        public AllPeoplePageView()
+        public GetHelpPageView()
         {
-            InitializeComponent();
-        }
-
-        private void BtnAddNewRef_Click(object sender, RoutedEventArgs e)
-        {
-            //AddNewRef addNewRef = new AddNewRef();
-            //addNewRef.Show();
-        }
+            //InitializeComponent();
+        }   
     }
 }
