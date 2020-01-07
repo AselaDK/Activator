@@ -81,6 +81,7 @@ namespace Activator.Views
 
         private void ButtonChooseImage_Click(object sender, RoutedEventArgs e)
         {
+            
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files | *.jpg; *.jpeg; *.png";
             openFileDialog.FilterIndex = 1;
@@ -92,6 +93,7 @@ namespace Activator.Views
 
                 Uri fileUri = new Uri(uploadFilePath);
                 imgUploadImage.Source = new BitmapImage(fileUri);
+                
             }
         }
     }

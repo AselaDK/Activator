@@ -26,11 +26,11 @@ namespace Activator.Views
         public Readers()
         {
             InitializeComponent();
-            Document item = new Document();
-            item["indexNo"] ="17000203";
-            item["name"] = "sahan";
-            Task.Run(() => Models.Dynamodb.PutItem(item, "bodima"));
-            MessageBox.Show("this is from db");
+            //Document item = new Document();
+            //item["indexNo"] ="17000203";
+            //item["name"] = "sahan";
+            //Task.Run(() => Models.Dynamodb.PutItem(item, "bodima"));
+            //MessageBox.Show("this is from db");
 
             
         }

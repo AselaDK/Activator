@@ -87,6 +87,7 @@ namespace Activator.Models
         // return all the file's names in the s3 bucket
         public static List<string> GetFilesList(string _bucketName)
         {
+            
             List<String> refNames = new List<string>();
             refNames.Clear();
 

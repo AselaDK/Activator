@@ -7,6 +7,8 @@ using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using Amazon.DynamoDBv2.DocumentModel;
 
+using System.Collections.Generic;
+using System.Windows.Input;
 
 
 namespace Activator.Views
@@ -88,5 +90,14 @@ namespace Activator.Views
                 imgUploadImage.Source = new BitmapImage(fileUri);
             }
         }
+
+        private void AddReferance_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("this is from add referance button");
+          
+            
+        }
+
+
     }
 }

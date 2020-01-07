@@ -5,7 +5,7 @@ namespace Activator.Models
 {
     class MyAWSConfigs
     {
-        public static readonly string readerDBtableName = "readers";
+        public static readonly string readerDBtableName = "reader";
         public static readonly string readerS3BucketName = "readerforactivator";
 
 
