@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using Item = Amazon.DynamoDBv2.DocumentModel.Document;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
+using Activator.Models;
 
 namespace Activator.Views
 {
@@ -59,7 +60,7 @@ namespace Activator.Views
         {
             try
             {
-                string tableName = "admin";
+                string tableName = MyAWSConfigs.adminDBTableName;
                 var table = Table.LoadTable(client, tableName);
                 var item = table.GetItem(myId);
                 Console.Write("my adminid<<<<<<<<<<<<<<<<<<", myId, ">>>>>>>>>>>>>>>>>>>");

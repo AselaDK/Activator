@@ -16,7 +16,6 @@ namespace Activator.Views
     public partial class AdminProfile : UserControl
     {
         private string myId = "";
-        public string MyAdminId { get; set; }
 
         public AdminProfile()
         {
@@ -112,6 +111,12 @@ namespace Activator.Views
         private void BtnEditPassword_Click(object sender, RoutedEventArgs e)
         {
             ChangeAdminPassword changeAdminPassword = new ChangeAdminPassword(myId);
+            changeAdminPassword.ShowDialog();
+        }
+
+        private void BtnChangePropic_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeAdminPropic changeAdminPassword = new ChangeAdminPropic(myId);
             changeAdminPassword.ShowDialog();
         }
     }

@@ -20,17 +20,18 @@ namespace Activator.Views
     {
 
         private AmazonDynamoDBClient client;
+        private readonly string aId = null;
 
-        public object AdminPropic { get; private set; }
-
-        public AdminsPage()
+        public AdminsPage(string aid)
         {
+            aId = aid;
             InitializeComponent();
+            InitData();
 
             try
             {
                 this.client = new AmazonDynamoDBClient();
-                this.LoadData(null);
+                
             }
             catch (Exception ex)
             {
@@ -38,80 +39,50 @@ namespace Activator.Views
             }
         }
 
-
-
-        protected void LoadData(object obj)
+        private void InitData()
         {
-            var tableName = "admin";
-            //load DynamoDB table
-            var table = Table.LoadTable(client, tableName);
-            //scan the table for get all details
-            var search = table.Scan(new Amazon.DynamoDBv2.DocumentModel.Expression());
+            LoadData();
+        }
 
-            // create DynamoDB document with scanned data 
-            var documentList = new List<Document>();
-            do
+        protected void LoadData()
+        {
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
             {
-                documentList.AddRange(search.GetNextSet());
+                List<Admin> admins = new List<Admin>();
 
-            } while (!search.IsDone);
+                admins = Admin.GetAdminDetails();
 
-            // create a Collection
-            //Camera is the name of the model in <Camera>, it is in Models Folder(Camera.cs)
-            var admins = new ObservableCollection<Admin>();
+                Console.WriteLine();
 
-            // getting DynamoDB Document data to Collection
-            foreach (var doc in documentList)
-            {
-                var admin = new Admin();
-                foreach (var attribute in doc.GetAttributeNames())
-                {
-                    var value = doc[attribute];
-                    if (attribute == "aId")
-                    {
-                        admin.AId = value.AsPrimitive().Value.ToString();
-                        Console.WriteLine(admin.AId);
-                    }
-                    else if (attribute == "aName")
-                    {
-                        admin.AName = value.AsPrimitive().Value.ToString();
-                        Console.WriteLine(admin.AName);
-                    }
-                    else if (attribute == "aPhone")
-                    {
-                        admin.APhone = value.AsPrimitive().Value.ToString();
-                        Console.WriteLine("phone", admin.APhone);
-                    }
-                    else if (attribute == "aPropic")
-                    {
-                        string imagename = value.AsPrimitive().Value.ToString();
-                        Console.WriteLine("propic name >>>>>>>>",imagename);
-                        //MessageBox.Show("propic name >>>>>>>>", imagename);
-                        S3Bucket.DownloadFile(imagename);
-                        //$"Resources/Images/{fileName}"
-                        string propicUri = AppDomain.CurrentDomain.BaseDirectory + "Resources/Images/activatorlogo1.png";
-                        propicUri = AppDomain.CurrentDomain.BaseDirectory + $"Resources/Images/{imagename}";
-                        ImageSource imageSource = new BitmapImage(new Uri(@propicUri, UriKind.Relative));
-                        //BitmapSource bmp = (BitmapSource)img;
-                        ////...
-                        //this.image2.Source = bmp;
-                        //admin.AImage = (BitmapImage)imageSource;
-                        AdminPropic = imageSource;
-                    }
-                }
+                lblLoading.Visibility = Visibility.Hidden;
 
-                //Add camera data to collection
-                admins.Add(admin);
-                //give itemsource to datagrid in the frontend, DataGrid's name is CamerasDataGrid
                 AdminDataGrid.ItemsSource = admins;
-
+                AdminDataGrid.Items.Refresh();
             }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
+
+        
         }
 
         private void RegAdmin_Click(object sender, RoutedEventArgs e)
         {
+            string tableName = MyAWSConfigs.adminDBTableName;
+            var table = Table.LoadTable(client, tableName);
+            var item = table.GetItem(aId);
             RegisterAdmin acv = new RegisterAdmin();
-            acv.ShowDialog();
+            if(item["root"].AsBoolean() == true)
+            {
+                acv.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Only the rood admin can register the new users");
+            }
+            
         }
 
         private void CamerasDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -122,6 +93,14 @@ namespace Activator.Views
             //ecv.TxtLocation.Text = Convert.ToString(ColLocation);
             //ecv.TxtQuality.Text = Convert.ToString(ColQuality);
             ecv.ShowDialog();
+        }
+
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+            string tableName = MyAWSConfigs.adminDBTableName;
+            var table = Table.LoadTable(client, tableName);
+            var item = table.GetItem(aId);
+            //LoadData(item);
         }
     }
 }

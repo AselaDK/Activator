@@ -19,18 +19,18 @@
                 <StackPanel Orientation="Vertical" Width="450" Height="450" Margin="10 10 50 10" Background="DarkSeaGreen">
                     <Image x:Name="AdminDp" Width="440" Height="440" Stretch="Uniform"/>
                 </StackPanel>
-                <StackPanel Orientation="Vertical" Margin="0,0,0,71">
+                <StackPanel Orientation="Vertical" Margin="70,50,0,71">
                     <TextBox x:Name="AdminName" Text="My Name" FontSize="50" IsReadOnly="True" />
                     <TextBox x:Name="AdminPhone" Text="My Phone" FontSize="40" Foreground="DarkGray" IsReadOnly="True"/>
-                    <TextBox x:Name="AdminEMail" Text="My E-Mail" FontSize="40" Foreground="DarkGray" IsReadOnly="True"/>
+                    <TextBox x:Name="AdminEMail" Text="My E-Mail" FontSize="40" Foreground="DarkGray" IsReadOnly="True" Width="351"/>
                 </StackPanel>
             </StackPanel>
             
         </Grid>
-
-        <StackPanel Margin="301,661,251,205" RenderTransformOrigin="0.504,-0.684">
+        <StackPanel Margin="301,661,251,156" RenderTransformOrigin="0.504,-0.684">
             <Button x:Name="BtnEditDetails" Click="BtnEditDetails_Click" Content="Edit Details" FontSize="20" Margin="10 10 10 10" Foreground="WhiteSmoke" Background="MediumSeaGreen" Height="65"></Button>
-            <Button x:Name="BtnEditPassword" Click="BtnEditPassword_Click" Content="Change Password" FontSize="20" Margin="10 50 10 0" Foreground="WhiteSmoke" Background="MediumSeaGreen" Height="65"/>
+            <Button x:Name="BtnEditPassword" Click="BtnEditPassword_Click" Content="Change Password" FontSize="20" Margin="10 10 10 10" Foreground="WhiteSmoke" Background="MediumSeaGreen" Height="65"/>
+            <Button x:Name="ChangePropic" Click="BtnChangePropic_Click" Content="Change Profile Picture" FontSize="20" Margin="10 10 10 10" Foreground="WhiteSmoke" Background="MediumSeaGreen" Height="65"></Button>
         </StackPanel>
 
 

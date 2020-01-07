@@ -180,7 +180,7 @@ namespace Activator.Views
 
         private void ButtonMenuAdmins_Click(object sender, RoutedEventArgs e)
         {
-            AdminsPage admins = new AdminsPage();
+            AdminsPage admins = new AdminsPage(myid);
             MenuPage.Content = admins;
             lblTitle.Content = "Admins";
         }
