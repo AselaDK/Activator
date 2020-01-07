@@ -184,6 +184,9 @@
     <Compile Include="Views\ChangeAdminPassword.xaml.cs">
       <DependentUpon>ChangeAdminPassword.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ChangeAdminPropic.xaml.cs">
+      <DependentUpon>ChangeAdminPropic.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CloseConfirmView.xaml.cs">
       <DependentUpon>CloseConfirmView.xaml</DependentUpon>
     </Compile>
@@ -252,6 +255,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ChangeAdminPassword.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChangeAdminPropic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

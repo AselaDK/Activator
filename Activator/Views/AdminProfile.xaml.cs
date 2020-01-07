@@ -113,5 +113,11 @@ namespace Activator.Views
             ChangeAdminPassword changeAdminPassword = new ChangeAdminPassword(myId);
             changeAdminPassword.ShowDialog();
         }
+
+        private void BtnChangePropic_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeAdminPropic changeAdminPassword = new ChangeAdminPropic(myId);
+            changeAdminPassword.ShowDialog();
+        }
     }
 }
