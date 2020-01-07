@@ -1,4 +1,4 @@
-﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Activator.Models;
 
 namespace Activator.Views
 {
@@ -21,6 +22,9 @@ namespace Activator.Views
     /// </summary>
     public partial class MainView : MetroWindow
     {
+        private string myname = "Admin";
+        private string myid = "Admin@111.com";
+
         public MainView()
         {
             InitializeComponent();
@@ -29,10 +33,12 @@ namespace Activator.Views
             ButtonCloseMenu.Visibility = Visibility.Collapsed;
 
             lblTitle.Content = "HOME";
-            
+
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
+                LoginView loginView = new LoginView();
+                loginView.Close();
                 HomePageView home = new HomePageView();
                 MenuPage.Content = home;
                 CheckStreamProcessorStatus();
@@ -41,6 +47,21 @@ namespace Activator.Views
             {
                 Mouse.OverrideCursor = null;
             }            
+        }
+
+        public MainView(String adminid, String adminname) : this()
+        {
+            this.myname = adminname;
+            AdminName.Text = myname;
+            string imagename = null;
+            this.myid = adminid;
+            S3Bucket.DownloadFile(myid);
+            var BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
+            string filePath = BaseDirectoryPath + $"Resources/Images/{imagename}";
+            ImageSource imageSource = new BitmapImage(new Uri(filePath, UriKind.Relative));
+            //MyPropicImage.Source = new BitmapImage(new Uri($@"\myserver\folder1\Customer Data\{myid}"));
+            MyPropicImage.Source = imageSource;
+            //Console.WriteLine(MyAdminName);
         }
 
         private void ButtonCloseApplication_Click(object sender, RoutedEventArgs e)
@@ -68,7 +89,6 @@ namespace Activator.Views
         {
             ButtonOpenMenu.Visibility = Visibility.Collapsed;
             ButtonCloseMenu.Visibility = Visibility.Visible;
-           
         }
 
         private void ButtonMenuHome_Click(object sender, RoutedEventArgs e)
@@ -106,8 +126,8 @@ namespace Activator.Views
 
         private void ButtonMenuCameras_Click(object sender, RoutedEventArgs e)
         {
-            CamerasPageView cams = new CamerasPageView();
-            MenuPage.Content = cams;
+            CameraView cameraView = new CameraView();
+            MenuPage.Content = cameraView;
             lblTitle.Content = "CAMERAS";
             
         }
@@ -123,18 +143,59 @@ namespace Activator.Views
 
         private void CheckStreamProcessorStatus()
         {
-            Mouse.OverrideCursor = Cursors.Wait;
-            try
-            {
-                if (!Models.Starter.ListStreamProcessors().Contains(Models.MyAWSConfigs.streamProcessorName))
-                {
-                    Models.Starter.CreateStreamProcessor();
-                }
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
-            }
+            //Mouse.OverrideCursor = Cursors.Wait;
+            //try
+            //{
+            //    if (!Models.Starter.ListStreamProcessors().Contains(Models.MyAWSConfigs.StreamProcessorName))
+            //    {
+            //        Models.Starter.CreateStreamProcessor();
+            //    }
+            //}
+            //finally
+            //{
+            //    Mouse.OverrideCursor = null;
+            //}
+        }
+
+        // function for check a window is open & avoid opening it twice
+        //private void ButtonMessage_Click(object sender, RoutedEventArgs e)
+        //{
+        //    bool isWindowOpen = false;
+
+        //    foreach (Window w in Application.Current.Windows)
+        //    {
+        //        if (w is ChatView)
+        //        {
+        //            isWindowOpen = true;
+        //            w.Activate();
+        //        }
+        //    }
+
+        //    if (!isWindowOpen)
+        //    {
+        //        ChatView chatView = new ChatView();
+        //        chatView.Show();
+        //    }
+        //}
+
+        private void ButtonMenuAdmins_Click(object sender, RoutedEventArgs e)
+        {
+            AdminsPage admins = new AdminsPage();
+            MenuPage.Content = admins;
+            lblTitle.Content = "Admins";
+        }
+
+        private void ButtonMessage_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            AdminProfile adminProfile = new AdminProfile(myid);
+            MenuPage.Content = adminProfile;
+            lblTitle.Content = "My Profile";
+
         }
     }
 }

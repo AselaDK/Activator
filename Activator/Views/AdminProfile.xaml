@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="Activator.Views.AdminProfile"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      xmlns:local="clr-namespace:Activator.Views"
+      xmlns:activator="clr-namespace:Activator"
+      mc:Ignorable="d"
+      Height="1080" Width="1670">
+
+    <Grid Background="#e9e9e9" >
+        <TextBlock Text="Admin One" Foreground="#FF3580BF" FontSize="30" FontWeight="Bold" Margin="5,0,5,0" Grid.Row="1"/>
+
+        <Grid x:Name="AdminDatagrid" Width="Auto" VerticalAlignment="Top" Background="White" Margin="0,40,0,0" Height="475">
+
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical" Width="450" Height="450" Margin="10 10 50 10" Background="DarkSeaGreen">
+                    <Image x:Name="AdminDp" Width="440" Height="440" Stretch="Uniform"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="0,0,0,71">
+                    <TextBox x:Name="AdminName" Text="My Name" FontSize="50" IsReadOnly="True" />
+                    <TextBox x:Name="AdminPhone" Text="My Phone" FontSize="40" Foreground="DarkGray" IsReadOnly="True"/>
+                    <TextBox x:Name="AdminEMail" Text="My E-Mail" FontSize="40" Foreground="DarkGray" IsReadOnly="True"/>
+                </StackPanel>
+            </StackPanel>
+            
+        </Grid>
+
+        <StackPanel Margin="301,661,251,205" RenderTransformOrigin="0.504,-0.684">
+            <Button x:Name="BtnEditDetails" Click="BtnEditDetails_Click" Content="Edit Details" FontSize="20" Margin="10 10 10 10" Foreground="WhiteSmoke" Background="MediumSeaGreen" Height="65"></Button>
+            <Button x:Name="BtnEditPassword" Click="BtnEditPassword_Click" Content="Change Password" FontSize="20" Margin="10 50 10 0" Foreground="WhiteSmoke" Background="MediumSeaGreen" Height="65"/>
+        </StackPanel>
+
+
+
+    </Grid>
+</UserControl>

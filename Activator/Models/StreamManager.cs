@@ -10,33 +10,15 @@ namespace Activator.Models
 {
     class StreamManager
     {
-        private String streamProcessorName;
-        private String kinesisVideoStreamArn;
-        private String kinesisDataStreamArn;
-        private String roleArn;
-        private String collectionId;
-        private float matchThreshold;
+        private static String kinesisDataStreamArn = MyAWSConfigs.KinesisDataStreamArn;
+        private static String roleArn = MyAWSConfigs.RoleArn;
+        private static String collectionId = MyAWSConfigs.FaceCollectionID;
 
-        private AmazonRekognitionClient rekognitionClient;
+        private static float matchThreshold = 90f;
 
-        public StreamManager(
-            String spName,
-            String kvStreamArn,
-            String kdStreamArn,
-            String iamRoleArn,
-            String collId,
-            float threshold)
-        {
-            streamProcessorName = spName;
-            kinesisVideoStreamArn = kvStreamArn;
-            kinesisDataStreamArn = kdStreamArn;
-            roleArn = iamRoleArn;
-            collectionId = collId;
-            matchThreshold = threshold;
-            rekognitionClient = new AmazonRekognitionClient(MyAWSConfigs.faceCollectionRegion);
-        }
+        private static AmazonRekognitionClient rekognitionClient = null;
 
-        public string CreateStreamProcessor()
+        public static bool CreateStreamProcessor(String streamProcessorName, String kinesisVideoStreamArn)
         {
             //Setup input parameters
             KinesisVideoStream kinesisVideoStream = new KinesisVideoStream()
@@ -70,88 +52,113 @@ namespace Activator.Models
                 FaceSearch = faceSearchSettings,
             };
 
-            //Create the stream processor
-            CreateStreamProcessorResponse createStreamProcessorResponse = rekognitionClient.CreateStreamProcessor(
-                    new CreateStreamProcessorRequest()
-                    {
-                        Input = streamProcessorInput,
-                        Output = streamProcessorOutput,
-                        Settings = streamProcessorSettings,
-                        RoleArn = roleArn,
-                        Name = streamProcessorName,
-                    });
+            using(rekognitionClient = new AmazonRekognitionClient(MyAWSConfigs.KinesisRegion))
+            {
+                //Create the stream processor
+                CreateStreamProcessorResponse createStreamProcessorResponse = rekognitionClient.CreateStreamProcessor(
+                        new CreateStreamProcessorRequest()
+                        {
+                            Input = streamProcessorInput,
+                            Output = streamProcessorOutput,
+                            Settings = streamProcessorSettings,
+                            RoleArn = roleArn,
+                            Name = streamProcessorName,
+                        });
 
-            //Display result
-            Console.WriteLine("Stream Processor " + streamProcessorName + " created.");
-            Console.WriteLine("StreamProcessorArn - " + createStreamProcessorResponse.StreamProcessorArn);
+                //Display result
+                Console.WriteLine("Stream Processor " + streamProcessorName + " created.");
+                Console.WriteLine("StreamProcessorArn - " + createStreamProcessorResponse.StreamProcessorArn);
 
-            return createStreamProcessorResponse.StreamProcessorArn;
+                return createStreamProcessorResponse.HttpStatusCode == System.Net.HttpStatusCode.OK ? true : false;
+            }
         }
 
-        public void StartStreamProcessor()
+        public static bool StartStreamProcessor(String streamProcessorName)
         {
-            StartStreamProcessorResponse startStreamProcessorResponse =
+            using (rekognitionClient = new AmazonRekognitionClient(MyAWSConfigs.KinesisRegion))
+            {
+                StartStreamProcessorResponse startStreamProcessorResponse =
                     rekognitionClient.StartStreamProcessor(new StartStreamProcessorRequest()
                     {
                         Name = streamProcessorName,
                     });
-            Console.WriteLine("Stream Processor " + streamProcessorName + " started.");
+                Console.WriteLine("Stream Processor " + streamProcessorName + " started.");
+
+                return startStreamProcessorResponse.HttpStatusCode == System.Net.HttpStatusCode.OK ? true : false;
+            }                
         }
 
-        public void StopStreamProcessor()
+        public static bool StopStreamProcessor(String streamProcessorName)
         {
-            StopStreamProcessorResponse stopStreamProcessorResponse =
+            using (rekognitionClient = new AmazonRekognitionClient(MyAWSConfigs.KinesisRegion))
+            {
+                StopStreamProcessorResponse stopStreamProcessorResponse =
                     rekognitionClient.StopStreamProcessor(new StopStreamProcessorRequest()
                     {
                         Name = streamProcessorName
                     });
-            Console.WriteLine("Stream Processor " + streamProcessorName + " stopped.");
+                Console.WriteLine("Stream Processor " + streamProcessorName + " stopped.");
+
+                return stopStreamProcessorResponse.HttpStatusCode == System.Net.HttpStatusCode.OK ? true : false;
+            }                
         }
 
-        public void DeleteStreamProcessor()
+        public static bool DeleteStreamProcessor(String streamProcessorName)
         {
-            DeleteStreamProcessorResponse deleteStreamProcessorResponse = rekognitionClient
+            using (rekognitionClient = new AmazonRekognitionClient(MyAWSConfigs.KinesisRegion))
+            {
+                DeleteStreamProcessorResponse deleteStreamProcessorResponse = rekognitionClient
                     .DeleteStreamProcessor(new DeleteStreamProcessorRequest()
                     {
                         Name = streamProcessorName
                     });
-            Console.WriteLine("Stream Processor " + streamProcessorName + " deleted.");
+                Console.WriteLine("Stream Processor " + streamProcessorName + " deleted.");
+
+                return deleteStreamProcessorResponse.HttpStatusCode == System.Net.HttpStatusCode.OK ? true : false;
+            }                
         }
 
-        public StreamProcessor DescribeStreamProcessor()
+        public static DescribeStreamProcessorResponse DescribeStreamProcessor(String streamProcessorName)
         {
-            DescribeStreamProcessorResponse describeStreamProcessorResult = rekognitionClient
+            using (rekognitionClient = new AmazonRekognitionClient(MyAWSConfigs.KinesisRegion))
+            {
+                DescribeStreamProcessorResponse describeStreamProcessorResponse = rekognitionClient
                     .DescribeStreamProcessor(new DescribeStreamProcessorRequest()
                     {
                         Name = streamProcessorName,
                     });
 
-            StreamProcessor sp = new StreamProcessor() {
-                Name = describeStreamProcessorResult.Name,
-                Status = describeStreamProcessorResult.Status,
-            };          
-
-            return sp;
+                return describeStreamProcessorResponse;
+            }                
         }
 
-        public List<string> ListStreamProcessors()
+        public static List<string> ListStreamProcessors()
         {
-            List<string> streamProcessors = new List<string>();
-            ListStreamProcessorsResponse listStreamProcessorsResponse =
-                    rekognitionClient.ListStreamProcessors(new ListStreamProcessorsRequest()
-                    {
-                        MaxResults = 100,
-                    });
-
-            //List all stream processors (and state) returned from Rekognition
-            foreach (StreamProcessor streamProcessor in listStreamProcessorsResponse.StreamProcessors)
+            using (rekognitionClient = new AmazonRekognitionClient(MyAWSConfigs.KinesisRegion))
             {
-                streamProcessors.Add(streamProcessor.Name);
-                Console.WriteLine("StreamProcessor name - " + streamProcessor.Name);
-                Console.WriteLine("Status - " + streamProcessor.Status + "\n");
-            }
+                List<string> streamProcessors = null;
 
-            return streamProcessors;
+                ListStreamProcessorsResponse listStreamProcessorsResponse =
+                        rekognitionClient.ListStreamProcessors(new ListStreamProcessorsRequest()
+                        {
+                            MaxResults = 100,
+                        });
+
+                if (listStreamProcessorsResponse.HttpStatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    streamProcessors = new List<string>();
+
+                    //List all stream processors (and state) returned from Rekognition
+                    foreach (StreamProcessor streamProcessor in listStreamProcessorsResponse.StreamProcessors)
+                    {
+                        streamProcessors.Add(streamProcessor.Name);
+                        Console.WriteLine("StreamProcessor name - " + streamProcessor.Name);
+                        Console.WriteLine("Status - " + streamProcessor.Status + "\n");
+                    }
+                }
+
+                return streamProcessors;
+            }                
         }
     }
 }

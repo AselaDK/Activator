@@ -10,25 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Activator.Views
 {
     /// <summary>
-    /// Interaction logic for AllPeoplePageView.xaml
+    /// Interaction logic for ChatView.xaml
     /// </summary>
-    public partial class AllPeoplePageView : UserControl
+    public partial class ChatView : Window
     {
-        public AllPeoplePageView()
+        public ChatView()
         {
             InitializeComponent();
-        }
-
-        private void BtnAddNewRef_Click(object sender, RoutedEventArgs e)
-        {
-            //AddNewRef addNewRef = new AddNewRef();
-            //addNewRef.Show();
         }
     }
 }

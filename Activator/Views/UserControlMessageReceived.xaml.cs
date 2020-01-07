@@ -10,28 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Activator.Views
 {
     /// <summary>
-    /// Interaction logic for EditRef.xaml
+    /// Interaction logic for UserControlMessageReceived.xaml
     /// </summary>
-    public partial class EditRef : Window
+    public partial class UserControlMessageReceived : UserControl
     {
-        public EditRef()
+        public UserControlMessageReceived()
         {
             InitializeComponent();
-        }
-
-        private void buttonChooseImage_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void buttonSubmit_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

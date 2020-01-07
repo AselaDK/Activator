@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace Activator.Models
 {
-    class Camera
+    class ServiceChat
     {
-        public string CamId { get; set; }
-        public string Location { get; set; }
-        public string Quality { get; set; }
-  
     }
 }
-

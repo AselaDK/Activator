@@ -56,15 +56,5 @@ namespace Activator.Views
         {
             LoadPersonsData();
         }
-
-        private void dataGridAllRefPersons_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            EditRef er = new EditRef();
-            er.DataContext = dataGridAllRefPersons.SelectedItem;
-            //ecv.TxtCamId.Text = row
-            //ecv.TxtLocation.Text = Convert.ToString(ColLocation);
-            //ecv.TxtQuality.Text = Convert.ToString(ColQuality);
-            er.ShowDialog();
-        }
     }
 }

@@ -16,6 +16,7 @@ using Amazon.DynamoDBv2.DocumentModel;
 using static Amazon.Internal.RegionEndpointProviderV2;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
 using Activator.Models;
+
 using Amazon.DynamoDBv2.Model;
 
 namespace Activator.Views
@@ -45,6 +46,7 @@ namespace Activator.Views
 
         private void ButtonAddCamera_Click(object sender, RoutedEventArgs e)
         {
+
             //Console.WriteLine("QWFQf");
             string camid = TxtCamId.Text;
             string location = TxtLocation.Text;
@@ -53,7 +55,7 @@ namespace Activator.Views
         }
 
         private void AddCamera(string camid, string loc, string qlty)
-        {
+        {/*
             try
             {
                 string tableName = "Cameras";
@@ -69,6 +71,11 @@ namespace Activator.Views
                     {
                         //Console.WriteLine("search  = ", search);
                         //Console.WriteLine("search.count  = ", search.Count);
+//                         Document camObj = new Document();
+//                         camObj["camId"] = camid;
+//                         camObj["location"] = loc;
+//                         camObj["quality"] = qlty;
+//                         table.PutItem(camObj);
                         
 
                         this.Close();
@@ -76,6 +83,14 @@ namespace Activator.Views
                     }
                     else
                     {
+/*<<<<<<< adminasela
+                       /** MessageBox.Show("Camera ID is already exist! (Please try a different one)");
+                    }
+                    MainView mainv = new MainView();
+                    CamerasPageView cams = new CamerasPageView();
+                    mainv.MenuPage.Content = cams;
+                    mainv.Show();
+*/
                         CreateCameraTable(tableName);
                         MessageBox.Show("Camera ID is already exist! (Please try a different one)");
                     }
@@ -104,10 +119,11 @@ namespace Activator.Views
             {
                 MessageBox.Show("Message : Unknown Error", ex.Message);
             }
+
         }
 
         private void CreateCameraTable(string tblName)
-        {
+        {  /**
             List<string> currentTables = client.ListTables().TableNames;
 
             if (!currentTables.Contains(tblName))
