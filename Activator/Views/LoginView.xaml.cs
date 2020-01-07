@@ -20,8 +20,8 @@ namespace Activator.Views
             InitializeComponent();
             Console.WriteLine("Set");
 
-            List<string> temp = Models.StreamProcessorManager.ListStreamProcessors();
-            Console.WriteLine(temp[0]);
+            //Models.FaceCollection.Create(Models.MyAWSConfigs.FaceCollectionID);
+            //Console.WriteLine(temp[0]);
         }
 
         //encrypter password
