@@ -8,13 +8,10 @@ namespace Activator.Models
         public static readonly String refImagesBucketName = "refimagesbucket";
         public static readonly String faceCollectionID = "RefCollection";
         public static readonly String refPersonsDBTableName = "ref_persons";
-<<<<<<< HEAD
         public static readonly String logsDBTableName = "logs";
-=======
         public static readonly String adminDBTableName = "admin";
         public static readonly String RefImagesBucketName = "refimagesbucket";
         public static readonly String FaceCollectionID = "RefCollection";
->>>>>>> ea31f59ba324dd8c44375a26d4fc9dead433af55
 
         public static readonly String RefPersonsDBTableName = "ref_persons";
         public static readonly String CamerasDBTableName = "cameras";

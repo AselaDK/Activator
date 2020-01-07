@@ -32,7 +32,6 @@ namespace Activator.Views
 
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
-<<<<<<< HEAD
             //Mouse.OverrideCursor = Cursors.Wait;
 
             MainView dashboard = new MainView();
@@ -95,7 +94,7 @@ namespace Activator.Views
             //{
             //    Mouse.OverrideCursor = null;
             //}           
-=======
+
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
@@ -159,7 +158,6 @@ namespace Activator.Views
             {
                 Mouse.OverrideCursor = null;
             }
->>>>>>> ea31f59ba324dd8c44375a26d4fc9dead433af55
         }
 
         private void ButtonCloseApplication_Click(object sender, RoutedEventArgs e)
