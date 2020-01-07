@@ -51,7 +51,7 @@ namespace Activator.Models
             }
         }
 
-        // downlaod a single file to " Resources/Images/ "
+        // downlaod a single file to "Resources/Images/"
         public static void DownloadFile(string fileName)
         {
             if (!Directory.Exists("Resources/Images")) Directory.CreateDirectory("Resources/Images");
