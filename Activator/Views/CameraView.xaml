@@ -26,7 +26,7 @@
             </StackPanel>
         </Grid>
         <Grid Height="980">
-            <DataGrid x:Name="dataGridCameras" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Grid.ColumnSpan="2">
+            <DataGrid x:Name="dataGridCameras" SelectionUnit="FullRow" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Grid.ColumnSpan="2">
                 <DataGrid.Columns>               
                     <DataGridTextColumn Width="2*" Header="ID" Binding="{Binding id}" IsReadOnly="True" />
                     <DataGridTextColumn Width="2*" Header="Location" Binding="{Binding description}" IsReadOnly="True" />

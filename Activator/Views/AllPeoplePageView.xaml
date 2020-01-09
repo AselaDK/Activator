@@ -28,7 +28,7 @@
             </StackPanel>
         </Grid>
         <Grid Height="980">            
-            <DataGrid x:Name="dataGridAllRefPersons" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Grid.ColumnSpan="2">
+            <DataGrid x:Name="dataGridAllRefPersons" SelectionUnit="FullRow" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Grid.ColumnSpan="2">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
