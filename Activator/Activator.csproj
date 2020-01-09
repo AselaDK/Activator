@@ -55,7 +55,6 @@
     <Reference Include="Appium.Net, Version=4.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Appium.WebDriver.4.1.1\lib\net45\Appium.Net.dll</HintPath>
     </Reference>
-
     <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
       <HintPath>packages\AWSSDK.Core.3.3.104.14\lib\net45\AWSSDK.Core.dll</HintPath>
     </Reference>
@@ -82,6 +81,7 @@
     </Reference>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>packages\Castle.Core.4.3.1\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Carbon.Storage, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Carbon.Storage.2.0.0\lib\netstandard2.0\Carbon.Storage.dll</HintPath>
     </Reference>
@@ -109,7 +109,6 @@
     <Reference Include="SeleniumExtras.PageObjects, Version=3.11.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\DotNetSeleniumExtras.PageObjects.3.11.0\lib\net45\SeleniumExtras.PageObjects.dll</HintPath>
     </Reference>
-
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
@@ -161,59 +160,50 @@
     </ApplicationDefinition>
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Camera.cs" />
-    <Compile Include="Models\DataStream.cs" />
-    <Compile Include="Models\Dynamodb.cs" />
-    <Compile Include="Models\FaceCollection.cs" />
+    <Compile Include="Models\AWS\DataStream.cs" />
+    <Compile Include="Models\AWS\Dynamodb.cs" />
+    <Compile Include="Models\AWS\FaceCollection.cs" />
     <Compile Include="Models\HashMD5.cs" />
     <Compile Include="Models\Logs.cs" />
-    <Compile Include="Models\Lambda.cs" />
+    <Compile Include="Models\AWS\Lambda.cs" />
     <Compile Include="Models\MyAWSConfigs.cs" />
     <Compile Include="Models\Reader.cs" />
     <Compile Include="Models\RefPerson.cs" />
-    <Compile Include="Models\S3Bucket.cs" />
+    <Compile Include="Models\AWS\S3Bucket.cs" />
     <Compile Include="Models\Session.cs" />
-    <Compile Include="Models\StreamProcessorManager.cs" />
-    <Compile Include="Models\VideoStream.cs" />
-    <Compile Include="Views\AddNewCameraView.xaml.cs">
+    <Compile Include="Models\AWS\StreamProcessorManager.cs" />
+    <Compile Include="Models\AWS\VideoStream.cs" />
+    <Compile Include="Views\Camera\AddNewCameraView.xaml.cs">
       <DependentUpon>AddNewCameraView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AdminProfile.xaml.cs">
+    <Compile Include="Views\Admin\AdminProfile.xaml.cs">
       <DependentUpon>AdminProfile.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AdminsPage.xaml.cs">
+    <Compile Include="Views\Admin\AdminsPage.xaml.cs">
       <DependentUpon>AdminsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CameraView.xaml.cs">
+    <Compile Include="Views\Camera\CameraView.xaml.cs">
       <DependentUpon>CameraView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AddNewRef.xaml.cs">
+    <Compile Include="Views\Admin\ChangeAdminPassword.xaml.cs">
+      <DependentUpon>ChangeAdminPassword.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ref Person\AddNewRef.xaml.cs">
       <DependentUpon>AddNewRef.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AllPeoplePageView.xaml.cs">
+    <Compile Include="Views\Ref Person\AllPeoplePageView.xaml.cs">
       <DependentUpon>AllPeoplePageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ChangeAdminPassword.xaml.cs">
-      <DependentUpon>ChangeAdminPassword.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ChangeAdminPropic.xaml.cs">
+    <Compile Include="Views\Admin\ChangeAdminPropic.xaml.cs">
       <DependentUpon>ChangeAdminPropic.xaml</DependentUpon>
     </Compile>
-
-    <Compile Include="Views\ChangeAdminPassword.xaml.cs">
-      <DependentUpon>ChangeAdminPassword.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EditAdminDetails.xaml.cs">
+    <Compile Include="Views\Admin\EditAdminDetails.xaml.cs">
       <DependentUpon>EditAdminDetails.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\EditRef.xaml.cs">
-      <DependentUpon>EditRef.xaml</DependentUpon>
-    </Compile>
-
     <Compile Include="Views\GetHelpPageView.xaml.cs">
       <DependentUpon>GetHelpPageView.xaml</DependentUpon>
     </Compile>
-
-    <Compile Include="Views\HomePageView.xaml.cs">
+    <Compile Include="Views\Home\HomePageView.xaml.cs">
       <DependentUpon>HomePageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
@@ -232,51 +222,51 @@
     <Compile Include="Views\PeopleInPageView.xaml.cs">
       <DependentUpon>PeopleInPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ReaderForm.xaml.cs">
+    <Compile Include="Views\Reader\ReaderForm.xaml.cs">
       <DependentUpon>ReaderForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Readers.xaml.cs">
+    <Compile Include="Views\Reader\Readers.xaml.cs">
       <DependentUpon>Readers.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ReadersView.xaml.cs">
+    <Compile Include="Views\Reader\ReadersView.xaml.cs">
       <DependentUpon>ReadersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RegisterAdmin.xaml.cs">
+    <Compile Include="Views\Admin\RegisterAdmin.xaml.cs">
       <DependentUpon>RegisterAdmin.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\AddNewCameraView.xaml">
+    <Page Include="Views\Camera\AddNewCameraView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AdminProfile.xaml">
+    <Page Include="Views\Admin\AdminProfile.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\AdminsPage.xaml">
+    <Page Include="Views\Admin\AdminsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\CameraView.xaml">
+    <Page Include="Views\Camera\CameraView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddNewRef.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\AllPeoplePageView.xaml">
+    <Page Include="Views\Admin\ChangeAdminPassword.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ChangeAdminPropic.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ChangeAdminPassword.xaml">
+    <Page Include="Views\Ref Person\AddNewRef.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\EditAdminDetails.xaml">
+    <Page Include="Views\Ref Person\AllPeoplePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\ChangeAdminPropic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\EditAdminDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -284,7 +274,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\HomePageView.xaml">
+    <Page Include="Views\Home\HomePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -304,19 +294,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ReaderForm.xaml">
+    <Page Include="Views\Reader\ReaderForm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Readers.xaml">
+    <Page Include="Views\Reader\Readers.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ReadersView.xaml">
+    <Page Include="Views\Reader\ReadersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\RegisterAdmin.xaml">
+    <Page Include="Views\Admin\RegisterAdmin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -349,21 +339,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\activatorlogo1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\alogo22.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\actlogo1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Analyzer Include="packages\AWSSDK.DynamoDBv2.3.3.104.16\analyzers\dotnet\cs\AWSSDK.DynamoDBv2.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.Kinesis.3.3.100.121\analyzers\dotnet\cs\AWSSDK.Kinesis.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.KinesisVideo.3.3.102.14\analyzers\dotnet\cs\AWSSDK.KinesisVideo.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.Lambda.3.3.106.14\analyzers\dotnet\cs\AWSSDK.Lambda.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.Rekognition.3.3.103.14\analyzers\dotnet\cs\AWSSDK.Rekognition.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.S3.3.3.110.10\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\LogoActivator.jpeg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\MaterialDesignThemes.3.0.1\build\MaterialDesignThemes.targets" Condition="Exists('packages\MaterialDesignThemes.3.0.1\build\MaterialDesignThemes.targets')" />

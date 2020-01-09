@@ -98,8 +98,8 @@ namespace Activator.Views
 
                     item["aPropic"] = fileId;
 
-                    await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId));
-                    await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.adminDBTableName));
+                    await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId, Models.MyAWSConfigs.AdminS3BucketName));
+                    await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.AdminDBTableName));
 
                     await controller.CloseAsync();
 

@@ -61,12 +61,12 @@ namespace Activator.Views
 
                         item["aId"] = txtEmail.Text;
                         item["aName"] = txtName.Text;
-                        item["aPassword"] = HashMD5.MD5Hash(txtPassword.Password);
+                        item["aPassword"] = Models.HashMD5.MD5Hash(txtPassword.Password);
                         item["aPhone"] = txtPhone.Text;
                         item["aPropic"] = fileId;
 
-                        await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId));
-                        await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.adminDBTableName));
+                        await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId, Models.MyAWSConfigs.AdminS3BucketName));
+                        await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.AdminDBTableName));
 
                         await controller.CloseAsync();
 

@@ -48,7 +48,7 @@ namespace Activator.Views
                     item["description"] = txtDescription.Text;
 
                     controller.SetMessage("Uploading file");
-                    await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId));
+                    await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId, Models.MyAWSConfigs.RefImagesBucketName));
 
                     controller.SetMessage("Adding database record");
                     await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.RefPersonsDBTableName));

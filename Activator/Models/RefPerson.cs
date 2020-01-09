@@ -62,7 +62,7 @@ namespace Activator.Models
                     {
                         if (!File.Exists(directoryPath + person.id))
                         {
-                            Models.S3Bucket.DownloadFile(person.id);
+                            Models.S3Bucket.DownloadFile(person.id, Models.MyAWSConfigs.RefImagesBucketName);
                         }
 
                         string exeDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";

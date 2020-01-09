@@ -60,7 +60,7 @@ namespace Activator.Views
         {
             try
             {
-                string tableName = MyAWSConfigs.adminDBTableName;
+                string tableName = MyAWSConfigs.AdminDBTableName;
                 var table = Table.LoadTable(client, tableName);
                 var item = table.GetItem(myId);
                 Console.Write("my adminid<<<<<<<<<<<<<<<<<<", myId, ">>>>>>>>>>>>>>>>>>>");

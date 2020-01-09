@@ -4,8 +4,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using Amazon;
-
 using Amazon.Lambda.Core;
 using Amazon.Lambda.KinesisEvents;
 
@@ -122,7 +120,7 @@ namespace kinesisMyDataStreamFunction
             try
             {
                 AmazonDynamoDBClient client;
-                using (client = new AmazonDynamoDBClient(RegionEndpoint.APSoutheast2))
+                using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
                 {
                     var table = Table.LoadTable(client, tableName);
                     table.PutItemAsync(item);
@@ -143,7 +141,7 @@ namespace kinesisMyDataStreamFunction
             try
             {
                 AmazonDynamoDBClient client;
-                using (client = new AmazonDynamoDBClient(RegionEndpoint.APSoutheast2))
+                using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
                 {
                     var table = Table.LoadTable(client, tableName);       
 
@@ -165,7 +163,7 @@ namespace kinesisMyDataStreamFunction
             try
             {
                 AmazonDynamoDBClient client;
-                using (client = new AmazonDynamoDBClient(RegionEndpoint.APSoutheast2))
+                using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
                 {
                     string tableName = "ref_persons";
 

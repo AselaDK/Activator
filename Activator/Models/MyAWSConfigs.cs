@@ -5,16 +5,18 @@ namespace Activator.Models
 {
     class MyAWSConfigs
     {
-        public static readonly String refImagesBucketName = "refimagesbucket";
-        public static readonly String faceCollectionID = "RefCollection";
-        public static readonly String refPersonsDBTableName = "ref_persons";
-        public static readonly String logsDBTableName = "logs";
-        public static readonly String adminDBTableName = "admin";
         public static readonly String RefImagesBucketName = "refimagesbucket";
+        public static readonly String ReaderS3BucketName = "readerforactivator";
+        public static readonly String AdminS3BucketName = "adminpropics";
+
         public static readonly String FaceCollectionID = "RefFaceCollection";
 
+        public static readonly String LogsDBTableName = "logs";
+        public static readonly String AdminDBTableName = "admin";
         public static readonly String RefPersonsDBTableName = "ref_persons";
         public static readonly String CamerasDBTableName = "cameras";
+        public static readonly String ReaderDBtableName = "reader";
+        
 
         public static readonly String LambdaFunctionName = "DataStreamsToDynamoDBFunction";
         public static readonly String RoleArn = "arn:aws:iam::358403828169:role/RekognitionServiceRole";

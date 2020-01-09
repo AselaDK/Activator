@@ -100,14 +100,14 @@ namespace Activator.Models
 
         public static List<Logs> GetAllLogs()
         {
-            string tableName = MyAWSConfigs.logsDBTableName;
+            string tableName = MyAWSConfigs.LogsDBTableName;
 
             List<Logs> logsList = new List<Logs>();
 
             try
             {
                 AmazonDynamoDBClient client;
-                using (client = new AmazonDynamoDBClient(MyAWSConfigs.dynamodbRegion))
+                using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
                 {
                     DynamoDBContext context = new DynamoDBContext(client);
                     IEnumerable<Logs> logsData = context.Scan<Logs>();

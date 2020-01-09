@@ -65,7 +65,7 @@ namespace Activator.Views
 
                 if (!isNameEmpty && !isPhoneEmpty && !isFileIdEmpty && !txtEmail.Text.Contains(" ") && !isPasswordEmpty)
                 {
-                    if (HashMD5.MD5Hash(txtPassword.Password) == item["aPassword"])
+                    if (Models.HashMD5.MD5Hash(txtPassword.Password) == item["aPassword"])
                     {
                         Console.WriteLine("\n*** Executing UpdateMultipleAttributes() ***");
                         Console.WriteLine("\nUpdating multiple attributes....");
