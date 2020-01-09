@@ -18,10 +18,7 @@ namespace Activator.Views
         public LoginView()
         {
             InitializeComponent();
-            Console.WriteLine("Set");
-
-            //Models.FaceCollection.Create(Models.MyAWSConfigs.FaceCollectionID);
-            //Console.WriteLine(temp[0]);
+            //Models.StreamProcessorManager.DeleteStreamProcessor("StreamProcessorCam1");
         }
 
         //encrypter password

@@ -23,7 +23,7 @@ namespace Activator.Views
         {
             InitializeComponent();
             InitCheckStreamProcessor();
-            ReadStream();
+            //ReadStream();
         }
 
         private void InitCheckStreamProcessor()

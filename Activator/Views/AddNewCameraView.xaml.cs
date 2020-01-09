@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using Amazon.DynamoDBv2.DocumentModel;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+
+using Amazon.DynamoDBv2.DocumentModel;
+using System.Threading;
 
 namespace Activator.Views
 {
@@ -26,17 +27,23 @@ namespace Activator.Views
         }
 
         private async void BtnSave_Click(object sender, RoutedEventArgs e)
-        {
-            Mouse.OverrideCursor = Cursors.Wait;
+        {           
             if (!string.IsNullOrEmpty(txtLocation.Text) && !string.IsNullOrEmpty(txtStreamName.Text))
             {
-                long nextCamID = Models.Dynamodb.GetItemCount(Models.MyAWSConfigs.CamerasDBTableName) + 1;
+                ProgressDialogController controller = await this.ShowProgressAsync("Please wait...", "");
+                controller.SetIndeterminate();
+                controller.SetCancelable(false);
+
+                controller.SetMessage("Getting current cameras information");
+                long currentCamCount = await Task.Run(() =>
+                                        Models.Dynamodb.GetItemCount(Models.MyAWSConfigs.CamerasDBTableName));               
+                long nextCamID = currentCamCount + 1;
 
                 // Maximum 10 cameras currently can have
                 if (nextCamID > 10)
                 {
-                    Mouse.OverrideCursor = null;
-                    await this.ShowMessageAsync("You reach the camera limit. Please contact Administrator.", "", MessageDialogStyle.Affirmative);
+                    await controller.CloseAsync();
+                    await this.ShowMessageAsync("You have reached the camera limit. Please contact Administrator.", "", MessageDialogStyle.Affirmative);
                     return;
                 }
 
@@ -51,64 +58,75 @@ namespace Activator.Views
                 string dataStreamArn = "";
 
                 // Create video stream
-                videoStreamArn = Models.VideoStream.CreateVideoStream(videoStreamName);
+                controller.SetMessage("Creating video stream");
+                videoStreamArn = await Task.Run(() =>
+                                                    Models.VideoStream.CreateVideoStream(videoStreamName));
                 if (videoStreamArn == "contain" || string.IsNullOrEmpty(videoStreamArn))
                 {
-                    Mouse.OverrideCursor = null;
+                    await controller.CloseAsync();
                     await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", "video stream error", MessageDialogStyle.Affirmative);
                     return;
                 }
 
                 // Create data stream
-                dataStreamArn = Models.DataStream.CreateDataStream(dataStreamName);
+                controller.SetMessage("Creating data stream");
+                dataStreamArn = await Task.Run(() =>
+                                                    Models.DataStream.CreateDataStream(dataStreamName));
                 if (dataStreamArn == "contain" || string.IsNullOrEmpty(dataStreamArn))
                 {
-                    Mouse.OverrideCursor = null;
+                    await controller.CloseAsync();
                     // TODO: Delete added video stream
                     await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", "data stream error", MessageDialogStyle.Affirmative);
                     return;
                 }
 
                 // Add kinesis trigger to lambda
-                bool success = Models.Lambda.CreateEventSourceMapping(dataStreamArn);
-
+                controller.SetMessage("Creating lambda event source");
+                bool success = await Task.Run(() =>
+                                                Models.Lambda.CreateEventSourceMapping(dataStreamArn));
                 if (!success)
                 {
-                    Mouse.OverrideCursor = null;
+                    await controller.CloseAsync();
                     // TODO: Delete added video stream & Data stream
                     await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", "event source mapping error", MessageDialogStyle.Affirmative);
                     return;
                 }
 
                 // Create stream processor
-                success = Models.StreamProcessorManager.CreateStreamProcessor(streamProcessorName, videoStreamArn, dataStreamArn);
-
+                controller.SetMessage("Creating stream processor");
+                success = await Task.Run(() =>
+                                                        Models.StreamProcessorManager.CreateStreamProcessor
+                                                        (
+                                                            streamProcessorName,
+                                                            videoStreamArn,
+                                                            dataStreamArn
+                                                        ));
                 if (!success)
                 {
-                    Mouse.OverrideCursor = null;
+                    await controller.CloseAsync();
                     // TODO: Delete added video stream, Data stream, & remove kinesis trigger
                     await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", "stream processor error", MessageDialogStyle.Affirmative);
                     return;
                 }
 
                 // Create dynamodb record
+                controller.SetMessage("Adding new record to the database");
+
                 Document camera = new Document();
                 camera["id"] = nextCamID.ToString();
                 camera["description"] = description;
                 camera["location"] = location;
-                Models.Dynamodb.PutItem(camera, Models.MyAWSConfigs.CamerasDBTableName);
+                await Task.Run(() => Models.Dynamodb.PutItem(camera, Models.MyAWSConfigs.CamerasDBTableName));
 
                 // Succeess message
-                Mouse.OverrideCursor = null;
-                await this.ShowMessageAsync("Success", "", MessageDialogStyle.Affirmative);
+                await controller.CloseAsync();
+                await this.ShowMessageAsync("Success", "New Camera Added Successfully", MessageDialogStyle.Affirmative);
                 this.Close();
             }
             else
-            {
-                Mouse.OverrideCursor = null;
+            {                
                 await this.ShowMessageAsync("Error", "Please check all the fields", MessageDialogStyle.Affirmative);
-            }
-            Mouse.OverrideCursor = null;
+            }            
         }
     }
 }

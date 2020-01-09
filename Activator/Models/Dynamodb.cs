@@ -1,12 +1,14 @@
-﻿using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.Model;
-using Amazon.DynamoDBv2.DocumentModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.Model;
+using Amazon.DynamoDBv2.DocumentModel;
+using Amazon.DynamoDBv2.DataModel;
 
 namespace Activator.Models
 {
@@ -66,14 +68,23 @@ namespace Activator.Models
             {
                 AmazonDynamoDBClient client;
                 using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
-                {
-                    DescribeTableRequest request = new DescribeTableRequest
-                    {
-                        TableName = tableName
-                    };
+                {                    
+                    Dictionary<string, AttributeValue> lastKeyEvaluated = null;
+                    do
+                    {                      
+                        ScanRequest scanRequest = new ScanRequest
+                        {
+                            TableName = tableName,
+                            ExclusiveStartKey = lastKeyEvaluated
+                        };
 
-                    TableDescription tableDescription = client.DescribeTable(request).Table;
-                    itemCount = tableDescription.ItemCount;
+                        ScanResponse scanResponse = client.Scan(scanRequest);
+                        itemCount += scanResponse.Count;
+                        Console.WriteLine("Item Count in DynamoDB: ", itemCount);
+
+                        lastKeyEvaluated = scanResponse.LastEvaluatedKey;                        
+                    }
+                    while (lastKeyEvaluated != null && lastKeyEvaluated.Count != 0);                    
                 }
             }
             catch (AmazonDynamoDBException e)

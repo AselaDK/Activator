@@ -34,7 +34,7 @@ namespace Activator.Views
 
                 if (!isNameEmpty && !isDescriptionEmpty && !isFilePathEmpty && !isFileIdEmpty && !txtId.Text.Contains(" "))
                 {
-                    ProgressDialogController controller = await this.ShowProgressAsync("Please wait...", "Uploading data");
+                    ProgressDialogController controller = await this.ShowProgressAsync("Please wait...", "");
                     controller.SetIndeterminate();
                     controller.SetCancelable(false);
 
@@ -47,8 +47,13 @@ namespace Activator.Views
                     item["name"] = txtName.Text;
                     item["description"] = txtDescription.Text;
 
+                    controller.SetMessage("Uploading file");
                     await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId));
+
+                    controller.SetMessage("Adding database record");
                     await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.RefPersonsDBTableName));
+
+                    controller.SetMessage("Creating face indexes");
                     await Task.Run(() => Models.FaceCollection.AddFace(fileId, Models.MyAWSConfigs.FaceCollectionID));
 
                     await controller.CloseAsync();
