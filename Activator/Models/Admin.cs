@@ -29,7 +29,7 @@ namespace Activator.Models
 
             List<Admin> admins = new List<Admin>();
 
-            string tableName = MyAWSConfigs.adminDBTableName;
+            string tableName = MyAWSConfigs.AdminDBTableName;
 
             try
             {

@@ -11,8 +11,8 @@ namespace Activator.Models
 
         public static readonly String FaceCollectionID = "RefFaceCollection";
 
-        public static readonly String logsDBTableName = "logs";
-        public static readonly String adminDBTableName = "admin";
+        public static readonly String LogsDBTableName = "logs";
+        public static readonly String AdminDBTableName = "admin";
         public static readonly String RefPersonsDBTableName = "ref_persons";
         public static readonly String CamerasDBTableName = "cameras";
         public static readonly String ReaderDBtableName = "reader";

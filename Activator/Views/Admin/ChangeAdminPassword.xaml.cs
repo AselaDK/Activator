@@ -6,24 +6,26 @@ using System.Windows;
 using System.Windows.Input;
 using Item = Amazon.DynamoDBv2.DocumentModel.Document;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
+using Activator.Models;
 
 namespace Activator.Views
 {
     /// <summary>
-    /// Interaction logic for EditAdminDetails.xaml
+    /// Interaction logic for ChangeAdminPassword.xaml
     /// </summary>
-    public partial class EditAdminDetails : MetroWindow
+
+
+    public partial class ChangeAdminPassword : MetroWindow
     {
         private readonly string myId = "";
         private readonly AmazonDynamoDBClient client;
         readonly Table table = null;
         readonly Item item = null;
-        public EditAdminDetails()
+        public ChangeAdminPassword()
         {
             InitializeComponent();
         }
-
-        public EditAdminDetails(String id) : this()
+        public ChangeAdminPassword(string id) : this()
         {
             InitializeComponent();
             this.myId = id;
@@ -33,7 +35,6 @@ namespace Activator.Views
                 string tableName = "admin";
                 table = Table.LoadTable(client, tableName);
                 item = table.GetItem(myId);
-                ShowProfileData();
             }
             catch (AmazonDynamoDBException ex)
             {
@@ -49,23 +50,28 @@ namespace Activator.Views
             }
         }
 
-        private void ButtonSubmit_Click(object sender, RoutedEventArgs e)
+
+        private void ButtonClose_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void ButtonSubmit_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             try
             {
-                string tableName = "admin";
+                string tableName = MyAWSConfigs.AdminDBTableName;
                 var table = Table.LoadTable(client, tableName);
                 var item = table.GetItem(myId);
-                Console.Write("my adminid<<<<<<<<<<<<<<<<<<",myId,">>>>>>>>>>>>>>>>>>>");
+                Console.Write("my adminid<<<<<<<<<<<<<<<<<<", myId, ">>>>>>>>>>>>>>>>>>>");
 
-                bool isFileIdEmpty = string.IsNullOrEmpty(txtEmail.Text);
-                bool isNameEmpty = string.IsNullOrEmpty(txtName.Text);
                 bool isPasswordEmpty = string.IsNullOrEmpty(txtPassword.Password);
-                bool isPhoneEmpty = string.IsNullOrEmpty(txtPhone.Text);
+                bool isNewPasswordEmpty = string.IsNullOrEmpty(txtNewPassword.Password);
+                bool isCPasswordEmpty = string.IsNullOrEmpty(txtNewCPassword.Password);
 
-                if (!isNameEmpty && !isPhoneEmpty && !isFileIdEmpty && !txtEmail.Text.Contains(" ") && !isPasswordEmpty)
+                if (!isPasswordEmpty && !isNewPasswordEmpty && !isCPasswordEmpty)
                 {
-                    if (Models.HashMD5.MD5Hash(txtPassword.Password) == item["aPassword"])
+                    if (HashMD5.MD5Hash(txtPassword.Password) == item["aPassword"])
                     {
                         Console.WriteLine("\n*** Executing UpdateMultipleAttributes() ***");
                         Console.WriteLine("\nUpdating multiple attributes....");
@@ -75,8 +81,7 @@ namespace Activator.Views
                         doc["aId"] = partitionKey;
                         // List of attribute updates.
                         // The following replaces the existing authors list.
-                        doc["aName"] = txtName.Text;
-                        doc["aPhone"] = txtPhone.Text;
+                        doc["aPassword"] = HashMD5.MD5Hash(txtNewPassword.Password);
 
                         // Optional parameters.
                         UpdateItemOperationConfig config = new UpdateItemOperationConfig
@@ -89,7 +94,7 @@ namespace Activator.Views
                         MessageBox.Show("Successfully Updated!");
 
                         this.Close();
-                        
+
                     }
                     else
                     {
@@ -99,7 +104,7 @@ namespace Activator.Views
                 else
                 {
                     MessageBox.Show("Message : Please fill all all the fields!!!");
-                } 
+                }
             }
             catch (AmazonDynamoDBException ex)
             {
@@ -113,18 +118,6 @@ namespace Activator.Views
             {
                 Mouse.OverrideCursor = null;
             }
-        }
-
-        private void ShowProfileData()
-        {
-            txtEmail.Text = myId;
-            txtName.Text = item["aName"];
-            txtPhone.Text = item["aPhone"];
-        }
-
-        private void ButtonClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
     }
 }

@@ -70,7 +70,7 @@ namespace Activator.Views
 
         private void RegAdmin_Click(object sender, RoutedEventArgs e)
         {
-            string tableName = MyAWSConfigs.adminDBTableName;
+            string tableName = MyAWSConfigs.AdminDBTableName;
             var table = Table.LoadTable(client, tableName);
             var item = table.GetItem(aId);
             RegisterAdmin acv = new RegisterAdmin();
@@ -97,7 +97,7 @@ namespace Activator.Views
 
         private void Search_Click(object sender, RoutedEventArgs e)
         {
-            string tableName = MyAWSConfigs.adminDBTableName;
+            string tableName = MyAWSConfigs.AdminDBTableName;
             var table = Table.LoadTable(client, tableName);
             var item = table.GetItem(aId);
             //LoadData(item);

@@ -100,7 +100,7 @@ namespace Activator.Models
 
         public static List<Logs> GetAllLogs()
         {
-            string tableName = MyAWSConfigs.logsDBTableName;
+            string tableName = MyAWSConfigs.LogsDBTableName;
 
             List<Logs> logsList = new List<Logs>();
 

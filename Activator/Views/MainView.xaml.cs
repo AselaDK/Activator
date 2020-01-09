@@ -40,17 +40,17 @@ namespace Activator.Views
 
         public MainView(String adminid, String adminname) : this()
         {
-            this.myname = adminname;
-            AdminName.Text = myname;
-            string imagename = null;
-            this.myid = adminid;
-            S3Bucket.DownloadFile(myid, MyAWSConfigs.AdminS3BucketName);
-            var BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
-            string filePath = BaseDirectoryPath + $"Resources/Images/{imagename}";
-            ImageSource imageSource = new BitmapImage(new Uri(filePath, UriKind.Relative));
-            //MyPropicImage.Source = new BitmapImage(new Uri($@"\myserver\folder1\Customer Data\{myid}"));
-            MyPropicImage.Source = imageSource;
-            //Console.WriteLine(MyAdminName);
+            //this.myname = adminname;
+            //AdminName.Text = myname;
+            //string imagename = null;
+            //this.myid = adminid;
+            //S3Bucket.DownloadFile(myid, MyAWSConfigs.AdminS3BucketName);
+            //var BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
+            //string filePath = BaseDirectoryPath + $"Resources/Images/{imagename}";
+            //ImageSource imageSource = new BitmapImage(new Uri(filePath, UriKind.Relative));
+            ////MyPropicImage.Source = new BitmapImage(new Uri($@"\myserver\folder1\Customer Data\{myid}"));
+            //MyPropicImage.Source = imageSource;
+            ////Console.WriteLine(MyAdminName);
         }
 
         private async void ButtonCloseApplication_Click(object sender, RoutedEventArgs e)
