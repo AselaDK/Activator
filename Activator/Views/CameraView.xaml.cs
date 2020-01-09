@@ -23,6 +23,27 @@ namespace Activator.Views
         public CameraView()
         {
             InitializeComponent();
+            LoadCamerasData();
+        }
+
+        private void LoadCamerasData()
+        {
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                List<Models.Camera> cameras = new List<Models.Camera>();
+
+                cameras = Models.Camera.GetAllCamers();
+
+                // TODO: Loading indicator
+
+                dataGridCameras.ItemsSource = cameras;
+                dataGridCameras.Items.Refresh();
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
         }
 
         private void BtnAddNewCamera_Click(object sender, RoutedEventArgs e)
@@ -33,7 +54,7 @@ namespace Activator.Views
 
         private void BtnRefresh_Click(object sender, RoutedEventArgs e)
         {
-
+            LoadCamerasData();
         }
 
         private void BtnStopSP(object sender, RoutedEventArgs e)

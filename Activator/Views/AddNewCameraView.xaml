@@ -28,7 +28,7 @@
         </StackPanel>
         <Rectangle HorizontalAlignment="Stretch" Fill="Green" Margin="0,15" Height="4"/>
         <Rectangle Height="240"/>
-        <TextBox x:Name="txtStreamName" materialDesign:HintAssist.Hint="Stream Name" 
+        <TextBox x:Name="txtDescription" materialDesign:HintAssist.Hint="Description" 
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                  FontFamily="Champagne &amp; Limousines" FontSize="18"
                  Width="380"/>

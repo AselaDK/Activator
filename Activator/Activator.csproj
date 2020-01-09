@@ -57,22 +57,25 @@
     </Reference>
 
     <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.Core.3.3.104.11\lib\net45\AWSSDK.Core.dll</HintPath>
+      <HintPath>packages\AWSSDK.Core.3.3.104.14\lib\net45\AWSSDK.Core.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.DynamoDBv2, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.DynamoDBv2.3.3.104.13\lib\net45\AWSSDK.DynamoDBv2.dll</HintPath>
+      <HintPath>packages\AWSSDK.DynamoDBv2.3.3.104.16\lib\net45\AWSSDK.DynamoDBv2.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.Kinesis, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.Kinesis.3.3.100.118\lib\net45\AWSSDK.Kinesis.dll</HintPath>
+      <HintPath>packages\AWSSDK.Kinesis.3.3.100.121\lib\net45\AWSSDK.Kinesis.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.KinesisVideo, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.KinesisVideo.3.3.102.11\lib\net45\AWSSDK.KinesisVideo.dll</HintPath>
+      <HintPath>packages\AWSSDK.KinesisVideo.3.3.102.14\lib\net45\AWSSDK.KinesisVideo.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.Lambda, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>packages\AWSSDK.Lambda.3.3.106.14\lib\net45\AWSSDK.Lambda.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.Rekognition, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.Rekognition.3.3.103.11\lib\net45\AWSSDK.Rekognition.dll</HintPath>
+      <HintPath>packages\AWSSDK.Rekognition.3.3.103.14\lib\net45\AWSSDK.Rekognition.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.S3.3.3.110.7\lib\net45\AWSSDK.S3.dll</HintPath>
+      <HintPath>packages\AWSSDK.S3.3.3.110.10\lib\net45\AWSSDK.S3.dll</HintPath>
     </Reference>
     <Reference Include="Carbon.Json, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Carbon.Json.2.1.0\lib\netstandard2.0\Carbon.Json.dll</HintPath>
@@ -91,11 +94,11 @@
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\MahApps.Metro.1.6.5\lib\net47\MahApps.Metro.dll</HintPath>
     </Reference>
-    <Reference Include="MaterialDesignColors, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\MaterialDesignColors.1.2.1\lib\net45\MaterialDesignColors.dll</HintPath>
+    <Reference Include="MaterialDesignColors, Version=1.2.2.920, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MaterialDesignColors.1.2.2\lib\net45\MaterialDesignColors.dll</HintPath>
     </Reference>
-    <Reference Include="MaterialDesignThemes.Wpf, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\MaterialDesignThemes.3.0.0\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=3.0.1.920, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MaterialDesignThemes.3.0.1\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\MaterialSkin.Updated.0.2.2\lib\MaterialSkin.dll</HintPath>
@@ -158,16 +161,18 @@
     </ApplicationDefinition>
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Camera.cs" />
+    <Compile Include="Models\DataStream.cs" />
     <Compile Include="Models\Dynamodb.cs" />
     <Compile Include="Models\FaceCollection.cs" />
     <Compile Include="Models\HashMD5.cs" />
     <Compile Include="Models\Logs.cs" />
+    <Compile Include="Models\Lambda.cs" />
     <Compile Include="Models\MyAWSConfigs.cs" />
     <Compile Include="Models\Reader.cs" />
     <Compile Include="Models\RefPerson.cs" />
     <Compile Include="Models\S3Bucket.cs" />
     <Compile Include="Models\Session.cs" />
-    <Compile Include="Models\StreamManager.cs" />
+    <Compile Include="Models\StreamProcessorManager.cs" />
     <Compile Include="Models\VideoStream.cs" />
     <Compile Include="Views\AddNewCameraView.xaml.cs">
       <DependentUpon>AddNewCameraView.xaml</DependentUpon>
@@ -181,33 +186,17 @@
     <Compile Include="Views\CameraView.xaml.cs">
       <DependentUpon>CameraView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Camera\AddCameraView.xaml.cs">
-      <DependentUpon>AddCameraView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\AddNewRef.xaml.cs">
       <DependentUpon>AddNewRef.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AllPeoplePageView.xaml.cs">
       <DependentUpon>AllPeoplePageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Camera\CamerasPageView.xaml.cs">
-      <DependentUpon>CamerasPageView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ChangeAdminPassword.xaml.cs">
       <DependentUpon>ChangeAdminPassword.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChangeAdminPropic.xaml.cs">
       <DependentUpon>ChangeAdminPropic.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CloseConfirmView.xaml.cs">
-      <DependentUpon>CloseConfirmView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ConfirmDeleteCamera.xaml.cs">
-    <Compile Include="Views\Camera\ConfirmDeleteCamera.xaml.cs">
-      <DependentUpon>ConfirmDeleteCamera.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Camera\EditCameraView.xaml.cs">
-      <DependentUpon>EditCameraView.xaml</DependentUpon>
     </Compile>
 
     <Compile Include="Views\ChangeAdminPassword.xaml.cs">
@@ -271,10 +260,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Camera\AddCameraView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\AddNewRef.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -284,19 +269,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ChangeAdminPropic.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CloseConfirmView.xaml">
-    <Page Include="Views\Camera\CamerasPageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Camera\ConfirmDeleteCamera.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Camera\EditCameraView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -386,18 +358,19 @@
     <Resource Include="images\actlogo1.png" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="packages\AWSSDK.DynamoDBv2.3.3.104.13\analyzers\dotnet\cs\AWSSDK.DynamoDBv2.CodeAnalysis.dll" />
-    <Analyzer Include="packages\AWSSDK.Kinesis.3.3.100.118\analyzers\dotnet\cs\AWSSDK.Kinesis.CodeAnalysis.dll" />
-    <Analyzer Include="packages\AWSSDK.KinesisVideo.3.3.102.11\analyzers\dotnet\cs\AWSSDK.KinesisVideo.CodeAnalysis.dll" />
-    <Analyzer Include="packages\AWSSDK.Rekognition.3.3.103.11\analyzers\dotnet\cs\AWSSDK.Rekognition.CodeAnalysis.dll" />
-    <Analyzer Include="packages\AWSSDK.S3.3.3.110.7\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.DynamoDBv2.3.3.104.16\analyzers\dotnet\cs\AWSSDK.DynamoDBv2.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.Kinesis.3.3.100.121\analyzers\dotnet\cs\AWSSDK.Kinesis.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.KinesisVideo.3.3.102.14\analyzers\dotnet\cs\AWSSDK.KinesisVideo.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.Lambda.3.3.106.14\analyzers\dotnet\cs\AWSSDK.Lambda.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.Rekognition.3.3.103.14\analyzers\dotnet\cs\AWSSDK.Rekognition.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.S3.3.3.110.10\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="packages\MaterialDesignThemes.3.0.0\build\MaterialDesignThemes.targets" Condition="Exists('packages\MaterialDesignThemes.3.0.0\build\MaterialDesignThemes.targets')" />
+  <Import Project="packages\MaterialDesignThemes.3.0.1\build\MaterialDesignThemes.targets" Condition="Exists('packages\MaterialDesignThemes.3.0.1\build\MaterialDesignThemes.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\MaterialDesignThemes.3.0.0\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MaterialDesignThemes.3.0.0\build\MaterialDesignThemes.targets'))" />
+    <Error Condition="!Exists('packages\MaterialDesignThemes.3.0.1\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MaterialDesignThemes.3.0.1\build\MaterialDesignThemes.targets'))" />
   </Target>
 </Project>

@@ -5,19 +5,10 @@
     <AWSProjectType>Lambda</AWSProjectType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Amazon.Core" Version="0.15.0" />
-    <PackageReference Include="Amazon.Lambda.KinesisEvents" Version="1.1.0" />
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.1.0" />
     <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.7.0" />
-    <PackageReference Include="Appium.WebDriver" Version="4.1.1" />
-    <PackageReference Include="AWSSDK.Core" Version="3.3.104.8" />
-    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.104.10" />
-    <PackageReference Include="AWSSDK.Kinesis" Version="3.3.100.115" />
-    <PackageReference Include="AWSSDK.Lambda" Version="3.3.106.8" />
-    <PackageReference Include="AWSSDK.Rekognition" Version="3.3.103.8" />
-    <PackageReference Include="AWSSDK.S3" Version="3.3.110.4" />
-    <PackageReference Include="MahApps.Metro" Version="1.6.5" />
-    <PackageReference Include="MaterialDesignColors" Version="1.2.1" />
-    <PackageReference Include="MaterialDesignThemes" Version="3.0.0" />
-    <PackageReference Include="MaterialSkin.Updated" Version="0.2.2" />
+    <PackageReference Include="Amazon.Lambda.KinesisEvents" Version="1.1.0" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.104.16" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 </Project>

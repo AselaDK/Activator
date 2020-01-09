@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using Amazon;
@@ -9,11 +10,10 @@ using Amazon.Lambda.Core;
 using Amazon.Lambda.KinesisEvents;
 
 using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.Model;
 using Amazon.DynamoDBv2.DocumentModel;
 
 using Newtonsoft.Json;
-using Amazon.DynamoDBv2.Model;
-using System.Threading.Tasks;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]

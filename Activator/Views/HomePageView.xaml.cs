@@ -23,7 +23,7 @@ namespace Activator.Views
         {
             InitializeComponent();
             InitCheckStreamProcessor();
-            ReadStream();
+            //ReadStream();
         }
 
         private void InitCheckStreamProcessor()
@@ -159,7 +159,7 @@ namespace Activator.Views
             dataGridDetectedPersons.ItemsSource = refPersons;
             dataGridDetectedPersons.Items.Refresh();
 
-            string streamArn = "arn:aws:dynamodb:ap-southeast-2:358403828169:table/ref_persons/stream/2019-11-18T05:31:40.045";
+            string streamArn = Models.MyAWSConfigs.DynamodbRefPersonTableStreamArn;
             //int maxItemCount = 100;
 
             try

@@ -15,12 +15,7 @@
             <Label Content="REFERENCESS" Foreground="Black" FontSize="24" FontWeight="Bold" VerticalContentAlignment="Center"/>
         </Grid>
         <Grid Height="50" Margin="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="139*"/>
-                <ColumnDefinition Width="111*"/>
-                <ColumnDefinition Width="1410*"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3">
+            <StackPanel Orientation="Horizontal">
                 <Button Click="BtnAddNewRef_Click" Margin="10,0,0,0" Height="40" Width="40">
                     <materialDesign:PackIcon Kind="Add" Width="20" Height="20" VerticalAlignment="Center" Margin="0"/>
                 </Button>
@@ -32,12 +27,8 @@
 
             </StackPanel>
         </Grid>
-        <Grid Height="980">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="26*"/>
-                <ColumnDefinition Width="141*"/>
-            </Grid.ColumnDefinitions>
-            <DataGrid x:Name="dataGridAllRefPersons" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Grid.ColumnSpan="2">
+        <Grid Height="980">            
+            <DataGrid x:Name="dataGridAllRefPersons" SelectionUnit="FullRow" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Grid.ColumnSpan="2">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
@@ -50,7 +41,7 @@
                     <DataGridTextColumn Width="4*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
                 </DataGrid.Columns>
             </DataGrid>
-            <Label x:Name="lblLoading" Content="Loading..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Grid.Column="1" Margin="485.949,469,813,469"/>
+            <Label x:Name="lblLoading" Content="Loading..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Grid.Column="1" Margin="714,469,780.4,469"/>
         </Grid>
     </StackPanel>
 </UserControl>

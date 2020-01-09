@@ -39,7 +39,7 @@ namespace Activator.Views
             {
                 List<Models.RefPerson> refPersons = new List<Models.RefPerson>();
 
-                refPersons = Models.Dynamodb.GetAllRefPersons();
+                refPersons = Models.RefPerson.GetAllRefPersons();
 
                 lblLoading.Visibility = Visibility.Hidden;
 
