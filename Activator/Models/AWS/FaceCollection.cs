@@ -3,9 +3,6 @@ using Amazon.Rekognition;
 using Amazon.Rekognition.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Activator.Models
 {
@@ -91,7 +88,7 @@ namespace Activator.Models
                     collectionArn = createCollectionResponse.CollectionArn;
 
                     Console.WriteLine("Status code : " + createCollectionResponse.StatusCode);
-                }         
+                }
             }
             catch (AmazonRekognitionException e)
             {
@@ -129,16 +126,16 @@ namespace Activator.Models
                         };
 
                         DeleteCollectionResponse deleteCollectionResponse = rekognitionClient.DeleteCollection(deleteCollectionRequest);
-                        Console.WriteLine(collectionId + ": " + deleteCollectionResponse.StatusCode);                        
+                        Console.WriteLine(collectionId + ": " + deleteCollectionResponse.StatusCode);
                     }
                 }
                 catch (AmazonRekognitionException e)
                 {
-                    Console.WriteLine("AmazonRekognitionException: " + e);                   
+                    Console.WriteLine("AmazonRekognitionException: " + e);
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Error: " + e);                    
+                    Console.WriteLine("Error: " + e);
                 }
             }
         }
@@ -181,15 +178,15 @@ namespace Activator.Models
                     foreach (FaceRecord faceRecord in indexFacesResponse.FaceRecords)
                         Console.WriteLine("Face detected: Faceid is " +
                            faceRecord.Face.FaceId);
-                }                
+                }
             }
             catch (AmazonRekognitionException e)
             {
-                Console.WriteLine("AmazonRekognitionException: " + e);               
+                Console.WriteLine("AmazonRekognitionException: " + e);
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error: " + e);              
+                Console.WriteLine("Error: " + e);
             }
         }
 
@@ -209,7 +206,7 @@ namespace Activator.Models
                 try
                 {
                     ListFacesResponse listFacesResponse = null;
-                    
+
                     String paginationToken = null;
                     do
                     {
@@ -231,11 +228,11 @@ namespace Activator.Models
                 }
                 catch (AmazonRekognitionException e)
                 {
-                    Console.WriteLine("AmazonRekognitionException: " + e);                    
+                    Console.WriteLine("AmazonRekognitionException: " + e);
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Error: " + e);                    
+                    Console.WriteLine("Error: " + e);
                 }
             }
             return _faceList;

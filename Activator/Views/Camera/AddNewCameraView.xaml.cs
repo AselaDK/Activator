@@ -1,10 +1,8 @@
-﻿using System.Threading.Tasks;
-using System.Windows;
-
+﻿using Amazon.DynamoDBv2.DocumentModel;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-
-using Amazon.DynamoDBv2.DocumentModel;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace Activator.Views
 {
@@ -15,7 +13,7 @@ namespace Activator.Views
     {
         public AddNewCameraView()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
@@ -24,7 +22,7 @@ namespace Activator.Views
         }
 
         private async void BtnSave_Click(object sender, RoutedEventArgs e)
-        {           
+        {
             if (!string.IsNullOrEmpty(txtLocation.Text) && !string.IsNullOrEmpty(txtDescription.Text))
             {
                 ProgressDialogController controller = await this.ShowProgressAsync("Please wait...", "");
@@ -34,7 +32,7 @@ namespace Activator.Views
                 controller.SetMessage("Getting current cameras information");
 
                 long currentCamCount = await Task.Run(() =>
-                                        Models.Dynamodb.GetItemCount(Models.MyAWSConfigs.CamerasDBTableName));               
+                                        Models.Dynamodb.GetItemCount(Models.MyAWSConfigs.CamerasDBTableName));
                 long nextCamID = currentCamCount + 1;
 
                 // Maximum 10 cameras currently can have
@@ -65,7 +63,7 @@ namespace Activator.Views
                 if (videoStreamArn == "contain" || string.IsNullOrEmpty(videoStreamArn))
                 {
                     await controller.CloseAsync();
-                    await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", 
+                    await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.",
                                                 "video stream error", MessageDialogStyle.Affirmative);
                     return;
                 }
@@ -76,8 +74,8 @@ namespace Activator.Views
                                                     Models.DataStream.CreateDataStream(dataStreamName));
                 if (dataStreamArn == "contain" || string.IsNullOrEmpty(dataStreamArn))
                 {
-                    await controller.CloseAsync();                    
-                    await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", 
+                    await controller.CloseAsync();
+                    await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.",
                                 "data stream error", MessageDialogStyle.Affirmative);
 
                     controller = await this.ShowProgressAsync("Reverting changes...", "");
@@ -97,8 +95,8 @@ namespace Activator.Views
                                                 Models.Lambda.CreateEventSourceMapping(dataStreamArn));
                 if (string.IsNullOrEmpty(eventSourceUUID))
                 {
-                    await controller.CloseAsync();                    
-                    await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", 
+                    await controller.CloseAsync();
+                    await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.",
                                         "event source mapping error", MessageDialogStyle.Affirmative);
 
                     controller = await this.ShowProgressAsync("Reverting changes...", "");
@@ -126,7 +124,7 @@ namespace Activator.Views
                                                         ));
                 if (!success)
                 {
-                    await controller.CloseAsync();                    
+                    await controller.CloseAsync();
                     await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", "stream processor error", MessageDialogStyle.Affirmative);
 
                     controller = await this.ShowProgressAsync("Reverting changes...", "");
@@ -161,9 +159,9 @@ namespace Activator.Views
                 this.Close();
             }
             else
-            {                
+            {
                 await this.ShowMessageAsync("Error", "Please check all the fields", MessageDialogStyle.Affirmative);
-            }            
+            }
         }
     }
 }
