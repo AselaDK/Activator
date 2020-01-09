@@ -27,11 +27,11 @@ namespace Activator.Models
             }
             catch (AmazonDynamoDBException e)
             {
-                Console.WriteLine("AmazonDynamoDBException: " + e);                
+                Console.WriteLine("AmazonDynamoDBException: " + e);
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error: " + e);                
+                Console.WriteLine("Error: " + e);
             }
         }
 
@@ -68,10 +68,10 @@ namespace Activator.Models
             {
                 AmazonDynamoDBClient client;
                 using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
-                {                    
+                {
                     Dictionary<string, AttributeValue> lastKeyEvaluated = null;
                     do
-                    {                      
+                    {
                         ScanRequest scanRequest = new ScanRequest
                         {
                             TableName = tableName,
@@ -79,12 +79,11 @@ namespace Activator.Models
                         };
 
                         ScanResponse scanResponse = client.Scan(scanRequest);
-                        itemCount += scanResponse.Count;
-                        Console.WriteLine("Item Count in DynamoDB: ", itemCount);
+                        itemCount += scanResponse.Count;                        
 
-                        lastKeyEvaluated = scanResponse.LastEvaluatedKey;                        
+                        lastKeyEvaluated = scanResponse.LastEvaluatedKey;
                     }
-                    while (lastKeyEvaluated != null && lastKeyEvaluated.Count != 0);                    
+                    while (lastKeyEvaluated != null && lastKeyEvaluated.Count != 0);
                 }
             }
             catch (AmazonDynamoDBException e)
@@ -97,6 +96,35 @@ namespace Activator.Models
             }
 
             return itemCount;
+        }
+
+        public static List<Logs> GetAllLogs()
+        {
+            string tableName = MyAWSConfigs.logsDBTableName;
+
+            List<Logs> logsList = new List<Logs>();
+
+            try
+            {
+                AmazonDynamoDBClient client;
+                using (client = new AmazonDynamoDBClient(MyAWSConfigs.dynamodbRegion))
+                {
+                    DynamoDBContext context = new DynamoDBContext(client);
+                    IEnumerable<Logs> logsData = context.Scan<Logs>();
+                    logsList = logsData.ToList();
+
+                }
+            }
+            catch (AmazonDynamoDBException e)
+            {
+                Console.WriteLine("AmazonDynamoDBException: " + e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e);
+            }
+
+            return logsList;
         }
     }
 }
