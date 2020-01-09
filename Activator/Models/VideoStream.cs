@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Amazon.KinesisVideo.Model;
 using Amazon.KinesisVideo;
+using System.Threading;
 
 namespace Activator.Models
 {
@@ -53,6 +54,46 @@ namespace Activator.Models
             }           
 
             return streamArn;
+        }
+
+        public static bool DeleteVideoStream(string streamArn)
+        {
+            bool isSuccess = false;
+            try
+            {
+                AmazonKinesisVideoClient kinesisVideoClient;
+
+                using (kinesisVideoClient = new AmazonKinesisVideoClient(Models.MyAWSConfigs.KinesisRegion))
+                {
+                    DeleteStreamRequest deleteStreamRequest = new DeleteStreamRequest
+                    {
+                        StreamARN = streamArn,
+                    };
+                    DeleteStreamResponse deleteStreamResponse = kinesisVideoClient.DeleteStream
+                        (
+                            deleteStreamRequest
+                        );
+
+                    Thread.Sleep(1 * 1000);
+
+                    if (deleteStreamResponse.HttpStatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        Console.WriteLine("Deleting kinesis video stream");
+                        isSuccess = true;
+                    }
+                    else
+                        Console.WriteLine("Error deleting kinesis video stream");
+                }
+            }
+            catch (AmazonKinesisVideoException e)
+            {
+                Console.WriteLine("AmazonKinesisVideoException: " + e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e);
+            }
+            return isSuccess;
         }
 
         public static List<StreamInfo> GetVideoStreamList()

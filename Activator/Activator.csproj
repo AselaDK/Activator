@@ -143,23 +143,11 @@
     <Compile Include="Views\CameraView.xaml.cs">
       <DependentUpon>CameraView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Camera\AddCameraView.xaml.cs">
-      <DependentUpon>AddCameraView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\AddNewRef.xaml.cs">
       <DependentUpon>AddNewRef.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AllPeoplePageView.xaml.cs">
       <DependentUpon>AllPeoplePageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Camera\CamerasPageView.xaml.cs">
-      <DependentUpon>CamerasPageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Camera\ConfirmDeleteCamera.xaml.cs">
-      <DependentUpon>ConfirmDeleteCamera.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Camera\EditCameraView.xaml.cs">
-      <DependentUpon>EditCameraView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HomePageView.xaml.cs">
       <DependentUpon>HomePageView.xaml</DependentUpon>
@@ -188,27 +176,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Camera\AddCameraView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\AddNewRef.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AllPeoplePageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Camera\CamerasPageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Camera\ConfirmDeleteCamera.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Camera\EditCameraView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

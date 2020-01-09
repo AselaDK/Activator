@@ -28,9 +28,9 @@
         <Grid Height="980">
             <DataGrid x:Name="dataGridCameras" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Grid.ColumnSpan="2">
                 <DataGrid.Columns>               
-                    <DataGridTextColumn Width="2*" Header="Stream Name" Binding="{Binding streamName}" IsReadOnly="True" />
-                    <DataGridTextColumn Width="2*" Header="Location" Binding="{Binding location}" IsReadOnly="True" />
-                    <DataGridTextColumn Width="2*" Header="Status" Binding="{Binding status}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="2*" Header="ID" Binding="{Binding id}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="2*" Header="Location" Binding="{Binding description}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="2*" Header="Description" Binding="{Binding location}" IsReadOnly="True" />
                     <DataGridTemplateColumn  Width="1*" Header="Start" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

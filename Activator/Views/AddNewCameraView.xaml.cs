@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
+
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 
 using Amazon.DynamoDBv2.DocumentModel;
-using System.Threading;
 
 namespace Activator.Views
 {
@@ -28,13 +25,14 @@ namespace Activator.Views
 
         private async void BtnSave_Click(object sender, RoutedEventArgs e)
         {           
-            if (!string.IsNullOrEmpty(txtLocation.Text) && !string.IsNullOrEmpty(txtStreamName.Text))
+            if (!string.IsNullOrEmpty(txtLocation.Text) && !string.IsNullOrEmpty(txtDescription.Text))
             {
                 ProgressDialogController controller = await this.ShowProgressAsync("Please wait...", "");
                 controller.SetIndeterminate();
                 controller.SetCancelable(false);
 
                 controller.SetMessage("Getting current cameras information");
+
                 long currentCamCount = await Task.Run(() =>
                                         Models.Dynamodb.GetItemCount(Models.MyAWSConfigs.CamerasDBTableName));               
                 long nextCamID = currentCamCount + 1;
@@ -43,11 +41,13 @@ namespace Activator.Views
                 if (nextCamID > 10)
                 {
                     await controller.CloseAsync();
-                    await this.ShowMessageAsync("You have reached the camera limit. Please contact Administrator.", "", MessageDialogStyle.Affirmative);
+                    await this.ShowMessageAsync("You have reached the camera limit. " +
+                                    "Please contact Administrator.", "", MessageDialogStyle.Affirmative);
                     return;
                 }
 
-                string description = txtStreamName.Text;
+                // Setup
+                string description = txtDescription.Text;
                 string location = txtLocation.Text;
 
                 string videoStreamName = $"VideoStreamCam{nextCamID}";
@@ -56,6 +56,7 @@ namespace Activator.Views
 
                 string videoStreamArn = "";
                 string dataStreamArn = "";
+                string eventSourceUUID = "";
 
                 // Create video stream
                 controller.SetMessage("Creating video stream");
@@ -64,7 +65,8 @@ namespace Activator.Views
                 if (videoStreamArn == "contain" || string.IsNullOrEmpty(videoStreamArn))
                 {
                     await controller.CloseAsync();
-                    await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", "video stream error", MessageDialogStyle.Affirmative);
+                    await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", 
+                                                "video stream error", MessageDialogStyle.Affirmative);
                     return;
                 }
 
@@ -74,27 +76,48 @@ namespace Activator.Views
                                                     Models.DataStream.CreateDataStream(dataStreamName));
                 if (dataStreamArn == "contain" || string.IsNullOrEmpty(dataStreamArn))
                 {
+                    await controller.CloseAsync();                    
+                    await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", 
+                                "data stream error", MessageDialogStyle.Affirmative);
+
+                    controller = await this.ShowProgressAsync("Reverting changes...", "");
+                    controller.SetIndeterminate();
+                    controller.SetCancelable(false);
+
+                    controller.SetMessage("Deleting video stream");
+                    await Task.Run(() => Models.VideoStream.DeleteVideoStream(videoStreamArn));
+
                     await controller.CloseAsync();
-                    // TODO: Delete added video stream
-                    await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", "data stream error", MessageDialogStyle.Affirmative);
                     return;
                 }
 
                 // Add kinesis trigger to lambda
                 controller.SetMessage("Creating lambda event source");
-                bool success = await Task.Run(() =>
+                eventSourceUUID = await Task.Run(() =>
                                                 Models.Lambda.CreateEventSourceMapping(dataStreamArn));
-                if (!success)
+                if (string.IsNullOrEmpty(eventSourceUUID))
                 {
+                    await controller.CloseAsync();                    
+                    await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", 
+                                        "event source mapping error", MessageDialogStyle.Affirmative);
+
+                    controller = await this.ShowProgressAsync("Reverting changes...", "");
+                    controller.SetIndeterminate();
+                    controller.SetCancelable(false);
+
+                    controller.SetMessage("Deleting video stream");
+                    await Task.Run(() => Models.VideoStream.DeleteVideoStream(videoStreamArn));
+
+                    controller.SetMessage("Deleting data stream");
+                    await Task.Run(() => Models.DataStream.DeleteDataStream(dataStreamName));
+
                     await controller.CloseAsync();
-                    // TODO: Delete added video stream & Data stream
-                    await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", "event source mapping error", MessageDialogStyle.Affirmative);
                     return;
                 }
 
                 // Create stream processor
                 controller.SetMessage("Creating stream processor");
-                success = await Task.Run(() =>
+                bool success = await Task.Run(() =>
                                                         Models.StreamProcessorManager.CreateStreamProcessor
                                                         (
                                                             streamProcessorName,
@@ -103,9 +126,23 @@ namespace Activator.Views
                                                         ));
                 if (!success)
                 {
-                    await controller.CloseAsync();
-                    // TODO: Delete added video stream, Data stream, & remove kinesis trigger
+                    await controller.CloseAsync();                    
                     await this.ShowMessageAsync("Error adding new camera. Please contact Administrator.", "stream processor error", MessageDialogStyle.Affirmative);
+
+                    controller = await this.ShowProgressAsync("Reverting changes...", "");
+                    controller.SetIndeterminate();
+                    controller.SetCancelable(false);
+
+                    controller.SetMessage("Deleting video stream");
+                    await Task.Run(() => Models.VideoStream.DeleteVideoStream(videoStreamArn));
+
+                    controller.SetMessage("Deleting data stream");
+                    await Task.Run(() => Models.DataStream.DeleteDataStream(dataStreamName));
+
+                    controller.SetMessage("Deleting event source mapping");
+                    await Task.Run(() => Models.Lambda.DeleteEventSourceMapping(eventSourceUUID));
+
+                    await controller.CloseAsync();
                     return;
                 }
 

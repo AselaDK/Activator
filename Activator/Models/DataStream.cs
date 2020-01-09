@@ -39,7 +39,7 @@ namespace Activator.Models
                             CreateStreamResponse createStreamResponse = kinesisClient.CreateStream(createStreamRequest);
 
                             if (createStreamResponse.HttpStatusCode == System.Net.HttpStatusCode.OK)
-                            {
+                            {                                
                                 StreamDescriptionSummary streamSummary = DescribeDataStream(streamName);
                                 if (streamSummary != null)
                                 {
@@ -105,6 +105,44 @@ namespace Activator.Models
             }
 
             return streamList;
+        }
+
+        public static bool DeleteDataStream(string streamName)
+        {
+            bool isSuccess = false;
+            try
+            {
+                AmazonKinesisClient kinesisClient;
+
+                using (kinesisClient = new AmazonKinesisClient(Models.MyAWSConfigs.KinesisRegion))
+                {
+                    DeleteStreamRequest deleteStreamRequest = new DeleteStreamRequest
+                    {
+                        StreamName = streamName,
+                    };
+
+                    DeleteStreamResponse deleteStreamResponse = kinesisClient.DeleteStream(deleteStreamRequest);
+
+                    Thread.Sleep(1 * 1000);
+
+                    if (deleteStreamResponse.HttpStatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        isSuccess = true;
+                        Console.WriteLine("Deleting kinesis data stream");
+                    }
+                    else
+                        Console.WriteLine("Error deleting kinesis data stream");
+                }
+            }
+            catch (AmazonKinesisException e)
+            {
+                Console.WriteLine("AmazonKinesisException: " + e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e);
+            }
+            return isSuccess;
         }
 
         public static StreamDescriptionSummary DescribeDataStream(string streamName)

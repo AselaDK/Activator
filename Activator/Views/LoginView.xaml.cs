@@ -18,7 +18,7 @@ namespace Activator.Views
         public LoginView()
         {
             InitializeComponent();
-            //Models.StreamProcessorManager.DeleteStreamProcessor("StreamProcessorCam1");
+            //Models.StreamProcessorManager.DeleteStreamProcessor("StreamProcessorCam4");
         }
 
         //encrypter password
