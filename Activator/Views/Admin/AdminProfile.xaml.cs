@@ -53,7 +53,7 @@ namespace Activator.Views
                         AdminEMail.Text = item["aId"];
 
                         string imagename = item["aPropic"];
-                        S3Bucket.DownloadFile(imagename);
+                        S3Bucket.DownloadFile(imagename, MyAWSConfigs.AdminS3BucketName);
                         var BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
                         string filePath = BaseDirectoryPath + $"Resources/Images/{imagename}";
                         AdminDp.Source = new BitmapImage(new Uri(filePath));

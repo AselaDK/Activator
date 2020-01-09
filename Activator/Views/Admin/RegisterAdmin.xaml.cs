@@ -65,7 +65,7 @@ namespace Activator.Views
                         item["aPhone"] = txtPhone.Text;
                         item["aPropic"] = fileId;
 
-                        await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId));
+                        await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId, Models.MyAWSConfigs.AdminS3BucketName));
                         await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.adminDBTableName));
 
                         await controller.CloseAsync();

@@ -34,19 +34,8 @@ namespace Activator.Views
 
             lblTitle.Content = "HOME";
 
-            Mouse.OverrideCursor = Cursors.Wait;
-            try
-            {
-                LoginView loginView = new LoginView();
-                loginView.Close();
-                HomePageView home = new HomePageView();
-                MenuPage.Content = home;
-                CheckStreamProcessorStatus();
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
-            }            
+            HomePageView home = new HomePageView();
+            MenuPage.Content = home;
         }
 
         public MainView(String adminid, String adminname) : this()
@@ -55,7 +44,7 @@ namespace Activator.Views
             AdminName.Text = myname;
             string imagename = null;
             this.myid = adminid;
-            S3Bucket.DownloadFile(myid);
+            S3Bucket.DownloadFile(myid, MyAWSConfigs.AdminS3BucketName);
             var BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
             string filePath = BaseDirectoryPath + $"Resources/Images/{imagename}";
             ImageSource imageSource = new BitmapImage(new Uri(filePath, UriKind.Relative));
@@ -64,18 +53,10 @@ namespace Activator.Views
             //Console.WriteLine(MyAdminName);
         }
 
-        private void ButtonCloseApplication_Click(object sender, RoutedEventArgs e)
-        {
-            //CloseConfirmView closeconf = new CloseConfirmView();
-            //closeconf.ShowDialog();
-            InitDialog();
-        }
-
-        private async Task InitDialog()
+        private async void ButtonCloseApplication_Click(object sender, RoutedEventArgs e)
         {
             var result = await this.ShowMessageAsync("Are you sure want to quit?", "", MessageDialogStyle.AffirmativeAndNegative);
             if (result == MessageDialogResult.Affirmative) Application.Current.Shutdown();
-            
         }
 
         private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
@@ -139,22 +120,6 @@ namespace Activator.Views
             MenuPage.Content = gethelp;
             lblTitle.Content = "GET HELP";
 
-        }
-
-        private void CheckStreamProcessorStatus()
-        {
-            //Mouse.OverrideCursor = Cursors.Wait;
-            //try
-            //{
-            //    if (!Models.Starter.ListStreamProcessors().Contains(Models.MyAWSConfigs.StreamProcessorName))
-            //    {
-            //        Models.Starter.CreateStreamProcessor();
-            //    }
-            //}
-            //finally
-            //{
-            //    Mouse.OverrideCursor = null;
-            //}
         }
 
         // function for check a window is open & avoid opening it twice

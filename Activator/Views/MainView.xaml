@@ -121,7 +121,7 @@
                         </TransformGroup>
                     </Button.RenderTransform>
                     <Button.Background>
-                        <ImageBrush ImageSource="..\images\actlogo1.png"/>
+                        <ImageBrush/>
                     </Button.Background>
                 </Button>
                 <!--<Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Width="50" Height="50" Margin="10" Foreground="White">
@@ -232,17 +232,17 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="1" Background="MediumSeaGreen" Margin="0,0,0,0" >
-                <Image Height="150" Opacity=".5" VerticalAlignment="Top" Source="..\images\actlogo1.png" Stretch="UniformToFill" Margin="0,45,0,0">
+                <Image Height="150" Opacity=".5" x:Name="MyPropicImage" VerticalAlignment="Top" Stretch="UniformToFill" Margin="0,45,0,0">
                     <Image.Effect>
                         <BlurEffect Radius="10"/>
                     </Image.Effect>
                 </Image>
                 <Ellipse Height="100" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,142,25,0" Stroke="White">
                     <Ellipse.Fill>
-                        <ImageBrush ImageSource="..\images\alogo22.jpg" Stretch="UniformToFill"/>
+                        <ImageBrush Stretch="UniformToFill"/>
                     </Ellipse.Fill>
                 </Ellipse>
-                <TextBlock Text="ADMIN" FontWeight="Normal" Foreground="White" FontSize="28" FontFamily="Nirmala UI" Margin="10,158,10,0" VerticalAlignment="Top"/>
+                <TextBlock Text="ADMIN" x:Name="AdminName" FontWeight="Normal" Foreground="White" FontSize="28" FontFamily="Nirmala UI" Margin="10,158,10,0" VerticalAlignment="Top"/>
 
             </Grid>
 

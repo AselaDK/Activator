@@ -14,16 +14,16 @@ namespace Activator.Models
     class S3Bucket
     {
         // setup
-        private static string bucketName = MyAWSConfigs.RefImagesBucketName;
         private static RegionEndpoint bucketRegion = MyAWSConfigs.S3BucketRegion;
 
         private static IAmazonS3 s3Client;
 
         // upload a single file
-        public static void UploadFile(string _filePath, string _fileName)
+        public static void UploadFile(string _filePath, string _fileName, string _bucketName)
         {
             string filePath = _filePath;
             string fileName = _fileName;
+            string bucketName = _bucketName;
 
             using (s3Client = new AmazonS3Client(bucketRegion))
             {
@@ -52,7 +52,7 @@ namespace Activator.Models
         }
 
         // downlaod a single file to "Resources/Images/"
-        public static void DownloadFile(string fileName)
+        public static void DownloadFile(string fileName, string bucketName)
         {
             if (!Directory.Exists("Resources/Images")) Directory.CreateDirectory("Resources/Images");
             string filePath = $"Resources/Images/{fileName}";
@@ -84,7 +84,7 @@ namespace Activator.Models
         }
 
         // return all the file's names in the s3 bucket
-        public static List<string> GetFilesList()
+        public static List<string> GetFilesList(string bucketName)
         {
             List<String> refNames = new List<string>();
             refNames.Clear();

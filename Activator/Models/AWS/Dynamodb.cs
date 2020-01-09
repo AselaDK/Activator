@@ -107,7 +107,7 @@ namespace Activator.Models
             try
             {
                 AmazonDynamoDBClient client;
-                using (client = new AmazonDynamoDBClient(MyAWSConfigs.dynamodbRegion))
+                using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
                 {
                     DynamoDBContext context = new DynamoDBContext(client);
                     IEnumerable<Logs> logsData = context.Scan<Logs>();

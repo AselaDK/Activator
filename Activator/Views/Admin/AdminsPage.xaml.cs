@@ -87,12 +87,12 @@ namespace Activator.Views
 
         private void CamerasDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            EditCameraView ecv = new EditCameraView();
-            ecv.DataContext = AdminDataGrid.SelectedItem;
-            //ecv.TxtCamId.Text = row
-            //ecv.TxtLocation.Text = Convert.ToString(ColLocation);
-            //ecv.TxtQuality.Text = Convert.ToString(ColQuality);
-            ecv.ShowDialog();
+            //EditCameraView ecv = new EditCameraView();
+            //ecv.DataContext = AdminDataGrid.SelectedItem;
+            ////ecv.TxtCamId.Text = row
+            ////ecv.TxtLocation.Text = Convert.ToString(ColLocation);
+            ////ecv.TxtQuality.Text = Convert.ToString(ColQuality);
+            //ecv.ShowDialog();
         }
 
         private void Search_Click(object sender, RoutedEventArgs e)

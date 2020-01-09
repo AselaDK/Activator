@@ -34,7 +34,7 @@ namespace Activator.Models
             try
             {
                 AmazonDynamoDBClient client;
-                using (client = new AmazonDynamoDBClient(MyAWSConfigs.dynamodbRegion))
+                using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
                 {
                     DynamoDBContext context = new DynamoDBContext(client);
                     IEnumerable<Admin> adminData = context.Scan<Admin>();
@@ -45,7 +45,7 @@ namespace Activator.Models
 
                         if (!File.Exists(directoryPath + admin.aPropic))
                         {
-                            S3Bucket.DownloadFile(admin.aPropic);
+                            S3Bucket.DownloadFile(admin.aPropic, MyAWSConfigs.AdminS3BucketName);
                         }
 
                         string exeDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
