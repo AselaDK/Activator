@@ -60,6 +60,37 @@ namespace Activator.Models
             }
         }
 
+        public static void DeleteItem(string id, string tableName)
+        {
+            try
+            {
+                AmazonDynamoDBClient client;
+                using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
+                {
+                    Dictionary<string, AttributeValue> key = new Dictionary<string, AttributeValue>
+                    {
+                        { "id", new AttributeValue { S = id } },
+                    };
+
+                    DeleteItemRequest deleteItemRequest = new DeleteItemRequest
+                    {
+                        Key = key,
+                        TableName = tableName,
+                    };
+
+                    client.DeleteItem(deleteItemRequest);
+                }
+            }
+            catch (AmazonDynamoDBException e)
+            {
+                Console.WriteLine("AmazonDynamoDBException: " + e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e);
+            }
+        }
+
         public static long GetItemCount(string tableName)
         {
             long itemCount = 0;

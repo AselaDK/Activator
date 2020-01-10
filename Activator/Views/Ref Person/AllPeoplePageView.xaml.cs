@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.Model;
 
 namespace Activator.Views
 {
@@ -18,7 +13,7 @@ namespace Activator.Views
         public AllPeoplePageView()
         {
             InitializeComponent();
-            InitData();            
+            InitData();
         }
 
         private void BtnAddNewRef_Click(object sender, RoutedEventArgs e)
@@ -49,7 +44,7 @@ namespace Activator.Views
             finally
             {
                 Mouse.OverrideCursor = null;
-            }            
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

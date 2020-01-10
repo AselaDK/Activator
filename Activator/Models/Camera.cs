@@ -18,6 +18,10 @@ namespace Activator.Models
 
         public string location { get; set; }
 
+        public string videoStreamArn { get; set; }
+
+        public string eventSourceUUID { get; set; }
+
         public static List<Camera> GetAllCamers()
         {
             List<Camera> cameras = new List<Camera>();
@@ -46,8 +50,6 @@ namespace Activator.Models
 
             return cameras;
         }
-
-
     }
 }
 

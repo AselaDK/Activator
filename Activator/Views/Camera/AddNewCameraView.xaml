@@ -13,7 +13,7 @@
         ShowTitleBar="False"
         ShowCloseButton="False" 
         ShowMaxRestoreButton="False" 
-        ShowMinButton="False" Topmost="False" IsWindowDraggable="False" 
+        ShowMinButton="False" Topmost="True" IsWindowDraggable="False" 
         Background="White">
 
     <StackPanel Orientation="Vertical">

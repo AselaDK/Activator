@@ -18,7 +18,7 @@ namespace Activator.Views
         public LoginView()
         {
             InitializeComponent();
-            //Models.StreamProcessorManager.DeleteStreamProcessor("StreamProcessorCam2");
+            //Models.StreamProcessorManager.DeleteStreamProcessor("StreamProcessorCam1");
         }
 
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
