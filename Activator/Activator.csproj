@@ -40,15 +40,6 @@
     <Reference Include="Amazon.Core, Version=0.15.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Amazon.Core.0.15.0\lib\netstandard2.0\Amazon.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Amazon.Lambda.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\Amazon.Lambda.Core.1.1.0\lib\netstandard2.0\Amazon.Lambda.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Amazon.Lambda.KinesisEvents, Version=1.0.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\Amazon.Lambda.KinesisEvents.1.1.0\lib\netstandard2.0\Amazon.Lambda.KinesisEvents.dll</HintPath>
-    </Reference>
-    <Reference Include="Amazon.Lambda.Serialization.Json, Version=1.0.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\Amazon.Lambda.Serialization.Json.1.7.0\lib\netstandard2.0\Amazon.Lambda.Serialization.Json.dll</HintPath>
-    </Reference>
     <Reference Include="appium-dotnet-driver, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.WinAppDriver.Appium.WebDriver.1.0.1-Preview\lib\net45\appium-dotnet-driver.dll</HintPath>
     </Reference>
@@ -80,7 +71,7 @@
       <HintPath>packages\Carbon.Json.2.1.0\lib\netstandard2.0\Carbon.Json.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>packages\Castle.Core.4.3.1\lib\net45\Castle.Core.dll</HintPath>
+      <HintPath>packages\Castle.Core.4.4.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Carbon.Storage, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Carbon.Storage.2.0.0\lib\netstandard2.0\Carbon.Storage.dll</HintPath>
@@ -339,15 +330,53 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Images\activatorlogo1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\alogo22.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\actlogo1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="packages\AWSSDK.DynamoDBv2.3.3.104.10\analyzers\dotnet\cs\AWSSDK.DynamoDBv2.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.Kinesis.3.3.100.115\analyzers\dotnet\cs\AWSSDK.Kinesis.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.Lambda.3.3.106.8\analyzers\dotnet\cs\AWSSDK.Lambda.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.Rekognition.3.3.103.8\analyzers\dotnet\cs\AWSSDK.Rekognition.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.S3.3.3.110.4\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+  </ItemGroup>
+    <Resource Include="Resources\Images\activatorlogo1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\alogo22.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\actlogo1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\man face.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\manfacesqr.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\girlface.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\media1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\media2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\media3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
     <Analyzer Include="packages\AWSSDK.DynamoDBv2.3.3.104.16\analyzers\dotnet\cs\AWSSDK.DynamoDBv2.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.Kinesis.3.3.100.121\analyzers\dotnet\cs\AWSSDK.Kinesis.CodeAnalysis.dll" />
-    <Analyzer Include="packages\AWSSDK.KinesisVideo.3.3.102.14\analyzers\dotnet\cs\AWSSDK.KinesisVideo.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.Lambda.3.3.106.14\analyzers\dotnet\cs\AWSSDK.Lambda.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.Rekognition.3.3.103.14\analyzers\dotnet\cs\AWSSDK.Rekognition.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.S3.3.3.110.10\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\LogoActivator.jpeg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\MaterialDesignThemes.3.0.1\build\MaterialDesignThemes.targets" Condition="Exists('packages\MaterialDesignThemes.3.0.1\build\MaterialDesignThemes.targets')" />

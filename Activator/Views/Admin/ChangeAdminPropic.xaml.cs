@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Item = Amazon.DynamoDBv2.DocumentModel.Document;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
+using Activator.Models;
 
 namespace Activator.Views
 {
@@ -20,15 +21,16 @@ namespace Activator.Views
     public partial class ChangeAdminPropic : MetroWindow
     {
         private string uploadFilePath;
+        private readonly string myId = "";
+        private readonly AmazonDynamoDBClient client;
+        readonly Table table = null;
+        private Item item = null;
+
         public ChangeAdminPropic()
         {
             InitializeComponent();
         }
-        private readonly string myId = "";
-        private readonly AmazonDynamoDBClient client;
-        readonly Table table = null;
-        readonly Item item = null;
-
+        
         public ChangeAdminPropic(string id) : this()
         {
             InitializeComponent();
@@ -36,7 +38,7 @@ namespace Activator.Views
             try
             {
                 this.client = new AmazonDynamoDBClient();
-                string tableName = "admin";
+                string tableName = MyAWSConfigs.adminDBTableName;
                 table = Table.LoadTable(client, tableName);
                 item = table.GetItem(myId);
             }
@@ -76,6 +78,19 @@ namespace Activator.Views
 
         private async void ButtonSubmit_Click(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files | *.jpg; *.jpeg; *.png";
+            openFileDialog.FilterIndex = 1;
+            openFileDialog.Multiselect = false;
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                uploadFilePath = openFileDialog.FileName;
+
+                Uri fileUri = new Uri(uploadFilePath);
+                imgUploadImage.Source = new BitmapImage(fileUri);
+            }
+
             try
             {
 
@@ -91,10 +106,18 @@ namespace Activator.Views
                     string fileId = $"{myId}.{temp[temp.Length - 1]}";
 
                     string BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
-                    string filePath = BaseDirectoryPath + $"Resources/Images/{fileId}";
-                    File.Delete(filePath);
+                    string filePath = BaseDirectoryPath + $"Resources\\Images\\{fileId}";
 
-                    var item = new Document();
+                    item = table.GetItem(myId);
+                    string oldImage = item["aPropic"];
+                    Console.WriteLine("><><><><><><><><><><>" + oldImage);
+
+                    //Delete old profile pic in local
+                    string oldFilePath = BaseDirectoryPath + $"Resources\\Images\\{oldImage}";
+                    DeleteOldPic(oldFilePath);
+
+                    //Delete old profile pic in s3Bucket
+                    S3Bucket.DeleteFile(oldImage);
 
                     item["aPropic"] = fileId;
 
@@ -115,6 +138,33 @@ namespace Activator.Views
             catch
             {
                 await this.ShowMessageAsync("Error", "Task not completed", MessageDialogStyle.Affirmative);
+            }
+        }
+
+        private static void DeleteOldPic(string filePath)
+        {
+            try
+            {
+                // Check if file exists with its full path
+                string dFilePath = filePath;
+                Console.WriteLine(dFilePath);
+                if (File.Exists(dFilePath))
+                {
+                    //remove other processes on file
+                    StreamReader sr = new StreamReader(@dFilePath);
+                    //Console.Write(sr.ReadToEnd());
+                    sr.Close();
+                    sr.Dispose();
+                    // If file found, delete it  
+                    File.Delete(dFilePath);
+                    Console.WriteLine(">>>>>>>>>>>>>>>>File deleted.");
+                }
+                else Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>File not found");
+            }
+            catch (IOException ioExp)
+            {
+                Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>");
+                Console.WriteLine(ioExp.Message);
             }
         }
     }

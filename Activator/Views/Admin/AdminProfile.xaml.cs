@@ -1,12 +1,17 @@
 ﻿using Amazon.DynamoDBv2;
 using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
+using Item = Amazon.DynamoDBv2.DocumentModel.Document;
 using Activator.Models;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using Microsoft.Win32;
+using MahApps.Metro.Controls.Dialogs;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Activator.Views
 {
@@ -15,8 +20,12 @@ namespace Activator.Views
     /// </summary>
     public partial class AdminProfile : UserControl
     {
-        private string myId = "";
-
+        private string uploadFilePath;
+        private readonly string myId = null;
+        private AmazonDynamoDBClient client;
+        private string tableName = null;
+        Table table = null;
+        private Item item = null;
         public AdminProfile()
         {
             InitializeComponent();
@@ -25,6 +34,25 @@ namespace Activator.Views
         public AdminProfile(String id) : this()
         {
             this.myId = id;
+            try
+            {
+                this.client = new AmazonDynamoDBClient();
+                string tableName = MyAWSConfigs.adminDBTableName;
+                table = Table.LoadTable(client, tableName);
+                item = table.GetItem(myId);
+            }
+            catch (AmazonDynamoDBException ex)
+            {
+                MessageBox.Show("Message : Server Error", ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Message : Unknown Error", ex.Message);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
             ShowProfileData(myId);
         }
 
@@ -37,11 +65,11 @@ namespace Activator.Views
 
                 try
                 {
-                    string tableName = "admin";
+                    tableName = MyAWSConfigs.adminDBTableName;
 
-                    var client = new AmazonDynamoDBClient();
-                    var table = Table.LoadTable(client, tableName);
-                    var item = table.GetItem(myid);
+                    client = new AmazonDynamoDBClient();
+                    table = Table.LoadTable(client, tableName);
+                    item = table.GetItem(myid);
 
                     //Console.WriteLine(item["aPassword"]);
 
@@ -58,26 +86,6 @@ namespace Activator.Views
                         string filePath = BaseDirectoryPath + $"Resources/Images/{imagename}";
                         AdminDp.Source = new BitmapImage(new Uri(filePath));
 
-                        // Create Image and set its width and height  
-                        Image dynamicImage = new Image();
-                        dynamicImage.Stretch = Stretch.Fill;
-                        dynamicImage.StretchDirection = StretchDirection.Both;
-                        dynamicImage.Width = 300;
-                        dynamicImage.Height = 200;
-
-                        // Create a BitmapSource  
-                        BitmapImage bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(@"");
-                        bitmap.EndInit();
-
-                        // Set Image.Source  
-                        dynamicImage.Source = bitmap;
-
-                        // Add Image to Window  
-//                        AdminDp.Children.Add(dynamicImage);
-
-                        //this.Close();
                     }
                     else
                     {
@@ -114,10 +122,95 @@ namespace Activator.Views
             changeAdminPassword.ShowDialog();
         }
 
-        private void BtnChangePropic_Click(object sender, RoutedEventArgs e)
+        private async void BtnChangePropic_Click(object sender, RoutedEventArgs e)
         {
-            ChangeAdminPropic changeAdminPassword = new ChangeAdminPropic(myId);
-            changeAdminPassword.ShowDialog();
+            //ChangeAdminPropic changeAdminPassword = new ChangeAdminPropic(myId);
+            //changeAdminPassword.ShowDialog();
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files | *.jpg; *.jpeg; *.png";
+            openFileDialog.FilterIndex = 1;
+            openFileDialog.Multiselect = false;
+
+            //open file dialog
+            if (openFileDialog.ShowDialog() == true)
+            {
+                uploadFilePath = openFileDialog.FileName;
+                AdminDp.Source = null;
+            }
+
+            try
+            {
+
+                bool isFilePathEmpty = string.IsNullOrEmpty(uploadFilePath);
+
+                if (!isFilePathEmpty)
+                {
+                    client = new AmazonDynamoDBClient();
+                    tableName = MyAWSConfigs.adminDBTableName;
+                    table = Table.LoadTable(client, tableName);
+
+                    string[] temp = uploadFilePath.Split('.');
+                    string fileId = $"{myId}.{temp[temp.Length - 1]}";
+
+                    string BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
+
+                    //get current dp name
+                    item = table.GetItem(myId);
+                    string oldImage = item["aPropic"];
+                    Console.WriteLine("><><><><><><><><><><>" + oldImage);
+
+                    //Delete old profile pic in local
+                    string oldFilePath = BaseDirectoryPath + $"Resources\\Images\\{oldImage}";
+                    //DeleteOldPic(oldFilePath);
+
+                    //Delete old profile pic in s3Bucket
+                    //S3Bucket.DeleteFile(oldImage);
+
+                    item["aPropic"] = fileId;
+
+                    await Task.Run(() => S3Bucket.UploadFile(uploadFilePath, fileId));
+
+                    MessageBox.Show("Success", "Successfully Updated!");
+
+                }
+                else
+                {
+                    MessageBox.Show("Error", "Please check all fields");
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error", "Task not completed");
+            }
+
+        }
+
+        private static void DeleteOldPic(string filePath)
+        {
+            try
+            {
+                // Check if file exists with its full path
+                string dFilePath = filePath;
+                Console.WriteLine(dFilePath);
+                if (File.Exists(dFilePath))
+                {
+                    //remove other processes on file
+                    StreamReader sr = new StreamReader(@dFilePath);
+                    //Console.Write(sr.ReadToEnd());
+                    sr.Close();
+                    sr.Dispose();
+                    // If file found, delete it  
+                    File.Delete(@dFilePath);
+                    Console.WriteLine(">>>>>>>>>>>>>>>>File deleted.");
+                }
+                else Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>File not found");
+            }
+            catch (IOException ioExp)
+            {
+                Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>");
+                Console.WriteLine(ioExp.Message);
+            }
         }
     }
 }

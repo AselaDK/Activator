@@ -136,6 +136,42 @@ namespace Activator.Models
 
             return refNames;
         }
+        public static void DeleteFile(string fileName)
+        {
+            if (!Directory.Exists("Resources/Images")) Directory.CreateDirectory("Resources/Images");
+
+            string filePath = $"Resources/Images/{fileName}";
+
+            using (s3Client = new AmazonS3Client(bucketRegion))
+            {
+                s3Client = new AmazonS3Client(bucketRegion);
+                DeleteFileAsync().Wait();
+            }
+
+                async Task DeleteFileAsync()
+            {
+                try
+                {
+                    var deleteObjectRequest = new DeleteObjectRequest
+                    {
+                        BucketName = bucketName,
+                        Key = fileName
+                    };
+
+                    Console.WriteLine("Deleting an object");
+                    await s3Client.DeleteObjectAsync(deleteObjectRequest);
+
+                }
+                catch (AmazonS3Exception e)
+                {
+                    Console.WriteLine("AmazonS3Exception: " + e);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: " + e);
+                }
+            }
+        }
     }    
 }
 
