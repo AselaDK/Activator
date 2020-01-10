@@ -16,13 +16,13 @@ using System.Windows.Shapes;
 namespace Activator.Views
 {
     /// <summary>
-    /// Interaction logic for UserControlMessageReceived.xaml
+    /// Interaction logic for GetHelpView.xaml
     /// </summary>
-    public partial class UserControlMessageReceived : UserControl
+    public partial class GetHelpPageView : UserControl
     {
-        public UserControlMessageReceived()
+        public GetHelpPageView()
         {
-            InitializeComponent();
-        }
+            //InitializeComponent();
+        }   
     }
 }

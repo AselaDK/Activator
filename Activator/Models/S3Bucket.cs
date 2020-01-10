@@ -14,8 +14,8 @@ namespace Activator.Models
     class S3Bucket
     {
         // setup
-        private static string bucketName = MyAWSConfigs.refImagesBucketName;
-        private static RegionEndpoint bucketRegion = MyAWSConfigs.refImagesBucketRegion;
+        private static string bucketName = MyAWSConfigs.RefImagesBucketName;
+        private static RegionEndpoint bucketRegion = MyAWSConfigs.S3BucketRegion;
 
         private static IAmazonS3 s3Client;
 
@@ -51,7 +51,7 @@ namespace Activator.Models
             }
         }
 
-        // downlaod a single file to " Resources/Images/ "
+        // downlaod a single file to "Resources/Images/"
         public static void DownloadFile(string fileName)
         {
             if (!Directory.Exists("Resources/Images")) Directory.CreateDirectory("Resources/Images");

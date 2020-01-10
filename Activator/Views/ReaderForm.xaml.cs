@@ -1,26 +1,29 @@
-﻿using Amazon.DynamoDBv2.DocumentModel;
-using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using Microsoft.Win32;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
+using Amazon.DynamoDBv2.DocumentModel;
+
 using System.Collections.Generic;
 using System.Windows.Input;
+
 
 namespace Activator.Views
 {
     /// <summary>
-    /// Interaction logic for AddNewRef.xaml
+    /// Interaction logic for ReaderForm.xaml
     /// </summary>
-    public partial class AddNewRef : MetroWindow
+    public partial class ReaderForm : MetroWindow
     {
         private string uploadFilePath;
 
-        private void ButtonCloseAddNewRef_Click(object sender, RoutedEventArgs e)
+        public ReaderForm()
         {
-            this.Close();
+            InitializeComponent();
+            
         }
 
         private async void ButtonSubmit_Click(object sender, RoutedEventArgs e)
@@ -47,9 +50,9 @@ namespace Activator.Views
                     item["name"] = txtName.Text;
                     item["description"] = txtDescription.Text;
 
-                    await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId));
-                    await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.RefPersonsDBTableName));
-                    await Task.Run(() => Models.FaceCollection.AddFace(fileId, Models.MyAWSConfigs.FaceCollectionID));
+                    await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId,Models.MyAWSConfigs.readerS3BucketName));
+                    await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.readerDBtableName));
+                  //  await Task.Run(() => Models.FaceCollection.AddFace(fileId, Models.MyAWSConfigs.faceCollectionID));
 
                     await controller.CloseAsync();
 
@@ -59,22 +62,17 @@ namespace Activator.Views
                     txtDescription.Text = "";
                     txtId.Text = "";
                     imgUploadImage.Source = null;
-                    
+
                 }
                 else
                 {
-                    await this.ShowMessageAsync("Error", "Please check all fields", MessageDialogStyle.Affirmative);
+                    await this.ShowMessageAsync("Error", "Fill All The Fields", MessageDialogStyle.Affirmative);
                 }
             }
             catch
             {
                 await this.ShowMessageAsync("Error", "Task not completed", MessageDialogStyle.Affirmative);
             }
-        }
-
-        public AddNewRef()
-        {
-            InitializeComponent();         
         }
 
         private void ButtonChooseImage_Click(object sender, RoutedEventArgs e)
@@ -87,16 +85,19 @@ namespace Activator.Views
             if (openFileDialog.ShowDialog() == true)
             {
                 uploadFilePath = openFileDialog.FileName;
-                Console.WriteLine(uploadFilePath);
 
                 Uri fileUri = new Uri(uploadFilePath);
                 imgUploadImage.Source = new BitmapImage(fileUri);
             }
         }
 
-        private void ButtonClose_Click(object sender, RoutedEventArgs e)
+        private void AddReferance_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            MessageBox.Show("this is from add referance button");
+          
+            
         }
+
+
     }
 }
