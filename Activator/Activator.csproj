@@ -225,8 +225,8 @@
     <Compile Include="Views\Reader\Readers.xaml.cs">
       <DependentUpon>Readers.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Reader\ReadersView.xaml.cs">
-      <DependentUpon>ReadersView.xaml</DependentUpon>
+    <Compile Include="Views\Reader\ReadersPage.xaml.cs">
+      <DependentUpon>ReadersPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Admin\RegisterAdmin.xaml.cs">
       <DependentUpon>RegisterAdmin.xaml</DependentUpon>
@@ -302,7 +302,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Reader\ReadersView.xaml">
+    <Page Include="Views\Reader\ReadersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
