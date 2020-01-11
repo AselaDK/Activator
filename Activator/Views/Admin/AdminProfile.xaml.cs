@@ -37,7 +37,7 @@ namespace Activator.Views
             try
             {
                 this.client = new AmazonDynamoDBClient();
-                string tableName = MyAWSConfigs.adminDBTableName;
+                string tableName = MyAWSConfigs.AdminDBTableName;
                 table = Table.LoadTable(client, tableName);
                 item = table.GetItem(myId);
             }
@@ -65,7 +65,7 @@ namespace Activator.Views
 
                 try
                 {
-                    tableName = MyAWSConfigs.adminDBTableName;
+                    tableName = MyAWSConfigs.AdminDBTableName;
 
                     client = new AmazonDynamoDBClient();
                     table = Table.LoadTable(client, tableName);
@@ -147,7 +147,7 @@ namespace Activator.Views
                 if (!isFilePathEmpty)
                 {
                     client = new AmazonDynamoDBClient();
-                    tableName = MyAWSConfigs.adminDBTableName;
+                    tableName = MyAWSConfigs.AdminDBTableName;
                     table = Table.LoadTable(client, tableName);
 
                     string[] temp = uploadFilePath.Split('.');
@@ -169,7 +169,7 @@ namespace Activator.Views
 
                     item["aPropic"] = fileId;
 
-                    await Task.Run(() => S3Bucket.UploadFile(uploadFilePath, fileId));
+                    await Task.Run(() => S3Bucket.UploadFile(uploadFilePath, fileId, MyAWSConfigs.AdminS3BucketName));
 
                     MessageBox.Show("Success", "Successfully Updated!");
 

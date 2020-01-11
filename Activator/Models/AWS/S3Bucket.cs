@@ -136,7 +136,7 @@ namespace Activator.Models
 
             return refNames;
         }
-        public static void DeleteFile(string fileName)
+        public static void DeleteFile(string fileName, string bucketName)
         {
             if (!Directory.Exists("Resources/Images")) Directory.CreateDirectory("Resources/Images");
 

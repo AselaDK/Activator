@@ -38,7 +38,7 @@ namespace Activator.Views
             try
             {
                 this.client = new AmazonDynamoDBClient();
-                string tableName = MyAWSConfigs.adminDBTableName;
+                string tableName = MyAWSConfigs.AdminDBTableName;
                 table = Table.LoadTable(client, tableName);
                 item = table.GetItem(myId);
             }
@@ -117,11 +117,11 @@ namespace Activator.Views
                     DeleteOldPic(oldFilePath);
 
                     //Delete old profile pic in s3Bucket
-                    S3Bucket.DeleteFile(oldImage);
+                    S3Bucket.DeleteFile(oldImage, MyAWSConfigs.AdminS3BucketName);
 
                     item["aPropic"] = fileId;
 
-                    await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId, Models.MyAWSConfigs.AdminS3BucketName));
+                    await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId, MyAWSConfigs.AdminS3BucketName));
                     await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.AdminDBTableName));
 
                     await controller.CloseAsync();

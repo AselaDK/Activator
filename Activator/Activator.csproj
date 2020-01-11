@@ -255,9 +255,6 @@
     <Page Include="Views\Ref Person\AddNewRef.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Camera\CamerasPageView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Ref Person\AllPeoplePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -339,46 +336,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\activatorlogo1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\alogo22.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\actlogo1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Analyzer Include="packages\AWSSDK.DynamoDBv2.3.3.104.10\analyzers\dotnet\cs\AWSSDK.DynamoDBv2.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.Kinesis.3.3.100.115\analyzers\dotnet\cs\AWSSDK.Kinesis.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.Lambda.3.3.106.8\analyzers\dotnet\cs\AWSSDK.Lambda.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.Rekognition.3.3.103.8\analyzers\dotnet\cs\AWSSDK.Rekognition.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.S3.3.3.110.4\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
-  </ItemGroup>
-    <Resource Include="Resources\Images\activatorlogo1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\alogo22.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\actlogo1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\man face.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\manfacesqr.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\girlface.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\media1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\media2.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\media3.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="packages\AWSSDK.DynamoDBv2.3.3.104.16\analyzers\dotnet\cs\AWSSDK.DynamoDBv2.CodeAnalysis.dll" />
@@ -386,6 +348,9 @@
     <Analyzer Include="packages\AWSSDK.Lambda.3.3.106.14\analyzers\dotnet\cs\AWSSDK.Lambda.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.Rekognition.3.3.103.14\analyzers\dotnet\cs\AWSSDK.Rekognition.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.S3.3.3.110.10\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\LogoActivator.jpeg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\MaterialDesignThemes.3.0.1\build\MaterialDesignThemes.targets" Condition="Exists('packages\MaterialDesignThemes.3.0.1\build\MaterialDesignThemes.targets')" />
