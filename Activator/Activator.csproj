@@ -56,7 +56,7 @@
       <HintPath>packages\AWSSDK.Kinesis.3.3.100.122\lib\net45\AWSSDK.Kinesis.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.KinesisVideo, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.KinesisVideo.3.3.102.14\lib\net45\AWSSDK.KinesisVideo.dll</HintPath>
+      <HintPath>packages\AWSSDK.KinesisVideo.3.3.102.15\lib\net45\AWSSDK.KinesisVideo.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.Lambda, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
       <HintPath>packages\AWSSDK.Lambda.3.3.106.15\lib\net45\AWSSDK.Lambda.dll</HintPath>
@@ -338,6 +338,7 @@
   <ItemGroup>
     <Analyzer Include="packages\AWSSDK.DynamoDBv2.3.3.104.16\analyzers\dotnet\cs\AWSSDK.DynamoDBv2.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.Kinesis.3.3.100.121\analyzers\dotnet\cs\AWSSDK.Kinesis.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.KinesisVideo.3.3.102.15\analyzers\dotnet\cs\AWSSDK.KinesisVideo.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.Lambda.3.3.106.14\analyzers\dotnet\cs\AWSSDK.Lambda.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.Rekognition.3.3.103.14\analyzers\dotnet\cs\AWSSDK.Rekognition.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.S3.3.3.110.10\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
