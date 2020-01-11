@@ -42,14 +42,7 @@ namespace kinesisMyDataStreamFunction
                 {
                     if (dataObject.FaceSearchResponse[0].MatchedFaces.Length != 0)
                     {
-                        //context.Logger.LogLine(recordData);                                                                       
-
-                        var itemEvent = new Document();
-
-                        itemEvent["event_id"] = eventID;
-                        itemEvent["data"] = recordData;                       
-
-                        WriteItemAsync(itemEvent, context, "history");
+                        //context.Logger.LogLine(recordData);                                                                  
 
                         foreach (Facesearchresponse facesearchresponse in dataObject.FaceSearchResponse)
                         {
@@ -68,8 +61,17 @@ namespace kinesisMyDataStreamFunction
                                     }
                                 }
 
-                                var item = new Document();
+                                string[] temp = dataObject.InputInformation.KinesisVideo.StreamArn.Split('/');
+                                string detectedCamera = temp[temp.Length - 2];
 
+                                var notificationItem = new Document();
+                                notificationItem["event_id"] = eventID;
+                                notificationItem["timestamp"] = dataObject.InputInformation.KinesisVideo.ProducerTimestamp; ;
+                                notificationItem["message"] = $"{matchedface.Face.ExternalImageId} is detected by camera {detectedCamera[detectedCamera.Length - 1]}";
+
+                                WriteItemAsync(notificationItem, context, "history");
+
+                                var item = new Document();
                                 item["id"] = matchedface.Face.ExternalImageId;
                                 item["status"] = true;
 

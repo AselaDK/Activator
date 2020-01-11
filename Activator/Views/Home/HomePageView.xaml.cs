@@ -18,7 +18,7 @@ namespace Activator.Views
         public HomePageView()
         {
             InitializeComponent();
-            //ReadStream();
+            ReadStream();
         }
 
         private async Task ReadStream()
