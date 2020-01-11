@@ -36,6 +36,10 @@ namespace kinesisMyDataStreamFunction
 
                 Rootobject dataObject = JsonConvert.DeserializeObject<Rootobject>(recordData);
 
+                string[] temp = dataObject.InputInformation.KinesisVideo.StreamArn.Split('/');
+                string detectedCamera = temp[temp.Length - 2];                
+                int detectedCameraId = int.Parse(detectedCamera[detectedCamera.Length - 1].ToString());
+
                 GetAllRefPersonsId(context).Wait();                
 
                 if (dataObject.FaceSearchResponse.Length != 0)
@@ -52,17 +56,17 @@ namespace kinesisMyDataStreamFunction
                             foreach (Matchedface matchedface in facesearchresponse.MatchedFaces)
                             {
                                 if (!detectedList.Contains(matchedface.Face.ExternalImageId))
+                                {
                                     detectedList.Add(matchedface.Face.ExternalImageId);
-                                
-                                string[] temp = dataObject.InputInformation.KinesisVideo.StreamArn.Split('/');
-                                string detectedCamera = temp[temp.Length - 2];
+                                                                        
+                                    var notificationItem = new Document();
+                                    notificationItem["event_id"] = eventID;
+                                    notificationItem["timestamp"] = dataObject.InputInformation.KinesisVideo.ProducerTimestamp; ;
+                                    notificationItem["message"] = $"{matchedface.Face.ExternalImageId} is " +
+                                                                    $"detected by camera {detectedCameraId}";
 
-                                var notificationItem = new Document();
-                                notificationItem["event_id"] = eventID;
-                                notificationItem["timestamp"] = dataObject.InputInformation.KinesisVideo.ProducerTimestamp; ;
-                                notificationItem["message"] = $"{matchedface.Face.ExternalImageId} is detected by camera {detectedCamera[detectedCamera.Length - 1]}";
-
-                                WriteItemAsync(notificationItem, context, "history");                                
+                                    WriteItemAsync(notificationItem, context, "history");
+                                }                               
                             }
 
                             foreach (string id in allRefPersonsId)
@@ -74,9 +78,10 @@ namespace kinesisMyDataStreamFunction
                                     if (entry.AsBoolean() == false)
                                     {
                                         var itemUpdate = new Document();
-
+                                        
                                         itemUpdate["id"] = id;
                                         itemUpdate["status"] = true;
+                                        itemUpdate["camera"] = detectedCameraId.ToString();
 
                                         UpdateItemAsync(itemUpdate, context, "ref_persons");
                                     }

@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
+using System.Windows.Input;
 
 namespace Activator.Views
 {
@@ -15,17 +16,38 @@ namespace Activator.Views
     /// </summary>
     public partial class HomePageView : UserControl
     {
+        Dictionary<string, Models.Camera> cameras = new Dictionary<string, Models.Camera>();
+
         public HomePageView()
         {
             InitializeComponent();
-            ReadRefPersonStream();
-            ReadNotificationStream();
+            GetAllCameras();
+            ReadRefPersonStream();            
+        }
+        
+        private void GetAllCameras()
+        {
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                List<Models.Camera> temp = Models.Camera.GetAllCamers();
+                foreach (Models.Camera camera in temp)
+                {
+                    cameras.Add(camera.id, camera);
+                }
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
+            
         }
 
         private async Task ReadRefPersonStream()
         {
-            List<Models.RefPerson> refPersons = new List<Models.RefPerson>();
-            dataGridDetectedPersons.ItemsSource = refPersons;
+            Dictionary<string, Models.RefPerson> refPersons = new Dictionary<string, Models.RefPerson>();
+            refPersons.Clear();
+            dataGridDetectedPersons.ItemsSource = refPersons.Values;
             dataGridDetectedPersons.Items.Refresh();
 
             string streamArn = Models.MyAWSConfigs.DynamodbRefPersonTableStreamArn;
@@ -93,16 +115,15 @@ namespace Activator.Views
                                         string changedRefPersonStatus = record.Dynamodb.NewImage["status"].N.ToString();
                                         string changedRefPersonName = record.Dynamodb.NewImage["name"].S;
                                         string changedRefPersonDescription = record.Dynamodb.NewImage["description"].S;
-
-                                        //Console.WriteLine($"{changedRefPersonId}:{changedRefPersonStatus}:{changedRefPersonName}:{changedRefPersonDescription}");
-
+                                        string changedRefPersonCamera = record.Dynamodb.NewImage["camera"].S;
+                                                                              
                                         Models.RefPerson refPerson = new Models.RefPerson();
 
                                         refPerson.id = changedRefPersonId;
                                         refPerson.name = changedRefPersonName;
                                         refPerson.status = (changedRefPersonStatus == "1")?true:false;
                                         refPerson.description = changedRefPersonDescription;
-                                        refPerson.camera = "mobile_stream_1";
+                                        refPerson.camera = changedRefPersonCamera;
 
                                         string directoryPath = "Resources/Images/";
 
@@ -118,19 +139,21 @@ namespace Activator.Views
                                         refPerson.image = new BitmapImage(fileUri);
 
                                         if (refPerson.status)
-                                        {                                            
-                                            if (refPersons.FindAll(p => p.id == refPerson.id).Count == 0)
-                                            {
-                                                refPersons.Add(refPerson);
-                                            }
+                                        {
+                                            refPersons.Add(refPerson.id, refPerson);
+                                            string camLocation = cameras[refPerson.camera].location;
+                                            string message = $"{refPerson.name} has been detected by camera {refPerson.camera} at {camLocation}";
+                                            AddNewNotification(message);
                                         }
                                         else
                                         {
-                                            //p => p.id == refPerson.id
-                                            refPersons.RemoveAll(p => p.id == refPerson.id);
+                                            refPersons.Remove(refPerson.id);
+                                            string camLocation = cameras[refPerson.camera].location;
+                                            string message = $"{refPerson.name} has been disappeared by camera {refPerson.camera} at {camLocation}";
+                                            AddNewNotification(message);
                                         }
 
-                                        dataGridDetectedPersons.ItemsSource = refPersons;
+                                        dataGridDetectedPersons.ItemsSource = refPersons.Values;
                                         dataGridDetectedPersons.Items.Refresh();
                                     }                                    
                                 }
