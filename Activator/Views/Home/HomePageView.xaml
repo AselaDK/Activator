@@ -8,39 +8,44 @@
              mc:Ignorable="d"
       Height="1080" Width="1670">
 
-    <StackPanel Background="AliceBlue">
-        <Grid Height="50" Background="White">
-            <StackPanel Orientation="Horizontal">
-                <materialDesign:PackIcon x:Name="liveIcon" Kind="Circle" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="Red"/>
-                <Label Content="LIVE" FontWeight="Bold" VerticalAlignment="Center" FontSize="24"></Label>
-            </StackPanel>
-        </Grid>
-        <Grid Height="50" Background="White" Margin="5">
-            <StackPanel Orientation="Horizontal" Height="50" Background="AliceBlue">
-                <!--<Button x:Name="btnStart" Content="START" Width="75" Height="40" Margin="5,0,0,0" Click="BtnStart_Click"/>-->
-                <!--<Button x:Name="btnStop" Content="STOP" Width="75" Height="30" Margin="5,0,0,0" Click="BtnStop_Click"/>-->
-                <!--<Button x:Name="btnDetails" Content="DETAILS" Width="75" Height="30" Margin="5,0,0,0" Click="BtnDetails_Click"/>
+    <StackPanel Orientation="Horizontal">
+        <StackPanel Background="AliceBlue" Width="1200">
+            <Grid Height="50" Background="White">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon x:Name="liveIcon" Kind="Circle" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="Red"/>
+                    <Label Content="LIVE" FontWeight="Bold" VerticalAlignment="Center" FontSize="24"></Label>
+                </StackPanel>
+            </Grid>
+            <Grid Height="50" Background="White" Margin="5">
+                <StackPanel Orientation="Horizontal" Height="50" Background="AliceBlue">
+                    <!--<Button x:Name="btnStart" Content="START" Width="75" Height="40" Margin="5,0,0,0" Click="BtnStart_Click"/>-->
+                    <!--<Button x:Name="btnStop" Content="STOP" Width="75" Height="30" Margin="5,0,0,0" Click="BtnStop_Click"/>-->
+                    <!--<Button x:Name="btnDetails" Content="DETAILS" Width="75" Height="30" Margin="5,0,0,0" Click="BtnDetails_Click"/>
                 <Button x:Name="btnCreate" Content="CREATE" Width="75" Height="30" Margin="5,0,0,0" Click="BtnCreate_Click"/>
                 <Button x:Name="btnList" Content="LIST" Width="75" Height="30" Margin="5,0,0,0" Click="BtnList_Click"/>
                 <Button x:Name="btnDelete" Content="DELETE" Width="75" Height="30" Margin="5,0,0,0" Click="BtnDelete_Click"/>-->
-            </StackPanel>
+                </StackPanel>
+            </Grid>
+            <Grid Height="980">
+                <DataGrid x:Name="dataGridDetectedPersons" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding image}" Width="100" Height="100" Stretch="Uniform"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Width="2*" Header="Detected Camera" Binding="{Binding camera}" IsReadOnly="True" />
+                        <DataGridTextColumn Width="4*" Header="Name" Binding="{Binding name}" IsReadOnly="True" />
+                        <DataGridTextColumn Width="4*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </StackPanel>
+        <Grid Width="470" Background="AliceBlue">
+            
         </Grid>
-        <Grid Height="980">
-            <DataGrid x:Name="dataGridDetectedPersons" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Image Source="{Binding image}" Width="100" Height="100" Stretch="Uniform"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Width="2*" Header="Detected Camera" Binding="{Binding camera}" IsReadOnly="True" />
-                    <DataGridTextColumn Width="4*" Header="Name" Binding="{Binding name}" IsReadOnly="True" />
-                    <DataGridTextColumn Width="4*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />                    
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-    </StackPanel>
+    </StackPanel>  
     
 </UserControl>
