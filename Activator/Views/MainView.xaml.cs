@@ -1,19 +1,10 @@
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Activator.Models;
 
 namespace Activator.Views
 {
@@ -22,35 +13,104 @@ namespace Activator.Views
     /// </summary>
     public partial class MainView : MetroWindow
     {
-        private string myname = "Admin";
-        private string myid = "Admin@111.com";
+        HomePageView home;
+        PeopleInPageView peopleInPageView;
+        AllPeoplePageView allPeoplePageView;
+        ReadersPage readers;
+        CameraView cameraView;
+        AdminsPage admins;
+        AdminProfile adminProfile;
 
-        public MainView()
+        private string myname;
+        private string myid;
+
+        public MainView(String adminid, String adminname)
         {
             InitializeComponent();
+
+            InitUserControls();
+
+            myname = adminname;
+            myid = adminid;
+
+            AdminName.Text = myname;
+
+            string imagename = "tamanna.jpg";
+            string directoryPath = "Resources/Images/";
+
+            if (!File.Exists(directoryPath + imagename))
+            {
+                Models.S3Bucket.DownloadFile(imagename, Models.MyAWSConfigs.AdminS3BucketName);
+            }
+
+            string exeDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
+
+            Uri fileUri = new Uri(exeDirectory + directoryPath + imagename);
+
+            ImageSource imageSource = new BitmapImage(fileUri);
+
+            MyPropicImage.Source = imageSource;
 
             ButtonOpenMenu.Visibility = Visibility.Visible;
             ButtonCloseMenu.Visibility = Visibility.Collapsed;
 
-            lblTitle.Content = "HOME";
-
-            HomePageView home = new HomePageView();
             MenuPage.Content = home;
+            lblTitle.Content = "HOME";
         }
 
-        public MainView(String adminid, String adminname) : this()
+        private void InitUserControls()
         {
-            //this.myname = adminname;
-            //AdminName.Text = myname;
-            //string imagename = null;
-            //this.myid = adminid;
-            //S3Bucket.DownloadFile(myid, MyAWSConfigs.AdminS3BucketName);
-            //var BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
-            //string filePath = BaseDirectoryPath + $"Resources/Images/{imagename}";
-            //ImageSource imageSource = new BitmapImage(new Uri(filePath, UriKind.Relative));
-            ////MyPropicImage.Source = new BitmapImage(new Uri($@"\myserver\folder1\Customer Data\{myid}"));
-            //MyPropicImage.Source = imageSource;
-            ////Console.WriteLine(MyAdminName);
+            home = new HomePageView();
+            peopleInPageView = new PeopleInPageView();
+            allPeoplePageView = new AllPeoplePageView();
+            readers =  = new ReadersPage();
+            cameraView = new CameraView();
+            admins = new AdminsPage(myid);
+            adminProfile = new AdminProfile();
+        }
+
+        private void ButtonMenuHome_Click(object sender, RoutedEventArgs e)
+        {
+            MenuPage.Content = home;
+            lblTitle.Content = "HOME";
+        }
+
+        private void ButtonMenuPeopleIn_Click(object sender, RoutedEventArgs e)
+        {
+            MenuPage.Content = peopleInPageView;
+            lblTitle.Content = "HISTORY";
+        }
+
+        private void ButtonMenuAllPeople_Click(object sender, RoutedEventArgs e)
+        {
+            MenuPage.Content = allPeoplePageView;
+            lblTitle.Content = "ALL PEOPLE";
+        }
+
+        private void ButtonMenuReaders_Click(object sender, RoutedEventArgs e)
+        {
+            MenuPage.Content = readers;
+            lblTitle.Content = "READERS";
+        }
+
+        private void ButtonMenuCameras_Click(object sender, RoutedEventArgs e)
+        {
+            MenuPage.Content = cameraView;
+            lblTitle.Content = "CAMERAS";
+        }
+
+        private void ButtonMenuAdmins_Click(object sender, RoutedEventArgs e)
+        {
+            MenuPage.Content = admins;
+            lblTitle.Content = "ADMINS";
+        }
+
+        private void ProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            adminProfile = null;
+            adminProfile = new AdminProfile(myid);
+            MenuPage.Content = adminProfile;
+            lblTitle.Content = "MY PROFILE";
         }
 
         private async void ButtonCloseApplication_Click(object sender, RoutedEventArgs e)
@@ -63,7 +123,6 @@ namespace Activator.Views
         {
             ButtonOpenMenu.Visibility = Visibility.Visible;
             ButtonCloseMenu.Visibility = Visibility.Collapsed;
-            
         }
 
         private void ButtonOpenMenu_Click(object sender, RoutedEventArgs e)
@@ -72,94 +131,8 @@ namespace Activator.Views
             ButtonCloseMenu.Visibility = Visibility.Visible;
         }
 
-        private void ButtonMenuHome_Click(object sender, RoutedEventArgs e)
-        {
-            HomePageView home = new HomePageView();
-            MenuPage.Content = home;
-            lblTitle.Content = "HOME";
-            
-        }
-
-        private void ButtonMenuPeopleIn_Click(object sender, RoutedEventArgs e)
-        {
-            PeopleInPageView pin = new PeopleInPageView();
-            MenuPage.Content = pin;
-            lblTitle.Content = "HISTORY";
-            
-        }
-    
-
-        private void ButtonMenuAllPeople_Click(object sender, RoutedEventArgs e)
-        {
-            AllPeoplePageView apin = new AllPeoplePageView();
-            MenuPage.Content = apin;
-            lblTitle.Content = "ALL PEOPLE";
-            
-        }
-
-        private void ButtonMenuReaders_Click(object sender, RoutedEventArgs e)
-        {
-            ReadersView readers = new ReadersView();
-            MenuPage.Content = readers;
-            lblTitle.Content = "READERS";
-            
-        }
-
-        private void ButtonMenuCameras_Click(object sender, RoutedEventArgs e)
-        {
-            CameraView cameraView = new CameraView();
-            MenuPage.Content = cameraView;
-            lblTitle.Content = "CAMERAS";
-            
-        }
-
-
-        private void ButtonMenuGetHelp_Click(object sender, RoutedEventArgs e)
-        {
-            GetHelpPageView gethelp = new GetHelpPageView(); /* check*/
-            MenuPage.Content = gethelp;
-            lblTitle.Content = "GET HELP";
-
-        }
-
-        // function for check a window is open & avoid opening it twice
-        //private void ButtonMessage_Click(object sender, RoutedEventArgs e)
-        //{
-        //    bool isWindowOpen = false;
-
-        //    foreach (Window w in Application.Current.Windows)
-        //    {
-        //        if (w is ChatView)
-        //        {
-        //            isWindowOpen = true;
-        //            w.Activate();
-        //        }
-        //    }
-
-        //    if (!isWindowOpen)
-        //    {
-        //        ChatView chatView = new ChatView();
-        //        chatView.Show();
-        //    }
-        //}
-
-        private void ButtonMenuAdmins_Click(object sender, RoutedEventArgs e)
-        {
-            AdminsPage admins = new AdminsPage(myid);
-            MenuPage.Content = admins;
-            lblTitle.Content = "Admins";
-        }
-
         private void ButtonMessage_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void ProfileButton_Click(object sender, RoutedEventArgs e)
-        {
-            AdminProfile adminProfile = new AdminProfile(myid);
-            MenuPage.Content = adminProfile;
-            lblTitle.Content = "My Profile";
 
         }
     }
