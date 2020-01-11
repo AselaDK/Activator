@@ -11,9 +11,7 @@ namespace Activator.Models
         private static String roleArn = MyAWSConfigs.RoleArn;
         private static String collectionId = MyAWSConfigs.FaceCollectionID;
 
-        private static float matchThreshold = 90f;
-
-        private static AmazonRekognitionClient rekognitionClient = null;
+        private static float matchThreshold = 90f;        
 
         public static bool CreateStreamProcessor(String streamProcessorName, String VideoStreamArn, String DataStreamArn)
         {
@@ -53,6 +51,7 @@ namespace Activator.Models
 
             try
             {
+                AmazonRekognitionClient rekognitionClient;
                 using (rekognitionClient = new AmazonRekognitionClient(MyAWSConfigs.KinesisRegion))
                 {
                     // Create the stream processor
@@ -92,16 +91,21 @@ namespace Activator.Models
 
             try
             {
+                AmazonRekognitionClient rekognitionClient;
                 using (rekognitionClient = new AmazonRekognitionClient(MyAWSConfigs.KinesisRegion))
                 {
-                    StartStreamProcessorResponse startStreamProcessorResponse =
+                    var describeSP = DescribeStreamProcessor(streamProcessorName);
+                    if (describeSP.Status == StreamProcessorStatus.STOPPED)
+                    {
+                        StartStreamProcessorResponse startStreamProcessorResponse =
                         rekognitionClient.StartStreamProcessor(new StartStreamProcessorRequest()
                         {
                             Name = streamProcessorName,
                         });
-                    Console.WriteLine("Stream Processor " + streamProcessorName + " started.");
+                        Console.WriteLine("Stream Processor " + streamProcessorName + " started.");
 
-                    isSuccess = startStreamProcessorResponse.HttpStatusCode == System.Net.HttpStatusCode.OK ? true : false;
+                        isSuccess = startStreamProcessorResponse.HttpStatusCode == System.Net.HttpStatusCode.OK ? true : false;
+                    }                    
                 }
             }
             catch (AmazonRekognitionException e)
@@ -123,16 +127,21 @@ namespace Activator.Models
 
             try
             {
+                AmazonRekognitionClient rekognitionClient;
                 using (rekognitionClient = new AmazonRekognitionClient(MyAWSConfigs.KinesisRegion))
                 {
-                    StopStreamProcessorResponse stopStreamProcessorResponse =
+                    var describeSP = DescribeStreamProcessor(streamProcessorName);
+                    if (describeSP.Status == StreamProcessorStatus.RUNNING)
+                    {
+                        StopStreamProcessorResponse stopStreamProcessorResponse =
                         rekognitionClient.StopStreamProcessor(new StopStreamProcessorRequest()
                         {
                             Name = streamProcessorName
                         });
-                    Console.WriteLine("Stream Processor " + streamProcessorName + " stopped.");
+                        Console.WriteLine("Stream Processor " + streamProcessorName + " stopped.");
 
-                    isSuccess = stopStreamProcessorResponse.HttpStatusCode == System.Net.HttpStatusCode.OK ? true : false;
+                        isSuccess = stopStreamProcessorResponse.HttpStatusCode == System.Net.HttpStatusCode.OK ? true : false;
+                    }                        
                 }
             }
             catch (AmazonRekognitionException e)
@@ -154,6 +163,7 @@ namespace Activator.Models
 
             try
             {
+                AmazonRekognitionClient rekognitionClient;
                 using (rekognitionClient = new AmazonRekognitionClient(MyAWSConfigs.KinesisRegion))
                 {
                     DeleteStreamProcessorResponse deleteStreamProcessorResponse = rekognitionClient
@@ -185,6 +195,7 @@ namespace Activator.Models
 
             try
             {
+                AmazonRekognitionClient rekognitionClient;
                 using (rekognitionClient = new AmazonRekognitionClient(MyAWSConfigs.KinesisRegion))
                 {
                     describeStreamProcessorResponse = rekognitionClient
@@ -213,6 +224,7 @@ namespace Activator.Models
 
             try
             {
+                AmazonRekognitionClient rekognitionClient;
                 using (rekognitionClient = new AmazonRekognitionClient(MyAWSConfigs.KinesisRegion))
                 {
 

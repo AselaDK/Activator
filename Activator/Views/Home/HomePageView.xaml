@@ -9,7 +9,7 @@
       Height="1080" Width="1670">
 
     <StackPanel Orientation="Horizontal">
-        <StackPanel Background="AliceBlue" Width="1200">
+        <StackPanel Background="AliceBlue" Width="1000">
             <Grid Height="50" Background="White">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon x:Name="liveIcon" Kind="Circle" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="Red"/>
@@ -43,9 +43,18 @@
                 </DataGrid>
             </Grid>
         </StackPanel>
-        <Grid Width="470" Background="AliceBlue">
-            
-        </Grid>
+        <StackPanel Orientation="Vertical" Width="400" Background="AliceBlue">
+            <Grid Height="100"/>
+            <Grid Width="670">
+                <ListView x:Name="notificationListView">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="670" Header="NOTIFICATIONS" DisplayMemberBinding="{Binding Message}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </StackPanel>
     </StackPanel>  
     
 </UserControl>

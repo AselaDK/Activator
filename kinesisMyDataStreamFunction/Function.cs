@@ -20,11 +20,11 @@ namespace kinesisMyDataStreamFunction
 {
     public class Function
     {
-        List<string> allRefPersonsId = new List<string>();
+        Dictionary<string, string> allRefPersons = new Dictionary<string, string>();
 
         public void FunctionHandler(KinesisEvent kinesisEvent, ILambdaContext context)
         {
-            //context.Logger.LogLine($"Beginning to process {kinesisEvent.Records.Count} records...");
+            context.Logger.LogLine($"Beginning to process {kinesisEvent.Records.Count} records...");
 
             foreach (var record in kinesisEvent.Records)
             {
@@ -36,7 +36,9 @@ namespace kinesisMyDataStreamFunction
 
                 Rootobject dataObject = JsonConvert.DeserializeObject<Rootobject>(recordData);
 
-                GetAllRefPersonsId(context).Wait();                
+                string[] temp = dataObject.InputInformation.KinesisVideo.StreamArn.Split('/');
+                string detectedCamera = temp[temp.Length - 2];                
+                int detectedCameraId = int.Parse(detectedCamera[detectedCamera.Length - 1].ToString());                
 
                 if (dataObject.FaceSearchResponse.Length != 0)
                 {
@@ -46,62 +48,98 @@ namespace kinesisMyDataStreamFunction
 
                         foreach (Facesearchresponse facesearchresponse in dataObject.FaceSearchResponse)
                         {
+                            GetAllRefPersons(context).Wait();
+
+                            List<string> detectedList = new List<string>();
+                            detectedList.Clear();
+
                             foreach (Matchedface matchedface in facesearchresponse.MatchedFaces)
                             {
-                                foreach (string id in allRefPersonsId)
+                                if (!detectedList.Contains(matchedface.Face.ExternalImageId))
                                 {
-                                    if (id != matchedface.Face.ExternalImageId)
+                                    detectedList.Add(matchedface.Face.ExternalImageId);                                                                      
+                                }                               
+                            }
+
+                            foreach (KeyValuePair<string, string> person in allRefPersons)
+                            {
+                                string id = person.Key;
+                                string status = person.Value;
+
+                                //context.Logger.LogLine($"id: {id}, status: {status}");
+
+                                if (detectedList.Contains(id))
+                                {                                    
+                                    if (status == "0")
+                                    {
+                                        var itemUpdate = new Document();
+                                        
+                                        itemUpdate["id"] = id;
+                                        itemUpdate["status"] = 1;
+                                        itemUpdate["camera"] = detectedCameraId.ToString();
+
+                                        UpdateItemAsync(itemUpdate, context, "ref_persons");
+
+                                        var HistoryItem = new Document();
+                                        HistoryItem["event_id"] = eventID;
+                                        HistoryItem["timestamp"] = dataObject.InputInformation.KinesisVideo.ProducerTimestamp; ;
+                                        HistoryItem["message"] = $"{id} is " +
+                                                                        $"detected by camera {detectedCameraId}";
+
+                                        WriteItemAsync(HistoryItem, context, "history");
+                                    }
+                                }
+                                else
+                                {                                    
+                                    if (status == "1")
                                     {
                                         var itemUpdate = new Document();
 
                                         itemUpdate["id"] = id;
-                                        itemUpdate["status"] = false;
+                                        itemUpdate["status"] = 0;
 
                                         UpdateItemAsync(itemUpdate, context, "ref_persons");
                                     }
                                 }
-
-                                string[] temp = dataObject.InputInformation.KinesisVideo.StreamArn.Split('/');
-                                string detectedCamera = temp[temp.Length - 2];
-
-                                var notificationItem = new Document();
-                                notificationItem["event_id"] = eventID;
-                                notificationItem["timestamp"] = dataObject.InputInformation.KinesisVideo.ProducerTimestamp; ;
-                                notificationItem["message"] = $"{matchedface.Face.ExternalImageId} is detected by camera {detectedCamera[detectedCamera.Length - 1]}";
-
-                                WriteItemAsync(notificationItem, context, "history");
-
-                                var item = new Document();
-                                item["id"] = matchedface.Face.ExternalImageId;
-                                item["status"] = true;
-
-                                UpdateItemAsync(item, context, "ref_persons");
                             }
+
                         }                      
                     }  
                     else
                     {
-                        foreach (string id in allRefPersonsId)
+                        foreach (KeyValuePair<string, string> person in allRefPersons)
                         {
-                            var itemUpdate = new Document();
+                            string id = person.Key;
+                            string status = person.Value;
 
-                            itemUpdate["id"] = id;
-                            itemUpdate["status"] = false;
+                            if (status == "1")
+                            {
+                                var itemUpdate = new Document();
 
-                            UpdateItemAsync(itemUpdate, context, "ref_persons");
+                                itemUpdate["id"] = id;
+                                itemUpdate["status"] = 0;
+
+                                UpdateItemAsync(itemUpdate, context, "ref_persons");
+                            }
                         }
                     }
                 }
                 else
-                {
-                    foreach (string id in allRefPersonsId)
+                {                    
+                    foreach (KeyValuePair<string, string> person in allRefPersons)
                     {
-                        var itemUpdate = new Document();
+                        string id = person.Key;
+                        string status = person.Value;
 
-                        itemUpdate["id"] = id;
-                        itemUpdate["status"] = false;
+                        if (status == "1")
+                        {
+                            var itemUpdate = new Document();
 
-                        UpdateItemAsync(itemUpdate, context, "ref_persons");
+                            itemUpdate["id"] = id;
+                            itemUpdate["status"] = 0;
+
+                            UpdateItemAsync(itemUpdate, context, "ref_persons");
+                        }
                     }
                 }
             }
@@ -136,8 +174,8 @@ namespace kinesisMyDataStreamFunction
             {
                 context.Logger.LogLine("Error: " + e);
             }
-        }    
-        
+        }        
+
         private void UpdateItemAsync(Document item, ILambdaContext context, string tableName)
         {
             try
@@ -160,7 +198,7 @@ namespace kinesisMyDataStreamFunction
             }            
         }
 
-        private async Task GetAllRefPersonsId(ILambdaContext context)
+        private async Task GetAllRefPersons(ILambdaContext context)
         {            
             try
             {
@@ -177,15 +215,18 @@ namespace kinesisMyDataStreamFunction
                             TableName = tableName,
                             Limit = 20,
                             ExclusiveStartKey = lastKeyEvaluated,
-                            AttributesToGet = {"id"},
+                            AttributesToGet = {"id", "status"},
                         };
                                                 
                         ScanResponse response = await client.ScanAsync(request);
 
+                        allRefPersons.Clear();
                         foreach (Dictionary<string, AttributeValue> item
                           in response.Items)
                         {
-                            if (!allRefPersonsId.Contains(item["id"].S)) allRefPersonsId.Add(item["id"].S);                            
+                            allRefPersons.Add(item["id"].S, item["status"].N);
+
+                            //context.Logger.LogLine($"Get All Function\nid: {item["id"].S}, status: {item["status"].N}");
                         }
                         lastKeyEvaluated = response.LastEvaluatedKey;
 

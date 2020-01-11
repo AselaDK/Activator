@@ -12,82 +12,55 @@ namespace Activator.Views
     /// Interaction logic for Login.xaml
     /// </summary>
     public partial class LoginView : Window
-    {
-        private readonly AmazonDynamoDBClient client;
+    {        
         public LoginView()
         {
-            InitializeComponent();
-            Console.WriteLine("Set");
-            try
-            {
-                this.client = new AmazonDynamoDBClient();
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine("Error: failed to create a DynamoDB client; " + ex.Message);
-            }
+            InitializeComponent();            
         }
 
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
             Mouse.OverrideCursor = Cursors.Wait;
+
+            String aId = TxtUid.Text;
+            String aPassword = TxtPassword.Password;
+            String hashPassword = HashMD5.MD5Hash(aPassword);
+
             try
             {
-                String aId = TxtUid.Text;
-                String aPassword = TxtPassword.Password;
-                String hashPassword = HashMD5.MD5Hash(aPassword);
+                var item = Dynamodb.GetItem(aId, MyAWSConfigs.AdminDBTableName);
 
-                ////Console.WriteLine(aId);
-                ////Console.WriteLine(aPassword);
-
-                try
+                if (item != null && item["aPassword"] == hashPassword)
                 {
+                    Mouse.OverrideCursor = null;
+                    this.Hide();
 
-                    string tableName = MyAWSConfigs.AdminDBTableName;
-                    var table = Table.LoadTable(client, tableName);
-                    var item = table.GetItem(aId);
+                    string adminName = item["aName"];
+                    string adminId = item["aId"];
+                    bool status = true;
 
-                    //Console.WriteLine(item["aPassword"]);
+                    Session session = new Session(status, adminId);
 
-                    if ((item != null && item["aPassword"] == hashPassword))
-                    {
-
-                        //Console.WriteLine("Successfully Logged in!!!");
-                        var AdminName = item["aName"];
-                        string AdminId = item["aId"];
-                        bool status = true;
-                        Console.WriteLine(AdminId);
-
-
-                        Session session = new Session(status, AdminId);
-                        MainView dashboard = new MainView(AdminId, AdminName);
-                        dashboard.ShowDialog();
-                        this.Close();
-                    }
-                    else
-                    {
-                        //MessageBox.Show("Username or Password is incorrect!");
-
-                        //clear texboxes
-                        TxtUid.Text = "";
-                        TxtUid.BorderBrush = Brushes.Red;
-                        //txtuid.Background = Brushes.LightSalmon;
-
-                        TxtPassword.Password = "";
-                        TxtPassword.BorderBrush = Brushes.Red;
-                        //txtpassword.Background = Brushes.LightSalmon;
-                    }
-
-
+                    MainView dashboard = new MainView(adminId, adminName);
+                    dashboard.ShowDialog();
                 }
-                catch (AmazonDynamoDBException ex)
+                else
                 {
-                    MessageBox.Show("Message : Server Error", ex.Message);
+                    //MessageBox.Show("Username or Password is incorrect!");
+
+                    //clear texboxes
+                    TxtUid.Text = "";
+                    TxtUid.BorderBrush = Brushes.Red;
+                    //txtuid.Background = Brushes.LightSalmon;
+
+                    TxtPassword.Password = "";
+                    TxtPassword.BorderBrush = Brushes.Red;
+                    //txtpassword.Background = Brushes.LightSalmon;
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Message : Unknown Error", ex.Message);
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Message : Unknown Error", ex.Message);
             }
             finally
             {
