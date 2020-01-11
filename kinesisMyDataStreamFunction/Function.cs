@@ -46,11 +46,46 @@ namespace kinesisMyDataStreamFunction
 
                         foreach (Facesearchresponse facesearchresponse in dataObject.FaceSearchResponse)
                         {
+                            List<string> detectedList = new List<string>();
+                            detectedList.Clear();
+
                             foreach (Matchedface matchedface in facesearchresponse.MatchedFaces)
                             {
-                                foreach (string id in allRefPersonsId)
+                                if (!detectedList.Contains(matchedface.Face.ExternalImageId))
+                                    detectedList.Add(matchedface.Face.ExternalImageId);
+                                
+                                string[] temp = dataObject.InputInformation.KinesisVideo.StreamArn.Split('/');
+                                string detectedCamera = temp[temp.Length - 2];
+
+                                var notificationItem = new Document();
+                                notificationItem["event_id"] = eventID;
+                                notificationItem["timestamp"] = dataObject.InputInformation.KinesisVideo.ProducerTimestamp; ;
+                                notificationItem["message"] = $"{matchedface.Face.ExternalImageId} is detected by camera {detectedCamera[detectedCamera.Length - 1]}";
+
+                                WriteItemAsync(notificationItem, context, "history");                                
+                            }
+
+                            foreach (string id in allRefPersonsId)
+                            {
+                                if (detectedList.Contains(id))
                                 {
-                                    if (id != matchedface.Face.ExternalImageId)
+                                    Document refPerson = ReadItemAsync(id, context, "ref_persons");
+                                    DynamoDBEntry entry = refPerson["status"];
+                                    if (entry.AsBoolean() == false)
+                                    {
+                                        var itemUpdate = new Document();
+
+                                        itemUpdate["id"] = id;
+                                        itemUpdate["status"] = true;
+
+                                        UpdateItemAsync(itemUpdate, context, "ref_persons");
+                                    }
+                                }
+                                else
+                                {
+                                    Document refPerson = ReadItemAsync(id, context, "ref_persons");
+                                    DynamoDBEntry entry = refPerson["status"];
+                                    if (entry.AsBoolean() == true)
                                     {
                                         var itemUpdate = new Document();
 
@@ -60,28 +95,35 @@ namespace kinesisMyDataStreamFunction
                                         UpdateItemAsync(itemUpdate, context, "ref_persons");
                                     }
                                 }
-
-                                string[] temp = dataObject.InputInformation.KinesisVideo.StreamArn.Split('/');
-                                string detectedCamera = temp[temp.Length - 2];
-
-                                var notificationItem = new Document();
-                                notificationItem["event_id"] = eventID;
-                                notificationItem["timestamp"] = dataObject.InputInformation.KinesisVideo.ProducerTimestamp; ;
-                                notificationItem["message"] = $"{matchedface.Face.ExternalImageId} is detected by camera {detectedCamera[detectedCamera.Length - 1]}";
-
-                                WriteItemAsync(notificationItem, context, "history");
-
-                                var item = new Document();
-                                item["id"] = matchedface.Face.ExternalImageId;
-                                item["status"] = true;
-
-                                UpdateItemAsync(item, context, "ref_persons");
                             }
+
                         }                      
                     }  
                     else
                     {
                         foreach (string id in allRefPersonsId)
+                        {
+                            Document refPerson = ReadItemAsync(id, context, "ref_persons");
+                            DynamoDBEntry entry = refPerson["status"];
+                            if (entry.AsBoolean() == true)
+                            {
+                                var itemUpdate = new Document();
+
+                                itemUpdate["id"] = id;
+                                itemUpdate["status"] = false;
+
+                                UpdateItemAsync(itemUpdate, context, "ref_persons");
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (string id in allRefPersonsId)
+                    {
+                        Document refPerson = ReadItemAsync(id, context, "ref_persons");
+                        DynamoDBEntry entry = refPerson["status"];
+                        if (entry.AsBoolean() == true)
                         {
                             var itemUpdate = new Document();
 
@@ -90,18 +132,6 @@ namespace kinesisMyDataStreamFunction
 
                             UpdateItemAsync(itemUpdate, context, "ref_persons");
                         }
-                    }
-                }
-                else
-                {
-                    foreach (string id in allRefPersonsId)
-                    {
-                        var itemUpdate = new Document();
-
-                        itemUpdate["id"] = id;
-                        itemUpdate["status"] = false;
-
-                        UpdateItemAsync(itemUpdate, context, "ref_persons");
                     }
                 }
             }
@@ -136,8 +166,37 @@ namespace kinesisMyDataStreamFunction
             {
                 context.Logger.LogLine("Error: " + e);
             }
-        }    
-        
+        }
+
+        private Document ReadItemAsync(String id, ILambdaContext context, string tableName)
+        {
+            Document doc = new Document();
+            try
+            {
+                AmazonDynamoDBClient client;
+                using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
+                {
+
+                    GetAsync();
+                }
+
+                async void GetAsync()
+                {
+                    var table = Table.LoadTable(client, tableName);
+                    doc = await table.GetItemAsync(id);
+                }
+            }
+            catch (AmazonDynamoDBException e)
+            {
+                context.Logger.LogLine("AmazonDynamoDBException: " + e);
+            }
+            catch (Exception e)
+            {
+                context.Logger.LogLine("Error: " + e);
+            }
+            return doc;
+        }
+
         private void UpdateItemAsync(Document item, ILambdaContext context, string tableName)
         {
             try

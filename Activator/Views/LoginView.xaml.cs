@@ -17,7 +17,6 @@ namespace Activator.Views
         public LoginView()
         {
             InitializeComponent();
-            Console.WriteLine("Set");
             try
             {
                 this.client = new AmazonDynamoDBClient();
@@ -48,8 +47,7 @@ namespace Activator.Views
                     var item = table.GetItem(aId);
 
                     //Console.WriteLine(item["aPassword"]);
-
-                    if ((item != null && item["aPassword"] == hashPassword))
+                    if (item != null && item["aPassword"] == hashPassword)
                     {
 
                         //Console.WriteLine("Successfully Logged in!!!");
@@ -58,11 +56,10 @@ namespace Activator.Views
                         bool status = true;
                         Console.WriteLine(AdminId);
 
-
                         Session session = new Session(status, AdminId);
                         MainView dashboard = new MainView(AdminId, AdminName);
-                        dashboard.ShowDialog();
-                        this.Close();
+                        this.Hide();
+                        dashboard.ShowDialog();                        
                     }
                     else
                     {

@@ -146,8 +146,8 @@ namespace Activator.Views
 
         private void ButtonMenuCameras_Click(object sender, RoutedEventArgs e)
         {
-            //CamerasPageView cams = new CamerasPageView();
-            //MenuPage.Content = cams;
+            CameraView cameraView = new CameraView();
+            MenuPage.Content = cameraView;
             lblTitle.Content = "CAMERAS";
 
         }

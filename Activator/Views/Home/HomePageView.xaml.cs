@@ -18,10 +18,11 @@ namespace Activator.Views
         public HomePageView()
         {
             InitializeComponent();
-            ReadStream();
+            ReadRefPersonStream();
+            ReadNotificationStream();
         }
 
-        private async Task ReadStream()
+        private async Task ReadRefPersonStream()
         {
             List<Models.RefPerson> refPersons = new List<Models.RefPerson>();
             dataGridDetectedPersons.ItemsSource = refPersons;
@@ -154,5 +155,105 @@ namespace Activator.Views
                 Console.WriteLine("Error: " + e);
             }
         }
+
+        private async Task ReadNotificationStream()
+        {   
+            string streamArn = Models.MyAWSConfigs.DynamodbNotificationTableStreamArn;
+            //int maxItemCount = 100;
+
+            try
+            {
+                AmazonDynamoDBStreamsClient streamsClient;
+                using (streamsClient = new AmazonDynamoDBStreamsClient(Models.MyAWSConfigs.DynamodbRegion))
+                {
+                    String lastEvaluatedShardId = null;
+
+                    do
+                    {
+                        DescribeStreamRequest describeStreamRequest = new DescribeStreamRequest()
+                        {
+                            StreamArn = streamArn,
+                            ExclusiveStartShardId = lastEvaluatedShardId,
+                        };
+
+                        DescribeStreamResponse describeStreamResponse = await streamsClient.DescribeStreamAsync(describeStreamRequest);
+
+                        List<Shard> shards = describeStreamResponse.StreamDescription.Shards;
+
+                        // Process each shard on this page
+
+                        foreach (Shard shard in shards)
+                        {
+                            String shardId = shard.ShardId;
+
+                            // Get an iterator for the current shard
+
+                            GetShardIteratorRequest getShardIteratorRequest = new GetShardIteratorRequest()
+                            {
+                                StreamArn = streamArn,
+                                ShardId = shardId,
+                                ShardIteratorType = ShardIteratorType.LATEST,
+                            };
+
+                            GetShardIteratorResponse getShardIteratorResponse =
+                                await streamsClient.GetShardIteratorAsync(getShardIteratorRequest);
+
+                            String currentShardIter = getShardIteratorResponse.ShardIterator;
+
+                            int processedRecordCount = 0;
+                            //&& processedRecordCount < maxItemCount
+                            while (currentShardIter != null)
+                            {
+                                // Use the shard iterator to read the stream records
+
+                                GetRecordsRequest getRecordsRequest = new GetRecordsRequest()
+                                {
+                                    ShardIterator = currentShardIter
+                                };
+
+                                GetRecordsResponse getRecordsResponse = await streamsClient.GetRecordsAsync(getRecordsRequest);
+
+                                List<Record> records = getRecordsResponse.Records;
+
+                                foreach (Record record in records)
+                                {
+                                    foreach (KeyValuePair<string, AttributeValue> newImage in record.Dynamodb.NewImage)
+                                    {
+                                        string message = record.Dynamodb.NewImage["message"].S;
+
+                                        AddNewNotification(message);
+                                    }
+                                }
+                                processedRecordCount += records.Count;
+                                currentShardIter = getRecordsResponse.NextShardIterator;
+                            }
+                        }
+
+                        // If LastEvaluatedShardId is set, then there is
+                        // at least one more page of shard IDs to retrieve
+                        lastEvaluatedShardId = describeStreamResponse.StreamDescription.LastEvaluatedShardId;
+
+                    } while (lastEvaluatedShardId != null);
+                }
+            }
+            catch (AmazonDynamoDBException e)
+            {
+                Console.WriteLine("AmazonDynamoDBException: " + e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e);
+            }
+        }
+
+        private void AddNewNotification(string message)
+        {
+            this.notificationListView.Items.Add(new Notification { Message = message });
+        }
+    }
+
+    class Notification
+    {
+        public string Message { get; set; }
     }
 }
