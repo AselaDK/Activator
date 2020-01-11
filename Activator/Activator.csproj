@@ -179,6 +179,9 @@
     <Compile Include="Views\Admin\ChangeAdminPassword.xaml.cs">
       <DependentUpon>ChangeAdminPassword.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Camera\DeleteCamera.xaml.cs">
+      <DependentUpon>DeleteCamera.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ref Person\AddNewRef.xaml.cs">
       <DependentUpon>AddNewRef.xaml</DependentUpon>
     </Compile>
@@ -242,6 +245,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Admin\ChangeAdminPassword.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Camera\DeleteCamera.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

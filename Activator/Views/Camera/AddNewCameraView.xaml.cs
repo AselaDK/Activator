@@ -151,11 +151,13 @@ namespace Activator.Views
                 camera["id"] = nextCamID.ToString();
                 camera["description"] = description;
                 camera["location"] = location;
+                camera["videoStreamArn"] = videoStreamArn;
+                camera["eventSourceUUID"] = eventSourceUUID;
                 await Task.Run(() => Models.Dynamodb.PutItem(camera, Models.MyAWSConfigs.CamerasDBTableName));
 
                 // Succeess message
                 await controller.CloseAsync();
-                await this.ShowMessageAsync("Success", "New Camera Added Successfully", MessageDialogStyle.Affirmative);
+                await this.ShowMessageAsync("Saved", "New Camera Added Successfully", MessageDialogStyle.Affirmative);
                 this.Close();
             }
             else
