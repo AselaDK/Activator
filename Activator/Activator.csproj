@@ -40,6 +40,9 @@
     <Reference Include="Amazon.Core, Version=0.15.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Amazon.Core.0.15.0\lib\netstandard2.0\Amazon.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Amazon.Lambda.KinesisEvents, Version=1.0.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>packages\Amazon.Lambda.KinesisEvents.1.1.0\lib\netstandard2.0\Amazon.Lambda.KinesisEvents.dll</HintPath>
+    </Reference>
     <Reference Include="appium-dotnet-driver, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.WinAppDriver.Appium.WebDriver.1.0.1-Preview\lib\net45\appium-dotnet-driver.dll</HintPath>
     </Reference>
