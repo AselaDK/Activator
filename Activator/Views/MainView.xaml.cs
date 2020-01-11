@@ -138,7 +138,7 @@ namespace Activator.Views
 
         private void ButtonMenuReaders_Click(object sender, RoutedEventArgs e)
         {
-            ReadersView readers = new ReadersView();
+            ReadersPage readers = new ReadersPage();
             MenuPage.Content = readers;
             lblTitle.Content = "READERS";
 
