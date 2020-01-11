@@ -25,7 +25,7 @@
                     <TextBox x:Name="AdminEMail" Text="My E-Mail" FontSize="40" Foreground="DarkGray" IsReadOnly="True" Width="351"/>
                 </StackPanel>
             </StackPanel>
-            
+
         </Grid>
         <StackPanel Margin="301,661,251,156" RenderTransformOrigin="0.504,-0.684">
             <Button x:Name="BtnEditDetails" Click="BtnEditDetails_Click" Content="Edit Details" FontSize="20" Margin="10 10 10 10" Foreground="WhiteSmoke" Background="MediumSeaGreen" Height="65"></Button>

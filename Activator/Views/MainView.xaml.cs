@@ -34,36 +34,75 @@ namespace Activator.Views
 
             lblTitle.Content = "HOME";
 
-            HomePageView home = new HomePageView();
-            MenuPage.Content = home;
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                LoginView loginView = new LoginView();
+                loginView.Close();
+                HomePageView home = new HomePageView();
+                MenuPage.Content = home;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
         }
 
         public MainView(String adminid, String adminname) : this()
         {
-            //this.myname = adminname;
-            //AdminName.Text = myname;
-            //string imagename = null;
-            //this.myid = adminid;
-            //S3Bucket.DownloadFile(myid, MyAWSConfigs.AdminS3BucketName);
-            //var BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
-            //string filePath = BaseDirectoryPath + $"Resources/Images/{imagename}";
-            //ImageSource imageSource = new BitmapImage(new Uri(filePath, UriKind.Relative));
-            ////MyPropicImage.Source = new BitmapImage(new Uri($@"\myserver\folder1\Customer Data\{myid}"));
-            //MyPropicImage.Source = imageSource;
-            ////Console.WriteLine(MyAdminName);
+            InitializeComponent();
+
+            this.myname = adminname;
+            AdminName.Text = myname;
+            string imagename = null;
+            this.myid = adminid;
+            S3Bucket.DownloadFile(myid, MyAWSConfigs.AdminS3BucketName);
+            var BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
+            string filePath = BaseDirectoryPath + $"Resources/Images/{imagename}";
+            ImageSource imageSource = new BitmapImage(new Uri(filePath, UriKind.Relative));
+            //MyPropicImage.Source = new BitmapImage(new Uri($@"\myserver\folder1\Customer Data\{myid}"));
+            MyPropicImage.Source = imageSource;
+            //Console.WriteLine(MyAdminName);
+
+            ButtonOpenMenu.Visibility = Visibility.Visible;
+            ButtonCloseMenu.Visibility = Visibility.Collapsed;
+
+            lblTitle.Content = "HOME";
+
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                LoginView loginView = new LoginView();
+                loginView.Close();
+                HomePageView home = new HomePageView();
+                MenuPage.Content = home;
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
+            
         }
 
-        private async void ButtonCloseApplication_Click(object sender, RoutedEventArgs e)
+        private void ButtonCloseApplication_Click(object sender, RoutedEventArgs e)
+        {
+            //CloseConfirmView closeconf = new CloseConfirmView();
+            //closeconf.ShowDialog();
+            InitDialog();
+        }
+
+        private async Task InitDialog()
         {
             var result = await this.ShowMessageAsync("Are you sure want to quit?", "", MessageDialogStyle.AffirmativeAndNegative);
             if (result == MessageDialogResult.Affirmative) Application.Current.Shutdown();
+
         }
 
         private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
         {
             ButtonOpenMenu.Visibility = Visibility.Visible;
             ButtonCloseMenu.Visibility = Visibility.Collapsed;
-            
+
         }
 
         private void ButtonOpenMenu_Click(object sender, RoutedEventArgs e)
@@ -77,7 +116,7 @@ namespace Activator.Views
             HomePageView home = new HomePageView();
             MenuPage.Content = home;
             lblTitle.Content = "HOME";
-            
+
         }
 
         private void ButtonMenuPeopleIn_Click(object sender, RoutedEventArgs e)
@@ -85,16 +124,16 @@ namespace Activator.Views
             PeopleInPageView pin = new PeopleInPageView();
             MenuPage.Content = pin;
             lblTitle.Content = "HISTORY";
-            
+
         }
-    
+
 
         private void ButtonMenuAllPeople_Click(object sender, RoutedEventArgs e)
         {
             AllPeoplePageView apin = new AllPeoplePageView();
             MenuPage.Content = apin;
             lblTitle.Content = "ALL PEOPLE";
-            
+
         }
 
         private void ButtonMenuReaders_Click(object sender, RoutedEventArgs e)
@@ -102,25 +141,18 @@ namespace Activator.Views
             ReadersView readers = new ReadersView();
             MenuPage.Content = readers;
             lblTitle.Content = "READERS";
-            
+
         }
 
         private void ButtonMenuCameras_Click(object sender, RoutedEventArgs e)
         {
-            CameraView cameraView = new CameraView();
-            MenuPage.Content = cameraView;
+            //CamerasPageView cams = new CamerasPageView();
+            //MenuPage.Content = cams;
             lblTitle.Content = "CAMERAS";
-            
-        }
-
-
-        private void ButtonMenuGetHelp_Click(object sender, RoutedEventArgs e)
-        {
-            GetHelpPageView gethelp = new GetHelpPageView(); /* check*/
-            MenuPage.Content = gethelp;
-            lblTitle.Content = "GET HELP";
 
         }
+
+        
 
         // function for check a window is open & avoid opening it twice
         //private void ButtonMessage_Click(object sender, RoutedEventArgs e)
@@ -160,7 +192,6 @@ namespace Activator.Views
             AdminProfile adminProfile = new AdminProfile(myid);
             MenuPage.Content = adminProfile;
             lblTitle.Content = "My Profile";
-
         }
     }
 }
