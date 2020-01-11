@@ -1,5 +1,4 @@
-﻿using Activator.Models;
-using Amazon.DynamoDBv2;
+﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using System;
 using System.Collections.Generic;
@@ -52,9 +51,9 @@ namespace Activator.Views
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
-                List<Reader> readers = new List<Reader>();
+                List<Models.Reader> readers = new List<Models.Reader>();
 
-                readers = Reader.GetReadersData();
+                readers = Models.Reader.GetReadersData();
 
                 Console.WriteLine();
 
@@ -81,7 +80,7 @@ namespace Activator.Views
 
         private void Search_Click(object sender, RoutedEventArgs e)
         {
-            string tableName = MyAWSConfigs.AdminDBTableName;
+            string tableName = Models.MyAWSConfigs.AdminDBTableName;
             var table = Table.LoadTable(client, tableName);
             var item = table.GetItem(aId);
             //LoadData(item);

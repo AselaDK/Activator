@@ -63,7 +63,7 @@ namespace Activator.Views
             home = new HomePageView();
             peopleInPageView = new PeopleInPageView();
             allPeoplePageView = new AllPeoplePageView();
-            readers =  = new ReadersPage();
+            readers = new ReadersPage();
             cameraView = new CameraView();
             admins = new AdminsPage(myid);
             adminProfile = new AdminProfile();
