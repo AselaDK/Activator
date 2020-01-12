@@ -8,7 +8,7 @@
             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
             xmlns:activator="clr-namespace:Activator"
-             Height="1080" Width="1670">
+             Height="Auto" Width="Auto">
 
     <StackPanel Background="WhiteSmoke">
         <Grid Height="50" Background="White">
@@ -27,8 +27,8 @@
 
             </StackPanel>
         </Grid>
-        <Grid Height="980">            
-            <DataGrid x:Name="dataGridAllRefPersons" SelectionUnit="FullRow" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Grid.ColumnSpan="2">
+        <Grid>
+            <DataGrid x:Name="dataGridAllRefPersons" VerticalAlignment="Top" Height="650" materialDesign:ScrollBarAssist.ThumbCornerRadius="45" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionUnit="FullRow" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Grid.ColumnSpan="2">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
