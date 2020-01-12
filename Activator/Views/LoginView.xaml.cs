@@ -1,10 +1,8 @@
 ﻿using Activator.Models;
-using Amazon.DynamoDBv2;
 using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using Table = Amazon.DynamoDBv2.DocumentModel.Table;
 
 namespace Activator.Views
 {
@@ -12,14 +10,37 @@ namespace Activator.Views
     /// Interaction logic for Login.xaml
     /// </summary>
     public partial class LoginView : Window
-    {        
+    {
+        private System.Windows.Forms.NotifyIcon notifyIcon = null;
+
         public LoginView()
         {
-            InitializeComponent();            
+            InitializeComponent();
+        }
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            notifyIcon = new System.Windows.Forms.NotifyIcon();
+            notifyIcon.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            notifyIcon.Click += notifyIcon_Click;
+            notifyIcon.DoubleClick += notifyIcon_DoubleClick;
+            notifyIcon.BalloonTipClosed += (s, _e) => notifyIcon.Visible = false;
+
+            base.OnInitialized(e);
+        }
+
+        void notifyIcon_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        void notifyIcon_DoubleClick(object sender, EventArgs e)
+        {
+
         }
 
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
-        {
+        {   
             Mouse.OverrideCursor = Cursors.Wait;
 
             String aId = TxtUid.Text;
@@ -32,6 +53,9 @@ namespace Activator.Views
 
                 if (item != null && item["aPassword"] == hashPassword)
                 {
+                    notifyIcon.Visible = true;
+                    notifyIcon.ShowBalloonTip(2000, "New Login!", $"Welcome {item["aName"]}", System.Windows.Forms.ToolTipIcon.Info);
+
                     Mouse.OverrideCursor = null;
                     this.Hide();
 

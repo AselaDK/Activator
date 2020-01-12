@@ -20,7 +20,7 @@ namespace kinesisMyDataStreamFunction
 {
     public class Function
     {
-        Dictionary<string, string> allRefPersons = new Dictionary<string, string>();
+        Dictionary<string, Person> allRefPersons = new Dictionary<string, Person>();
 
         public void FunctionHandler(KinesisEvent kinesisEvent, ILambdaContext context)
         {
@@ -61,10 +61,11 @@ namespace kinesisMyDataStreamFunction
                                 }                               
                             }
 
-                            foreach (KeyValuePair<string, string> person in allRefPersons)
+                            foreach (Person person in allRefPersons.Values)
                             {
-                                string id = person.Key;
-                                string status = person.Value;
+                                string id = person.Id;
+                                string status = person.Status;
+                                string name = person.Name;
 
                                 //context.Logger.LogLine($"id: {id}, status: {status}");
 
@@ -82,8 +83,8 @@ namespace kinesisMyDataStreamFunction
 
                                         var HistoryItem = new Document();
                                         HistoryItem["event_id"] = eventID;
-                                        HistoryItem["timestamp"] = dataObject.InputInformation.KinesisVideo.ProducerTimestamp; ;
-                                        HistoryItem["message"] = $"{id} is " +
+                                        HistoryItem["timestamp"] = dataObject.InputInformation.KinesisVideo.ProducerTimestamp;
+                                        HistoryItem["message"] = $"{name} has been " +
                                                                         $"detected by camera {detectedCameraId}";
 
                                         WriteItemAsync(HistoryItem, context, "history");
@@ -107,10 +108,11 @@ namespace kinesisMyDataStreamFunction
                     }  
                     else
                     {
-                        foreach (KeyValuePair<string, string> person in allRefPersons)
+                        foreach (Person person in allRefPersons.Values)
                         {
-                            string id = person.Key;
-                            string status = person.Value;
+                            string id = person.Id;
+                            string status = person.Status;
+                            string name = person.Name;
 
                             if (status == "1")
                             {
@@ -125,11 +127,12 @@ namespace kinesisMyDataStreamFunction
                     }
                 }
                 else
-                {                    
-                    foreach (KeyValuePair<string, string> person in allRefPersons)
+                {
+                    foreach (Person person in allRefPersons.Values)
                     {
-                        string id = person.Key;
-                        string status = person.Value;
+                        string id = person.Id;
+                        string status = person.Status;
+                        string name = person.Name;
 
                         if (status == "1")
                         {
@@ -215,7 +218,7 @@ namespace kinesisMyDataStreamFunction
                             TableName = tableName,
                             Limit = 20,
                             ExclusiveStartKey = lastKeyEvaluated,
-                            AttributesToGet = {"id", "status"},
+                            AttributesToGet = {"id", "status", "name"},
                         };
                                                 
                         ScanResponse response = await client.ScanAsync(request);
@@ -224,7 +227,13 @@ namespace kinesisMyDataStreamFunction
                         foreach (Dictionary<string, AttributeValue> item
                           in response.Items)
                         {
-                            allRefPersons.Add(item["id"].S, item["status"].N);
+                            Person person = new Person
+                            {
+                                Id = item["id"].S,
+                                Status = item["status"].N,
+                                Name = item["name"].S
+                            };
+                            allRefPersons.Add(item["id"].S, person);
 
                             //context.Logger.LogLine($"Get All Function\nid: {item["id"].S}, status: {item["status"].N}");
                         }

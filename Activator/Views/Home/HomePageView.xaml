@@ -6,10 +6,10 @@
              xmlns:local="clr-namespace:Activator.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
-      Height="1080" Width="1670">
+      Height="1080" Width="1400">
 
     <StackPanel Orientation="Horizontal">
-        <StackPanel Background="AliceBlue" Width="1000">
+        <StackPanel Background="AliceBlue" Width="800">
             <Grid Height="50" Background="White">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon x:Name="liveIcon" Kind="Circle" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="Red"/>
@@ -27,7 +27,7 @@
                 </StackPanel>
             </Grid>
             <Grid Height="980">
-                <DataGrid x:Name="dataGridDetectedPersons" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left">
+                <DataGrid x:Name="dataGridDetectedPersons" AutoGenerateColumns="False" CanUserAddRows="False" materialDesign:ScrollBarAssist.ButtonsVisibility="Visible" ScrollBar.Scroll="DataGridDetectedPersons_Scroll" HorizontalAlignment="Left">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>
@@ -36,14 +36,14 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Width="2*" Header="Detected Camera" Binding="{Binding camera}" IsReadOnly="True" />
-                        <DataGridTextColumn Width="4*" Header="Name" Binding="{Binding name}" IsReadOnly="True" />
+                        <DataGridTextColumn Width="2*" Header="Name" Binding="{Binding name}" IsReadOnly="True" />
                         <DataGridTextColumn Width="4*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
+                        <DataGridTextColumn Width="4*" Header="Detected Camera" Binding="{Binding camera}" IsReadOnly="True" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Width="400" Background="AliceBlue">
+        <StackPanel Orientation="Vertical" Width="600" Background="AliceBlue">
             <Grid Height="100"/>
             <Grid Width="670">
                 <ListView x:Name="notificationListView">

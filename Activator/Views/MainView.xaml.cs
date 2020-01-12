@@ -63,7 +63,7 @@ namespace Activator.Views
             home = new HomePageView();
             peopleInPageView = new PeopleInPageView();
             allPeoplePageView = new AllPeoplePageView();
-            readers =  = new ReadersPage();
+            readers = new ReadersPage();
             cameraView = new CameraView();
             admins = new AdminsPage(myid);
             adminProfile = new AdminProfile();
@@ -71,6 +71,7 @@ namespace Activator.Views
 
         private void ButtonMenuHome_Click(object sender, RoutedEventArgs e)
         {
+            home.GetAllCameras();
             MenuPage.Content = home;
             lblTitle.Content = "HOME";
         }
@@ -111,13 +112,7 @@ namespace Activator.Views
             adminProfile = new AdminProfile(myid);
             MenuPage.Content = adminProfile;
             lblTitle.Content = "MY PROFILE";
-        }
-
-        private async void ButtonCloseApplication_Click(object sender, RoutedEventArgs e)
-        {
-            var result = await this.ShowMessageAsync("Are you sure want to quit?", "", MessageDialogStyle.AffirmativeAndNegative);
-            if (result == MessageDialogResult.Affirmative) Application.Current.Shutdown();
-        }
+        }        
 
         private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -129,6 +124,12 @@ namespace Activator.Views
         {
             ButtonOpenMenu.Visibility = Visibility.Collapsed;
             ButtonCloseMenu.Visibility = Visibility.Visible;
+        }
+
+        private async void ButtonCloseApplication_Click(object sender, RoutedEventArgs e)
+        {
+            var result = await this.ShowMessageAsync("Are you sure want to quit?", "", MessageDialogStyle.AffirmativeAndNegative);
+            if (result == MessageDialogResult.Affirmative) Application.Current.Shutdown();
         }
 
         private void ButtonMessage_Click(object sender, RoutedEventArgs e)
