@@ -1,4 +1,5 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
+using MahApps.Metro.Controls.Dialogs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,15 +13,19 @@ namespace Activator.Views
     /// </summary>
     public partial class CameraView : UserControl
     {
-        public CameraView()
+        private MainView mainView = null;
+
+        public CameraView(MainView mv)
         {
             InitializeComponent();
             LoadCamerasData();
 
             CheckSelection();
+
+            mainView = mv;
         }
 
-        private void LoadCamerasData()
+        public void LoadCamerasData()
         {
             Mouse.OverrideCursor = Cursors.Wait;
             try
@@ -106,10 +111,9 @@ namespace Activator.Views
                 string dataStreamName = $"AmazonRekognitionDataStreamCam{selectedCameraId}";
                 string streamProcessorName = $"StreamProcessorCam{selectedCameraId}";
 
-                DeleteCamera deleteCamera = new DeleteCamera(selectedCameraId.ToString(), videoStreamArn, dataStreamName, eventSourceUUID, streamProcessorName);
-                deleteCamera.Show();
+                mainView.DeleteCamera(selectedCameraId.ToString(), videoStreamArn, dataStreamName, eventSourceUUID, streamProcessorName, this);               
             }
-        }
+        }        
 
         private void DataGridCameras_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
