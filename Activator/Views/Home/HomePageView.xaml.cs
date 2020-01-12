@@ -29,7 +29,7 @@ namespace Activator.Views
             GetAllCameras();
 
             ReadHistoryStream();
-            ReadRefPersonStream();            
+            ReadRefPersonStream();
         }
 
         protected override void OnInitialized(EventArgs e)
