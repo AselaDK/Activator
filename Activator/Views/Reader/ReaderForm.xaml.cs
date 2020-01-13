@@ -9,7 +9,7 @@ using Amazon.DynamoDBv2.DocumentModel;
 
 using System.Collections.Generic;
 using System.Windows.Input;
-
+using Activator.Views.Reader;
 
 namespace Activator.Views
 {
@@ -93,8 +93,9 @@ namespace Activator.Views
 
         private void AddReferance_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("this is from add referance button");
-          
+            //MessageBox.Show("this is from add referance button");
+            AssignReferences assignReferences = new AssignReferences();
+            assignReferences.ShowDialog();
             
         }
 
