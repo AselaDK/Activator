@@ -6,10 +6,14 @@ using Microsoft.Win32;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using Amazon.DynamoDBv2.DocumentModel;
-
 using System.Collections.Generic;
 using System.Windows.Input;
 using Activator.Views.Reader;
+using Activator.Models;
+using Amazon.DynamoDBv2;
+using Item = Amazon.DynamoDBv2.DocumentModel.Document;
+using Table = Amazon.DynamoDBv2.DocumentModel.Table;
+using System.Linq;
 
 namespace Activator.Views
 {
@@ -19,23 +23,69 @@ namespace Activator.Views
     public partial class ReaderForm : MetroWindow
     {
         private string uploadFilePath;
+        private static AmazonDynamoDBClient client = new AmazonDynamoDBClient();
 
         public ReaderForm()
         {
             InitializeComponent();
-            
+            InitData();
+        }
+
+        private void InitData()
+        {
+            LoadData();
+        }
+        protected void LoadData()
+        {
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                List<RefPerson> refs = new List<RefPerson>();
+
+                refs = RefPerson.GetAllRefPersons();
+
+                Console.WriteLine();
+
+                lblLoading.Visibility = Visibility.Hidden;
+
+                RefDataGrid.ItemsSource = refs;
+                RefDataGrid.Items.Refresh();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
+        }
+
+        public List<String> GetCheckedRefPeople()
+        {
+            List<RefPerson> SelectedPeople = new List<RefPerson>();
+            List<String> SelectedPeopleIdList = new List<String>();
+
+            for (int i = 0; i < RefDataGrid.SelectedItems.Count; i++)
+            {
+                SelectedPeople.Add((RefPerson)RefDataGrid.SelectedItems[i]);
+                SelectedPeopleIdList.Add(SelectedPeople[i].id);
+                Console.WriteLine(SelectedPeopleIdList[i]);
+            }
+            return SelectedPeopleIdList;
         }
 
         private async void ButtonSubmit_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
+            //try
+            //{
                 bool isNameEmpty = string.IsNullOrEmpty(txtName.Text);
                 bool isDescriptionEmpty = string.IsNullOrEmpty(txtDescription.Text);
                 bool isFilePathEmpty = string.IsNullOrEmpty(uploadFilePath);
                 bool isFileIdEmpty = string.IsNullOrEmpty(txtId.Text);
+                bool isPhoneEmpty = string.IsNullOrEmpty(txtPhone.Text);
 
-                if (!isNameEmpty && !isDescriptionEmpty && !isFilePathEmpty && !isFileIdEmpty && !txtId.Text.Contains(" "))
+                if (!isNameEmpty && !isDescriptionEmpty && !isFilePathEmpty && !isFileIdEmpty && !isPhoneEmpty && !txtId.Text.Contains(" "))
                 {
                     ProgressDialogController controller = await this.ShowProgressAsync("Please wait...", "Uploading data");
                     controller.SetIndeterminate();
@@ -44,15 +94,19 @@ namespace Activator.Views
                     string[] temp = uploadFilePath.Split('.');
                     string fileId = $"{txtId.Text}.{temp[temp.Length - 1]}";
 
-                    var item = new Document();
+                    var r_item = new Document();
 
-                    item["id"] = fileId;
-                    item["name"] = txtName.Text;
-                    item["description"] = txtDescription.Text;
+                    List<String> SelectedPeople = new List<String>();
+                    SelectedPeople = GetCheckedRefPeople();
+
+                    r_item["id"] = fileId;
+                    r_item["name"] = txtName.Text;
+                    r_item["description"] = txtDescription.Text;
+                    r_item["phone"] = txtPhone.Text;
+                    r_item["refList"] = SelectedPeople;
 
                     await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId,Models.MyAWSConfigs.ReaderS3BucketName));
-                    await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.ReaderDBtableName));
-                  //  await Task.Run(() => Models.FaceCollection.AddFace(fileId, Models.MyAWSConfigs.faceCollectionID));
+                    await Task.Run(() => Models.Dynamodb.PutItem(r_item, Models.MyAWSConfigs.ReaderDBtableName));
 
                     await controller.CloseAsync();
 
@@ -61,17 +115,119 @@ namespace Activator.Views
                     txtName.Text = "";
                     txtDescription.Text = "";
                     txtId.Text = "";
+                    txtPhone.Text = "";
                     imgUploadImage.Source = null;
+
+                    GiveRedersToRefernces(SelectedPeople, fileId);
 
                 }
                 else
                 {
                     await this.ShowMessageAsync("Error", "Fill All The Fields", MessageDialogStyle.Affirmative);
                 }
-            }
-            catch
+            //}
+            //catch
+            //{
+            //    await this.ShowMessageAsync("Error", "Task not completed", MessageDialogStyle.Affirmative);
+            //}
+        }
+
+        private void GiveRedersToRefernces(List<String> refList, String readerId)
+        {
+            try
             {
-                await this.ShowMessageAsync("Error", "Task not completed", MessageDialogStyle.Affirmative);
+                Console.WriteLine(readerId);
+                foreach (String chkd_ref in refList)
+                {
+                    string tableName = MyAWSConfigs.RefPersonsDBTableName;
+                    Table table = Table.LoadTable(client, tableName);
+
+                    Console.WriteLine("\n*** Executing UpdateMultipleAttributes() ***");
+                    Console.WriteLine("\nUpdating multiple attributes....");
+                    string partitionKey = chkd_ref;
+
+                    Document doc = new Document();
+                    doc["id"] = partitionKey;
+                    // List of attribute updates.
+                    // The following replaces the existing authors list.
+
+                    Item item = table.GetItem(chkd_ref);
+                    Console.WriteLine(item["id"]);
+                    //Console.WriteLine(item["readerList"]);
+                    List<string> readersList = new List<string>();
+                    if (item["readerList"] != null)
+                    {
+                        readersList = item["readerList"].AsListOfString();
+                        var match = readersList.FirstOrDefault(stringToCheck => stringToCheck.Contains(readerId));
+                        if (match != null)
+                        {
+                            readersList.Add(readerId);
+                            foreach (string i in readersList)
+                            {
+                                Console.WriteLine("reader !match >>>>>> " + i);
+                            }
+                            doc["readerList"] = readersList;
+                            // Optional parameters.
+                            UpdateItemOperationConfig config = new UpdateItemOperationConfig
+                            {
+                                // Get updated item in response.
+                                ReturnValues = ReturnValues.AllNewAttributes
+                            };
+                            Document updatedadmin = table.UpdateItem(doc, config);
+                            Console.WriteLine("UpdateMultipleAttributes: Printing item after updates ...");
+                            MessageBox.Show("Successfully Updated! not null");
+                        }
+                        else
+                        {
+                            readersList.Add(readerId);
+                            foreach (string i in readersList)
+                            {
+                                Console.WriteLine("reader match >>>>>> " + i);
+                            }
+                            doc["readerList"] = readersList;
+                            // Optional parameters.
+                            UpdateItemOperationConfig config = new UpdateItemOperationConfig
+                            {
+                                // Get updated item in response.
+                                ReturnValues = ReturnValues.AllNewAttributes
+                            };
+                            Document updatedadmin = table.UpdateItem(doc, config);
+                            Console.WriteLine("UpdateMultipleAttributes: Printing item after updates ...");
+                            MessageBox.Show("Successfully Updated! not null");
+                        }
+                    }
+                    else
+                    {
+                        foreach (string i in readersList)
+                        {
+                            Console.WriteLine("reader null >>>>>> "+i);
+                        }
+
+                        doc["readerList"] = readersList;
+                        // Optional parameters.
+                        UpdateItemOperationConfig config = new UpdateItemOperationConfig
+                        {
+                            // Get updated item in response.
+                            ReturnValues = ReturnValues.AllNewAttributes
+                        };
+                        Document updatedadmin = table.UpdateItem(doc, config);
+                        Console.WriteLine("UpdateMultipleAttributes: Printing item after updates ...");
+                        MessageBox.Show("Successfully Updated! null");
+                    }
+
+                }
+            }
+            catch (AmazonDynamoDBException ex)
+            {
+                MessageBox.Show("Message : Server Error", ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Message : Unknown Error- Updating Refs", ex.Message);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
             }
         }
 
