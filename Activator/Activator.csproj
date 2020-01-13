@@ -342,12 +342,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="packages\AWSSDK.DynamoDBv2.3.3.104.16\analyzers\dotnet\cs\AWSSDK.DynamoDBv2.CodeAnalysis.dll" />
-    <Analyzer Include="packages\AWSSDK.Kinesis.3.3.100.121\analyzers\dotnet\cs\AWSSDK.Kinesis.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.DynamoDBv2.3.3.104.17\analyzers\dotnet\cs\AWSSDK.DynamoDBv2.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.Kinesis.3.3.100.122\analyzers\dotnet\cs\AWSSDK.Kinesis.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.KinesisVideo.3.3.102.15\analyzers\dotnet\cs\AWSSDK.KinesisVideo.CodeAnalysis.dll" />
-    <Analyzer Include="packages\AWSSDK.Lambda.3.3.106.14\analyzers\dotnet\cs\AWSSDK.Lambda.CodeAnalysis.dll" />
-    <Analyzer Include="packages\AWSSDK.Rekognition.3.3.103.14\analyzers\dotnet\cs\AWSSDK.Rekognition.CodeAnalysis.dll" />
-    <Analyzer Include="packages\AWSSDK.S3.3.3.110.10\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.Lambda.3.3.106.15\analyzers\dotnet\cs\AWSSDK.Lambda.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.Rekognition.3.3.103.15\analyzers\dotnet\cs\AWSSDK.Rekognition.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.S3.3.3.110.11\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\LogoActivator.jpeg" />

@@ -31,7 +31,10 @@ namespace Activator.Models
         {
             get; set;
         }
-
+        public List<String> readerList 
+        { 
+            get; set; 
+        }
         public string description
         {
             get; set;

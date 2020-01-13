@@ -17,10 +17,10 @@ namespace Activator.Models
         public string id { get; set; }
         public string description { get; set; }
         public string name { get; set; }
-        public bool status { get; set; }
         public string phone { get; set; }
-        public string propic { get; set; }
         public List<String> refList { get; set; }
+        public bool status { get; set; }
+        public string propic { get; set; }
         public BitmapImage rImage { get; set; }
 
         public static List<Reader> GetReadersData()

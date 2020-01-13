@@ -35,7 +35,7 @@ namespace Activator.Views
         private void RegRaeder_Click(object sender, RoutedEventArgs e)
         {
             ReaderForm readerForm = new ReaderForm();
-            readerForm.Show();
+            readerForm.ShowDialog();
         }
 
         private AmazonDynamoDBClient client;
