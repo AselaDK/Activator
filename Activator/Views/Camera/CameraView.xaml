@@ -35,11 +35,11 @@
             </StackPanel>
         </Grid>
         <Grid Height="980">
-            <DataGrid x:Name="dataGridCameras" SelectionUnit="FullRow" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Grid.ColumnSpan="2" SelectionChanged="DataGridCameras_SelectionChanged">
+            <DataGrid x:Name="dataGridCameras" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Height="980" SelectionUnit="FullRow" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" SelectionChanged="DataGridCameras_SelectionChanged">
                 <DataGrid.Columns>               
-                    <DataGridTextColumn Width="2*" Header="ID" Binding="{Binding id}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="1*" Header="ID" Binding="{Binding id}" IsReadOnly="True" />
                     <DataGridTextColumn Width="2*" Header="Location" Binding="{Binding description}" IsReadOnly="True" />
-                    <DataGridTextColumn Width="2*" Header="Description" Binding="{Binding location}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="3*" Header="Description" Binding="{Binding location}" IsReadOnly="True" />
                 </DataGrid.Columns>
             </DataGrid>            
         </Grid>

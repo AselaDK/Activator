@@ -16,16 +16,44 @@ namespace Activator.Views
     /// </summary>
     public partial class HomePageView : UserControl
     {
+        private System.Windows.Forms.NotifyIcon notifyIcon = null;
+
+        private static readonly double notifyInterval = 150;
+
         Dictionary<string, Models.Camera> cameras = new Dictionary<string, Models.Camera>();
 
         public HomePageView()
         {
             InitializeComponent();
+
             GetAllCameras();
-            ReadRefPersonStream();            
+
+            ReadHistoryStream();
+            ReadRefPersonStream();
         }
-        
-        private void GetAllCameras()
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            notifyIcon = new System.Windows.Forms.NotifyIcon();
+            notifyIcon.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            notifyIcon.Click += notifyIcon_Click;
+            notifyIcon.DoubleClick += notifyIcon_DoubleClick;
+            notifyIcon.BalloonTipClosed += (s, _e) => notifyIcon.Visible = false;
+
+            base.OnInitialized(e);
+        }
+
+        void notifyIcon_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        void notifyIcon_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
+
+        public void GetAllCameras()
         {
             Mouse.OverrideCursor = Cursors.Wait;
             try
@@ -34,6 +62,7 @@ namespace Activator.Views
                 foreach (Models.Camera camera in temp)
                 {
                     cameras.Add(camera.id, camera);
+                    Console.WriteLine(cameras[camera.id]);
                 }
             }
             finally
@@ -139,18 +168,14 @@ namespace Activator.Views
                                         refPerson.image = new BitmapImage(fileUri);
 
                                         if (refPerson.status)
-                                        {
-                                            refPersons.Add(refPerson.id, refPerson);
-                                            string camLocation = cameras[refPerson.camera].location;
-                                            string message = $"{refPerson.name} has been detected by camera {refPerson.camera} at {camLocation}";
-                                            AddNewNotification(message);
+                                        { 
+                                            if (!refPersons.ContainsKey(refPerson.id))
+                                                refPersons.Add(refPerson.id, refPerson);                                            
                                         }
                                         else
                                         {
-                                            refPersons.Remove(refPerson.id);
-                                            string camLocation = cameras[refPerson.camera].location;
-                                            string message = $"{refPerson.name} has been disappeared by camera {refPerson.camera} at {camLocation}";
-                                            AddNewNotification(message);
+                                            if (refPersons.ContainsKey(refPerson.id))
+                                                refPersons.Remove(refPerson.id);                                            
                                         }
 
                                         dataGridDetectedPersons.ItemsSource = refPersons.Values;
@@ -179,9 +204,13 @@ namespace Activator.Views
             }
         }
 
-        private async Task ReadNotificationStream()
+        private async Task ReadHistoryStream()
         {   
-            string streamArn = Models.MyAWSConfigs.DynamodbNotificationTableStreamArn;
+            string streamArn = Models.MyAWSConfigs.DynamodbHistoryTableStreamArn;
+
+            DateTime notifyTime = DateTime.Now;
+            notifyTime = DateTime.Now.AddMilliseconds(notifyInterval);
+
             //int maxItemCount = 100;
 
             try
@@ -237,14 +266,26 @@ namespace Activator.Views
                                 GetRecordsResponse getRecordsResponse = await streamsClient.GetRecordsAsync(getRecordsRequest);
 
                                 List<Record> records = getRecordsResponse.Records;
-
+                                
                                 foreach (Record record in records)
                                 {
                                     foreach (KeyValuePair<string, AttributeValue> newImage in record.Dynamodb.NewImage)
-                                    {
-                                        string message = record.Dynamodb.NewImage["message"].S;
+                                    {                                        
+                                        if (DateTime.Now >= notifyTime)
+                                        {
+                                            string message = record.Dynamodb.NewImage["message"].S;
+                                            string[] messageTemp = message.Split(' ');
+                                            string camId = messageTemp[messageTemp.Length - 1];
+                                            string camLocation = cameras[camId].location;
+                                            message += $" at {camLocation}";
 
-                                        AddNewNotification(message);
+                                            AddNewNotification(message);
+
+                                            notifyTime = DateTime.Now.AddMilliseconds(notifyInterval);
+
+                                            notifyIcon.Visible = true;                                            
+                                            notifyIcon.ShowBalloonTip(1000, "New Person Detected", message, System.Windows.Forms.ToolTipIcon.Info);
+                                        }                                        
                                     }
                                 }
                                 processedRecordCount += records.Count;
@@ -272,6 +313,11 @@ namespace Activator.Views
         private void AddNewNotification(string message)
         {
             this.notificationListView.Items.Add(new Notification { Message = message });
+        }
+
+        private void DataGridDetectedPersons_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
+        {
+
         }
     }
 

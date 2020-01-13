@@ -19,26 +19,53 @@
         WindowStartupLocation="CenterScreen" 
         WindowStyle="None" 
         FontFamily="Segoe UI Emoji">
+
+    <Grid>        
+        <materialDesign:Card Height="200">
+            <Rectangle Height="200" VerticalAlignment="Top">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="DarkSeaGreen"/>
+                        <GradientStop Color="SeaGreen" Offset="1"/>
+                        <GradientStop Color="MediumSeaGreen" Offset="0.546"/>
+                    </LinearGradientBrush>  
+                </Rectangle.Fill>
+            </Rectangle>
+        </materialDesign:Card>
+        <Ellipse Height="150" Width="150" VerticalAlignment="Top" Margin="0,25">
+            <Ellipse.Fill>                
+                <ImageBrush ImageSource="../Resources/images/LogoActivator.jpeg"/>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Grid VerticalAlignment="Bottom" Margin="35,80" Height="240">
+            <Label Content="LOGIN" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20" Foreground="Gray" FontSize="24"/>
+            <StackPanel VerticalAlignment="Center" Margin="15">
+                <TextBox x:Name="TxtUid" Margin="0,10" materialDesign:HintAssist.Hint="EMAIL" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
+                <PasswordBox x:Name="TxtPassword" Margin="0,10" materialDesign:HintAssist.Hint="PASSWORD" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" />
+            </StackPanel>
+        </Grid>
+        <Button x:Name="ButtonLogin" Click="ButtonLogin_Click" HorizontalAlignment="Center" 
+                VerticalAlignment="Bottom" Margin="0,65" Content="LOGIN">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=TxtUid, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=TxtPassword, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+    </Grid>
+        <!--<Grid>
+
+
         
-        <Grid>
 
-
-        <Rectangle Height="280" VerticalAlignment="Top">
-            <Rectangle.Fill>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="DarkSeaGreen"/>
-                    <GradientStop Color="SeaGreen" Offset="1"/>
-                    <GradientStop Color="MediumSeaGreen" Offset="0.546"/>
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-
-        <Rectangle Width="280" Height="240" VerticalAlignment="Bottom" Margin="0,80" RadiusY="10" RadiusX="10" Fill="White">
-            <Rectangle.Effect>
-                <DropShadowEffect BlurRadius="15" Direction="0" RenderingBias="Quality" ShadowDepth="1" Color="#FFBBBBBB"/>
-            </Rectangle.Effect>
-        </Rectangle>
-
+        <materialDesign:Card Width="280" Height="240" Margin="0,180"/>
         <Grid VerticalAlignment="Bottom" Margin="35,80" Height="240">
             <Label Content="LOGIN" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" Foreground="Gray" FontSize="18"/>
             <StackPanel VerticalAlignment="Center" Margin="15">
@@ -46,9 +73,10 @@
                 <PasswordBox x:Name="TxtPassword" Margin="0,10" materialDesign:HintAssist.Hint="PASSWORD" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" />
             </StackPanel>
         </Grid>
-        <Button x:Name="ButtonLogin" Click="ButtonLogin_Click" Background="#008000" Width="150" Height="35" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,65" Content="LOGIN" Cursor="Hand">
+        <Button x:Name="ButtonLogin" Click="ButtonLogin_Click" HorizontalAlignment="Center" 
+                VerticalAlignment="Bottom" Margin="0,65" Content="LOGIN">
             <Button.Style>
-                <Style TargetType="{x:Type Button}">
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedButton}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Text.Length, ElementName=TxtUid, UpdateSourceTrigger=PropertyChanged}" Value="0">
                             <Setter Property="IsEnabled" Value="False"/>
@@ -66,5 +94,5 @@
         <Button x:Name="ButtonCloseApplication" Click="ButtonCloseApplication_Click" Height="50" Width="50" Background="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Top" >
             <materialDesign:PackIcon  Kind="CloseBox" Height="30" Width="30" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0"/>
         </Button>
-    </Grid>
+    </Grid>-->
 </Window>
