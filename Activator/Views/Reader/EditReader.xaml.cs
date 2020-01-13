@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,16 @@ namespace Activator.Views.Reader
     /// <summary>
     /// Interaction logic for EditReader.xaml
     /// </summary>
-    public partial class EditReader : UserControl
+    public partial class EditReader : MetroWindow
     {
         public EditReader()
         {
             InitializeComponent();
+        }
+
+        private void ButtonSubmit_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("this is submit button");
         }
     }
 }

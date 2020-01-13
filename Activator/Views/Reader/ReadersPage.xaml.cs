@@ -1,4 +1,5 @@
-﻿using Amazon.DynamoDBv2;
+﻿using Activator.Views.Reader;
+using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
+
+
+
 
 namespace Activator.Views
 {
@@ -84,6 +88,13 @@ namespace Activator.Views
             var table = Table.LoadTable(client, tableName);
             var item = table.GetItem(aId);
             //LoadData(item);
+        }
+
+        private void AdminDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("thi is from double click");
+            EditReader editReader = new EditReader();
+            editReader.Show();
         }
     }
 }
