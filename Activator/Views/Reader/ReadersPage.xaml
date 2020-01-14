@@ -32,7 +32,7 @@
         </StackPanel>
 
         <Grid Height="980">
-            <DataGrid x:Name="AdminDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Margin="0,45,0,0" MouseDoubleClick="AdminDataGrid_MouseDoubleClick">
+            <DataGrid x:Name="ReaderDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Margin="0,45,0,0" MouseDoubleClick="ReaderDataGrid_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
@@ -41,10 +41,11 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Width="2*" Header="Status" Binding="{Binding status}" IsReadOnly="True" />
-                    <DataGridTextColumn Width="4*" Header="Name" Binding="{Binding name}" IsReadOnly="True" />
-                    <DataGridTextColumn Width="4*" Header="Phone" Binding="{Binding phone}" IsReadOnly="True" />
-                    <DataGridTextColumn Width="4*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="2*" x:Name="id" Header="Id" Binding="{Binding id}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="2*" x:Name="status" Header="Status" Binding="{Binding status}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="4*" x:Name="name" Header="Name" Binding="{Binding name}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="4*" x:Name="phone" Header="Phone" Binding="{Binding phone}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="4*" x:Name="description" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
                 </DataGrid.Columns>
             </DataGrid>
             <Label x:Name="lblLoading" Content="Loading..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Grid.Column="1" Margin="714,469,780.4,469"/>

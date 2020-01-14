@@ -63,23 +63,13 @@ namespace Activator.Views
 
                 lblLoading.Visibility = Visibility.Hidden;
 
-                AdminDataGrid.ItemsSource = readers;
-                AdminDataGrid.Items.Refresh();
+                ReaderDataGrid.ItemsSource = readers;
+                ReaderDataGrid.Items.Refresh();
             }
             finally
             {
                 Mouse.OverrideCursor = null;
             }
-        }
-
-        private void CamerasDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            //EditCameraView ecv = new EditCameraView();
-            //ecv.DataContext = AdminDataGrid.SelectedItem;
-            ////ecv.TxtCamId.Text = row
-            ////ecv.TxtLocation.Text = Convert.ToString(ColLocation);
-            ////ecv.TxtQuality.Text = Convert.ToString(ColQuality);
-            //ecv.ShowDialog();
         }
 
         private void Search_Click(object sender, RoutedEventArgs e)
@@ -90,12 +80,24 @@ namespace Activator.Views
             //LoadData(item);
         }
 
-        private void AdminDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void ReaderDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             MessageBox.Show("thi is from double click");
             EditReader editReader = new EditReader();
-            editReader.Show();
+
+            
+            editReader.DataContext = ReaderDataGrid.SelectedItem;
+            //editReader.txtId.Text = Convert.ToString(id);
+            //editReader.txtName.Text = Convert.ToString(this.name);
+            //editReader.txtPhone.Text = Convert.ToString(this.phone);
+            //editReader.txtDescription.Text = Convert.ToString(this.description);
+
+            editReader.ShowDialog();
+
+
         }
+
+
     }
 }
 
