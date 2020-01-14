@@ -29,6 +29,8 @@ namespace Activator.Views.Reader
         private void ButtonSubmit_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("this is submit button");
+            String name = txtName.Text;
+            MessageBox.Show(name);
         }
     }
 }

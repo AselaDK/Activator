@@ -41,7 +41,7 @@ namespace Activator.Views
            // AddNewRef addNewRef = new AddNewRef();
            // addNewRef.Show();
             ReaderForm readerForm= new ReaderForm();
-            
+         
             readerForm.Show();
             
 

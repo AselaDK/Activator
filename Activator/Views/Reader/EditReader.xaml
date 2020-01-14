@@ -17,8 +17,8 @@
         <Button Background="BlueViolet" x:Name="buttonSubmit" Content="Submit" HorizontalAlignment="Left" Margin="693,379,0,0" VerticalAlignment="Top" Width="91" Click="ButtonSubmit_Click"/>
         <Label Content="Description" Background="GreenYellow" HorizontalAlignment="Left" Margin="113,257,0,0" VerticalAlignment="Top"/>
         <Image x:Name="imgUploadImage"  HorizontalAlignment="Left" Height="233" Margin="465,40,0,0" VerticalAlignment="Top" Width="218"/>
-        <!--<Button Background="YellowGreen" x:Name="buttonChooseImage" Content="Choose Image" HorizontalAlignment="Left" Margin="519,278,0,0" VerticalAlignment="Top" Width="131" Click="ButtonChooseImage_Click"/>
-        <Label Background="GreenYellow" Content="ID" HorizontalAlignment="Left" Margin="113,83,0,0" VerticalAlignment="Top"/>-->
+        <!--<Button Background="YellowGreen" x:Name="buttonChooseImage" Content="Choose Image" HorizontalAlignment="Left" Margin="519,278,0,0" VerticalAlignment="Top" Width="131" Click="ButtonChooseImage_Click"/>-->
+        <Label Background="GreenYellow" Content="ID" HorizontalAlignment="Left" Margin="113,83,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="txtId" Background="LightGray" HorizontalAlignment="Left" Height="23" Margin="237,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <!--<Button Background="YellowGreen" x:Name="ReaderAdd_ref" Content="Add_Reader" HorizontalAlignment="Left" Margin="240,330,0,0" VerticalAlignment="Top" Width="131" Click="AddReferance_Click"/>-->
 
