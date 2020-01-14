@@ -32,7 +32,7 @@
         </StackPanel>
 
         <Grid Height="980">
-            <DataGrid x:Name="AdminDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Margin="0,45,0,0">
+            <DataGrid x:Name="AdminDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Margin="0,45,0,0" MouseDoubleClick="AdminDataGrid_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>

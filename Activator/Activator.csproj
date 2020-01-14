@@ -188,6 +188,9 @@
     <Compile Include="Views\Reader\AssignReferences.xaml.cs">
       <DependentUpon>AssignReferences.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Reader\EditReader.xaml.cs">
+      <DependentUpon>EditReader.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ref Person\AddNewRef.xaml.cs">
       <DependentUpon>AddNewRef.xaml</DependentUpon>
     </Compile>
@@ -255,6 +258,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Reader\AssignReferences.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Reader\EditReader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
