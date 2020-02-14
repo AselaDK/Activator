@@ -18,7 +18,6 @@ namespace Activator.Views
         public CameraView(MainView mv)
         {
             InitializeComponent();
-            LoadCamerasData().ConfigureAwait(false);
 
             CheckSelection();
 
@@ -28,6 +27,7 @@ namespace Activator.Views
         public async Task LoadCamerasData()
         {
             progressBar.Visibility = Visibility.Visible;
+            BtnRefresh.IsEnabled = false;
             try
             {                
                 IEnumerable<Models.Camera> cameras = await Task.Run(() => Models.Camera.GetAllCamers());
@@ -38,6 +38,7 @@ namespace Activator.Views
             finally
             {
                 progressBar.Visibility = Visibility.Hidden;
+                BtnRefresh.IsEnabled = true;
             }
         }
 

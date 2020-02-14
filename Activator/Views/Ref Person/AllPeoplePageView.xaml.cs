@@ -16,8 +16,6 @@ namespace Activator.Views
         public AllPeoplePageView()
         {
             InitializeComponent();
-
-            LoadPersonsData().ConfigureAwait(false);
         }
 
         private void BtnAddNewRef_Click(object sender, RoutedEventArgs e)
@@ -26,9 +24,10 @@ namespace Activator.Views
             addNewRef.Show();
         }
 
-        private async Task LoadPersonsData()
+        public async Task LoadPersonsData()
         {
             progressBar.Visibility = Visibility.Visible;
+            BtnRefresh.IsEnabled = false;
             try
             {
                 IEnumerable<Models.RefPerson> result = await Task.Run(() => Models.RefPerson.GetAllRefPersons());
@@ -55,37 +54,38 @@ namespace Activator.Views
             }
             finally
             {
-                progressBar.Visibility = Visibility.Hidden;
+                //progressBar.Visibility = Visibility.Hidden;
+                BtnRefresh.IsEnabled = true;
             }
         }
 
-        private void GetCheckedList()
-        {
-            List<Models.RefPerson> selectedList = new List<Models.RefPerson>();
+        //private void GetCheckedList()
+        //{
+        //    List<Models.RefPerson> selectedList = new List<Models.RefPerson>();
 
-            foreach (Models.RefPerson person in dataGridAllRefPersons.ItemsSource)
-            {
-                CheckBox cb = SelectionColumn.GetCellContent(person) as CheckBox;
-                if (cb != null && cb.IsChecked == true)
-                {
-                    selectedList.Add(person);
-                }
-            }
+        //    foreach (Models.RefPerson person in dataGridAllRefPersons.ItemsSource)
+        //    {
+        //        CheckBox cb = SelectionColumn.GetCellContent(person) as CheckBox;
+        //        if (cb != null && cb.IsChecked == true)
+        //        {
+        //            selectedList.Add(person);
+        //        }
+        //    }
 
-            foreach (Models.RefPerson person in selectedList)
-            {
-                Console.WriteLine(person.name);
-            }
-        }
+        //    foreach (Models.RefPerson person in selectedList)
+        //    {
+        //        Console.WriteLine(person.name);
+        //    }
+        //}
 
         private void BtnRefresh_Click(object sender, RoutedEventArgs e)
         {
             LoadPersonsData().ConfigureAwait(false);
         }
 
-        private void GetSelectedButton_Click(object sender, RoutedEventArgs e)
-        {
-            GetCheckedList();
-        }
+        //private void GetSelectedButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    GetCheckedList();
+        //}
     }
 }

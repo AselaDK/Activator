@@ -44,8 +44,6 @@ namespace Activator.Models
 
         public static IEnumerable<RefPerson> GetAllRefPersons()
         {
-            
-
             try
             {
                 AmazonDynamoDBClient client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion);

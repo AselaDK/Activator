@@ -37,13 +37,14 @@ namespace Activator.Views
             this.adminPropic = adminPropic;
 
             InitUserControls();
-            InitUserInfo();
+            InitUserInfo().ConfigureAwait(false);
 
             ButtonOpenMenu.Visibility = Visibility.Visible;
             ButtonCloseMenu.Visibility = Visibility.Collapsed;
 
             MenuPage.Content = home;
             lblTitle.Content = "HOME";
+            home.GetAllCameras().ConfigureAwait(false);
         }
 
         protected override void OnInitialized(EventArgs e)
@@ -78,7 +79,7 @@ namespace Activator.Views
             adminProfile = new AdminProfile();
         }
 
-        private void InitUserInfo()
+        private async Task InitUserInfo()
         {
             AdminName.Text = adminName;
 
@@ -86,7 +87,7 @@ namespace Activator.Views
 
             if (!File.Exists(directoryPath + adminPropic))
             {
-                Models.S3Bucket.DownloadFile(adminPropic, Models.MyAWSConfigs.AdminS3BucketName);
+                await Task.Run(() => Models.S3Bucket.DownloadFile(adminPropic, Models.MyAWSConfigs.AdminS3BucketName));
             }
 
             string exeDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
@@ -99,10 +100,10 @@ namespace Activator.Views
         }
 
         private void ButtonMenuHome_Click(object sender, RoutedEventArgs e)
-        {
-            home.GetAllCameras().ConfigureAwait(false);
+        {            
             MenuPage.Content = home;
             lblTitle.Content = "HOME";
+            home.GetAllCameras().ConfigureAwait(false);
         }
 
         private void ButtonMenuPeopleIn_Click(object sender, RoutedEventArgs e)
@@ -112,9 +113,10 @@ namespace Activator.Views
         }
 
         private void ButtonMenuAllPeople_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             MenuPage.Content = allPeoplePageView;
             lblTitle.Content = "ALL PEOPLE";
+            allPeoplePageView.LoadPersonsData().ConfigureAwait(false);
         }
 
         private void ButtonMenuReaders_Click(object sender, RoutedEventArgs e)
@@ -124,9 +126,10 @@ namespace Activator.Views
         }
 
         private void ButtonMenuCameras_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             MenuPage.Content = cameraView;
             lblTitle.Content = "CAMERAS";
+            cameraView.LoadCamerasData().ConfigureAwait(false);
         }
 
         private void ButtonMenuAdmins_Click(object sender, RoutedEventArgs e)
@@ -189,7 +192,6 @@ namespace Activator.Views
             notifyIcon.Visible = true;
             notifyIcon.ShowBalloonTip(1000, "Deleted", "Camera deleted Successfully", System.Windows.Forms.ToolTipIcon.Info);
 
-            //await this.ShowMessageAsync("Deleted", "Camera deleted Successfully", MessageDialogStyle.Affirmative);
         }
 
         private void ButtonMessage_Click(object sender, RoutedEventArgs e)

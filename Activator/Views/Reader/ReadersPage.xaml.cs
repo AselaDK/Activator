@@ -29,7 +29,7 @@ namespace Activator.Views
             {
                 Console.Error.WriteLine("Error: failed to create a DynamoDB client; " + ex.Message);
             }
-            InitData();
+            //InitData();
         }
 
         private void RegRaeder_Click(object sender, RoutedEventArgs e)

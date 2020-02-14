@@ -25,8 +25,6 @@ namespace Activator.Views
         {
             InitializeComponent();
 
-            GetAllCameras().ConfigureAwait(false);
-
             ReadHistoryStream().ConfigureAwait(false);
             ReadRefPersonStream().ConfigureAwait(false);
         }
@@ -311,12 +309,8 @@ namespace Activator.Views
 
         private void AddNewNotification(string message)
         {
+            message = DateTime.Now.ToShortTimeString() + " " + message;
             this.notificationListView.Items.Add(new Notification { Message = message });
-        }
-
-        private void DataGridDetectedPersons_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
-        {
-
         }
     }
 
