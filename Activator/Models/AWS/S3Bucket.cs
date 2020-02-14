@@ -68,8 +68,8 @@ namespace Activator.Models
                 {
                     var fileTransferUtility = new TransferUtility(s3Client);
 
+                    Console.WriteLine("Downloading: " + fileName);
                     await fileTransferUtility.DownloadAsync(filePath, bucketName, fileName).ConfigureAwait(false);
-                    Console.WriteLine("download finished");
 
                 }
                 catch (AmazonS3Exception e)

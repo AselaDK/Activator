@@ -42,37 +42,22 @@ namespace Activator.Models
             get; set;
         }
 
-        public static List<RefPerson> GetAllRefPersons()
+        public static IEnumerable<RefPerson> GetAllRefPersons()
         {
-            string directoryPath = "Resources/Images/";
-
-            List<RefPerson> refPersons = new List<RefPerson>();
-
-            string tableName = MyAWSConfigs.RefPersonsDBTableName;
+            
 
             try
             {
-                AmazonDynamoDBClient client;
-                using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
-                {
-                    DynamoDBContext context = new DynamoDBContext(client);
-                    IEnumerable<RefPerson> refPersonsData = context.Scan<RefPerson>();
-                    refPersons = refPersonsData.ToList();
-                    foreach (RefPerson person in refPersons)
-                    {
-                        if (!File.Exists(directoryPath + person.id))
-                        {
-                            Models.S3Bucket.DownloadFile(person.id, Models.MyAWSConfigs.RefImagesBucketName);
-                        }
+                AmazonDynamoDBClient client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion);
 
-                        string exeDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
-                        Console.WriteLine(exeDirectory);
+                DynamoDBContext context = new DynamoDBContext(client);
+                IEnumerable<RefPerson> refPersonsData = context.Scan<RefPerson>();
 
-                        Uri fileUri = new Uri(exeDirectory + directoryPath + person.id);
+                var temp = refPersonsData.ToList<RefPerson>();
 
-                        person.image = new BitmapImage(fileUri);
-                    }
-                }
+                client.Dispose();                
+
+                return temp;
             }
             catch (AmazonDynamoDBException e)
             {
@@ -83,7 +68,7 @@ namespace Activator.Models
                 Console.WriteLine("Error: " + e);
             }
 
-            return refPersons;
+            return null;
         }
     }
 }

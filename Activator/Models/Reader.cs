@@ -49,13 +49,10 @@ namespace Activator.Models
                         }
 
                         string exeDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
-                        Console.WriteLine(exeDirectory);
 
                         Uri fileUri = new Uri(exeDirectory + directoryPath + reader.propic);
 
                         reader.rImage = new BitmapImage(fileUri);
-
-                        Console.WriteLine(reader.propic);
                     }
                 }
             }

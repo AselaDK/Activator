@@ -26,6 +26,9 @@
                 <Button x:Name="btnDelete" Content="DELETE" Width="75" Height="30" Margin="5,0,0,0" Click="BtnDelete_Click"/>-->
                 </StackPanel>
             </Grid>
+            <Grid Height="5">
+                <ProgressBar x:Name="progressBar" Style="{DynamicResource MaterialDesignLinearProgressBar}" IsIndeterminate="True" Visibility="Hidden"/>
+            </Grid>
             <Grid Height="980">
                 <DataGrid x:Name="dataGridDetectedPersons" AutoGenerateColumns="False" CanUserAddRows="False" materialDesign:ScrollBarAssist.ButtonsVisibility="Visible" ScrollBar.Scroll="DataGridDetectedPersons_Scroll" HorizontalAlignment="Left">
                     <DataGrid.Columns>

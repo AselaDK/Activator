@@ -22,37 +22,22 @@ namespace Activator.Views
         AdminsPage admins;
         AdminProfile adminProfile;
 
-        private string myname;
-        private string myid;
+        private string adminId;
+        private string adminName;
+        private string adminPropic;
 
         private System.Windows.Forms.NotifyIcon notifyIcon = null;
 
-        public MainView(String adminid, String adminname)
+        public MainView(String adminId, String adminName, string adminPropic)
         {
             InitializeComponent();
 
+            this.adminId = adminId;
+            this.adminName = adminName;
+            this.adminPropic = adminPropic;
+
             InitUserControls();
-
-            myname = adminname;
-            myid = adminid;
-
-            AdminName.Text = myname;
-
-            string imagename = "tamanna.jpg";
-            string directoryPath = "Resources/Images/";
-
-            if (!File.Exists(directoryPath + imagename))
-            {
-                Models.S3Bucket.DownloadFile(imagename, Models.MyAWSConfigs.AdminS3BucketName);
-            }
-
-            string exeDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
-
-            Uri fileUri = new Uri(exeDirectory + directoryPath + imagename);
-
-            ImageSource imageSource = new BitmapImage(fileUri);
-
-            MyPropicImage.Source = imageSource;
+            InitUserInfo();
 
             ButtonOpenMenu.Visibility = Visibility.Visible;
             ButtonCloseMenu.Visibility = Visibility.Collapsed;
@@ -89,13 +74,33 @@ namespace Activator.Views
             allPeoplePageView = new AllPeoplePageView();
             readers = new ReadersPage();
             cameraView = new CameraView(this);
-            admins = new AdminsPage(myid);
+            admins = new AdminsPage(adminId);
             adminProfile = new AdminProfile();
+        }
+
+        private void InitUserInfo()
+        {
+            AdminName.Text = adminName;
+
+            string directoryPath = "Resources/Images/";
+
+            if (!File.Exists(directoryPath + adminPropic))
+            {
+                Models.S3Bucket.DownloadFile(adminPropic, Models.MyAWSConfigs.AdminS3BucketName);
+            }
+
+            string exeDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
+
+            Uri fileUri = new Uri(exeDirectory + directoryPath + adminPropic);
+
+            ImageSource imageSource = new BitmapImage(fileUri);
+
+            MyPropicImage.Source = imageSource;
         }
 
         private void ButtonMenuHome_Click(object sender, RoutedEventArgs e)
         {
-            home.GetAllCameras();
+            home.GetAllCameras().ConfigureAwait(false);
             MenuPage.Content = home;
             lblTitle.Content = "HOME";
         }
@@ -133,10 +138,10 @@ namespace Activator.Views
         private void ProfileButton_Click(object sender, RoutedEventArgs e)
         {
             adminProfile = null;
-            adminProfile = new AdminProfile(myid);
+            adminProfile = new AdminProfile(adminId);
             MenuPage.Content = adminProfile;
             lblTitle.Content = "MY PROFILE";
-        }        
+        }
 
         private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -179,7 +184,7 @@ namespace Activator.Views
 
             await controller.CloseAsync();
 
-            cv.LoadCamerasData();
+            await cv.LoadCamerasData().ConfigureAwait(false);
 
             notifyIcon.Visible = true;
             notifyIcon.ShowBalloonTip(1000, "Deleted", "Camera deleted Successfully", System.Windows.Forms.ToolTipIcon.Info);

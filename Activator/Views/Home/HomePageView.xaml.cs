@@ -1,13 +1,12 @@
-﻿using System;
-using System.IO;
+﻿using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.Model;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.Model;
-using System.Windows.Input;
 
 namespace Activator.Views
 {
@@ -26,10 +25,10 @@ namespace Activator.Views
         {
             InitializeComponent();
 
-            GetAllCameras();
+            GetAllCameras().ConfigureAwait(false);
 
-            ReadHistoryStream();
-            ReadRefPersonStream();
+            ReadHistoryStream().ConfigureAwait(false);
+            ReadRefPersonStream().ConfigureAwait(false);
         }
 
         protected override void OnInitialized(EventArgs e)
@@ -53,23 +52,23 @@ namespace Activator.Views
 
         }
 
-        public void GetAllCameras()
+        public async Task GetAllCameras()
         {
-            Mouse.OverrideCursor = Cursors.Wait;
+            progressBar.Visibility = Visibility.Visible;
             try
             {
-                List<Models.Camera> temp = Models.Camera.GetAllCamers();
+                IEnumerable<Models.Camera> temp = await Task.Run(() => Models.Camera.GetAllCamers());
+                cameras.Clear();
                 foreach (Models.Camera camera in temp)
                 {
                     cameras.Add(camera.id, camera);
-                    Console.WriteLine(cameras[camera.id]);
                 }
             }
             finally
             {
-                Mouse.OverrideCursor = null;
+                progressBar.Visibility = Visibility.Hidden;
             }
-            
+
         }
 
         private async Task ReadRefPersonStream()
@@ -145,12 +144,12 @@ namespace Activator.Views
                                         string changedRefPersonName = record.Dynamodb.NewImage["name"].S;
                                         string changedRefPersonDescription = record.Dynamodb.NewImage["description"].S;
                                         string changedRefPersonCamera = record.Dynamodb.NewImage["camera"].S;
-                                                                              
+
                                         Models.RefPerson refPerson = new Models.RefPerson();
 
                                         refPerson.id = changedRefPersonId;
                                         refPerson.name = changedRefPersonName;
-                                        refPerson.status = (changedRefPersonStatus == "1")?true:false;
+                                        refPerson.status = (changedRefPersonStatus == "1") ? true : false;
                                         refPerson.description = changedRefPersonDescription;
                                         refPerson.camera = changedRefPersonCamera;
 
@@ -161,26 +160,26 @@ namespace Activator.Views
                                             Models.S3Bucket.DownloadFile(refPerson.id, Models.MyAWSConfigs.RefImagesBucketName);
                                         }
 
-                                        string exeDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";                                        
+                                        string exeDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
 
                                         Uri fileUri = new Uri(exeDirectory + directoryPath + refPerson.id);
 
                                         refPerson.image = new BitmapImage(fileUri);
 
                                         if (refPerson.status)
-                                        { 
+                                        {
                                             if (!refPersons.ContainsKey(refPerson.id))
-                                                refPersons.Add(refPerson.id, refPerson);                                            
+                                                refPersons.Add(refPerson.id, refPerson);
                                         }
                                         else
                                         {
                                             if (refPersons.ContainsKey(refPerson.id))
-                                                refPersons.Remove(refPerson.id);                                            
+                                                refPersons.Remove(refPerson.id);
                                         }
 
                                         dataGridDetectedPersons.ItemsSource = refPersons.Values;
                                         dataGridDetectedPersons.Items.Refresh();
-                                    }                                    
+                                    }
                                 }
                                 processedRecordCount += records.Count;
                                 currentShardIter = getRecordsResponse.NextShardIterator;
@@ -205,7 +204,7 @@ namespace Activator.Views
         }
 
         private async Task ReadHistoryStream()
-        {   
+        {
             string streamArn = Models.MyAWSConfigs.DynamodbHistoryTableStreamArn;
 
             DateTime notifyTime = DateTime.Now;
@@ -266,11 +265,11 @@ namespace Activator.Views
                                 GetRecordsResponse getRecordsResponse = await streamsClient.GetRecordsAsync(getRecordsRequest);
 
                                 List<Record> records = getRecordsResponse.Records;
-                                
+
                                 foreach (Record record in records)
                                 {
                                     foreach (KeyValuePair<string, AttributeValue> newImage in record.Dynamodb.NewImage)
-                                    {                                        
+                                    {
                                         if (DateTime.Now >= notifyTime)
                                         {
                                             string message = record.Dynamodb.NewImage["message"].S;
@@ -283,9 +282,9 @@ namespace Activator.Views
 
                                             notifyTime = DateTime.Now.AddMilliseconds(notifyInterval);
 
-                                            notifyIcon.Visible = true;                                            
+                                            notifyIcon.Visible = true;
                                             notifyIcon.ShowBalloonTip(1000, "New Person Detected", message, System.Windows.Forms.ToolTipIcon.Info);
-                                        }                                        
+                                        }
                                     }
                                 }
                                 processedRecordCount += records.Count;

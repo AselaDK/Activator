@@ -18,7 +18,6 @@ namespace Activator.Models
         public static readonly String ReaderDBtableName = "reader";
         public static readonly String NotificationDBtableName = "history";
 
-
         public static readonly String LambdaFunctionName = "DataStreamsToDynamoDBFunction";
         public static readonly String RoleArn = "arn:aws:iam::358403828169:role/RekognitionServiceRole";
         public static readonly String DynamodbRefPersonTableStreamArn = "arn:aws:dynamodb:ap-southeast-2:358403828169:table/ref_persons/stream/2019-11-18T05:31:40.045";

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace Activator.Views
 {
@@ -11,12 +13,11 @@ namespace Activator.Views
     /// </summary>
     public partial class AllPeoplePageView : UserControl
     {
-        List<Models.RefPerson> refPersons = new List<Models.RefPerson>();
-
         public AllPeoplePageView()
         {
             InitializeComponent();
-            InitData();
+
+            LoadPersonsData().ConfigureAwait(false);
         }
 
         private void BtnAddNewRef_Click(object sender, RoutedEventArgs e)
@@ -25,28 +26,36 @@ namespace Activator.Views
             addNewRef.Show();
         }
 
-        private void InitData()
+        private async Task LoadPersonsData()
         {
-            LoadPersonsData();
-        }
-
-        private void LoadPersonsData()
-        {
-            refPersons.Clear();
-
-            Mouse.OverrideCursor = Cursors.Wait;
+            progressBar.Visibility = Visibility.Visible;
             try
-            {               
-                refPersons = Models.RefPerson.GetAllRefPersons();
+            {
+                IEnumerable<Models.RefPerson> result = await Task.Run(() => Models.RefPerson.GetAllRefPersons());
+                List<Models.RefPerson> temp = new List<Models.RefPerson>(result);
+                                
+                string directoryPath = "Resources/Images/";
 
-                //lblLoading.Visibility = Visibility.Hidden;
+                foreach (Models.RefPerson person in temp)
+                {
+                    if (!File.Exists(directoryPath + person.id))
+                    {
+                        await Task.Run(() => Models.S3Bucket.DownloadFile(person.id, Models.MyAWSConfigs.RefImagesBucketName));
+                    }
 
-                dataGridAllRefPersons.ItemsSource = refPersons;
+                    string exeDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
+
+                    Uri fileUri = new Uri(exeDirectory + directoryPath + person.id);
+
+                    person.image = new BitmapImage(fileUri);
+                }
+
+                dataGridAllRefPersons.ItemsSource = temp;
                 dataGridAllRefPersons.Items.Refresh();
             }
             finally
             {
-                Mouse.OverrideCursor = null;
+                progressBar.Visibility = Visibility.Hidden;
             }
         }
 
@@ -61,7 +70,7 @@ namespace Activator.Views
                 {
                     selectedList.Add(person);
                 }
-            }           
+            }
 
             foreach (Models.RefPerson person in selectedList)
             {
@@ -69,9 +78,9 @@ namespace Activator.Views
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void BtnRefresh_Click(object sender, RoutedEventArgs e)
         {
-            LoadPersonsData();
+            LoadPersonsData().ConfigureAwait(false);
         }
 
         private void GetSelectedButton_Click(object sender, RoutedEventArgs e)

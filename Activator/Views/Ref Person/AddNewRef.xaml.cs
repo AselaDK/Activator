@@ -46,6 +46,7 @@ namespace Activator.Views
                     item["id"] = fileId;
                     item["name"] = txtName.Text;
                     item["description"] = txtDescription.Text;
+                    item["status"] = 0;
 
                     controller.SetMessage("Uploading file");
                     await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId, Models.MyAWSConfigs.RefImagesBucketName));

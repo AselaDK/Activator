@@ -59,6 +59,9 @@
                 </Style>
             </Button.Style>
         </Button>
+        <Grid Height="5" VerticalAlignment="Bottom" Margin="0, 0">
+            <ProgressBar x:Name="progressBar" Style="{DynamicResource MaterialDesignLinearProgressBar}" IsIndeterminate="True" Visibility="Hidden"/>
+        </Grid>
     </Grid>
         <!--<Grid>
 
