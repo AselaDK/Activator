@@ -145,6 +145,13 @@ namespace Activator.Views
             MenuPage.Content = adminProfile;
             lblTitle.Content = "MY PROFILE";
         }
+        
+        private void ButtonMenuActivityLogs_Click(object sender, RoutedEventArgs e)
+        {
+            ActivityLogs activityLogs = new ActivityLogs();
+            MenuPage.Content = activityLogs;
+            lblTitle.Content = "Activity Logs";
+        }
 
         private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -160,8 +167,15 @@ namespace Activator.Views
 
         private async void ButtonCloseApplication_Click(object sender, RoutedEventArgs e)
         {
-            var result = await this.ShowMessageAsync("Are you sure want to quit?", "", MessageDialogStyle.AffirmativeAndNegative);
-            if (result == MessageDialogResult.Affirmative) Application.Current.Shutdown();
+            var result = await this.ShowMessageAsync("Are you sure want to log out ?", "", MessageDialogStyle.AffirmativeAndNegative);
+            if (result == MessageDialogResult.Affirmative)
+            {
+                this.Hide();
+                LoginView dashboard = new LoginView();
+                dashboard.ShowDialog();
+                //LoginView.ShowDialog();
+            }
+                
         }
 
         public async void DeleteCamera(string id, string videoStreamArn, string dataStreamName, string eventSourceUUID, string streamProcessorName, CameraView cv)

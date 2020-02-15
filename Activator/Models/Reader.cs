@@ -17,11 +17,13 @@ namespace Activator.Models
         public string id { get; set; }
         public string description { get; set; }
         public string name { get; set; }
-        public bool status { get; set; }
         public string phone { get; set; }
-        public string propic { get; set; }
         public List<String> refList { get; set; }
+        public bool status { get; set; }
+        public string propic { get; set; }
         public BitmapImage rImage { get; set; }
+
+        //public RefPerson 
 
         public static List<Reader> GetReadersData()
         {
@@ -46,11 +48,13 @@ namespace Activator.Models
                         if (!File.Exists(directoryPath + reader.propic))
                         {
                             S3Bucket.DownloadFile(reader.propic, MyAWSConfigs.ReaderS3BucketName);
+                            Console.WriteLine("\n Not exists \n");
                         }
 
                         string exeDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
 
                         Uri fileUri = new Uri(exeDirectory + directoryPath + reader.propic);
+                        Console.WriteLine("\n image url >>>>>>>>>>"+ exeDirectory + directoryPath + reader.propic);
 
                         reader.rImage = new BitmapImage(fileUri);
                     }

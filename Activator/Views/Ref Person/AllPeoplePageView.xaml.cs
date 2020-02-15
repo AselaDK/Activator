@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Activator.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Activator.Views.Ref_Person;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -21,6 +23,8 @@ namespace Activator.Views
         {
             InitializeComponent();
 
+            DeleteButton.IsEnabled = false;
+            
             this.mv = mv;
             dp = new DetectedPerson();
         }
@@ -110,9 +114,49 @@ namespace Activator.Views
             LoadPersonsData().ConfigureAwait(false);
         }
 
-        //private void GetSelectedButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    GetCheckedList();
-        //}
+        public List<String> GetCheckedRefPeople()
+        {
+            List<RefPerson> SelectedPeople = new List<RefPerson>();
+            List<String> SelectedPeopleIdList = new List<String>();
+
+            for (int i = 0; i < dataGridAllRefPersons.SelectedItems.Count; i++)
+            {
+                SelectedPeople.Add((RefPerson)dataGridAllRefPersons.SelectedItems[i]);
+                SelectedPeopleIdList.Add(SelectedPeople[i].id);
+                Console.WriteLine(SelectedPeopleIdList[i]);
+            }
+            return SelectedPeopleIdList;
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<String> selectedList = GetCheckedRefPeople();
+            ConfirmDeleteRef confirmDeleteRef = new ConfirmDeleteRef(selectedList);
+            confirmDeleteRef.ShowDialog();
+        }
+
+        private void dataGridAllRefPersons_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            List<String> selectedList = GetCheckedRefPeople();
+            if (selectedList.Count != 0)
+            {
+                DeleteButton.IsEnabled = true;
+            }
+            else
+            {
+                DeleteButton.IsEnabled = false;
+            }
+            
+            
+        }
+
+        private void RefPersonEdit()
+        {
+                //CellValue is a variable of type string.
+                EditReference editReader = new EditReference();
+                editReader.DataContext = dataGridAllRefPersons.SelectedItem;
+                editReader.ShowDialog();
+
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace Activator.Views
     public partial class RegisterAdmin : MetroWindow
     {
         private string uploadFilePath;
+        private bool isRoot = false;
         public RegisterAdmin()
         {
             InitializeComponent();
@@ -64,6 +65,7 @@ namespace Activator.Views
                         item["aPassword"] = Models.HashMD5.MD5Hash(txtPassword.Password);
                         item["aPhone"] = txtPhone.Text;
                         item["aPropic"] = fileId;
+                        item["root"] = isRoot;
 
                         await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId, Models.MyAWSConfigs.AdminS3BucketName));
                         await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.AdminDBTableName));
@@ -98,6 +100,16 @@ namespace Activator.Views
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void root_toggle_Checked(object sender, RoutedEventArgs e)
+        {
+            isRoot = true;
+        }
+
+        private void root_toggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            isRoot = false;
         }
     }
 }

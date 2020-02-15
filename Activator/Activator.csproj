@@ -164,6 +164,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\ActivityLogs.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Camera.cs" />
     <Compile Include="Models\AWS\DataStream.cs" />
@@ -179,6 +180,9 @@
     <Compile Include="Models\Session.cs" />
     <Compile Include="Models\AWS\StreamProcessorManager.cs" />
     <Compile Include="Models\AWS\VideoStream.cs" />
+    <Compile Include="Views\ActivityLogs.xaml.cs">
+      <DependentUpon>ActivityLogs.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Camera\AddNewCameraView.xaml.cs">
       <DependentUpon>AddNewCameraView.xaml</DependentUpon>
     </Compile>
@@ -199,6 +203,9 @@
     </Compile>
     <Compile Include="Views\Reader\AssignReferences.xaml.cs">
       <DependentUpon>AssignReferences.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reader\EditReader.xaml.cs">
+      <DependentUpon>EditReader.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Ref Person\AddNewRef.xaml.cs">
       <DependentUpon>AddNewRef.xaml</DependentUpon>
@@ -234,8 +241,8 @@
     <Compile Include="Views\PeopleInPageView.xaml.cs">
       <DependentUpon>PeopleInPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Reader\ReaderForm.xaml.cs">
-      <DependentUpon>ReaderForm.xaml</DependentUpon>
+    <Compile Include="Views\Reader\AddReader.xaml.cs">
+      <DependentUpon>AddReader.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Reader\Readers.xaml.cs">
       <DependentUpon>Readers.xaml</DependentUpon>
@@ -246,6 +253,16 @@
     <Compile Include="Views\Admin\RegisterAdmin.xaml.cs">
       <DependentUpon>RegisterAdmin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Ref Person\ConfirmDeleteRef.xaml.cs">
+      <DependentUpon>ConfirmDeleteRef.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ref Person\EditReference.xaml.cs">
+      <DependentUpon>EditReference.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\ActivityLogs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Camera\AddNewCameraView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -271,6 +288,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Reader\AssignReferences.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Reader\EditReader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -313,7 +334,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Reader\ReaderForm.xaml">
+    <Page Include="Views\Reader\AddReader.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -328,6 +349,14 @@
     <Page Include="Views\Admin\RegisterAdmin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ref Person\ConfirmDeleteRef.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Ref Person\EditReference.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

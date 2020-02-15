@@ -36,13 +36,22 @@ namespace Activator.Models
         {
             get; set;
         }
-
+      
+        public List<String> readerList 
+        { 
+            get; set; 
+        }
+      
         public string description
         {
             get; set;
         }
 
         public BitmapImage image
+        {
+            get; set;
+        }
+        public bool isCheckedRef
         {
             get; set;
         }

@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using Item = Amazon.DynamoDBv2.DocumentModel.Document;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
+using Activator.Models;
 
 namespace Activator.Views
 {
@@ -14,7 +15,7 @@ namespace Activator.Views
     /// </summary>
     public partial class EditAdminDetails : MetroWindow
     {
-        private readonly string myId = "";
+        private readonly string myId = null;
         private readonly AmazonDynamoDBClient client;
         readonly Table table = null;
         readonly Item item = null;
@@ -30,7 +31,7 @@ namespace Activator.Views
             try
             {
                 this.client = new AmazonDynamoDBClient();
-                string tableName = "admin";
+                string tableName = MyAWSConfigs.AdminDBTableName;
                 table = Table.LoadTable(client, tableName);
                 item = table.GetItem(myId);
                 ShowProfileData();
@@ -53,9 +54,9 @@ namespace Activator.Views
         {
             try
             {
-                string tableName = "admin";
-                var table = Table.LoadTable(client, tableName);
-                var item = table.GetItem(myId);
+                string tableName = MyAWSConfigs.AdminDBTableName;
+                Table table = Table.LoadTable(client, tableName);
+                Item item = table.GetItem(myId);
                 Console.Write("my adminid<<<<<<<<<<<<<<<<<<",myId,">>>>>>>>>>>>>>>>>>>");
 
                 bool isFileIdEmpty = string.IsNullOrEmpty(txtEmail.Text);

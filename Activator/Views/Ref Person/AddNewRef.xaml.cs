@@ -42,11 +42,13 @@ namespace Activator.Views
                     string fileId = $"{txtId.Text}.{temp[temp.Length - 1]}";
 
                     var item = new Document();
+                    List<string> readerList = new List<string>() { "a" };
 
                     item["id"] = fileId;
                     item["name"] = txtName.Text;
                     item["description"] = txtDescription.Text;
                     item["status"] = 0;
+                    item["readerList"] = readerList;
 
                     controller.SetMessage("Uploading file");
                     await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId, Models.MyAWSConfigs.RefImagesBucketName));

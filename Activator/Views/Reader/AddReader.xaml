@@ -1,0 +1,42 @@
+﻿<Controls:MetroWindow x:Class="Activator.Views.AddReader"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Activator.Views"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        Title="New Person" Height="650" Width="1200" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
+    <Grid Background="White" Margin="10,0,10,0">
+        <Label Content="Name" Background="GreenYellow" HorizontalAlignment="Left" Margin="7,134,0,0" VerticalAlignment="Top" Width="61" Height="28"/>
+        <TextBox x:Name="txtName" Background="LightGray" HorizontalAlignment="Left" Height="28" Margin="136,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171"/>
+        <Label Content="Phone" Background="GreenYellow" HorizontalAlignment="Left" Margin="7,197,0,0" VerticalAlignment="Top" Width="63" Height="28"/>
+        <TextBox x:Name="txtPhone" Background="LightGray" HorizontalAlignment="Left" Height="28" Margin="136,197,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171"/>
+        <TextBox x:Name="txtDescription" Background="LightGray" HorizontalAlignment="Left" Height="28" Margin="136,249,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171"/>
+        <Label Content="Description" Background="GreenYellow" HorizontalAlignment="Left" Margin="7,249,0,0" VerticalAlignment="Top" Width="100" Height="28"/>
+        <Image x:Name="imgUploadImage"  HorizontalAlignment="Left" Height="233" Margin="366,44,0,0" VerticalAlignment="Top" Width="218"/>
+        <Button Background="YellowGreen" x:Name="buttonChooseImage" Content="Choose Image" HorizontalAlignment="Left" Margin="453,310,0,0" VerticalAlignment="Top" Width="131" Click="ButtonChooseImage_Click"/>
+        <Label Background="GreenYellow" Content="ID" HorizontalAlignment="Left" Margin="7,62,0,0" VerticalAlignment="Top" Width="31" Height="28"/>
+        <TextBox x:Name="txtId" Background="LightGray" HorizontalAlignment="Left" Height="28" Margin="136,62,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171"/>
+        <DataGrid x:Name="RefDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Margin="689,78,0,81" HorizontalAlignment="Left" Width="485"  SelectionUnit="FullRow" SelectionMode="Extended" >
+            <DataGrid.Columns>
+                <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding image}" Width="100" Height="100" Stretch="Uniform"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="2*" Header="ID" Binding="{Binding id}" IsReadOnly="True" />
+                <DataGridTextColumn Width="2*" Header="Name" Binding="{Binding name}" IsReadOnly="True" />
+                <DataGridCheckBoxColumn x:Name="SelectRef"  Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected, Mode=TwoWay}" />
+
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label x:Name="lblLoading" Content="Loading..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Margin="689,78,10,81" Height="463" RenderTransformOrigin="0.5,0.5" Width="475"/>
+        <Label Content="Select References" HorizontalAlignment="Left" Margin="689,0,0,583" FontSize="18" FontWeight="SemiBold" Width="446"></Label>
+        <Label Content="Use Ctrl+click to select multiply" HorizontalAlignment="Left" Margin="689,44,0,549" FontSize="12" FontWeight="DemiBold" Width="446"></Label>
+        <Button Background="BlueViolet" x:Name="buttonSubmit" Content="Submit" HorizontalAlignment="Left" Margin="1048,563,0,0" VerticalAlignment="Top" Width="116" Click="ButtonSubmit_Click" Height="35"/>
+    </Grid>
+</Controls:MetroWindow>
+

@@ -79,7 +79,9 @@ namespace Activator.Views
             try
             {
                 IEnumerable<Models.Camera> temp = await Task.Run(() => Models.Camera.GetAllCamers());
+                
                 cameras.Clear();
+                
                 foreach (Models.Camera camera in temp)
                 {
                     cameras.Add(camera.id, camera);
