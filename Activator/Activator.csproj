@@ -50,25 +50,25 @@
       <HintPath>packages\Appium.WebDriver.4.1.1\lib\net45\Appium.Net.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.Core.3.3.104.24\lib\net45\AWSSDK.Core.dll</HintPath>
+      <HintPath>packages\AWSSDK.Core.3.3.104.25\lib\net45\AWSSDK.Core.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.DynamoDBv2, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.DynamoDBv2.3.3.104.26\lib\net45\AWSSDK.DynamoDBv2.dll</HintPath>
+      <HintPath>packages\AWSSDK.DynamoDBv2.3.3.104.27\lib\net45\AWSSDK.DynamoDBv2.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.Kinesis, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.Kinesis.3.3.100.131\lib\net45\AWSSDK.Kinesis.dll</HintPath>
+      <HintPath>packages\AWSSDK.Kinesis.3.3.100.132\lib\net45\AWSSDK.Kinesis.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.KinesisVideo, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.KinesisVideo.3.3.102.24\lib\net45\AWSSDK.KinesisVideo.dll</HintPath>
+      <HintPath>packages\AWSSDK.KinesisVideo.3.3.102.25\lib\net45\AWSSDK.KinesisVideo.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.Lambda, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.Lambda.3.3.107.6\lib\net45\AWSSDK.Lambda.dll</HintPath>
+      <HintPath>packages\AWSSDK.Lambda.3.3.107.7\lib\net45\AWSSDK.Lambda.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.Rekognition, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.Rekognition.3.3.103.24\lib\net45\AWSSDK.Rekognition.dll</HintPath>
+      <HintPath>packages\AWSSDK.Rekognition.3.3.103.25\lib\net45\AWSSDK.Rekognition.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>packages\AWSSDK.S3.3.3.110.22\lib\net45\AWSSDK.S3.dll</HintPath>
+      <HintPath>packages\AWSSDK.S3.3.3.110.23\lib\net45\AWSSDK.S3.dll</HintPath>
     </Reference>
     <Reference Include="Carbon.Json, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Carbon.Json.2.1.0\lib\netstandard2.0\Carbon.Json.dll</HintPath>
@@ -361,12 +361,12 @@
     <Resource Include="Resources\Images\LogoActivator.jpeg" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="packages\AWSSDK.DynamoDBv2.3.3.104.26\analyzers\dotnet\cs\AWSSDK.DynamoDBv2.CodeAnalysis.dll" />
-    <Analyzer Include="packages\AWSSDK.Kinesis.3.3.100.131\analyzers\dotnet\cs\AWSSDK.Kinesis.CodeAnalysis.dll" />
-    <Analyzer Include="packages\AWSSDK.KinesisVideo.3.3.102.24\analyzers\dotnet\cs\AWSSDK.KinesisVideo.CodeAnalysis.dll" />
-    <Analyzer Include="packages\AWSSDK.Lambda.3.3.107.6\analyzers\dotnet\cs\AWSSDK.Lambda.CodeAnalysis.dll" />
-    <Analyzer Include="packages\AWSSDK.Rekognition.3.3.103.24\analyzers\dotnet\cs\AWSSDK.Rekognition.CodeAnalysis.dll" />
-    <Analyzer Include="packages\AWSSDK.S3.3.3.110.22\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.DynamoDBv2.3.3.104.27\analyzers\dotnet\cs\AWSSDK.DynamoDBv2.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.Kinesis.3.3.100.132\analyzers\dotnet\cs\AWSSDK.Kinesis.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.KinesisVideo.3.3.102.25\analyzers\dotnet\cs\AWSSDK.KinesisVideo.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.Lambda.3.3.107.7\analyzers\dotnet\cs\AWSSDK.Lambda.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.Rekognition.3.3.103.25\analyzers\dotnet\cs\AWSSDK.Rekognition.CodeAnalysis.dll" />
+    <Analyzer Include="packages\AWSSDK.S3.3.3.110.23\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
