@@ -1,16 +1,12 @@
 ﻿using Activator.Views.Reader;
 using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DocumentModel;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
-
 
 
 
@@ -21,42 +17,28 @@ namespace Activator.Views
     /// </summary>
     public partial class ReadersPage : UserControl
     {
+        List<Models.Reader> readers = new List<Models.Reader>();
         public ReadersPage()
         {
             InitializeComponent();
-            try
-            {
-                this.client = new AmazonDynamoDBClient();
-
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine("Error: failed to create a DynamoDB client; " + ex.Message);
-            }
-            InitData();
+            //LoadData();
         }
 
         private void RegRaeder_Click(object sender, RoutedEventArgs e)
         {
-            ReaderForm readerForm = new ReaderForm();
+            AddReader readerForm = new AddReader();
             readerForm.ShowDialog();
         }
 
         private AmazonDynamoDBClient client;
         private readonly string aId = null;
 
-        private void InitData()
-        {
-            LoadData();
-        }
-
         protected void LoadData()
         {
+            //readers.Clear();
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
-                List<Models.Reader> readers = new List<Models.Reader>();
-
                 readers = Models.Reader.GetReadersData();
 
                 Console.WriteLine();
@@ -80,24 +62,61 @@ namespace Activator.Views
             //LoadData(item);
         }
 
+        public String GetCheckedRefPeople()
+        {
+            List<Models.Reader> SelectedPeople = new List<Models.Reader>();
+            String SelectedPeopleIdList;
+
+            SelectedPeople.Add((Models.Reader)ReaderDataGrid.SelectedItems[0]);
+            SelectedPeopleIdList = SelectedPeople[0].id;
+            Console.WriteLine(SelectedPeopleIdList);
+
+
+            return SelectedPeopleIdList;
+        }
+
         private void ReaderDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("thi is from double click");
-            EditReader editReader = new EditReader();
 
-            
-            editReader.DataContext = ReaderDataGrid.SelectedItem;
-            //editReader.txtId.Text = Convert.ToString(id);
+            String selectedList = GetCheckedRefPeople();
+            if (selectedList != null)
+            {
+                EditReader editReader = new EditReader(selectedList);
+                editReader.DataContext = ReaderDataGrid.SelectedItem;
+                editReader.ShowDialog();
+            }
+            else
+            {
+                //DeleteButton.IsEnabled = false;
+                MessageBox.Show("id is null");
+            }
+
             //editReader.txtName.Text = Convert.ToString(this.name);
             //editReader.txtPhone.Text = Convert.ToString(this.phone);
             //editReader.txtDescription.Text = Convert.ToString(this.description);
 
-            editReader.ShowDialog();
 
 
         }
 
+        private string GetSelectedValue(DataGrid grid)
+        {
+            DataGridCellInfo cellInfo = grid.SelectedCells[0];
+            if (cellInfo == null) return null;
 
+            DataGridBoundColumn column = cellInfo.Column as DataGridBoundColumn;
+            if (column == null) return null;
+
+            FrameworkElement element = new FrameworkElement() { DataContext = cellInfo.Item };
+            BindingOperations.SetBinding(element, TagProperty, column.Binding);
+
+            return element.Tag.ToString();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            LoadData();
+        }
     }
 }
 
