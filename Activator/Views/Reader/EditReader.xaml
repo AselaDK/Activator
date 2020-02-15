@@ -18,6 +18,9 @@
     ShowMaxRestoreButton="False" 
     ShowMinButton="False" Topmost="True" IsWindowDraggable="False">
     <Grid Background="White" Margin="10,0,10,0">
+        <Grid Height="5" HorizontalAlignment="Stretch" Margin="0,10,0,0" VerticalAlignment="Top">
+            <ProgressBar x:Name="progressBar" Style="{DynamicResource MaterialDesignLinearProgressBar}" IsIndeterminate="True" Visibility="Hidden"/>
+        </Grid>
         <StackPanel Orientation="Vertical">
             <Grid Margin="0,00" Height="631">
                 <Button x:Name="buttonClose" Click="buttonClose_Click" Content="X" HorizontalAlignment="Right" Margin="0,10,0,0" VerticalAlignment="Top" Width="50" Foreground="Black" Background="Transparent" FontSize="24" />
@@ -56,7 +59,6 @@
         </DataGrid>
 
         <Button Background="BlueViolet" x:Name="buttonSubmit" Content="Submit" HorizontalAlignment="Left" Margin="1018,545,0,0" VerticalAlignment="Top" Width="116" Click="ButtonSubmit_Click" Height="35"/>
-        <Label x:Name="lblLoading" Content="Loading..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Margin="838,166,73.6,262.8" Height="192" RenderTransformOrigin="0.5,0.5" Width="262"/>
     </Grid>
 </Controls:MetroWindow>
 

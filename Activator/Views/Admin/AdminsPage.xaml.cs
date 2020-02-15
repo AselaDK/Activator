@@ -4,6 +4,8 @@ using Amazon.DynamoDBv2.DocumentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,7 +21,6 @@ namespace Activator.Views
     public partial class AdminsPage : UserControl
     {
 
-        private AmazonDynamoDBClient client;
         private string aId;
 
         public AdminsPage(string aid)
@@ -27,47 +28,43 @@ namespace Activator.Views
             aId = aid;
             Console.WriteLine(">>>>>>>>>><<<<<<<<<<<<<,,,,,,,,,Constructor " + aid);
             InitializeComponent();
-            InitData();
             aId = getId(aid);
-
-            try
-            {
-                this.client = new AmazonDynamoDBClient();
-                
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine("Error: failed to create a DynamoDB client; " + ex.Message);
-            }
         }
 
-        private void InitData()
+        public async Task LoadData()
         {
-            LoadData();
-        }
-
-        protected void LoadData()
-        {
-            Mouse.OverrideCursor = Cursors.Wait;
+            progressBar.Visibility = Visibility.Visible;
+            BtnRefresh.IsEnabled = false;
             try
             {
-                List<Admin> admins = new List<Admin>();
+                IEnumerable<Models.Admin> tempAdmins = await Task.Run(() => Models.Admin.GetAdminDetails());
 
-                admins = Admin.GetAdminDetails();
+                List<Models.Admin> admins = new List<Models.Admin>(tempAdmins);
 
-                Console.WriteLine();
+                string directoryPath = "Resources/Images/";
 
-                lblLoading.Visibility = Visibility.Hidden;
+                foreach (Models.Admin admin in admins)
+                {
+                    if (!File.Exists(directoryPath + admin.aPropic))
+                    {
+                        await Task.Run(() => Models.S3Bucket.DownloadFile(admin.aPropic, Models.MyAWSConfigs.AdminS3BucketName));
+                    }
+
+                    string exeDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
+
+                    Uri fileUri = new Uri(exeDirectory + directoryPath + admin.aPropic);
+
+                    admin.aImage = new BitmapImage(fileUri);
+                }
 
                 AdminDataGrid.ItemsSource = admins;
                 AdminDataGrid.Items.Refresh();
             }
             finally
             {
-                Mouse.OverrideCursor = null;
+                progressBar.Visibility = Visibility.Hidden;
+                BtnRefresh.IsEnabled = true;
             }
-
-        
         }
 
         private String getId(String id)
@@ -79,14 +76,12 @@ namespace Activator.Views
         private void RegAdmin_Click(object sender, RoutedEventArgs e)
         {
             string tableName = MyAWSConfigs.AdminDBTableName;
-            var table = Table.LoadTable(client, tableName);
-            Console.WriteLine(">>>>>>>>>><<<<<<<<<<<<<,,,,,,,,, " + aId);
 
-            var item = table.GetItem(aId);
-            Console.WriteLine(">>>>>>>>>><<<<<<<<<<<<<,,,,,,,,, " + aId);
-            RegisterAdmin acv = new RegisterAdmin();
+            var item = Dynamodb.GetItem(aId, tableName);
+            
             if(item["root"].AsBoolean() == true)
             {
+                RegisterAdmin acv = new RegisterAdmin();
                 RegAdmin.IsEnabled = true;  
                 acv.ShowDialog();
             }
@@ -99,15 +94,15 @@ namespace Activator.Views
 
         private void Search_Click(object sender, RoutedEventArgs e)
         {
-            string tableName = MyAWSConfigs.AdminDBTableName;
-            var table = Table.LoadTable(client, tableName);
-            var item = table.GetItem(aId);
+            //string tableName = MyAWSConfigs.AdminDBTableName;
+            //var table = Table.LoadTable(client, tableName);
+            //var item = table.GetItem(aId);
             //LoadData(item);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            LoadData();
+            LoadData().ConfigureAwait(false); 
         }
     }
 }

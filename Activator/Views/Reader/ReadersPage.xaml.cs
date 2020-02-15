@@ -13,8 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
 using Activator.Models;
-
-
+using System.Threading.Tasks;
+using System.IO;
 
 namespace Activator.Views
 {
@@ -23,61 +23,62 @@ namespace Activator.Views
     /// </summary>
     public partial class ReadersPage : UserControl
     {
-        List<Models.Reader> readers = new List<Models.Reader>();
         public ReadersPage()
         {
             InitializeComponent();
-            try
-            {
-                this.client = new AmazonDynamoDBClient();
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine("Error: failed to create a DynamoDB client; " + ex.Message);
-            }
-            //InitData();
         }
 
         private void RegRaeder_Click(object sender, RoutedEventArgs e)
         {
             AddReader readerForm = new AddReader();
             readerForm.ShowDialog();
+            readerForm.LoadData().ConfigureAwait(false);
         }
 
-        private AmazonDynamoDBClient client;
         private readonly string aId = null;
 
-        private void InitData()
-        {
-            LoadData();
-        }
 
-        protected void LoadData()
+        public async Task LoadData()
         {
-            //readers.Clear();
-            Mouse.OverrideCursor = Cursors.Wait;
+            progressBar.Visibility = Visibility.Visible;
+            BtnRefresh.IsEnabled = false;
             try
             {
-                readers = Models.Reader.GetReadersData();
+                IEnumerable<Models.Reader> tempReaders = await Task.Run(() => Models.Reader.GetReadersData());
 
-                Console.WriteLine();
+                List<Models.Reader> readers = new List<Models.Reader>(tempReaders);
 
-                lblLoading.Visibility = Visibility.Hidden;
+                string directoryPath = "Resources/Images/";
+
+                foreach (Models.Reader reader in readers)
+                {
+                    if (!File.Exists(directoryPath + reader.propic))
+                    {
+                        await Task.Run(() => Models.S3Bucket.DownloadFile(reader.propic, Models.MyAWSConfigs.ReaderS3BucketName));
+                    }
+
+                    string exeDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
+
+                    Uri fileUri = new Uri(exeDirectory + directoryPath + reader.propic);
+
+                    reader.rImage = new BitmapImage(fileUri);                    
+                }
 
                 ReaderDataGrid.ItemsSource = readers;
                 ReaderDataGrid.Items.Refresh();
             }
             finally
             {
-                Mouse.OverrideCursor = null;
+                progressBar.Visibility = Visibility.Hidden;
+                BtnRefresh.IsEnabled = true;
             }
         }
 
         private void Search_Click(object sender, RoutedEventArgs e)
         {
             string tableName = Models.MyAWSConfigs.AdminDBTableName;
-            var table = Table.LoadTable(client, tableName);
-            var item = table.GetItem(aId);
+            //var table = Table.LoadTable(client, tableName);
+            //var item = table.GetItem(aId);
             //LoadData(item);
         }
 
@@ -118,23 +119,9 @@ namespace Activator.Views
 
         }
 
-        private string GetSelectedValue(DataGrid grid)
-        {
-            DataGridCellInfo cellInfo = grid.SelectedCells[0];
-            if (cellInfo == null) return null;
-
-            DataGridBoundColumn column = cellInfo.Column as DataGridBoundColumn;
-            if (column == null) return null;
-
-            FrameworkElement element = new FrameworkElement() { DataContext = cellInfo.Item };
-            BindingOperations.SetBinding(element, TagProperty, column.Binding);
-
-            return element.Tag.ToString();
-        }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            LoadData();
+            LoadData().ConfigureAwait(false); 
         }
     }
 }

@@ -78,17 +78,17 @@ namespace Activator.Views
             }
         }
 
-        private void dataGridRefPersons_Row_DoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            DataGridRow row = sender as DataGridRow;
-            TextBlock id = dataGridAllRefPersons.Columns[1].GetCellContent(row) as TextBlock;
-            TextBlock name = dataGridAllRefPersons.Columns[2].GetCellContent(row) as TextBlock;
-            TextBlock description = dataGridAllRefPersons.Columns[5].GetCellContent(row) as TextBlock;
-            ImageSource imageSource = (VisualTreeHelper.GetChild(dataGridAllRefPersons.Columns[0].GetCellContent(row), 0) as Image).Source;
+        //private void dataGridRefPersons_Row_DoubleClick(object sender, MouseButtonEventArgs e)
+        //{
+        //    DataGridRow row = sender as DataGridRow;
+        //    TextBlock id = dataGridAllRefPersons.Columns[1].GetCellContent(row) as TextBlock;
+        //    TextBlock name = dataGridAllRefPersons.Columns[2].GetCellContent(row) as TextBlock;
+        //    TextBlock description = dataGridAllRefPersons.Columns[5].GetCellContent(row) as TextBlock;
+        //    ImageSource imageSource = (VisualTreeHelper.GetChild(dataGridAllRefPersons.Columns[0].GetCellContent(row), 0) as Image).Source;
 
-            mv.MenuPage.Content = dp;
-            dp.LoadPerson(id.Text, name.Text, description.Text, imageSource, mv, this, "ref");
-        }
+        //    mv.MenuPage.Content = dp;
+        //    dp.LoadPerson(id.Text, name.Text, description.Text, imageSource, mv, this, "ref");
+        //}
 
         //private void GetCheckedList()
         //{
@@ -145,12 +145,10 @@ namespace Activator.Views
             else
             {
                 DeleteButton.IsEnabled = false;
-            }
-            
-            
+            }        
         }
 
-        private void RefPersonEdit()
+        private void dataGridAllRefPersons_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
                 //CellValue is a variable of type string.
                 EditReference editReader = new EditReference();

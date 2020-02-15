@@ -123,6 +123,7 @@ namespace Activator.Views
         {
             MenuPage.Content = readers;
             lblTitle.Content = "READERS";
+            readers.LoadData().ConfigureAwait(false);
         }
 
         private void ButtonMenuCameras_Click(object sender, RoutedEventArgs e)
@@ -136,6 +137,7 @@ namespace Activator.Views
         {
             MenuPage.Content = admins;
             lblTitle.Content = "ADMINS";
+            admins.LoadData().ConfigureAwait(false);
         }
 
         private void ProfileButton_Click(object sender, RoutedEventArgs e)

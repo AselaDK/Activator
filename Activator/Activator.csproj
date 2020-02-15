@@ -201,9 +201,6 @@
     <Compile Include="Views\DetectedPerson.xaml.cs">
       <DependentUpon>DetectedPerson.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Reader\AssignReferences.xaml.cs">
-      <DependentUpon>AssignReferences.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Reader\EditReader.xaml.cs">
       <DependentUpon>EditReader.xaml</DependentUpon>
     </Compile>
@@ -244,9 +241,6 @@
     <Compile Include="Views\Reader\AddReader.xaml.cs">
       <DependentUpon>AddReader.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Reader\Readers.xaml.cs">
-      <DependentUpon>Readers.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Reader\ReadersPage.xaml.cs">
       <DependentUpon>ReadersPage.xaml</DependentUpon>
     </Compile>
@@ -284,10 +278,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DetectedPerson.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Reader\AssignReferences.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -335,10 +325,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Reader\AddReader.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Reader\Readers.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

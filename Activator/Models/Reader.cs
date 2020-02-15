@@ -23,42 +23,21 @@ namespace Activator.Models
         public string propic { get; set; }
         public BitmapImage rImage { get; set; }
 
-        //public RefPerson 
-
-        public static List<Reader> GetReadersData()
+        public static IEnumerable<Reader> GetReadersData()
         {
-            string directoryPath = "Resources/Images/";
-
-            List<Reader> readers = new List<Reader>();
-
-            string tableName = MyAWSConfigs.ReaderDBtableName;
-
             try
             {
-                AmazonDynamoDBClient client;
-                using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
-                {
-                    DynamoDBContext context = new DynamoDBContext(client);
-                    IEnumerable<Reader> readerData = context.Scan<Reader>();
-                    readers = readerData.ToList();
+                AmazonDynamoDBClient client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion);
 
-                    foreach (Reader reader in readers)
-                    {
+                DynamoDBContext context = new DynamoDBContext(client);
 
-                        if (!File.Exists(directoryPath + reader.propic))
-                        {
-                            S3Bucket.DownloadFile(reader.propic, MyAWSConfigs.ReaderS3BucketName);
-                            Console.WriteLine("\n Not exists \n");
-                        }
+                IEnumerable<Reader> readerData = context.Scan<Reader>();
 
-                        string exeDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
+                var tempReader = readerData.ToList<Reader>();
 
-                        Uri fileUri = new Uri(exeDirectory + directoryPath + reader.propic);
-                        Console.WriteLine("\n image url >>>>>>>>>>"+ exeDirectory + directoryPath + reader.propic);
+                client.Dispose();
 
-                        reader.rImage = new BitmapImage(fileUri);
-                    }
-                }
+                return tempReader;
             }
             catch (AmazonDynamoDBException e)
             {
@@ -69,7 +48,7 @@ namespace Activator.Models
                 Console.WriteLine("Error: " + e);
             }
 
-            return readers;
+            return null;
         }
     }
 }
