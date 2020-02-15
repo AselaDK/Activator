@@ -16,7 +16,7 @@ namespace Activator.Models
         public static readonly String RefPersonsDBTableName = "ref_persons";
         public static readonly String CamerasDBTableName = "cameras";
         public static readonly String ReaderDBtableName = "reader";
-        public static readonly String NotificationDBtableName = "history";
+        public static readonly String HistoryDBtableName = "history";
 
         public static readonly String LambdaFunctionName = "DataStreamsToDynamoDBFunction";
         public static readonly String RoleArn = "arn:aws:iam::358403828169:role/RekognitionServiceRole";

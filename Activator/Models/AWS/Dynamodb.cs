@@ -129,6 +129,44 @@ namespace Activator.Models
             return itemCount;
         }
 
+        public static List<Document> GetAllDocumentsWithFilter(string tableName, string columnName, string filterValue)
+        {          
+            try
+            {
+                AmazonDynamoDBClient client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion);
+
+                Table table = Table.LoadTable(client, tableName);
+
+                ScanFilter scanFilter = new ScanFilter();
+                scanFilter.AddCondition(columnName, ScanOperator.Equal, filterValue);
+
+                Search search = table.Scan(scanFilter);
+                List<Document> docs = new List<Document>();
+                do
+                {
+                    docs.AddRange(search.GetNextSet().ToList<Document>());                 
+
+                } while (!search.IsDone);
+
+                var temp = docs.ToList<Document>();
+
+                client.Dispose();
+
+                return temp;
+
+            }
+            catch (AmazonDynamoDBException e)
+            {
+                Console.WriteLine("AmazonDynamoDBException: " + e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e);
+            }
+
+            return null;
+        }
+
         public static List<Logs> GetAllLogs()
         {
             string tableName = MyAWSConfigs.LogsDBTableName;

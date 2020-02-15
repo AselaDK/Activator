@@ -32,6 +32,11 @@ namespace Activator.Models
             get; set;
         }
 
+        public string lastLocation
+        {
+            get; set;
+        }
+
         public string description
         {
             get; set;
@@ -49,13 +54,14 @@ namespace Activator.Models
                 AmazonDynamoDBClient client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion);
 
                 DynamoDBContext context = new DynamoDBContext(client);
+
                 IEnumerable<RefPerson> refPersonsData = context.Scan<RefPerson>();
+                
+                var tempPersons = refPersonsData.ToList<RefPerson>();                
 
-                var temp = refPersonsData.ToList<RefPerson>();
+                client.Dispose();
 
-                client.Dispose();                
-
-                return temp;
+                return tempPersons;
             }
             catch (AmazonDynamoDBException e)
             {

@@ -70,9 +70,9 @@ namespace Activator.Views
 
         private void InitUserControls()
         {
-            home = new HomePageView();
+            home = new HomePageView(this);
             peopleInPageView = new PeopleInPageView();
-            allPeoplePageView = new AllPeoplePageView();
+            allPeoplePageView = new AllPeoplePageView(this);
             readers = new ReadersPage();
             cameraView = new CameraView(this);
             admins = new AdminsPage(adminId);

@@ -52,7 +52,13 @@
                 AutoGenerateColumns="False" CanUserAddRows="False"
                 SelectionMode="Extended"
                 SelectionUnit="FullRow" Grid.ColumnSpan="2">
-                
+
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridRow">
+                        <EventSetter Event="MouseDoubleClick" Handler="dataGridDetectedPersons_Row_DoubleClick"/>
+                    </Style>
+                </DataGrid.Resources>
+
                 <DataGrid.CellStyle>
                     <Style TargetType="DataGridCell">
                         <Setter Property="Background" Value="Transparent"/>
@@ -70,8 +76,10 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="" Binding="{Binding id}" IsReadOnly="True" MaxWidth="0"/>
                     <DataGridTextColumn Width="2*" Header="Name" Binding="{Binding name}" IsReadOnly="True" />
                     <DataGridTextColumn Width="2*" Header="Detected Camera" Binding="{Binding camera}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="2*" Header="Detected Location" Binding="{Binding lastLocation}" IsReadOnly="True" />
                     <DataGridTextColumn Width="6*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
                 </DataGrid.Columns>
                 
@@ -79,23 +87,10 @@
         </Grid>
 
         <Grid Grid.Column="1" Background="White"/>
-        
-        <ListView Grid.Column="2" VerticalAlignment="Stretch" x:Name="notificationListView" 
-                      Style="{DynamicResource MaterialDesignListView }" Background="WhiteSmoke">
-            
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="Height" Value="35" />
-                </Style>
-            </ListView.ItemContainerStyle>
-            
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Message}" Header="Notifications"/>
-                </GridView>
-            </ListView.View>
-            
-        </ListView>
+
+        <ItemsControl Grid.Column="2" VerticalAlignment="Stretch" x:Name="notificationListView" 
+                      Background="WhiteSmoke">
+        </ItemsControl>
     </Grid>            
 
 </UserControl>

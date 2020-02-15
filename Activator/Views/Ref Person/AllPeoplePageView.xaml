@@ -52,6 +52,13 @@
                       SelectionMode="Extended"
                       SelectionUnit="FullRow" Grid.ColumnSpan="2"
                         >
+
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="dataGridRefPersons_Row_DoubleClick"/>
+                </Style>
+            </DataGrid.Resources>
+            
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
                     <Setter Property="Background" Value="Transparent"/>
@@ -70,8 +77,10 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Width="1" Header="Name" Binding="{Binding id}" IsReadOnly="True" Visibility="Hidden"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding id}" IsReadOnly="True" MaxWidth="0"/>
                 <DataGridTextColumn Width="2*" Header="Name" Binding="{Binding name}" IsReadOnly="True"/>
+                <DataGridTextColumn Width="1*" Header="Last Detected Camera" Binding="{Binding camera}" IsReadOnly="True"/>
+                <DataGridTextColumn Width="2*" Header="Last Detected Location" Binding="{Binding lastLocation}" IsReadOnly="True"/>
                 <DataGridTextColumn Width="4*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
             </DataGrid.Columns>
 

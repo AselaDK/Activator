@@ -83,9 +83,10 @@ namespace kinesisMyDataStreamFunction
 
                                         var HistoryItem = new Document();
                                         HistoryItem["event_id"] = eventID;
-                                        HistoryItem["timestamp"] = dataObject.InputInformation.KinesisVideo.ProducerTimestamp;
-                                        HistoryItem["message"] = $"{name} has been " +
-                                                                        $"detected by camera {detectedCameraId}";
+                                        HistoryItem["id"] = id;
+                                        HistoryItem["cameraId"] = detectedCameraId.ToString();
+                                        HistoryItem["name"] = name;
+                                        HistoryItem["timestamp"] = DateTime.UtcNow;
 
                                         WriteItemAsync(HistoryItem, context, "history");
                                     }
