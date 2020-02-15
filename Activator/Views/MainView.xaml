@@ -100,7 +100,7 @@
             <ColumnDefinition Width="96*"/>
             <ColumnDefinition Width="665*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel x:Name="StackPanelMenu" Width="250" HorizontalAlignment="Left" Margin="-250,0,0,-0.2" RenderTransformOrigin="0.5,0.5">
+        <StackPanel Background="Black" x:Name="StackPanelMenu" Width="250" HorizontalAlignment="Left" Margin="-250,0,0,-0.2" RenderTransformOrigin="0.5,0.5">
             <StackPanel.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -277,8 +277,6 @@
 
                 <!--Currrent page -->
                 <UserControl x:Name="MenuPage" Background="Aqua"  Margin="0,45,0,0" />
-
-
 
 
             </Grid>

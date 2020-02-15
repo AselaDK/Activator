@@ -22,46 +22,29 @@ namespace Activator.Views
         AdminsPage admins;
         AdminProfile adminProfile;
 
-        private string myname;
-        private string myid;
+        private string adminId;
+        private string adminName;
+        private string adminPropic;
 
         private System.Windows.Forms.NotifyIcon notifyIcon = null;
 
-        public MainView(String adminid, String adminname)
+        public MainView(String adminId, String adminName, string adminPropic)
         {
             InitializeComponent();
 
-            
+            this.adminId = adminId;
+            this.adminName = adminName;
+            this.adminPropic = adminPropic;
 
-            myname = adminname;
-            myid = adminid;
-
-            Console.WriteLine("myid --------------main " + myid);
             InitUserControls();
-
-            AdminName.Text = myname;
-
-            string imagename = "tamanna.jpg";
-            string directoryPath = "Resources/Images/";
-
-            if (!File.Exists(directoryPath + imagename))
-            {
-                Models.S3Bucket.DownloadFile(imagename, Models.MyAWSConfigs.AdminS3BucketName);
-            }
-
-            string exeDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
-
-            Uri fileUri = new Uri(exeDirectory + directoryPath + imagename);
-
-            ImageSource imageSource = new BitmapImage(fileUri);
-
-            MyPropicImage.Source = imageSource;
+            InitUserInfo().ConfigureAwait(false);
 
             ButtonOpenMenu.Visibility = Visibility.Visible;
             ButtonCloseMenu.Visibility = Visibility.Collapsed;
 
             MenuPage.Content = home;
             lblTitle.Content = "HOME";
+            home.GetAllCameras().ConfigureAwait(false);
         }
 
         protected override void OnInitialized(EventArgs e)
@@ -87,21 +70,40 @@ namespace Activator.Views
 
         private void InitUserControls()
         {
-            home = new HomePageView();
+            home = new HomePageView(this);
             peopleInPageView = new PeopleInPageView();
-            allPeoplePageView = new AllPeoplePageView();
+            allPeoplePageView = new AllPeoplePageView(this);
             readers = new ReadersPage();
             cameraView = new CameraView(this);
-            admins = new AdminsPage(myid);
-            Console.WriteLine("myid --------------pass " + myid);
+            admins = new AdminsPage(adminId);
             adminProfile = new AdminProfile();
         }
 
-        private void ButtonMenuHome_Click(object sender, RoutedEventArgs e)
+        private async Task InitUserInfo()
         {
-            home.GetAllCameras();
+            AdminName.Text = adminName;
+
+            string directoryPath = "Resources/Images/";
+
+            if (!File.Exists(directoryPath + adminPropic))
+            {
+                await Task.Run(() => Models.S3Bucket.DownloadFile(adminPropic, Models.MyAWSConfigs.AdminS3BucketName));
+            }
+
+            string exeDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
+
+            Uri fileUri = new Uri(exeDirectory + directoryPath + adminPropic);
+
+            ImageSource imageSource = new BitmapImage(fileUri);
+
+            MyPropicImage.Source = imageSource;
+        }
+
+        private void ButtonMenuHome_Click(object sender, RoutedEventArgs e)
+        {            
             MenuPage.Content = home;
             lblTitle.Content = "HOME";
+            home.GetAllCameras().ConfigureAwait(false);
         }
 
         private void ButtonMenuPeopleIn_Click(object sender, RoutedEventArgs e)
@@ -111,9 +113,10 @@ namespace Activator.Views
         }
 
         private void ButtonMenuAllPeople_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             MenuPage.Content = allPeoplePageView;
             lblTitle.Content = "ALL PEOPLE";
+            allPeoplePageView.LoadPersonsData().ConfigureAwait(false);
         }
 
         private void ButtonMenuReaders_Click(object sender, RoutedEventArgs e)
@@ -123,26 +126,32 @@ namespace Activator.Views
         }
 
         private void ButtonMenuCameras_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             MenuPage.Content = cameraView;
             lblTitle.Content = "CAMERAS";
+            cameraView.LoadCamerasData().ConfigureAwait(false);
         }
 
         private void ButtonMenuAdmins_Click(object sender, RoutedEventArgs e)
         {
             MenuPage.Content = admins;
             lblTitle.Content = "ADMINS";
-            Console.WriteLine("myid --------------button " + myid);
-
         }
 
         private void ProfileButton_Click(object sender, RoutedEventArgs e)
         {
             adminProfile = null;
-            adminProfile = new AdminProfile(myid);
+            adminProfile = new AdminProfile(adminId);
             MenuPage.Content = adminProfile;
             lblTitle.Content = "MY PROFILE";
-        }        
+        }
+        
+        private void ButtonMenuActivityLogs_Click(object sender, RoutedEventArgs e)
+        {
+            ActivityLogs activityLogs = new ActivityLogs();
+            MenuPage.Content = activityLogs;
+            lblTitle.Content = "Activity Logs";
+        }
 
         private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -192,24 +201,16 @@ namespace Activator.Views
 
             await controller.CloseAsync();
 
-            cv.LoadCamerasData();
+            await cv.LoadCamerasData().ConfigureAwait(false);
 
             notifyIcon.Visible = true;
             notifyIcon.ShowBalloonTip(1000, "Deleted", "Camera deleted Successfully", System.Windows.Forms.ToolTipIcon.Info);
 
-            //await this.ShowMessageAsync("Deleted", "Camera deleted Successfully", MessageDialogStyle.Affirmative);
         }
 
         private void ButtonMessage_Click(object sender, RoutedEventArgs e)
         {
 
-        }
-
-        private void ButtonMenuActivityLogs_Click(object sender, RoutedEventArgs e)
-        {
-            ActivityLogs activityLogs = new ActivityLogs();
-            MenuPage.Content = activityLogs;
-            lblTitle.Content = "Activity Logs";
         }
     }
 }

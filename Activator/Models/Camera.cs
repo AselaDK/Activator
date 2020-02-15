@@ -22,22 +22,20 @@ namespace Activator.Models
 
         public string eventSourceUUID { get; set; }
 
-        public static List<Camera> GetAllCamers()
+        public static IEnumerable<Camera> GetAllCamers()
         {
-            List<Camera> cameras = new List<Camera>();
-
-            string tableName = MyAWSConfigs.CamerasDBTableName;
-
             try
             {
-                AmazonDynamoDBClient client;
-                using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
-                {
-                    DynamoDBContext context = new DynamoDBContext(client);
-                    IEnumerable<Camera> camerasData = context.Scan<Camera>();
-                    
-                    cameras = camerasData.ToList();                    
-                }
+                AmazonDynamoDBClient client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion);
+
+                DynamoDBContext context = new DynamoDBContext(client);
+                IEnumerable<Camera> camerasData = context.Scan<Camera>();
+
+                var temp = camerasData.ToList();
+
+                client.Dispose();
+
+                return temp;
             }
             catch (AmazonDynamoDBException e)
             {
@@ -48,7 +46,7 @@ namespace Activator.Models
                 Console.WriteLine("Error: " + e);
             }
 
-            return cameras;
+            return null;
         }
     }
 }

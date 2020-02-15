@@ -47,7 +47,7 @@ namespace Activator.Views
                     item["id"] = fileId;
                     item["name"] = txtName.Text;
                     item["description"] = txtDescription.Text;
-///////////////////////////////////////////////////       //#ToDo : Add readerList
+                    item["status"] = 0;
                     item["readerList"] = readerList;
 
                     controller.SetMessage("Uploading file");

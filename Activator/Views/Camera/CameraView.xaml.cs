@@ -1,5 +1,5 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
-using MahApps.Metro.Controls.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,30 +18,27 @@ namespace Activator.Views
         public CameraView(MainView mv)
         {
             InitializeComponent();
-            LoadCamerasData();
 
             CheckSelection();
 
             mainView = mv;
         }
 
-        public void LoadCamerasData()
+        public async Task LoadCamerasData()
         {
-            Mouse.OverrideCursor = Cursors.Wait;
+            progressBar.Visibility = Visibility.Visible;
+            BtnRefresh.IsEnabled = false;
             try
-            {
-                List<Models.Camera> cameras = new List<Models.Camera>();
-
-                cameras = Models.Camera.GetAllCamers();
-
-                // TODO: Loading indicator
+            {                
+                IEnumerable<Models.Camera> cameras = await Task.Run(() => Models.Camera.GetAllCamers());
 
                 dataGridCameras.ItemsSource = cameras;
                 dataGridCameras.Items.Refresh();
             }
             finally
             {
-                Mouse.OverrideCursor = null;
+                progressBar.Visibility = Visibility.Hidden;
+                BtnRefresh.IsEnabled = true;
             }
         }
 
@@ -70,7 +67,7 @@ namespace Activator.Views
 
         private void BtnRefresh_Click(object sender, RoutedEventArgs e)
         {
-            LoadCamerasData();
+            LoadCamerasData().ConfigureAwait(false);
         }
 
         private async void BtnStopSP_Click(object sender, RoutedEventArgs e)
@@ -80,9 +77,9 @@ namespace Activator.Views
             {
                 string streamProcessorName = $"StreamProcessorCam{selectedCamera}";
 
-                Mouse.OverrideCursor = Cursors.Wait;
+                progressBar.Visibility = Visibility.Visible;
                 await Task.Run(() => Models.StreamProcessorManager.StopStreamProcessor(streamProcessorName));
-                Mouse.OverrideCursor = null;
+                progressBar.Visibility = Visibility.Hidden;
             }
         }
 
@@ -93,9 +90,9 @@ namespace Activator.Views
             {
                 string streamProcessorName = $"StreamProcessorCam{selectedCamera}";
 
-                Mouse.OverrideCursor = Cursors.Wait;
+                progressBar.Visibility = Visibility.Visible;
                 await Task.Run(() => Models.StreamProcessorManager.StartStreamProcessor(streamProcessorName));
-                Mouse.OverrideCursor = null;
+                progressBar.Visibility = Visibility.Hidden;
             }
         }
 

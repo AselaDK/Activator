@@ -1,13 +1,14 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
-
-using Amazon.DynamoDBv2;
+﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Activator.Views
 {
@@ -20,16 +21,35 @@ namespace Activator.Views
 
         private static readonly double notifyInterval = 150;
 
+        private MainView mv;
+        private DetectedPerson dp;
+
         Dictionary<string, Models.Camera> cameras = new Dictionary<string, Models.Camera>();
 
-        public HomePageView()
+        public HomePageView(MainView mv)
         {
             InitializeComponent();
 
-            GetAllCameras();
+            this.mv = mv;
+            dp = new DetectedPerson();
 
-            ReadHistoryStream();
-            ReadRefPersonStream();
+            ReadHistoryStream().ConfigureAwait(false);
+            ReadRefPersonStream().ConfigureAwait(false);
+
+            AddNewNotification("Tharinu has been ddetetctd by cam 1 at kotuwa", "haha.jpeg").Wait();
+            AddNewNotification("Tharinu has been ddetetctd by cam 1 at kotuwa", "haha.jpeg").Wait();
+            AddNewNotification("Asela has been ddetetctd by cam 2 at homagama", "asela.jpg").Wait();
+            AddNewNotification("Tharinu has been ddetetctd by cam 1 at kotuwa", "haha.jpeg").Wait();
+            AddNewNotification("Tharinu has been ddetetctd by cam 1 at kotuwa", "haha.jpeg").Wait();
+            AddNewNotification("Asela has been ddetetctd by cam 2 at homagama", "asela.jpg").Wait();
+            AddNewNotification("Asela has been ddetetctd by cam 2 at homagama", "asela.jpg").Wait();
+            AddNewNotification("Tharinu has been ddetetctd by cam 1 at kotuwa", "haha.jpeg").Wait();
+            AddNewNotification("Tharinu has been ddetetctd by cam 1 at kotuwa", "haha.jpeg").Wait();
+            AddNewNotification("Asela has been ddetetctd by cam 2 at homagama", "asela.jpg").Wait();
+            AddNewNotification("Tharinu has been ddetetctd by cam 1 at kotuwa", "haha.jpeg").Wait();
+            AddNewNotification("Tharinu has been ddetetctd by cam 1 at kotuwa", "haha.jpeg").Wait();
+            AddNewNotification("Asela has been ddetetctd by cam 2 at homagama", "asela.jpg").Wait();
+            AddNewNotification("Asela has been ddetetctd by cam 2 at homagama", "asela.jpg").Wait();
         }
 
         protected override void OnInitialized(EventArgs e)
@@ -53,24 +73,36 @@ namespace Activator.Views
 
         }
 
-        public void GetAllCameras()
+        public async Task GetAllCameras()
         {
-            Mouse.OverrideCursor = Cursors.Wait;
+            progressBar.Visibility = Visibility.Visible;
             try
             {
-                List<Models.Camera> temp = Models.Camera.GetAllCamers();
+                IEnumerable<Models.Camera> temp = await Task.Run(() => Models.Camera.GetAllCamers());
+                
                 cameras.Clear();
+                
                 foreach (Models.Camera camera in temp)
                 {
                     cameras.Add(camera.id, camera);
-                    Console.WriteLine(cameras[camera.id]);
                 }
             }
             finally
             {
-                Mouse.OverrideCursor = null;
+                progressBar.Visibility = Visibility.Hidden;
             }
-            
+        }
+
+        private void dataGridDetectedPersons_Row_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DataGridRow row = sender as DataGridRow;
+            TextBlock id = dataGridDetectedPersons.Columns[1].GetCellContent(row) as TextBlock;
+            TextBlock name = dataGridDetectedPersons.Columns[2].GetCellContent(row) as TextBlock;
+            TextBlock description = dataGridDetectedPersons.Columns[5].GetCellContent(row) as TextBlock;
+            ImageSource imageSource = (VisualTreeHelper.GetChild(dataGridDetectedPersons.Columns[0].GetCellContent(row), 0) as Image).Source;
+
+            mv.MenuPage.Content = dp;
+            dp.LoadPerson(id.Text, name.Text, description.Text, imageSource, mv, this, "home");            
         }
 
         private async Task ReadRefPersonStream()
@@ -146,14 +178,15 @@ namespace Activator.Views
                                         string changedRefPersonName = record.Dynamodb.NewImage["name"].S;
                                         string changedRefPersonDescription = record.Dynamodb.NewImage["description"].S;
                                         string changedRefPersonCamera = record.Dynamodb.NewImage["camera"].S;
-                                                                              
+
                                         Models.RefPerson refPerson = new Models.RefPerson();
 
                                         refPerson.id = changedRefPersonId;
                                         refPerson.name = changedRefPersonName;
-                                        refPerson.status = (changedRefPersonStatus == "1")?true:false;
+                                        refPerson.status = (changedRefPersonStatus == "1") ? true : false;
                                         refPerson.description = changedRefPersonDescription;
                                         refPerson.camera = changedRefPersonCamera;
+                                        refPerson.lastLocation = cameras[changedRefPersonCamera].location;
 
                                         string directoryPath = "Resources/Images/";
 
@@ -162,26 +195,26 @@ namespace Activator.Views
                                             Models.S3Bucket.DownloadFile(refPerson.id, Models.MyAWSConfigs.RefImagesBucketName);
                                         }
 
-                                        string exeDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";                                        
+                                        string exeDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
 
                                         Uri fileUri = new Uri(exeDirectory + directoryPath + refPerson.id);
 
                                         refPerson.image = new BitmapImage(fileUri);
 
                                         if (refPerson.status)
-                                        { 
+                                        {
                                             if (!refPersons.ContainsKey(refPerson.id))
-                                                refPersons.Add(refPerson.id, refPerson);                                            
+                                                refPersons.Add(refPerson.id, refPerson);
                                         }
                                         else
                                         {
                                             if (refPersons.ContainsKey(refPerson.id))
-                                                refPersons.Remove(refPerson.id);                                            
+                                                refPersons.Remove(refPerson.id);
                                         }
 
                                         dataGridDetectedPersons.ItemsSource = refPersons.Values;
                                         dataGridDetectedPersons.Items.Refresh();
-                                    }                                    
+                                    }
                                 }
                                 processedRecordCount += records.Count;
                                 currentShardIter = getRecordsResponse.NextShardIterator;
@@ -206,7 +239,7 @@ namespace Activator.Views
         }
 
         private async Task ReadHistoryStream()
-        {   
+        {
             string streamArn = Models.MyAWSConfigs.DynamodbHistoryTableStreamArn;
 
             DateTime notifyTime = DateTime.Now;
@@ -267,26 +300,27 @@ namespace Activator.Views
                                 GetRecordsResponse getRecordsResponse = await streamsClient.GetRecordsAsync(getRecordsRequest);
 
                                 List<Record> records = getRecordsResponse.Records;
-                                
+
                                 foreach (Record record in records)
                                 {
                                     foreach (KeyValuePair<string, AttributeValue> newImage in record.Dynamodb.NewImage)
-                                    {                                        
+                                    {
                                         if (DateTime.Now >= notifyTime)
                                         {
-                                            string message = record.Dynamodb.NewImage["message"].S;
-                                            string[] messageTemp = message.Split(' ');
-                                            string camId = messageTemp[messageTemp.Length - 1];
+                                            string id = record.Dynamodb.NewImage["id"].S;
+                                            string name = record.Dynamodb.NewImage["name"].S;
+                                            string camId = record.Dynamodb.NewImage["cameraId"].S;
                                             string camLocation = cameras[camId].location;
-                                            message += $" at {camLocation}";
+                                            string notification = $"{name} has been detected by camera {camId} at {camLocation}";
+                                            string trayMessage = $"{name} has been detected";
 
-                                            AddNewNotification(message);
+                                            AddNewNotification(notification, id).Wait();
 
                                             notifyTime = DateTime.Now.AddMilliseconds(notifyInterval);
 
-                                            notifyIcon.Visible = true;                                            
-                                            notifyIcon.ShowBalloonTip(1000, "New Person Detected", message, System.Windows.Forms.ToolTipIcon.Info);
-                                        }                                        
+                                            notifyIcon.Visible = true;
+                                            notifyIcon.ShowBalloonTip(1000, "New Person Detected", trayMessage, System.Windows.Forms.ToolTipIcon.Info);
+                                        }
                                     }
                                 }
                                 processedRecordCount += records.Count;
@@ -311,14 +345,38 @@ namespace Activator.Views
             }
         }
 
-        private void AddNewNotification(string message)
-        {
-            this.notificationListView.Items.Add(new Notification { Message = message });
-        }
+        private async Task AddNewNotification(string message, string id)
+        {           
+            string directoryPath = "Resources/Images/";
 
-        private void DataGridDetectedPersons_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
-        {
+            BitmapImage image = new BitmapImage();
 
+            if (!File.Exists(directoryPath + id))
+            {
+                await Task.Run(() => Models.S3Bucket.DownloadFile(id, Models.MyAWSConfigs.RefImagesBucketName));
+            }
+
+            string exeDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
+
+            Uri fileUri = new Uri(exeDirectory + directoryPath + id);
+
+            image = new BitmapImage(fileUri);
+            message = DateTime.Now.ToShortTimeString() + " " + message;
+
+            var myChip = new MaterialDesignThemes.Wpf.Chip()
+            {                
+                Content = message,
+                IsDeletable = false,
+                Icon = new Image() { Source = image, Stretch = Stretch.Uniform},
+            };
+
+            Thickness margin = myChip.Margin;
+            margin.Left = 10;
+            margin.Top = 10;
+            margin.Bottom = 10;
+            myChip.Margin = margin;
+
+            this.notificationListView.Items.Add(myChip);
         }
     }
 

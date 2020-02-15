@@ -13,64 +13,85 @@
              TextElement.FontSize="18"
              TextOptions.TextFormattingMode="Ideal"
              TextOptions.TextRenderingMode="Auto"
-             
-             Height="Auto" Width="Auto">
+             d:DesignHeight="1080" d:DesignWidth="1920">
 
-    <StackPanel Background="WhiteSmoke">
-        <Grid Height="50" Background="White">
-            <Label Content="REFERENCESS" FontWeight="DemiBold" FontSize="24" VerticalContentAlignment="Center"/>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="4*" />
+            <RowDefinition Height="0.4*" />
+            <RowDefinition Height="50*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="White">
+            <Label x:Name="title" Content="REFERENCESS" FontWeight="DemiBold" FontSize="24" VerticalContentAlignment="Center"/>
         </Grid>
-        <Grid Height="50" Margin="5">
+
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch" Background="WhiteSmoke">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                <Button Click="BtnAddNewRef_Click" Margin="10,0,0,0" Style="{DynamicResource MaterialDesignRaisedButton}" Content="New" FontSize="20" Foreground="White"/>
-                <Button Margin="20,0,0,0" Click="Button_Click" Style="{DynamicResource MaterialDesignToolButton}" Foreground="Black">
+                <Button Click="BtnAddNewRef_Click" Margin="10,0,0,0" 
+                        Style="{DynamicResource MaterialDesignRaisedButton}" 
+                        Content="New" FontSize="20" Foreground="White"/>
+                <Button x:Name="BtnRefresh" Margin="20,0,0,0" Click="BtnRefresh_Click" Style="{DynamicResource MaterialDesignToolButton}" Foreground="{DynamicResource MaterialDesignBody}">
                     <materialDesign:PackIcon Kind="Refresh" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
                 </Button>
-                <Button Margin="20,0,0,0" x:Name="DeleteButton" Click="DeleteButton_Click" Style="{DynamicResource MaterialDesignToolButton}" Foreground="Black">
+              <Button Margin="20,0,0,0" x:Name="DeleteButton" Click="DeleteButton_Click" Style="{DynamicResource MaterialDesignToolButton}" Foreground="Black">
                     <materialDesign:PackIcon Kind="Delete" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
                 </Button>
+              
                 <!--<TextBox x:Name="txtSearch"  materialDesign:HintAssist.Hint="Search" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Width="500" Margin="10,0,0,0" VerticalAlignment="Center"/>
                 <materialDesign:PackIcon x:Name="icnSearch" Kind="Search" Width="30" Height="30" VerticalAlignment="Center"  HorizontalAlignment="Center" Cursor="Hand" Margin="10,0,0,0"/>-->
 
             </StackPanel>
         </Grid>
-        <Grid>
-            <DataGrid x:Name="dataGridAllRefPersons" VerticalAlignment="Top" HorizontalAlignment="Left" 
-                      Height="650" Width="1100" 
+
+        <Grid Grid.Row="2" HorizontalAlignment="Stretch">
+            <ProgressBar x:Name="progressBar" Style="{DynamicResource MaterialDesignLinearProgressBar}" IsIndeterminate="True" Visibility="Hidden"/>
+        </Grid>
+
+        <DataGrid Grid.Row="3" x:Name="dataGridAllRefPersons" 
+                      HorizontalAlignment="Stretch"                       
                       ScrollViewer.CanContentScroll="False" 
                       ScrollViewer.VerticalScrollBarVisibility="Auto" 
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"                     
                       AutoGenerateColumns="False" CanUserAddRows="False"
-                      RowHeight="100"
-                      SelectionUnit="FullRow" SelectionMode="Extended" 
-                      SelectionChanged="dataGridAllRefPersons_SelectionChanged"
-                      MouseDoubleClick="dataGridAllRefPersons_MouseDoubleClick"
+                      SelectionMode="Extended"
+                      SelectionUnit="FullRow" Grid.ColumnSpan="2"
                         >
-                <DataGrid.CellStyle>
-                    <Style TargetType="DataGridCell">
-                        <Setter Property="Background" Value="Transparent"/>
-                        <Setter Property="BorderBrush" Value="Transparent"/>
-                        <Setter Property="Margin" Value="13,0,8,0"/>
-                        <Setter Property="VerticalContentAlignment" Value="Center"/>
-                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                    </Style>
-                </DataGrid.CellStyle>
-                <DataGrid.Columns>
-                    <DataGridCheckBoxColumn x:Name="SelectionColumn" Header="" Width="60" IsReadOnly="False" Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected, Mode=TwoWay}" ElementStyle="{DynamicResource MaterialDesignCheckBox}"/>
-                    <DataGridTemplateColumn Width="SizeToCells" Header="Photo" IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Image Source="{Binding image}" Width="60" Height="60" Stretch="Uniform"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Width="1" Header="Name" Binding="{Binding id}" IsReadOnly="True" Visibility="Hidden"/>
-                    <DataGridTextColumn Width="2*" Header="Name" Binding="{Binding name}" IsReadOnly="True" />
-                    <DataGridTextColumn Width="4*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
-                    <!--<DataGridCheckBoxColumn x:Name="SelectRef"  Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected, Mode=TwoWay}" />-->
-                </DataGrid.Columns>
-            </DataGrid>
-            <Label x:Name="lblLoading" Content="Loading..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Grid.Column="1" Margin="714,469,780.4,469"/>
-        </Grid>
-    </StackPanel>
+
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="dataGridRefPersons_Row_DoubleClick"/>
+                </Style>
+            </DataGrid.Resources>
+            
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="Margin" Value="13,0,8,0"/>
+                    <Setter Property="Height" Value="75"/>
+                </Style>
+            </DataGrid.CellStyle>
+
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn x:Name="SelectionColumn" Header="" Width="60" IsReadOnly="False" Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected, Mode=TwoWay}" ElementStyle="{DynamicResource MaterialDesignCheckBox}"/>
+                <DataGridTemplateColumn Width="100" Header="" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding image}" Width="60" Height="60" Stretch="Uniform"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Name" Binding="{Binding id}" IsReadOnly="True" MaxWidth="0"/>
+                <DataGridTextColumn Width="2*" Header="Name" Binding="{Binding name}" IsReadOnly="True"/>
+                <DataGridTextColumn Width="1*" Header="Last Detected Camera" Binding="{Binding camera}" IsReadOnly="True"/>
+                <DataGridTextColumn Width="2*" Header="Last Detected Location" Binding="{Binding lastLocation}" IsReadOnly="True"/>
+                <DataGridTextColumn Width="4*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
+            </DataGrid.Columns>
+
+        </DataGrid>
+    </Grid>
+
 </UserControl>
