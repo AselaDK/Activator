@@ -40,7 +40,7 @@ namespace Activator.Views
            // M adding form when click 
            // AddNewRef addNewRef = new AddNewRef();
            // addNewRef.Show();
-            ReaderForm readerForm= new ReaderForm();
+            AddReader readerForm= new AddReader();
          
             readerForm.Show();
             

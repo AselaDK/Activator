@@ -44,6 +44,10 @@ namespace Activator.Models
         {
             get; set;
         }
+        public bool isCheckedRef
+        {
+            get; set;
+        }
 
         public static List<RefPerson> GetAllRefPersons()
         {
@@ -69,7 +73,7 @@ namespace Activator.Models
                         }
 
                         string exeDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
-                        Console.WriteLine(exeDirectory);
+                        Console.WriteLine("\n exeDirectory >>> "+ exeDirectory);
 
                         Uri fileUri = new Uri(exeDirectory + directoryPath + person.id);
 

@@ -31,10 +31,13 @@ namespace Activator.Views
         {
             InitializeComponent();
 
-            InitUserControls();
+            
 
             myname = adminname;
             myid = adminid;
+
+            Console.WriteLine("myid --------------main " + myid);
+            InitUserControls();
 
             AdminName.Text = myname;
 
@@ -90,6 +93,7 @@ namespace Activator.Views
             readers = new ReadersPage();
             cameraView = new CameraView(this);
             admins = new AdminsPage(myid);
+            Console.WriteLine("myid --------------pass " + myid);
             adminProfile = new AdminProfile();
         }
 
@@ -128,6 +132,8 @@ namespace Activator.Views
         {
             MenuPage.Content = admins;
             lblTitle.Content = "ADMINS";
+            Console.WriteLine("myid --------------button " + myid);
+
         }
 
         private void ProfileButton_Click(object sender, RoutedEventArgs e)
@@ -152,8 +158,15 @@ namespace Activator.Views
 
         private async void ButtonCloseApplication_Click(object sender, RoutedEventArgs e)
         {
-            var result = await this.ShowMessageAsync("Are you sure want to quit?", "", MessageDialogStyle.AffirmativeAndNegative);
-            if (result == MessageDialogResult.Affirmative) Application.Current.Shutdown();
+            var result = await this.ShowMessageAsync("Are you sure want to log out ?", "", MessageDialogStyle.AffirmativeAndNegative);
+            if (result == MessageDialogResult.Affirmative)
+            {
+                this.Hide();
+                LoginView dashboard = new LoginView();
+                dashboard.ShowDialog();
+                //LoginView.ShowDialog();
+            }
+                
         }
 
         public async void DeleteCamera(string id, string videoStreamArn, string dataStreamName, string eventSourceUUID, string streamProcessorName, CameraView cv)
@@ -190,6 +203,13 @@ namespace Activator.Views
         private void ButtonMessage_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void ButtonMenuActivityLogs_Click(object sender, RoutedEventArgs e)
+        {
+            ActivityLogs activityLogs = new ActivityLogs();
+            MenuPage.Content = activityLogs;
+            lblTitle.Content = "Activity Logs";
         }
     }
 }

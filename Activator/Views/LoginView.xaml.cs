@@ -16,6 +16,7 @@ namespace Activator.Views
         public LoginView()
         {
             InitializeComponent();
+            Console.WriteLine(DateTime.Now.ToLongTimeString());
         }
 
         protected override void OnInitialized(EventArgs e)
@@ -63,10 +64,19 @@ namespace Activator.Views
                     string adminId = item["aId"];
                     bool status = true;
 
-                    Session session = new Session(status, adminId);
+                    Session.id = adminId;
+                    //session.MyStatus = status;
+
+                    string srnd = Session.id + DateTime.Now.ToString();
+                    Models.ActivityLogs activityLogs = new Models.ActivityLogs();
+                    activityLogs.Activity(srnd, Session.id, "Logged in", DateTime.Now.ToString());
+                    Console.WriteLine("activivty id >>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,,," + srnd);
+                    Console.WriteLine("activivty id >>>,,," + Session.id);
+                    Console.WriteLine("activivty id >>>,,," + DateTime.Now.ToString());
 
                     MainView dashboard = new MainView(adminId, adminName);
                     dashboard.ShowDialog();
+
                 }
                 else
                 {

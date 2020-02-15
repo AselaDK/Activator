@@ -20,13 +20,15 @@ namespace Activator.Views
     {
 
         private AmazonDynamoDBClient client;
-        private readonly string aId = null;
+        private string aId;
 
         public AdminsPage(string aid)
         {
             aId = aid;
+            Console.WriteLine(">>>>>>>>>><<<<<<<<<<<<<,,,,,,,,,Constructor " + aid);
             InitializeComponent();
             InitData();
+            aId = getId(aid);
 
             try
             {
@@ -68,14 +70,24 @@ namespace Activator.Views
         
         }
 
+        private String getId(String id)
+        {
+            aId = id;
+            return id;
+        }
+
         private void RegAdmin_Click(object sender, RoutedEventArgs e)
         {
             string tableName = MyAWSConfigs.AdminDBTableName;
             var table = Table.LoadTable(client, tableName);
+            Console.WriteLine(">>>>>>>>>><<<<<<<<<<<<<,,,,,,,,, " + aId);
+
             var item = table.GetItem(aId);
+            Console.WriteLine(">>>>>>>>>><<<<<<<<<<<<<,,,,,,,,, " + aId);
             RegisterAdmin acv = new RegisterAdmin();
             if(item["root"].AsBoolean() == true)
             {
+                RegAdmin.IsEnabled = true;  
                 acv.ShowDialog();
             }
             else
@@ -85,22 +97,17 @@ namespace Activator.Views
             
         }
 
-        private void CamerasDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            //EditCameraView ecv = new EditCameraView();
-            //ecv.DataContext = AdminDataGrid.SelectedItem;
-            ////ecv.TxtCamId.Text = row
-            ////ecv.TxtLocation.Text = Convert.ToString(ColLocation);
-            ////ecv.TxtQuality.Text = Convert.ToString(ColQuality);
-            //ecv.ShowDialog();
-        }
-
         private void Search_Click(object sender, RoutedEventArgs e)
         {
             string tableName = MyAWSConfigs.AdminDBTableName;
             var table = Table.LoadTable(client, tableName);
             var item = table.GetItem(aId);
             //LoadData(item);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            LoadData();
         }
     }
 }
