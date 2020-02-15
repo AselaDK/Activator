@@ -15,7 +15,7 @@
 
         <!--Search Box-->
         <StackPanel Orientation="Horizontal" Width="Auto" Background="White" Height="40" VerticalAlignment="Top" Margin="10,50,10,0" >
-            <Border CornerRadius="6" Margin="100,0,300,0" BorderBrush="Gray" Background="LightGray" BorderThickness="2" DockPanel.Dock="Top" Width="150">
+            <Border CornerRadius="6" Margin="100,0,10,0" BorderBrush="Gray" Background="LightGray" BorderThickness="2" DockPanel.Dock="Top" Width="150">
                 <Button x:Name="RegAdmin" Click="RegAdmin_Click" Background="SeaGreen" Cursor="Hand" BorderBrush="White" Foreground="White">
                     <StackPanel x:Name="addCamera" Orientation="Horizontal" HorizontalAlignment="Center">
                         <materialDesign:PackIcon Kind="PersonAdd" Width="30" Height="30" VerticalAlignment="Center" Margin="5,0"/>
@@ -23,6 +23,9 @@
                     </StackPanel>
                 </Button>
             </Border>
+            <Button Margin="20,0,250,0" Click="Button_Click" Style="{DynamicResource MaterialDesignToolButton}" Foreground="Black">
+                <materialDesign:PackIcon Kind="Refresh" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0"/>
+            </Button>
             <TextBox x:Name="txtSearch"  materialDesign:HintAssist.Hint="Search" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Width="500" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <Button x:Name="Search" Click="Search_Click" Background="DarkSeaGreen" Cursor="Hand" BorderBrush="White" Foreground="White">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

@@ -17,6 +17,7 @@ namespace Activator.Models
         public static readonly String CamerasDBTableName = "cameras";
         public static readonly String ReaderDBtableName = "reader";
         public static readonly String NotificationDBtableName = "history";
+        public static readonly String ActivitylogsDBtableName = "actvitylogs";
 
 
         public static readonly String LambdaFunctionName = "DataStreamsToDynamoDBFunction";

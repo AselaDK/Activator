@@ -11,11 +11,10 @@
       Height="1080" Width="1670">
 
     <Grid Background="#e9e9e9" >
-        <TextBlock Text="Admins" Foreground="#FF3580BF" FontSize="30" FontWeight="Bold" Margin="5,0,5,0" Grid.Row="1"/>
 
         <!--Search Box-->
-        <StackPanel Orientation="Horizontal" Width="Auto" Background="White" Height="40" VerticalAlignment="Top" Margin="10,50,10,0" >
-            <Border CornerRadius="6" Margin="100,0,300,0" BorderBrush="Gray" Background="LightGray" BorderThickness="2" DockPanel.Dock="Top" Width="150">
+        <StackPanel Orientation="Horizontal" Width="Auto" Background="White" Height="40" VerticalAlignment="Top" Margin="10,5,10,0" >
+            <Border CornerRadius="6" Margin="0,0,0,0" BorderBrush="Gray" Background="LightGray" BorderThickness="2" DockPanel.Dock="Top" Width="150">
                 <Button x:Name="RegRaeder" Click="RegRaeder_Click" Background="SeaGreen" Cursor="Hand" BorderBrush="White" Foreground="White" HorizontalAlignment="Right" Width="146">
                     <StackPanel x:Name="addCamera" Orientation="Horizontal" HorizontalAlignment="Center">
                         <materialDesign:PackIcon Kind="PersonAdd" Width="30" Height="30" VerticalAlignment="Center" Margin="5,0"/>
@@ -23,6 +22,9 @@
                     </StackPanel>
                 </Button>
             </Border>
+            <Button Margin="30,0,300,0" Click="Button_Click" Style="{DynamicResource MaterialDesignToolButton}" Foreground="Black">
+                <materialDesign:PackIcon Kind="Refresh" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
+            </Button>
             <TextBox x:Name="txtSearch"  materialDesign:HintAssist.Hint="Search" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Width="500" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <Button x:Name="Search" Click="Search_Click" Background="DarkSeaGreen" Cursor="Hand" BorderBrush="White" Foreground="White">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -32,7 +34,7 @@
         </StackPanel>
 
         <Grid Height="980">
-            <DataGrid x:Name="ReaderDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Margin="0,45,0,0" MouseDoubleClick="ReaderDataGrid_MouseDoubleClick">
+            <DataGrid x:Name="ReaderDataGrid" ItemsSource="{Binding Path=readers}" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Margin="0,05,0,0" MouseDoubleClick="ReaderDataGrid_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
@@ -48,7 +50,7 @@
                     <DataGridTextColumn Width="4*" x:Name="description" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
                 </DataGrid.Columns>
             </DataGrid>
-            <Label x:Name="lblLoading" Content="Loading..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Grid.Column="1" Margin="714,469,780.4,469"/>
+            <Label x:Name="lblLoading" Content="Loading..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Margin="616,389,813.4,469" Height="122" Width="241"/>
         </Grid>
 
 

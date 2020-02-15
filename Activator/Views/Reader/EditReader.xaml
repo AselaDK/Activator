@@ -3,21 +3,60 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Activator.Views"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="New Person" Height="611" Width="711" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Title="New Person" Height="650" Width="1200" 
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None"
+        ShowTitleBar="False"
+        ShowCloseButton="False" 
+    ShowMaxRestoreButton="False" 
+    ShowMinButton="False" Topmost="True" IsWindowDraggable="False">
     <Grid Background="White" Margin="10,0,10,0">
-        <Label Content="Name" Background="GreenYellow" HorizontalAlignment="Left" Margin="7,134,0,0" VerticalAlignment="Top" Width="61" Height="28"/>
-        <TextBox x:Name="txtName" Text="{Binding name}" Background="LightGray" HorizontalAlignment="Left" Height="28" Margin="136,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171"/>
-        <Label Content="Phone" Background="GreenYellow" HorizontalAlignment="Left" Margin="7,197,0,0" VerticalAlignment="Top" Width="63" Height="28"/>
-        <TextBox x:Name="txtPhone" Text="{Binding phone}" Background="LightGray" HorizontalAlignment="Left" Height="28" Margin="136,197,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171"/>
-        <TextBox x:Name="txtDescription" Text="{Binding description}" Background="LightGray" HorizontalAlignment="Left" Height="28" Margin="136,249,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171"/>
-        <Label Content="Description" Background="GreenYellow" HorizontalAlignment="Left" Margin="7,249,0,0" VerticalAlignment="Top" Width="100" Height="28"/>
-        <Label Background="GreenYellow" Content="ID" HorizontalAlignment="Left" Margin="7,62,0,0" VerticalAlignment="Top" Width="31" Height="28"/>
-        <TextBox x:Name="txtId" Text="{Binding id}" IsReadOnly="True" Background="LightGray" HorizontalAlignment="Left" Height="28" Margin="136,62,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171"/>
-        
-        <Button Background="BlueViolet" x:Name="buttonSubmit" Content="Submit" HorizontalAlignment="Left" Margin="364,425,0,0" VerticalAlignment="Top" Width="116" Click="ButtonSubmit_Click" Height="35"/>
+        <StackPanel Orientation="Vertical">
+            <Grid Margin="0,00" Height="631">
+                <Button x:Name="buttonClose" Click="buttonClose_Click" Content="X" HorizontalAlignment="Right" Margin="0,10,0,0" VerticalAlignment="Top" Width="50" Foreground="Black" Background="Transparent" FontSize="24" />
+                <TextBox x:Name="txtId" Margin="10,38,685,521" Text="{Binding id}" FontWeight="Bold" IsReadOnly="True" materialDesign:HintAssist.Hint="ID" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="22"/>
+                <Label Content="Edit Person" HorizontalAlignment="Left" Margin="20,0,0,555" FontSize="22" FontWeight="Bold"/>
+                <Rectangle Height="205" VerticalAlignment="Center" Margin="0,115,675,311" RadiusY="10" RadiusX="10" Fill="White">
+                    <Rectangle.Effect>
+                        <DropShadowEffect BlurRadius="15" Direction="0" RenderingBias="Quality" ShadowDepth="1" Color="#FFBBBBBB"/>
+                    </Rectangle.Effect>
+                </Rectangle>
+                <StackPanel Margin="57,115,754,311" Orientation="Vertical" VerticalAlignment="Center" Height="205">
+                    <TextBox x:Name="txtName" Margin="0,10,-0.6,10" Text="{Binding name}" materialDesign:HintAssist.Hint="Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
+                    <TextBox x:Name="txtPhone" Margin="0,10,-0.6,10" Text="{Binding phone}" materialDesign:HintAssist.Hint="Phone" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
+                    <TextBox x:Name="txtDescription" Margin="0,20,-0.6,20" Text="{Binding description}" materialDesign:HintAssist.Hint="Description" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <Image x:Name="imgUploadImage" Source="{Binding rImage}" HorizontalAlignment="Left" Height="246" Margin="10,334,0,0" VerticalAlignment="Top" Width="234"/>
+        <Button Background="YellowGreen" x:Name="buttonChooseImage" Content="Choose Image" HorizontalAlignment="Left" Margin="297,426,0,0" VerticalAlignment="Top" Width="131" Click="ButtonChooseImage_Click"/>
+
+        <DataGrid x:Name="RefDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Margin="686,81,-0.4,108.8" HorizontalAlignment="Left" Width="488" SelectionUnit="FullRow" SelectionMode="Extended" >
+            <DataGrid.Columns>
+                <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding image}" Width="100" Height="100" Stretch="Uniform"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="2*" Header="ID" Binding="{Binding id}" IsReadOnly="True" />
+                <DataGridTextColumn Width="2*" Header="Name" Binding="{Binding name}" IsReadOnly="True" />
+                <DataGridCheckBoxColumn x:Name="SelectRef" Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" />
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button Background="BlueViolet" x:Name="buttonSubmit" Content="Submit" HorizontalAlignment="Left" Margin="1018,545,0,0" VerticalAlignment="Top" Width="116" Click="ButtonSubmit_Click" Height="35"/>
+        <Label x:Name="lblLoading" Content="Loading..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Margin="838,166,73.6,262.8" Height="192" RenderTransformOrigin="0.5,0.5" Width="262"/>
     </Grid>
 </Controls:MetroWindow>
 

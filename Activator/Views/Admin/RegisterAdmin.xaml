@@ -20,18 +20,22 @@
 
     <StackPanel Orientation="Horizontal">
         <Grid>
-            <Label Content="Register New Admin" HorizontalAlignment="Left" Margin="10,10" FontSize="22" FontWeight="Bold"></Label>
-            <Rectangle Height="331" VerticalAlignment="Center" Margin="10,0,0,0" RadiusY="10" RadiusX="10" Fill="White" Grid.ColumnSpan="2">
+            <Label Content="Register New Admin" HorizontalAlignment="Left" Margin="10,0,0,410.6" FontSize="22" FontWeight="Bold"></Label>
+            <Rectangle Height="396" VerticalAlignment="Center" Margin="10,44,0.4,9.6" RadiusY="10" RadiusX="10" Fill="White">
                 <Rectangle.Effect>
                     <DropShadowEffect BlurRadius="15" Direction="0" RenderingBias="Quality" ShadowDepth="1" Color="#FFBBBBBB"/>
                 </Rectangle.Effect>
             </Rectangle>
-            <StackPanel Width="350" Margin="20, 0" Orientation="Vertical" VerticalAlignment="Center">
+            <StackPanel Width="350" Margin="20,44,20.4,23.6" Orientation="Vertical" VerticalAlignment="Center" Height="382">
                 <TextBox x:Name="txtEmail" Margin="0,10" materialDesign:HintAssist.Hint="E-Mail" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
                 <TextBox x:Name="txtName" Margin="0,10" materialDesign:HintAssist.Hint="Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
                 <PasswordBox x:Name="txtPassword" Margin="0,10" materialDesign:HintAssist.Hint="Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
                 <PasswordBox x:Name="txtCPassword" Margin="0,10" materialDesign:HintAssist.Hint="Confirm Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
                 <TextBox x:Name="txtPhone" Margin="0,20" materialDesign:HintAssist.Hint="Phone" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
+                <StackPanel Orientation="Horizontal" Background="LightGray" >
+                    <ToggleButton x:Name = "root_toggle" Content = "Toggle" Checked = "root_toggle_Checked" Unchecked = "root_toggle_Unchecked" Margin = "20" Width = "108" HorizontalAlignment = "Center" />
+                    <Label x:Name = "text2"  Content="Root Admin" Margin = "20" Width = "167" HorizontalAlignment = "Center" FontSize = "17" Foreground="DimGray" />
+                </StackPanel>
             </StackPanel>
         </Grid>
         <StackPanel Width="400">
@@ -67,4 +71,4 @@
         <TextBox x:Name="txtId" HorizontalAlignment="Left" Height="23" Margin="267,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>-->
 
     <!--</Grid>-->
-    </Controls:MetroWindow>
+</Controls:MetroWindow>

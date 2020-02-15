@@ -127,7 +127,7 @@
                     <materialDesign:PackIcon Kind="InformationOutline" Width="40" Height="40"/>
                 </Button>-->
             </StackPanel>
-            <StackPanel Margin="0,50,0,0" Height="528">
+            <StackPanel Margin="0,50,-0.4,0" Height="641">
                 <Button x:Name="ButtonMenuHome" Click="ButtonMenuHome_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
                     <Button.RenderTransform>
                         <TransformGroup>
@@ -212,6 +212,20 @@
                         <TextBlock Text="ADMINS" Margin="10" VerticalAlignment="Center" Foreground="White" FontSize="24"/>
                     </StackPanel>
                 </Button>
+                <Button x:Name="ButtonMenuActivityLogs" Click="ButtonMenuActivityLogs_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <StackPanel Orientation="Horizontal" Margin="10 0">
+                        <materialDesign:PackIcon Kind="ManMan" Width="30" Height="30" Foreground="White" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="ADMINS" Margin="10" VerticalAlignment="Center" Foreground="White" FontSize="24"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </StackPanel>
         <Grid x:Name="GridMain" Background="Transparent" Width="Auto" RenderTransformOrigin="0.5,0.5" Margin="10,0,9.6,-0.2" Grid.ColumnSpan="2">
@@ -269,20 +283,14 @@
 
             </Grid>
         </Grid>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="34" HorizontalAlignment="Right" Margin="0,10,10,0" Width="250" Grid.Column="1">
-            <Button Name="ButtonMessage" Click="ButtonMessage_Click" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="34" Height="Auto" Margin="10,0" Padding="00" Background="{x:Null}" BorderBrush="{x:Null}" >
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="34" HorizontalAlignment="Right" Margin="0,10,10,0" Width="173" Grid.Column="1">
+            <Button Name="ButtonMessage" Click="ButtonMessage_Click" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="34" Height="Auto" Margin="50,0,5,0" Padding="00" Background="{x:Null}" BorderBrush="{x:Null}" >
                 <materialDesign:PackIcon Kind="Chat" Height="25" Width="25" Foreground="White"/>
             </Button>
-            <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="34" Height="Auto" Margin="10,0" Padding="00" Background="{x:Null}" BorderBrush="{x:Null}" >
-                <materialDesign:PackIcon Kind="Settings" Height="25" Width="25" Foreground="White"/>
-            </Button>
-            <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="34" Height="Auto" Margin="10,0" Padding="00" Background="{x:Null}" BorderBrush="{x:Null}" >
+            <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="34" Height="Auto" Margin="5,0, 5,0" Padding="00" Background="{x:Null}" BorderBrush="{x:Null}" >
                 <materialDesign:PackIcon Kind="InfoCircle" Height="25" Width="25" Foreground="White"/>
             </Button>
-            <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="34" Height="Auto" Margin="10,0" Padding="00" Background="{x:Null}" BorderBrush="{x:Null}" >
-                <materialDesign:PackIcon Kind="Bell" Height="25" Width="25" Foreground="White"/>
-            </Button>
-            <Button x:Name="ButtonCloseApplication" Click="ButtonCloseApplication_Click" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="34" Height="Auto" Padding="0" Background="{x:Null}" BorderBrush="{x:Null}" >
+            <Button x:Name="ButtonCloseApplication" Click="ButtonCloseApplication_Click" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="34" Height="Auto" Padding="0" Background="{x:Null}" BorderBrush="{x:Null}" Margin="5,0,5,0" >
                 <materialDesign:PackIcon Kind="Power" Height="30" Width="30" Foreground="White"/>
             </Button>
         </StackPanel>

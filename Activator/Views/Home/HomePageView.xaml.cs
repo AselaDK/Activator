@@ -59,6 +59,7 @@ namespace Activator.Views
             try
             {
                 List<Models.Camera> temp = Models.Camera.GetAllCamers();
+                cameras.Clear();
                 foreach (Models.Camera camera in temp)
                 {
                     cameras.Add(camera.id, camera);

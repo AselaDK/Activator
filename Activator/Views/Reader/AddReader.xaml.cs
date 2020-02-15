@@ -20,12 +20,12 @@ namespace Activator.Views
     /// <summary>
     /// Interaction logic for ReaderForm.xaml
     /// </summary>
-    public partial class ReaderForm : MetroWindow
+    public partial class AddReader : MetroWindow
     {
         private string uploadFilePath;
         private static AmazonDynamoDBClient client = new AmazonDynamoDBClient();
 
-        public ReaderForm()
+        public AddReader()
         {
             InitializeComponent();
             InitData();
@@ -77,35 +77,36 @@ namespace Activator.Views
 
         private async void ButtonSubmit_Click(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
+            try
+            {
                 bool isNameEmpty = string.IsNullOrEmpty(txtName.Text);
                 bool isDescriptionEmpty = string.IsNullOrEmpty(txtDescription.Text);
                 bool isFilePathEmpty = string.IsNullOrEmpty(uploadFilePath);
                 bool isFileIdEmpty = string.IsNullOrEmpty(txtId.Text);
                 bool isPhoneEmpty = string.IsNullOrEmpty(txtPhone.Text);
 
-                if (!isNameEmpty && !isDescriptionEmpty && !isFilePathEmpty && !isFileIdEmpty && !isPhoneEmpty && !txtId.Text.Contains(" "))
+                if (!isNameEmpty && !isDescriptionEmpty && !isFilePathEmpty && !isFileIdEmpty && !isPhoneEmpty)
                 {
                     ProgressDialogController controller = await this.ShowProgressAsync("Please wait...", "Uploading data");
                     controller.SetIndeterminate();
                     controller.SetCancelable(false);
 
                     string[] temp = uploadFilePath.Split('.');
-                    string fileId = $"{txtId.Text}.{temp[temp.Length - 1]}";
+                    string propic = $"{txtId.Text}.{temp[temp.Length - 1]}";
 
                     var r_item = new Document();
 
                     List<String> SelectedPeople = new List<String>();
                     SelectedPeople = GetCheckedRefPeople();
 
-                    r_item["id"] = fileId;
+                    r_item["id"] = txtId.Text;
                     r_item["name"] = txtName.Text;
                     r_item["description"] = txtDescription.Text;
                     r_item["phone"] = txtPhone.Text;
                     r_item["refList"] = SelectedPeople;
+                    r_item["propic"] = propic;
 
-                    await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId,Models.MyAWSConfigs.ReaderS3BucketName));
+                    await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, propic, Models.MyAWSConfigs.ReaderS3BucketName));
                     await Task.Run(() => Models.Dynamodb.PutItem(r_item, Models.MyAWSConfigs.ReaderDBtableName));
 
                     await controller.CloseAsync();
@@ -118,18 +119,18 @@ namespace Activator.Views
                     txtPhone.Text = "";
                     imgUploadImage.Source = null;
 
-                    GiveRedersToRefernces(SelectedPeople, fileId);
+                    GiveRedersToRefernces(SelectedPeople, propic);
 
                 }
                 else
                 {
                     await this.ShowMessageAsync("Error", "Fill All The Fields", MessageDialogStyle.Affirmative);
                 }
-            //}
-            //catch
-            //{
-            //    await this.ShowMessageAsync("Error", "Task not completed", MessageDialogStyle.Affirmative);
-            //}
+            }
+            catch
+            {
+                await this.ShowMessageAsync("Error", "Task not completed", MessageDialogStyle.Affirmative);
+            }
         }
 
         private void GiveRedersToRefernces(List<String> refList, String readerId)
@@ -175,7 +176,7 @@ namespace Activator.Views
                             };
                             Document updatedadmin = table.UpdateItem(doc, config);
                             Console.WriteLine("UpdateMultipleAttributes: Printing item after updates ...");
-                            MessageBox.Show("Successfully Updated! not null");
+                            //MessageBox.Show("Successfully Updated! not null");
                         }
                         else
                         {
@@ -193,7 +194,7 @@ namespace Activator.Views
                             };
                             Document updatedadmin = table.UpdateItem(doc, config);
                             Console.WriteLine("UpdateMultipleAttributes: Printing item after updates ...");
-                            MessageBox.Show("Successfully Updated! not null");
+                            //MessageBox.Show("Successfully Updated! not null");
                         }
                     }
                     else
@@ -223,7 +224,7 @@ namespace Activator.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Message : Unknown Error- Updating Refs", ex.Message);
+                //MessageBox.Show("Message : Unknown Error- Updating Refs", ex.Message);
             }
             finally
             {

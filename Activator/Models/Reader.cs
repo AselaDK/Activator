@@ -23,6 +23,8 @@ namespace Activator.Models
         public string propic { get; set; }
         public BitmapImage rImage { get; set; }
 
+        //public RefPerson 
+
         public static List<Reader> GetReadersData()
         {
             string directoryPath = "Resources/Images/";
@@ -46,12 +48,15 @@ namespace Activator.Models
                         if (!File.Exists(directoryPath + reader.propic))
                         {
                             S3Bucket.DownloadFile(reader.propic, MyAWSConfigs.ReaderS3BucketName);
+                            Console.WriteLine("\n Not exists \n");
                         }
 
                         string exeDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
-                        Console.WriteLine(exeDirectory);
+
+                        Console.WriteLine("\n exeDirectory >>> " + exeDirectory);
 
                         Uri fileUri = new Uri(exeDirectory + directoryPath + reader.propic);
+                        Console.WriteLine("\n image url >>>>>>>>>>"+ exeDirectory + directoryPath + reader.propic);
 
                         reader.rImage = new BitmapImage(fileUri);
 
