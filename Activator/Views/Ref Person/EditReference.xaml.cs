@@ -1,41 +1,40 @@
-﻿using Activator.Models;
-using MahApps.Metro.Controls;
-using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Controls;
 using Amazon.DynamoDBv2.DocumentModel;
+using Microsoft.Win32;
 using Item = Amazon.DynamoDBv2.DocumentModel.Document;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
+using Activator.Models;
 using Amazon.DynamoDBv2;
 using System.IO;
-using System.Threading.Tasks;
-using Activator.Models;
 
-namespace Activator.Views.Reader
+namespace Activator.Views.Ref_Person
 {
     /// <summary>
-    /// Interaction logic for EditReader.xaml
+    /// Interaction logic for EditReference.xaml
     /// </summary>
-    public partial class EditReader : MetroWindow
+    public partial class EditReference : MetroWindow
     {
         private string uploadFilePath;
         private readonly AmazonDynamoDBClient client;
-        string readid;
+        private bool isPicChanged = false;
 
-        public EditReader(string id)
+        public EditReference()
         {
             InitializeComponent();
-            readid = txtId.Text;
-            InitData(id);
             try
             {
                 this.client = new AmazonDynamoDBClient();
@@ -52,89 +51,41 @@ namespace Activator.Views.Reader
             {
                 Mouse.OverrideCursor = null;
             }
-
         }
 
-        private void InitData(string id)
+        private void buttonClose_Click(object sender, RoutedEventArgs e)
         {
-            LoadData(id);
+            this.Close();
         }
-        protected void LoadData(string id)
+
+        private void buttonChooseImage_Click(object sender, RoutedEventArgs e)
         {
-            Mouse.OverrideCursor = Cursors.Wait;
-            try
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files | *.jpg; *.jpeg; *.png";
+            openFileDialog.FilterIndex = 1;
+            openFileDialog.Multiselect = false;
+
+            if (openFileDialog.ShowDialog() == true)
             {
-                List<RefPerson> refs = new List<RefPerson>();
-                List<String> selectedrefs = new List<String>();
-                List<String> tickedreaders = new List<String>();
+                uploadFilePath = openFileDialog.FileName;
 
-                //selectedrefs =
-                
-                var item = Dynamodb.GetItem(id , MyAWSConfigs.ReaderDBtableName);
-                Console.WriteLine("dsdddddddddddddddddddddddd" + item["description"]);
-                selectedrefs = item["refList"].AsListOfString();
-
-                foreach (var r in refs)
-                {
-                    r.isCheckedRef = false;
-                }
-
-                refs = RefPerson.GetAllRefPersons();
-
-                //Console.WriteLine();
-
-                for (int i = 0; i < selectedrefs.Count; i++)
-                {
-                    foreach (var j in refs)
-                    {
-                        if (j.id == selectedrefs[i])
-                        {
-                            tickedreaders.Add(j.id);
-                            j.isCheckedRef = true;
-                        }
-                    }
-                }
-
-                lblLoading.Visibility = Visibility.Hidden;
-
-                foreach (var j in refs)
-                {
-                    
-                    //tickedreaders.Add(j.id);
-                    Console.WriteLine("\n"+j.isCheckedRef);
-                    
-                }
-
-                RefDataGrid.ItemsSource = refs;
-                RefDataGrid.Items.Refresh();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
+                Uri fileUri = new Uri(uploadFilePath);
+                imgUploadImage.Source = new BitmapImage(fileUri);
             }
         }
 
-        private async void ButtonSubmit_Click(object sender, RoutedEventArgs e)
+        private async void buttonSubmit_Click(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show("this is submit button");
-            String name = txtName.Text;
-            //MessageBox.Show(name);
-
             try
             {
                 bool isNameEmpty = string.IsNullOrEmpty(txtName.Text);
-                bool isPhoneEmpty = string.IsNullOrEmpty(txtPhone.Text);
                 bool isDescriptionEmpty = string.IsNullOrEmpty(txtDescription.Text);
                 bool isFilePathEmpty = string.IsNullOrEmpty(uploadFilePath);
                 bool isFileIdEmpty = string.IsNullOrEmpty(txtId.Text);
 
-                if (!isNameEmpty && !isDescriptionEmpty && !isPhoneEmpty)
+                if (!isNameEmpty && !isDescriptionEmpty)
                 {
-                    string tableName = MyAWSConfigs.ReaderDBtableName;
+                    string tableName = MyAWSConfigs.RefPersonsDBTableName;
                     Table table = Table.LoadTable(client, tableName);
 
                     ProgressDialogController controller = await this.ShowProgressAsync("Please wait...", "");
@@ -143,14 +94,13 @@ namespace Activator.Views.Reader
 
 
                     string partitionKey = txtId.Text;
-                    Console.WriteLine("oooooooooooooooooooooooooooooooo" + partitionKey);
+                    Console.WriteLine("oooooooooooooooooooooooooooooooo"+partitionKey);
 
                     var item = new Document();
 
                     Document doc = new Document();
                     doc["id"] = partitionKey;
                     doc["name"] = txtName.Text;
-                    doc["phone"] = txtPhone.Text;
                     doc["description"] = txtDescription.Text;
                     ///////////////////////////////////////////////////       //#ToDo : Add readerList
                     //item["readerList"] = readerList;
@@ -188,6 +138,9 @@ namespace Activator.Views.Reader
                     Console.WriteLine("UpdateMultipleAttributes: Printing item after updates ...");
                     //MessageBox.Show("Successfully Updated!");
 
+                    controller.SetMessage("Creating face indexes");
+                    await Task.Run(() => Models.FaceCollection.AddFace(partitionKey, Models.MyAWSConfigs.FaceCollectionID));
+
                     await controller.CloseAsync();
 
                     await this.ShowMessageAsync("Success", "Person Updated !", MessageDialogStyle.Affirmative);
@@ -202,29 +155,12 @@ namespace Activator.Views.Reader
             {
                 await this.ShowMessageAsync("Error", "Task not completed", MessageDialogStyle.Affirmative);
             }
-
-
     }
 
-        private void ButtonChooseImage_Click(object sender, RoutedEventArgs e)
+        private void imgUploadImage_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image files | *.jpg; *.jpeg; *.png";
-            openFileDialog.FilterIndex = 1;
-            openFileDialog.Multiselect = false;
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                uploadFilePath = openFileDialog.FileName;
-
-                Uri fileUri = new Uri(uploadFilePath);
-                imgUploadImage.Source = new BitmapImage(fileUri);
-            }
-        }
-
-        private void buttonClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
+            isPicChanged = true;
+            Console.WriteLine("pic changed ______");
         }
 
         private static void DeleteOldPic(string filePath)

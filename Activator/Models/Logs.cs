@@ -1,5 +1,4 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
-using System.Windows.Media.Imaging;
 
 namespace Activator.Models
 {
@@ -16,8 +15,6 @@ namespace Activator.Models
         {
             get; set;
         }
-
-        
 
         public string Description
         {

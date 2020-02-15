@@ -1,12 +1,18 @@
 ﻿using Activator.Views.Reader;
 using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DocumentModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
+using Activator.Models;
 
 
 
@@ -21,7 +27,15 @@ namespace Activator.Views
         public ReadersPage()
         {
             InitializeComponent();
-            //LoadData();
+            try
+            {
+                this.client = new AmazonDynamoDBClient();
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine("Error: failed to create a DynamoDB client; " + ex.Message);
+            }
+            //InitData();
         }
 
         private void RegRaeder_Click(object sender, RoutedEventArgs e)
@@ -32,6 +46,11 @@ namespace Activator.Views
 
         private AmazonDynamoDBClient client;
         private readonly string aId = null;
+
+        private void InitData()
+        {
+            LoadData();
+        }
 
         protected void LoadData()
         {
@@ -71,7 +90,7 @@ namespace Activator.Views
             SelectedPeopleIdList = SelectedPeople[0].id;
             Console.WriteLine(SelectedPeopleIdList);
 
-
+           
             return SelectedPeopleIdList;
         }
 

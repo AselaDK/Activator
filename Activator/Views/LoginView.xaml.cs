@@ -1,5 +1,7 @@
 ﻿using Activator.Models;
+using Amazon.DynamoDBv2.DocumentModel;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -16,6 +18,7 @@ namespace Activator.Views
         public LoginView()
         {
             InitializeComponent();
+            Console.WriteLine(DateTime.Now.ToLongTimeString());
         }
 
         protected override void OnInitialized(EventArgs e)
@@ -39,34 +42,44 @@ namespace Activator.Views
 
         }
 
-        private void ButtonLogin_Click(object sender, RoutedEventArgs e)
-        {   
-            Mouse.OverrideCursor = Cursors.Wait;
+        private async void ButtonLogin_Click(object sender, RoutedEventArgs e)
+        {
+            progressBar.Visibility = Visibility.Visible;
+            ButtonLogin.IsEnabled = false;
 
             String aId = TxtUid.Text;
             String aPassword = TxtPassword.Password;
             String hashPassword = HashMD5.MD5Hash(aPassword);
-
+            
             try
             {
-                var item = Dynamodb.GetItem(aId, MyAWSConfigs.AdminDBTableName);
+                var item = await Task.Run(() => Dynamodb.GetItem(aId, MyAWSConfigs.AdminDBTableName));
 
                 if (item != null && item["aPassword"] == hashPassword)
                 {
                     notifyIcon.Visible = true;
-                    notifyIcon.ShowBalloonTip(2000, "New Login!", $"Welcome {item["aName"]}", System.Windows.Forms.ToolTipIcon.Info);
-
-                    Mouse.OverrideCursor = null;
+                    notifyIcon.ShowBalloonTip(2000, "Welcome", $"{item["aName"]}", System.Windows.Forms.ToolTipIcon.Info);
+                                        
                     this.Hide();
 
                     string adminName = item["aName"];
                     string adminId = item["aId"];
+                    string adminPropic = item["aPropic"];
                     bool status = true;
 
-                    Session session = new Session(status, adminId);
+                    Session.id = adminId;
+                    //session.MyStatus = status;
 
-                    MainView dashboard = new MainView(adminId, adminName);
-                    dashboard.ShowDialog();
+                    string srnd = Session.id + DateTime.Now.ToString();
+                    Models.ActivityLogs activityLogs = new Models.ActivityLogs();
+                    activityLogs.Activity(srnd, Session.id, "Logged in", DateTime.Now.ToString());
+                    Console.WriteLine("activivty id >>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,,," + srnd);
+                    Console.WriteLine("activivty id >>>,,," + Session.id);
+                    Console.WriteLine("activivty id >>>,,," + DateTime.Now.ToString());
+
+                    MainView mainView = new MainView(adminId, adminName, adminPropic);
+                    mainView.ShowDialog();
+                    
                 }
                 else
                 {
@@ -88,7 +101,8 @@ namespace Activator.Views
             }
             finally
             {
-                Mouse.OverrideCursor = null;
+                progressBar.Visibility = Visibility.Hidden;
+                ButtonLogin.IsEnabled = true;
             }
         }
 

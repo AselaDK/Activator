@@ -3,58 +3,94 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Activator.Views"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
-      Height="1080" Width="1400">
+             
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="18"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             d:DesignHeight="1080" d:DesignWidth="1920">
 
-    <StackPanel Orientation="Horizontal">
-        <StackPanel Background="AliceBlue" Width="800">
-            <Grid Height="50" Background="White">
-                <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon x:Name="liveIcon" Kind="Circle" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="Red"/>
-                    <Label Content="LIVE" FontWeight="Bold" VerticalAlignment="Center" FontSize="24"></Label>
-                </StackPanel>
+    <Grid Grid.Row="3" HorizontalAlignment="Stretch" Background="WhiteSmoke">
+            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="18*" />
+            <ColumnDefinition Width="0.1*"/>
+            <ColumnDefinition Width="10*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="4*" />
+                <RowDefinition Height="0.4*" />
+                <RowDefinition Height="50*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" HorizontalAlignment="Stretch" Orientation="Horizontal">
+                <materialDesign:PackIcon x:Name="liveIcon" Kind="Circle" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="Red"/>
+                <Label Content="LIVE" FontWeight="Bold" VerticalAlignment="Center" FontSize="24"/>
+            </StackPanel>
+
+            <Grid Grid.Row="1" HorizontalAlignment="Stretch" Background="WhiteSmoke"/>
+
+            <Grid Grid.Row="2" HorizontalAlignment="Stretch">
+                <ProgressBar x:Name="progressBar" Style="{DynamicResource MaterialDesignLinearProgressBar}" 
+                             IsIndeterminate="True" Visibility="Hidden"/>
             </Grid>
-            <Grid Height="50" Background="White" Margin="5">
-                <StackPanel Orientation="Horizontal" Height="50" Background="AliceBlue">
-                    <!--<Button x:Name="btnStart" Content="START" Width="75" Height="40" Margin="5,0,0,0" Click="BtnStart_Click"/>-->
-                    <!--<Button x:Name="btnStop" Content="STOP" Width="75" Height="30" Margin="5,0,0,0" Click="BtnStop_Click"/>-->
-                    <!--<Button x:Name="btnDetails" Content="DETAILS" Width="75" Height="30" Margin="5,0,0,0" Click="BtnDetails_Click"/>
-                <Button x:Name="btnCreate" Content="CREATE" Width="75" Height="30" Margin="5,0,0,0" Click="BtnCreate_Click"/>
-                <Button x:Name="btnList" Content="LIST" Width="75" Height="30" Margin="5,0,0,0" Click="BtnList_Click"/>
-                <Button x:Name="btnDelete" Content="DELETE" Width="75" Height="30" Margin="5,0,0,0" Click="BtnDelete_Click"/>-->
-                </StackPanel>
-            </Grid>
-            <Grid Height="980">
-                <DataGrid x:Name="dataGridDetectedPersons" AutoGenerateColumns="False" CanUserAddRows="False" materialDesign:ScrollBarAssist.ButtonsVisibility="Visible" ScrollBar.Scroll="DataGridDetectedPersons_Scroll" HorizontalAlignment="Left">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Image Source="{Binding image}" Width="100" Height="100" Stretch="Uniform"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn Width="2*" Header="Name" Binding="{Binding name}" IsReadOnly="True" />
-                        <DataGridTextColumn Width="4*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
-                        <DataGridTextColumn Width="4*" Header="Detected Camera" Binding="{Binding camera}" IsReadOnly="True" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Grid>
-        </StackPanel>
-        <StackPanel Orientation="Vertical" Width="600" Background="AliceBlue">
-            <Grid Height="100"/>
-            <Grid Width="670">
-                <ListView x:Name="notificationListView">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="670" Header="NOTIFICATIONS" DisplayMemberBinding="{Binding Message}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </Grid>
-        </StackPanel>
-    </StackPanel>  
-    
+                
+            <DataGrid Grid.Row="3" x:Name="dataGridDetectedPersons"
+                HorizontalAlignment="Stretch"                       
+                ScrollViewer.CanContentScroll="False" 
+                ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"                     
+                AutoGenerateColumns="False" CanUserAddRows="False"
+                SelectionMode="Extended"
+                SelectionUnit="FullRow" Grid.ColumnSpan="2">
+
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridRow">
+                        <EventSetter Event="MouseDoubleClick" Handler="dataGridDetectedPersons_Row_DoubleClick"/>
+                    </Style>
+                </DataGrid.Resources>
+
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Setter Property="Margin" Value="13,0,8,0"/>
+                        <Setter Property="Height" Value="75"/>
+                    </Style>
+                </DataGrid.CellStyle>
+                
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn  Width="100" Header="" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding image}" Width="60" Height="60" Stretch="Uniform"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="" Binding="{Binding id}" IsReadOnly="True" MaxWidth="0"/>
+                    <DataGridTextColumn Width="2*" Header="Name" Binding="{Binding name}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="2*" Header="Detected Camera" Binding="{Binding camera}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="2*" Header="Detected Location" Binding="{Binding lastLocation}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="6*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
+                </DataGrid.Columns>
+                
+            </DataGrid>
+        </Grid>
+
+        <Grid Grid.Column="1" Background="White"/>
+
+        <ItemsControl Grid.Column="2" VerticalAlignment="Stretch" x:Name="notificationListView" 
+                      Background="WhiteSmoke">
+        </ItemsControl>
+    </Grid>            
+
 </UserControl>

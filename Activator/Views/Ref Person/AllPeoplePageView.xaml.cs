@@ -1,8 +1,14 @@
-﻿using System;
+﻿using Activator.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Activator.Views.Ref_Person;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Activator.Views
 {
@@ -11,12 +17,16 @@ namespace Activator.Views
     /// </summary>
     public partial class AllPeoplePageView : UserControl
     {
-        List<Models.RefPerson> refPersons = new List<Models.RefPerson>();
-
-        public AllPeoplePageView()
+        private MainView mv;
+        private DetectedPerson dp;
+        public AllPeoplePageView(MainView mv)
         {
             InitializeComponent();
-            InitData();
+
+            DeleteButton.IsEnabled = false;
+            
+            this.mv = mv;
+            dp = new DetectedPerson();
         }
 
         private void BtnAddNewRef_Click(object sender, RoutedEventArgs e)
@@ -25,58 +35,128 @@ namespace Activator.Views
             addNewRef.Show();
         }
 
-        private void InitData()
+        public async Task LoadPersonsData()
         {
-            LoadPersonsData();
-        }
-
-        private void LoadPersonsData()
-        {
-            refPersons.Clear();
-
-            Mouse.OverrideCursor = Cursors.Wait;
+            progressBar.Visibility = Visibility.Visible;
+            BtnRefresh.IsEnabled = false;
             try
-            {               
-                refPersons = Models.RefPerson.GetAllRefPersons();
+            {
+                IEnumerable<Models.RefPerson> tempPersons = await Task.Run(() => Models.RefPerson.GetAllRefPersons());
+                IEnumerable<Models.Camera> tempCameras = await Task.Run(() => Models.Camera.GetAllCamers());
+                
+                List<Models.RefPerson> persons = new List<Models.RefPerson>(tempPersons);
+                List<Models.Camera> cameras= new List<Models.Camera>(tempCameras);
 
-                //lblLoading.Visibility = Visibility.Hidden;
+                string directoryPath = "Resources/Images/";
 
-                dataGridAllRefPersons.ItemsSource = refPersons;
+                foreach (Models.RefPerson person in persons)
+                {
+                    if (!File.Exists(directoryPath + person.id))
+                    {
+                        await Task.Run(() => Models.S3Bucket.DownloadFile(person.id, Models.MyAWSConfigs.RefImagesBucketName));
+                    }
+
+                    string exeDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
+
+                    Uri fileUri = new Uri(exeDirectory + directoryPath + person.id);
+
+                    person.image = new BitmapImage(fileUri);
+
+                    if (string.IsNullOrEmpty(person.camera))
+                        person.lastLocation = "Unknown";
+                    else
+                        person.lastLocation = cameras.Find(c => c.id == person.camera).location;
+                }
+                
+                dataGridAllRefPersons.ItemsSource = persons;
                 dataGridAllRefPersons.Items.Refresh();
             }
             finally
             {
-                Mouse.OverrideCursor = null;
+                progressBar.Visibility = Visibility.Hidden;
+                BtnRefresh.IsEnabled = true;
             }
         }
 
-        private void GetCheckedList()
+        private void dataGridRefPersons_Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            List<Models.RefPerson> selectedList = new List<Models.RefPerson>();
+            DataGridRow row = sender as DataGridRow;
+            TextBlock id = dataGridAllRefPersons.Columns[1].GetCellContent(row) as TextBlock;
+            TextBlock name = dataGridAllRefPersons.Columns[2].GetCellContent(row) as TextBlock;
+            TextBlock description = dataGridAllRefPersons.Columns[5].GetCellContent(row) as TextBlock;
+            ImageSource imageSource = (VisualTreeHelper.GetChild(dataGridAllRefPersons.Columns[0].GetCellContent(row), 0) as Image).Source;
 
-            foreach (Models.RefPerson person in dataGridAllRefPersons.ItemsSource)
-            {
-                CheckBox cb = SelectionColumn.GetCellContent(person) as CheckBox;
-                if (cb != null && cb.IsChecked == true)
-                {
-                    selectedList.Add(person);
-                }
-            }           
+            mv.MenuPage.Content = dp;
+            dp.LoadPerson(id.Text, name.Text, description.Text, imageSource, mv, this, "ref");
+        }
 
-            foreach (Models.RefPerson person in selectedList)
+        //private void GetCheckedList()
+        //{
+        //    List<Models.RefPerson> selectedList = new List<Models.RefPerson>();
+
+        //    foreach (Models.RefPerson person in dataGridAllRefPersons.ItemsSource)
+        //    {
+        //        CheckBox cb = SelectionColumn.GetCellContent(person) as CheckBox;
+        //        if (cb != null && cb.IsChecked == true)
+        //        {
+        //            selectedList.Add(person);
+        //        }
+        //    }
+
+        //    foreach (Models.RefPerson person in selectedList)
+        //    {
+        //        Console.WriteLine(person.name);
+        //    }
+        //}
+
+        private void BtnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            LoadPersonsData().ConfigureAwait(false);
+        }
+
+        public List<String> GetCheckedRefPeople()
+        {
+            List<RefPerson> SelectedPeople = new List<RefPerson>();
+            List<String> SelectedPeopleIdList = new List<String>();
+
+            for (int i = 0; i < dataGridAllRefPersons.SelectedItems.Count; i++)
             {
-                Console.WriteLine(person.name);
+                SelectedPeople.Add((RefPerson)dataGridAllRefPersons.SelectedItems[i]);
+                SelectedPeopleIdList.Add(SelectedPeople[i].id);
+                Console.WriteLine(SelectedPeopleIdList[i]);
             }
+            return SelectedPeopleIdList;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            LoadPersonsData();
+            List<String> selectedList = GetCheckedRefPeople();
+            ConfirmDeleteRef confirmDeleteRef = new ConfirmDeleteRef(selectedList);
+            confirmDeleteRef.ShowDialog();
         }
 
-        private void GetSelectedButton_Click(object sender, RoutedEventArgs e)
+        private void dataGridAllRefPersons_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            GetCheckedList();
+            List<String> selectedList = GetCheckedRefPeople();
+            if (selectedList.Count != 0)
+            {
+                DeleteButton.IsEnabled = true;
+            }
+            else
+            {
+                DeleteButton.IsEnabled = false;
+            }
+            
+            
+        }
+
+        private void RefPersonEdit()
+        {
+                //CellValue is a variable of type string.
+                EditReference editReader = new EditReference();
+                editReader.DataContext = dataGridAllRefPersons.SelectedItem;
+                editReader.ShowDialog();
+
         }
     }
 }
