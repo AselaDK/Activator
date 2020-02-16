@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Activator.Views.Ref_Person;
+
 
 namespace Activator.Views
 {
@@ -94,6 +96,21 @@ namespace Activator.Views
                     break;
             }
             
+        }
+
+        private void BtnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            mv.MenuPage.Content = parent as AllPeoplePageView;
+            mv.lblTitle.Content = "ALL PEOPLE";
+            (parent as AllPeoplePageView).RefPersonEdit();
+
+        }
+
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            mv.MenuPage.Content = parent as AllPeoplePageView;
+            mv.lblTitle.Content = "ALL PEOPLE";
+            (parent as AllPeoplePageView).DeleteRef();
         }
     }
 }

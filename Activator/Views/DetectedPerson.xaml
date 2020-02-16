@@ -33,6 +33,12 @@
                 <Button x:Name="BtnBack" Margin="20,0,0,0" Click="BtnBack_Click" Style="{DynamicResource MaterialDesignToolButton}" Foreground="{DynamicResource MaterialDesignBody}">
                     <materialDesign:PackIcon Kind="ArrowBack" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
                 </Button>
+                <Button x:Name="BtnEdit" Margin="20,0,0,0" Click="BtnEdit_Click" Style="{DynamicResource MaterialDesignToolButton}" Foreground="{DynamicResource MaterialDesignBody}">
+                    <materialDesign:PackIcon Kind="Edit" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
+                </Button>
+                <Button x:Name="BtnDelete" Margin="20,0,0,0" Click="BtnDelete_Click" Style="{DynamicResource MaterialDesignToolButton}" Foreground="{DynamicResource MaterialDesignBody}">
+                    <materialDesign:PackIcon Kind="Delete" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
+                </Button>
             </StackPanel>            
         </Grid>
 
