@@ -1,4 +1,5 @@
 ﻿using Activator.Models;
+using Activator.Views.Admin;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,13 +17,18 @@ namespace Activator.Views
     {
 
         private string aId;
+        private MainView mv;
+        private AdminActivityLog al;
 
-        public AdminsPage(string aid)
+        public AdminsPage(string aid, MainView mv)
         {
             aId = aid;
             Console.WriteLine(">>>>>>>>>><<<<<<<<<<<<<,,,,,,,,,Constructor " + aid);
             InitializeComponent();
             aId = getId(aid);
+
+            this.mv = mv;
+            al = new AdminActivityLog();
         }
 
         public async Task LoadData()
@@ -97,6 +103,27 @@ namespace Activator.Views
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             LoadData().ConfigureAwait(false);
+        }
+
+        private void AdminDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            List<Models.Admin> SelectedPeople = new List<Models.Admin>();
+            String SelectedPeopleIdList;
+
+            SelectedPeople.Add((Models.Admin)AdminDataGrid.SelectedItems[0]);
+            SelectedPeopleIdList = SelectedPeople[0].aId;
+            Console.WriteLine(SelectedPeopleIdList);
+
+            if (SelectedPeopleIdList != null)
+            {
+                mv.MenuPage.Content = al;
+                al.LoadActivityLogs(SelectedPeopleIdList);
+            }
+            else
+            {
+                //DeleteButton.IsEnabled = false;
+                MessageBox.Show("id is null");
+            }
         }
     }
 }

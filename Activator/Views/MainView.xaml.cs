@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Item = Amazon.DynamoDBv2.DocumentModel.Document;
+
 
 namespace Activator.Views
 {
@@ -75,7 +77,7 @@ namespace Activator.Views
             allPeoplePageView = new AllPeoplePageView(this);
             readers = new ReadersPage();
             cameraView = new CameraView(this);
-            admins = new AdminsPage(adminId);
+            admins = new AdminsPage(adminId, this);
             adminProfile = new AdminProfile(adminId);
         }
 
@@ -135,9 +137,19 @@ namespace Activator.Views
 
         private void ButtonMenuAdmins_Click(object sender, RoutedEventArgs e)
         {
-            MenuPage.Content = admins;
-            lblTitle.Content = "ADMINS";
-            admins.LoadData().ConfigureAwait(false);
+            Item item = Models.Dynamodb.GetItem(adminId, Models.MyAWSConfigs.AdminDBTableName);
+            if( item["root"].AsBoolean() == true)
+            {
+                MenuPage.Content = admins;
+                lblTitle.Content = "ADMINS";
+                admins.LoadData().ConfigureAwait(false);
+            }
+            else
+            {
+
+                MessageBox.Show("Only the Root-Admin can Access the this section");
+            }
+            
         }
 
         private void ProfileButton_Click(object sender, RoutedEventArgs e)
@@ -154,6 +166,7 @@ namespace Activator.Views
             ActivityLogs activityLogs = new ActivityLogs();
             MenuPage.Content = activityLogs;
             lblTitle.Content = "ACTIVITY LOGS";
+            //activityLogs.LoadActivityLogs(adminId);
         }
 
         private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)

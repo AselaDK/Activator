@@ -14,9 +14,10 @@ namespace Activator.Views
         {
             InitializeComponent();
             LoadActivityLogsData();
+            
         }
 
-        private void LoadActivityLogsData()
+        public void LoadActivityLogsData()
         {
             Mouse.OverrideCursor = Cursors.Wait;
             try
@@ -33,13 +34,23 @@ namespace Activator.Views
                 Mouse.OverrideCursor = null;
             }
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
+        public void Button_Click(object sender, RoutedEventArgs e)
         {
             LoadActivityLogsData();
         }
         private void dataGridActivityLogs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void BtnBack_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            LoadActivityLogsData();
         }
     }
 }

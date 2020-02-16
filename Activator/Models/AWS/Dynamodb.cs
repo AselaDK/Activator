@@ -219,13 +219,24 @@ namespace Activator.Models
             {
                 Console.WriteLine("Error: " + e);
             }
+        }
 
+        public static List<ActivityLogs> GetActivitiesOfAdmin(String value, String tableName, String columnName)
+        {
+            AmazonDynamoDBClient client;
+            client = new AmazonDynamoDBClient();
+            DynamoDBContext context = new DynamoDBContext(client);
 
+            IEnumerable<ActivityLogs> activityList = context.Scan<ActivityLogs>(
+                new ScanCondition(columnName, ScanOperator.Equal, value)
+                );
 
+            Console.WriteLine("\nFindProductsPricedLessThanZero: Printing result.....");
+            foreach (ActivityLogs a in activityList)
+                Console.WriteLine("{0}\t{1}\t{2}", a.activityid, a.description, a.timestamp);
 
-
-
-
+            var alList = activityList.Cast<ActivityLogs>().ToList();
+            return alList;
         }
     }
 }
