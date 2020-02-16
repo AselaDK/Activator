@@ -1,24 +1,17 @@
 ﻿using Activator.Models;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DocumentModel;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using MahApps.Metro.Controls.Dialogs;
-using Amazon.DynamoDBv2.DocumentModel;
-using Item = Amazon.DynamoDBv2.DocumentModel.Document;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
-using Amazon.DynamoDBv2;
-using System.IO;
-using System.Threading.Tasks;
-using Activator.Models;
 
 namespace Activator.Views.Reader
 {
@@ -35,8 +28,8 @@ namespace Activator.Views.Reader
         {
             InitializeComponent();
             readid = txtId.Text;
+            // avoid deadlocks
             LoadData(id).ConfigureAwait(false);
-
             try
             {
                 this.client = new AmazonDynamoDBClient();
@@ -61,21 +54,25 @@ namespace Activator.Views.Reader
             progressBar.Visibility = Visibility.Visible;
             try
             {
-                IEnumerable<RefPerson> temp = await Task.Run(() => RefPerson.GetAllRefPersons());
+                IEnumerable<RefPerson> temp = await Task.Run(()=> RefPerson.GetAllRefPersons());
                 List<RefPerson> refs = new List<RefPerson>(temp);
                 List<String> selectedrefs = new List<String>();
                 List<String> tickedreaders = new List<String>();
 
                 //selectedrefs =
-                
-                var item = Dynamodb.GetItem(id , MyAWSConfigs.ReaderDBtableName);
+
+                var item = Dynamodb.GetItem(id, MyAWSConfigs.ReaderDBtableName);
                 Console.WriteLine("dsdddddddddddddddddddddddd" + item["description"]);
                 selectedrefs = item["refList"].AsListOfString();
 
                 foreach (var r in refs)
                 {
                     r.isCheckedRef = false;
-                }               
+                }
+
+                
+
+                //Console.WriteLine();
 
                 for (int i = 0; i < selectedrefs.Count; i++)
                 {
@@ -89,14 +86,14 @@ namespace Activator.Views.Reader
                     }
                 }
 
-                lblLoading.Visibility = Visibility.Hidden;
+                
 
                 foreach (var j in refs)
                 {
-                    
+
                     //tickedreaders.Add(j.id);
-                    Console.WriteLine("\n"+j.isCheckedRef);
-                    
+                    Console.WriteLine("\n" + j.isCheckedRef);
+
                 }
 
                 RefDataGrid.ItemsSource = refs;
@@ -198,7 +195,7 @@ namespace Activator.Views.Reader
             }
 
 
-    }
+        }
 
         private void ButtonChooseImage_Click(object sender, RoutedEventArgs e)
         {

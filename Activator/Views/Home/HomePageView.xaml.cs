@@ -35,21 +35,6 @@ namespace Activator.Views
 
             ReadHistoryStream().ConfigureAwait(false);
             ReadRefPersonStream().ConfigureAwait(false);
-
-            AddNewNotification("Tharinu has been ddetetctd by cam 1 at kotuwa", "haha.jpeg").Wait();
-            AddNewNotification("Tharinu has been ddetetctd by cam 1 at kotuwa", "haha.jpeg").Wait();
-            AddNewNotification("Asela has been ddetetctd by cam 2 at homagama", "asela.jpg").Wait();
-            AddNewNotification("Tharinu has been ddetetctd by cam 1 at kotuwa", "haha.jpeg").Wait();
-            AddNewNotification("Tharinu has been ddetetctd by cam 1 at kotuwa", "haha.jpeg").Wait();
-            AddNewNotification("Asela has been ddetetctd by cam 2 at homagama", "asela.jpg").Wait();
-            AddNewNotification("Asela has been ddetetctd by cam 2 at homagama", "asela.jpg").Wait();
-            AddNewNotification("Tharinu has been ddetetctd by cam 1 at kotuwa", "haha.jpeg").Wait();
-            AddNewNotification("Tharinu has been ddetetctd by cam 1 at kotuwa", "haha.jpeg").Wait();
-            AddNewNotification("Asela has been ddetetctd by cam 2 at homagama", "asela.jpg").Wait();
-            AddNewNotification("Tharinu has been ddetetctd by cam 1 at kotuwa", "haha.jpeg").Wait();
-            AddNewNotification("Tharinu has been ddetetctd by cam 1 at kotuwa", "haha.jpeg").Wait();
-            AddNewNotification("Asela has been ddetetctd by cam 2 at homagama", "asela.jpg").Wait();
-            AddNewNotification("Asela has been ddetetctd by cam 2 at homagama", "asela.jpg").Wait();
         }
 
         protected override void OnInitialized(EventArgs e)

@@ -53,14 +53,10 @@
                       AutoGenerateColumns="False" CanUserAddRows="False"
                       SelectionMode="Extended"
                       SelectionUnit="FullRow" Grid.ColumnSpan="2"
+                      SelectionChanged="dataGridAllRefPersons_SelectionChanged"
+                      MouseDoubleClick="dataGridAllRefPersons_MouseDoubleClick"
                         >
 
-            <DataGrid.Resources>
-                <Style TargetType="DataGridRow">
-                    <EventSetter Event="MouseDoubleClick" Handler="dataGridRefPersons_Row_DoubleClick"/>
-                </Style>
-            </DataGrid.Resources>
-            
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
                     <Setter Property="Background" Value="Transparent"/>

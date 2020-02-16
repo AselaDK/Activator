@@ -31,6 +31,7 @@ namespace Activator.Views
             LoadData();
         }
 
+     
         public async Task LoadData()
         {
             progressBar.Visibility = Visibility.Visible;
@@ -219,7 +220,7 @@ namespace Activator.Views
             }
             finally
             {
-                Mouse.OverrideCursor = null;
+                
             }
         }
 

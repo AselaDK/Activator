@@ -36,7 +36,6 @@
 
             </DataGrid.Columns>
         </DataGrid>
-        <Label x:Name="lblLoading" Content="Loading..." VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Margin="689,78,10,81" Height="463" RenderTransformOrigin="0.5,0.5" Width="475"/>
         <Label Content="Select References" HorizontalAlignment="Left" Margin="689,0,0,583" FontSize="18" FontWeight="SemiBold" Width="446"></Label>
         <Label Content="Use Ctrl+click to select multiply" HorizontalAlignment="Left" Margin="689,44,0,549" FontSize="12" FontWeight="DemiBold" Width="446"></Label>
         <Button Background="BlueViolet" x:Name="buttonSubmit" Content="Submit" HorizontalAlignment="Left" Margin="1048,563,0,0" VerticalAlignment="Top" Width="116" Click="ButtonSubmit_Click" Height="35"/>
