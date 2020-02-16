@@ -53,11 +53,17 @@
                       AutoGenerateColumns="False" CanUserAddRows="False"
                       SelectionMode="Extended"
                       SelectionUnit="FullRow" Grid.ColumnSpan="2"
+                      Background="WhiteSmoke"
                       SelectionChanged="dataGridAllRefPersons_SelectionChanged"
                         >
 
             <DataGrid.Resources>
                 <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <Trigger Property="DataGridRow.IsSelected" Value="True">
+                            <Setter Property="Background" Value="MediumSeaGreen" />
+                        </Trigger>
+                    </Style.Triggers>
                     <EventSetter Event="MouseDoubleClick" Handler="dataGridRefPersons_Row_DoubleClick"/>
                 </Style>
             </DataGrid.Resources>
@@ -80,12 +86,10 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Name" Binding="{Binding id}" IsReadOnly="True" MaxWidth="0"/>
-                <DataGridTextColumn Width="2*" Header="Name" Binding="{Binding name}" IsReadOnly="True"/>
-                <DataGridTextColumn Width="1*" Header="Last Detected Camera" Binding="{Binding camera}" IsReadOnly="True"/>
-                <DataGridTextColumn Width="2*" Header="Last Detected Location" Binding="{Binding lastLocation}" IsReadOnly="True"/>
-                <DataGridTextColumn Width="4*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
-                <DataGridCheckBoxColumn x:Name="SelectionColumn" Header="" Width="60" IsReadOnly="False" Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected, Mode=TwoWay}" ElementStyle="{DynamicResource MaterialDesignCheckBox}"/>
-
+                <DataGridTextColumn Width="6*" Header="Name" Binding="{Binding name}" IsReadOnly="True"/>
+                <DataGridTextColumn Width="4*" Header="Last Detected Camera" Binding="{Binding camera}" IsReadOnly="True"/>
+                <DataGridTextColumn Width="6*" Header="Last Detected Location" Binding="{Binding lastLocation}" IsReadOnly="True"/>
+                <DataGridTextColumn Width="11*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
             </DataGrid.Columns>
 
         </DataGrid>

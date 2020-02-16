@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using System.Collections.Generic;
-using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Activator.Views
 {
@@ -18,9 +18,45 @@ namespace Activator.Views
     {
         private string uploadFilePath;
 
-        private void ButtonCloseAddNewRef_Click(object sender, RoutedEventArgs e)
+        bool isNew;
+        string id, name, description;
+        ImageSource imageSource;
+
+        DetectedPerson detectedPerson;
+        AllPeoplePageView allPeoplePageView;
+
+        public AddNewRef(string id, string name, string description, ImageSource imageSource, DetectedPerson detectedPerson, AllPeoplePageView allPeoplePageView, bool isNew)
         {
-            this.Close();
+            InitializeComponent();
+
+            this.isNew = isNew;
+
+            if (!isNew)
+            {
+                lblTitle.Content = "UPDATE PERSON";
+                buttonSubmit.Content = "UPDATE";
+
+                this.detectedPerson = detectedPerson;
+
+                this.id = id;
+                this.name = name;
+                this.description = description;
+                this.imageSource = imageSource;                
+
+                txtId.Text = id.Split('.')[0];
+                txtId.IsEnabled = false;
+
+                txtName.Text = name;
+                txtDescription.Text = description;
+                imgUploadImage.Source = imageSource;
+            }
+            else
+            {
+                this.allPeoplePageView = allPeoplePageView;
+                lblTitle.Content = "NEW PERSON";
+                buttonSubmit.Content = "SUBMIT";
+            }
+               
         }
 
         private async void ButtonSubmit_Click(object sender, RoutedEventArgs e)
@@ -32,57 +68,96 @@ namespace Activator.Views
                 bool isFilePathEmpty = string.IsNullOrEmpty(uploadFilePath);
                 bool isFileIdEmpty = string.IsNullOrEmpty(txtId.Text);
 
-                if (!isNameEmpty && !isDescriptionEmpty && !isFilePathEmpty && !isFileIdEmpty && !txtId.Text.Contains(" "))
+                if (isNew)
                 {
-                    ProgressDialogController controller = await this.ShowProgressAsync("Please wait...", "");
-                    controller.SetIndeterminate();
-                    controller.SetCancelable(false);
+                    if (!isNameEmpty && !isDescriptionEmpty && !isFilePathEmpty && !isFileIdEmpty && !txtId.Text.Contains(" "))
+                    {
+                        ProgressDialogController controller = await this.ShowProgressAsync("Please wait...", "");
+                        controller.SetIndeterminate();
+                        controller.SetCancelable(false);
 
-                    string[] temp = uploadFilePath.Split('.');
-                    string fileId = $"{txtId.Text}.{temp[temp.Length - 1]}";
+                        string[] temp = uploadFilePath.Split('.');
+                        string fileId = $"{txtId.Text}.{temp[temp.Length - 1]}";
 
-                    var item = new Document();
-                    List<string> readerList = new List<string>() { "a" };
+                        var item = new Document();
+                        List<string> readerList = new List<string>() { "a" };
 
-                    item["id"] = fileId;
-                    item["name"] = txtName.Text;
-                    item["description"] = txtDescription.Text;
-                    item["status"] = 0;
-                    item["readerList"] = readerList;
+                        item["id"] = fileId;
+                        item["name"] = txtName.Text;
+                        item["description"] = txtDescription.Text;
+                        item["status"] = 0;
+                        item["readerList"] = readerList;
 
-                    controller.SetMessage("Uploading file");
-                    await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId, Models.MyAWSConfigs.RefImagesBucketName));
+                        Console.WriteLine("done here");
 
-                    controller.SetMessage("Adding database record");
-                    await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.RefPersonsDBTableName));
+                        controller.SetMessage("Uploading file");
+                        await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId, Models.MyAWSConfigs.RefImagesBucketName));
 
-                    controller.SetMessage("Creating face indexes");
-                    await Task.Run(() => Models.FaceCollection.AddFace(fileId, Models.MyAWSConfigs.FaceCollectionID));
+                        controller.SetMessage("Adding database record");
+                        await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.RefPersonsDBTableName));
 
-                    await controller.CloseAsync();
+                        controller.SetMessage("Creating face indexes");
+                        await Task.Run(() => Models.FaceCollection.AddFace(fileId, Models.MyAWSConfigs.FaceCollectionID));
 
-                    await this.ShowMessageAsync("Success", "New Person added", MessageDialogStyle.Affirmative);
+                        await controller.CloseAsync();
 
-                    txtName.Text = "";
-                    txtDescription.Text = "";
-                    txtId.Text = "";
-                    imgUploadImage.Source = null;
-                    
+                        txtName.Text = "";
+                        txtDescription.Text = "";
+                        txtId.Text = "";
+                        imgUploadImage.Source = null;
+
+                        this.allPeoplePageView.LoadPersonsData().ConfigureAwait(false); 
+
+                        await this.ShowMessageAsync("Success", "New Person added", MessageDialogStyle.Affirmative);
+
+                        this.Close();
+
+                    }
+                    else
+                    {
+                        await this.ShowMessageAsync("Error", "Please check all fields", MessageDialogStyle.Affirmative);
+                    }
                 }
                 else
                 {
-                    await this.ShowMessageAsync("Error", "Please check all fields", MessageDialogStyle.Affirmative);
+                    if (!isNameEmpty && !isDescriptionEmpty)
+                    {
+                        ProgressDialogController controller = await this.ShowProgressAsync("Please wait...", "");
+                        controller.SetIndeterminate();
+                        controller.SetCancelable(false);
+
+                        var item = new Document();
+
+                        item["id"] = this.id;
+                        item["name"] = txtName.Text;
+                        item["description"] = txtDescription.Text;
+
+                        controller.SetMessage("Adding database record");
+                        await Task.Run(() => Models.Dynamodb.UpdateItem(item, Models.MyAWSConfigs.RefPersonsDBTableName));
+
+                        await controller.CloseAsync();
+
+                        txtName.Text = "";
+                        txtDescription.Text = "";
+                        txtId.Text = "";
+                        imgUploadImage.Source = null;
+
+                        detectedPerson.BackToRef();
+
+                        await this.ShowMessageAsync("Success", "Person Updated", MessageDialogStyle.Affirmative);
+
+                        this.Close();
+                    }
+                    else
+                    {
+                        await this.ShowMessageAsync("Error", "Please check all fields", MessageDialogStyle.Affirmative);
+                    } 
                 }
             }
             catch
             {
                 await this.ShowMessageAsync("Error", "Task not completed", MessageDialogStyle.Affirmative);
             }
-        }
-
-        public AddNewRef()
-        {
-            InitializeComponent();         
         }
 
         private void ButtonChooseImage_Click(object sender, RoutedEventArgs e)

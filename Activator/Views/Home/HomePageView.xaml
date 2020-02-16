@@ -15,7 +15,7 @@
              TextOptions.TextRenderingMode="Auto"
              d:DesignHeight="1080" d:DesignWidth="1920">
 
-    <Grid Grid.Row="3" HorizontalAlignment="Stretch" Background="WhiteSmoke">
+    <Grid HorizontalAlignment="Stretch" Background="WhiteSmoke">
             
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="18*" />
@@ -24,27 +24,26 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
-            
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="3*" />
                 <RowDefinition Height="4*" />
                 <RowDefinition Height="0.4*" />
                 <RowDefinition Height="50*" />
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" HorizontalAlignment="Stretch" Orientation="Horizontal">
-                <materialDesign:PackIcon x:Name="liveIcon" Kind="Circle" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="Red"/>
-                <Label Content="LIVE" FontWeight="Bold" VerticalAlignment="Center" FontSize="24"/>
-            </StackPanel>
+            <Grid Grid.Row="0" HorizontalAlignment="Stretch" Background="WhiteSmoke">
+                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                    <materialDesign:PackIcon x:Name="liveIcon" Kind="Circle" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="Red"/>
+                    <Label Content="LIVE" FontWeight="Bold" VerticalAlignment="Center" FontSize="24"/>
+                </StackPanel>
+            </Grid>
 
-            <Grid Grid.Row="1" HorizontalAlignment="Stretch" Background="WhiteSmoke"/>
-
-            <Grid Grid.Row="2" HorizontalAlignment="Stretch">
+            <Grid Grid.Row="1" HorizontalAlignment="Stretch">
                 <ProgressBar x:Name="progressBar" Style="{DynamicResource MaterialDesignLinearProgressBar}" 
                              IsIndeterminate="True" Visibility="Hidden"/>
             </Grid>
                 
-            <DataGrid Grid.Row="3" x:Name="dataGridDetectedPersons"
+            <DataGrid Grid.Row="2" x:Name="dataGridDetectedPersons"
                 HorizontalAlignment="Stretch"                       
                 ScrollViewer.CanContentScroll="False" 
                 ScrollViewer.VerticalScrollBarVisibility="Auto" 
@@ -55,6 +54,11 @@
 
                 <DataGrid.Resources>
                     <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <Trigger Property="DataGridRow.IsSelected" Value="True">
+                                <Setter Property="Background" Value="MediumSeaGreen" />
+                            </Trigger>
+                        </Style.Triggers>
                         <EventSetter Event="MouseDoubleClick" Handler="dataGridDetectedPersons_Row_DoubleClick"/>
                     </Style>
                 </DataGrid.Resources>
@@ -78,8 +82,8 @@
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Header="" Binding="{Binding id}" IsReadOnly="True" MaxWidth="0"/>
                     <DataGridTextColumn Width="2*" Header="Name" Binding="{Binding name}" IsReadOnly="True" />
-                    <DataGridTextColumn Width="2*" Header="Detected Camera" Binding="{Binding camera}" IsReadOnly="True" />
-                    <DataGridTextColumn Width="2*" Header="Detected Location" Binding="{Binding lastLocation}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="2*" Header="Camera" Binding="{Binding camera}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="2*" Header="Location" Binding="{Binding lastLocation}" IsReadOnly="True" />
                     <DataGridTextColumn Width="6*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
                 </DataGrid.Columns>
                 

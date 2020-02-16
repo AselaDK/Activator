@@ -13,14 +13,17 @@
              TextElement.FontSize="18"
              TextOptions.TextFormattingMode="Ideal"
              TextOptions.TextRenderingMode="Auto"
-             
-             Height="Auto" Width="Auto">
+             d:DesignHeight="1080" d:DesignWidth="1920">
 
-    <StackPanel Background="WhiteSmoke">
-        <Grid Height="50" Background="White">
-            <Label Content="CAMERA" FontWeight="DemiBold" FontSize="24" VerticalContentAlignment="Center"/>
-        </Grid>
-        <Grid Height="50" Margin="5">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*" />
+            <RowDefinition Height="0.4*" />
+            <RowDefinition Height="50*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" HorizontalAlignment="Stretch" Background="WhiteSmoke">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <Button Click="BtnAddNewCamera_Click" Margin="10,0,0,0" 
                         Style="{DynamicResource MaterialDesignRaisedButton}" 
@@ -39,36 +42,39 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid Height="5">
+
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch">
             <ProgressBar x:Name="progressBar" Style="{DynamicResource MaterialDesignLinearProgressBar}" IsIndeterminate="True" Visibility="Hidden"/>
         </Grid>
-        <Grid>
-            <DataGrid x:Name="dataGridCameras" 
-                      VerticalAlignment="Top" HorizontalAlignment="Left" 
-                      Height="650" Width="1200" 
+
+        <DataGrid Grid.Row="2" x:Name="dataGridCameras" 
+                      HorizontalAlignment="Stretch"                       
                       ScrollViewer.CanContentScroll="False" 
                       ScrollViewer.VerticalScrollBarVisibility="Auto" 
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"                     
                       AutoGenerateColumns="False" CanUserAddRows="False"
-                      RowHeight="50"
-                      SelectionMode="Single"
-                      SelectionUnit="FullRow" SelectionChanged="DataGridCameras_SelectionChanged"
-                      >
-                <DataGrid.CellStyle>
-                    <Style TargetType="DataGridCell">
-                        <Setter Property="Background" Value="Transparent"/>
-                        <Setter Property="BorderBrush" Value="Transparent"/>
-                        <Setter Property="Margin" Value="13,0,8,0"/>
-                        <Setter Property="VerticalContentAlignment" Value="Center"/>
-                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                    </Style>
-                </DataGrid.CellStyle>
-                <DataGrid.Columns>
-                    <DataGridTextColumn Width="1*" Header="ID" Binding="{Binding id}" IsReadOnly="True" />
-                    <DataGridTextColumn Width="2*" Header="Location" Binding="{Binding description}" IsReadOnly="True" />
-                    <DataGridTextColumn Width="3*" Header="Description" Binding="{Binding location}" IsReadOnly="True" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-    </StackPanel>
+                      SelectionMode="Extended"
+                      SelectionUnit="FullRow" Grid.ColumnSpan="2"
+                      MinRowHeight="50"
+                      SelectionChanged="DataGridCameras_SelectionChanged"
+                        >
+
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="Margin" Value="13,0,8,0"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                </Style>
+            </DataGrid.CellStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="1*" Header="ID" Binding="{Binding id}" IsReadOnly="True" />
+                <DataGridTextColumn Width="2*" Header="Location" Binding="{Binding description}" IsReadOnly="True" />
+                <DataGridTextColumn Width="3*" Header="Description" Binding="{Binding location}" IsReadOnly="True" />
+            </DataGrid.Columns>
+
+        </DataGrid>
+    </Grid>
+
 </UserControl>

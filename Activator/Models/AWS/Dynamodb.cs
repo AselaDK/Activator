@@ -60,6 +60,27 @@ namespace Activator.Models
             }
         }
 
+        public static void UpdateItem(Document item, string tableName)
+        {
+            try
+            {
+                AmazonDynamoDBClient client;
+                using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
+                {
+                    var table = Table.LoadTable(client, tableName);
+                    table.UpdateItem(item);
+                }
+            }
+            catch (AmazonDynamoDBException e)
+            {
+                Console.WriteLine("AmazonDynamoDBException: " + e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e);
+            }
+        }
+
         public static void DeleteItem(string id, string tableName)
         {
             try

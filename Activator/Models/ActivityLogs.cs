@@ -7,6 +7,7 @@ using System.Windows;
 using System.Collections.Generic;
 using Amazon.DynamoDBv2;
 using System.Linq;
+
 namespace Activator.Models
 {
     [DynamoDBTable("actvitylogs")]
@@ -27,50 +28,29 @@ namespace Activator.Models
             get; set;
         }
 
-
         public string timestamp
         {
             get; set;
         }
 
-        public void Activity(string id, string uid, string description, string timestamp)
+        public static void Activity(string id, string uid, string description, string timestamp)
         {
+            var act_item = new Document();
 
-            bool isactivityidEmpty = string.IsNullOrEmpty(id);
-            bool isuseridEmpty = string.IsNullOrEmpty(uid);
-            bool isDescriptionEmpty = string.IsNullOrEmpty(description);
-            bool istimestampEmpty = string.IsNullOrEmpty(timestamp);
+            act_item["activityid"] = id;
+            act_item["userid"] = uid;
+            act_item["description"] = description;
+            act_item["timestamp"] = timestamp;
 
-            if (!isactivityidEmpty && !isDescriptionEmpty && !isuseridEmpty && !istimestampEmpty)
-            {
+            Task.Run(() => Dynamodb.PutItem(act_item, MyAWSConfigs.ActivitylogsDBtableName));
 
-                var act_item = new Document();
-
-
-                act_item["activityid"] = id;
-                act_item["userid"] = uid;
-                act_item["description"] = description;
-                act_item["timestamp"] = timestamp;
-
-                Console.WriteLine(id);
-                Console.WriteLine(uid);
-                Console.WriteLine(description);
-                Console.WriteLine(timestamp);
-
-                Dynamodb.PutItem(act_item, Models.MyAWSConfigs.ActivitylogsDBtableName);
-            }
-            else
-            {
-                MessageBox.Show("Null Error!");
-            }
+            Console.WriteLine($"{id} - {uid} - {description} - {timestamp}");
 
         }
 
         public static List<ActivityLogs> GetAllactvityLogs()
         {
             List<ActivityLogs> logs = new List<ActivityLogs>();
-
-            string tableName = MyAWSConfigs.ActivitylogsDBtableName;
 
             try
             {
@@ -89,11 +69,6 @@ namespace Activator.Models
             catch (Exception e)
             {
                 Console.WriteLine("Error: " + e);
-            }
-
-            foreach(var log in logs)
-            {
-                Console.WriteLine(log.activityid + "   " + log.userid + "\n");
             }
 
             return logs;

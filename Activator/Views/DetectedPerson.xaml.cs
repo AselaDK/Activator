@@ -1,20 +1,12 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Activator.Views.Ref_Person;
-
 
 namespace Activator.Views
 {
@@ -32,12 +24,35 @@ namespace Activator.Views
         private MainView mv;
         private Object parent;
 
+        Dictionary<string, Models.Camera> cameras = new Dictionary<string, Models.Camera>();
+
         public DetectedPerson()
         {
             InitializeComponent();
+            GetAllCameras().ConfigureAwait(false);
         }
 
-        public void LoadPerson(string pId, string pName, string pDescription, ImageSource pImageSource, MainView mv, Object parent, string objectType)    
+        private async Task GetAllCameras()
+        {
+            progressBar.Visibility = Visibility.Visible;
+            try
+            {
+                IEnumerable<Models.Camera> temp = await Task.Run(() => Models.Camera.GetAllCamers());
+
+                cameras.Clear();
+
+                foreach (Models.Camera camera in temp)
+                {
+                    cameras.Add(camera.id, camera);
+                }
+            }
+            finally
+            {
+                progressBar.Visibility = Visibility.Hidden;
+            }
+        }
+
+        public void LoadPerson(string pId, string pName, string pDescription, ImageSource pImageSource, MainView mv, Object parent, string objectType)
         {
             this.pId = pId;
             this.pName = pName;
@@ -48,19 +63,21 @@ namespace Activator.Views
             this.mv = mv;
             this.parent = parent;
 
-            switch (objectType)
-            {
-                case "home":
-                    title.Content = $"DETECTED PERSON: {pName}";
-                    break;
-                case "ref":
-                    title.Content = $"PERSON: {pName}";
-                    break;
-            }
-
             personName.Text = pName;
             personDescription.Text = pDescription;
             personImage.Source = pImageSource;
+
+            switch (objectType)
+            {
+                case "home":
+                    BtnEdit.IsEnabled = false;
+                    BtnDelete.IsEnabled = false;
+                    break;
+                default:
+                    BtnEdit.IsEnabled = true;
+                    BtnDelete.IsEnabled = true;
+                    break;
+            }
 
             LoadHistory().ConfigureAwait(false);
         }
@@ -70,19 +87,41 @@ namespace Activator.Views
             IEnumerable<Document> result = await Task.Run(() => Models.Dynamodb.GetAllDocumentsWithFilter
             (
                 Models.MyAWSConfigs.HistoryDBtableName,
-                "id", 
+                "id",
                 pId
             ));
 
             List<Document> docs = new List<Document>(result);
-            
+
             foreach (var doc in docs)
+            {
                 Console.WriteLine("Detected camera Id" + doc["cameraId"]);
+
+                string location = cameras[doc["cameraId"]].location;
+                DateTime localTime = doc["timestamp"].AsDateTime().ToLocalTime();
+                string time = $"{localTime.ToShortDateString()}  {localTime.ToShortTimeString()}";
+
+                Label lblTime = new Label() { Content = $"{time}" };
+                Label lblLocation = new Label() { Content = $"{location}" };
+
+                                
+                Ellipse ellipse = new Ellipse() { Height=50, Width=50,
+                    VerticalAlignment =VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Stroke = Brushes.White,
+                    Fill = new ImageBrush() { Stretch=Stretch.UniformToFill, ImageSource= new BitmapImage(new Uri("../../Resources/images/CamImage.jpg", UriKind.Relative)) },
+                };
+
+                this.timeList.Items.Add(lblTime);
+                this.iconList.Items.Add(ellipse);
+                this.locationList.Items.Add(lblLocation);
+            }
+                
         }
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
-            switch(objectType)
+            switch (objectType)
             {
                 case "home":
                     mv.MenuPage.Content = parent as HomePageView;
@@ -91,26 +130,30 @@ namespace Activator.Views
                     break;
                 case "ref":
                     mv.MenuPage.Content = parent as AllPeoplePageView;
-                    mv.lblTitle.Content = "ALL PEOPLE";
+                    mv.lblTitle.Content = "REFERENCE";
                     (parent as AllPeoplePageView).LoadPersonsData().ConfigureAwait(false);
                     break;
             }
-            
+        }
+
+        public void BackToRef()
+        {
+            mv.MenuPage.Content = parent as AllPeoplePageView;
+            mv.lblTitle.Content = "REFERENCE";
+            (parent as AllPeoplePageView).LoadPersonsData().ConfigureAwait(false);
         }
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
-            mv.MenuPage.Content = parent as AllPeoplePageView;
-            mv.lblTitle.Content = "ALL PEOPLE";
-            (parent as AllPeoplePageView).RefPersonEdit();
-
+            AddNewRef addNewRef = new AddNewRef(this.pId, this.pName, this.pDescription, this.pImageSource, this, null, false);
+            addNewRef.ShowDialog();
         }
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
+            mv.DeleteRefPerson(pId, parent as AllPeoplePageView);
             mv.MenuPage.Content = parent as AllPeoplePageView;
-            mv.lblTitle.Content = "ALL PEOPLE";
-            (parent as AllPeoplePageView).DeleteRef();
+            mv.lblTitle.Content = "REFERENCE";
         }
     }
 }

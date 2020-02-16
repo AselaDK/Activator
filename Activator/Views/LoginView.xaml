@@ -45,30 +45,21 @@
                     <materialDesign:PackIcon Kind="Close" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
                 </Button>
                 <Label Content="LOGIN" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,40,0,80" 
-                        Style="{Binding MaterialDesignLabel}" FontSize="36" Foreground="MediumSeaGreen" />
+                        Style="{DynamicResource MaterialDesignLabel}" FontSize="36" Foreground="MediumSeaGreen" />
 
                 <TextBox x:Name="TxtUid" Margin="40,0,40,20" materialDesign:HintAssist.Hint="USERNAME"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="16"/>
+                         Style="{DynamicResource MaterialDesignOutlinedTextFieldTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="16"/>
 
                 <PasswordBox x:Name="TxtPassword" Margin="40,0,40,20" materialDesign:HintAssist.Hint="PASSWORD" 
-                             Style="{StaticResource MaterialDesignOutlinedPasswordFieldPasswordBox}" FontFamily="Champagne &amp; Limousines" FontSize="16" />
+                             Style="{DynamicResource MaterialDesignOutlinedPasswordFieldPasswordBox}" FontFamily="Champagne &amp; Limousines" FontSize="16" />
 
-                <Button x:Name="ButtonLogin" Click="ButtonLogin_Click" Margin="40,0,180,0" Content="LOGIN" Foreground="White">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedButton}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Text.Length, ElementName=TxtUid, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Text.Length, ElementName=TxtPassword, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
+                <Button x:Name="ButtonLogin" Click="ButtonLogin_Click" Margin="40,0,180,0" 
+                        Content="LOGIN" Foreground="White" Background="MediumSeaGreen" Style="{DynamicResource MaterialDesignRaisedButton}" >
+                    
                 </Button>
 
-                <Button Name="btnForget" Click="btnForget_Click" Content="Problem in logging ?" HorizontalContentAlignment="Left"
+                <Button Name="btnForget" Click="btnForget_Click" Content="Problem in logging ?" 
+                        HorizontalContentAlignment="Left"
                         Margin="-40,10,88,0"                         
                         BorderThickness="0"  Width="171" Foreground="Gray" Cursor="Hand" Background="Transparent"/>
 

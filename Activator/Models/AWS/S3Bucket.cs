@@ -157,8 +157,7 @@ namespace Activator.Models
                         BucketName = bucketName,
                         Key = fileName
                     };
-
-                    Console.WriteLine("Deleting an object");
+                    
                     await s3Client.DeleteObjectAsync(deleteObjectRequest);
 
                 }

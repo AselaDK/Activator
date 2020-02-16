@@ -1,5 +1,4 @@
-﻿using Activator.Models;
-using MahApps.Metro.Controls;
+﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Threading.Tasks;
@@ -18,7 +17,6 @@ namespace Activator.Views
         public LoginView()
         {
             InitializeComponent();
-            Console.WriteLine(DateTime.Now.ToLongTimeString());
         }
 
         protected override void OnInitialized(EventArgs e)
@@ -49,50 +47,54 @@ namespace Activator.Views
 
             String aId = TxtUid.Text;
             String aPassword = TxtPassword.Password;
-            String hashPassword = HashMD5.MD5Hash(aPassword);
+            String hashPassword = Models.HashMD5.MD5Hash(aPassword);
 
             try
             {
-                var item = await Task.Run(() => Dynamodb.GetItem(aId, MyAWSConfigs.AdminDBTableName));
-
-                if (item != null && item["aPassword"] == hashPassword)
+                if (string.IsNullOrEmpty(aId) || string.IsNullOrEmpty(aPassword))
                 {
-                    notifyIcon.Visible = true;
-                    notifyIcon.ShowBalloonTip(2000, "Welcome", $"{item["aName"]}", System.Windows.Forms.ToolTipIcon.Info);
-
-                    this.Hide();
-
-                    string adminName = item["aName"];
-                    string adminId = item["aId"];
-                    string adminPropic = item["aPropic"];
-                    bool status = true;
-
-                    Session.id = adminId;
-                    //session.MyStatus = status;
-
-                    string srnd = Session.id + DateTime.Now.ToString();
-                    Models.ActivityLogs activityLogs = new Models.ActivityLogs();
-                    activityLogs.Activity(srnd, Session.id, "Logged in", DateTime.Now.ToString());
-                    Console.WriteLine("activivty id >>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,,," + srnd);
-                    Console.WriteLine("activivty id >>>,,," + Session.id);
-                    Console.WriteLine("activivty id >>>,,," + DateTime.Now.ToString());
-
-                    MainView mainView = new MainView(adminId, adminName, adminPropic);
-                    mainView.ShowDialog();
-
-                }
-                else
-                {
-                    //MessageBox.Show("Username or Password is incorrect!");
-
-                    //clear texboxes
                     TxtUid.Text = "";
                     TxtUid.BorderBrush = Brushes.Red;
-                    //txtuid.Background = Brushes.LightSalmon;
 
                     TxtPassword.Password = "";
                     TxtPassword.BorderBrush = Brushes.Red;
-                    //txtpassword.Background = Brushes.LightSalmon;
+                }
+                else
+                {
+                    var item = await Task.Run(() => Models.Dynamodb.GetItem(aId, Models.MyAWSConfigs.AdminDBTableName));
+
+                    if (item != null && item["aPassword"] == hashPassword)
+                    {
+                        notifyIcon.Visible = true;
+                        notifyIcon.ShowBalloonTip(2000, "Welcome", $"{item["aName"]}", System.Windows.Forms.ToolTipIcon.Info);
+
+                        this.Hide();
+
+                        string adminName = item["aName"];
+                        string adminId = item["aId"];
+                        string adminPropic = item["aPropic"];
+
+                        Models.Session.id = adminId;
+
+                        string srnd = Models.Session.id + DateTime.Now.ToString();
+
+                        Models.ActivityLogs.Activity(srnd, Models.Session.id, "User login", DateTime.Now.ToString());
+
+                        TxtUid.Clear();
+                        TxtPassword.Clear();
+
+                        MainView mainView = new MainView(adminId, adminName, adminPropic, this);
+                        mainView.ShowDialog();
+
+                    }
+                    else
+                    {
+                        TxtUid.Text = "";
+                        TxtUid.BorderBrush = Brushes.Red;
+
+                        TxtPassword.Password = "";
+                        TxtPassword.BorderBrush = Brushes.Red;
+                    }
                 }
             }
             catch (Exception ex)

@@ -50,7 +50,7 @@
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"                     
                       AutoGenerateColumns="False" CanUserAddRows="False"
                       SelectionMode="Extended"
-                      SelectionUnit="FullRow" Grid.RowSpan="3">
+                      SelectionUnit="FullRow" Grid.ColumnSpan="2">
 
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
@@ -62,7 +62,7 @@
             </DataGrid.CellStyle>
 
             <DataGrid.Columns>
-                <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
+                <DataGridTemplateColumn  Width="100" Header="" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Source="{Binding aImage}" Width="60" Height="60" Stretch="UniformToFill"/>

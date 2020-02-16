@@ -21,6 +21,7 @@ namespace Activator.Views
         CameraView cameraView;
         AdminsPage admins;
         AdminProfile adminProfile;
+        LoginView loginView;
 
         private string adminId;
         private string adminName;
@@ -28,9 +29,11 @@ namespace Activator.Views
 
         private System.Windows.Forms.NotifyIcon notifyIcon = null;
 
-        public MainView(String adminId, String adminName, string adminPropic)
+        public MainView(String adminId, String adminName, string adminPropic, LoginView lv)
         {
             InitializeComponent();
+
+            this.loginView = lv;
 
             this.adminId = adminId;
             this.adminName = adminName;
@@ -44,6 +47,35 @@ namespace Activator.Views
 
             MenuPage.Content = home;
             lblTitle.Content = "HOME";
+
+            ButtonMenuHome.Background = Brushes.MediumSeaGreen;
+            homeIcon.Foreground = Brushes.White;
+            homeLable.Foreground = Brushes.White;
+
+            ButtonMenuPeopleIn.Background = null;
+            historyIcon.Foreground = Brushes.MediumSeaGreen;
+            historyLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuAllPeople.Background = null;
+            refIcon.Foreground = Brushes.MediumSeaGreen;
+            refLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuReaders.Background = null;
+            readerIcon.Foreground = Brushes.MediumSeaGreen;
+            readerLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuCameras.Background = null;
+            cameraIcon.Foreground = Brushes.MediumSeaGreen;
+            cameraLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuAdmins.Background = null;
+            adminIcon.Foreground = Brushes.MediumSeaGreen;
+            adminLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuActivityLogs.Background = null;
+            logsIcon.Foreground = Brushes.MediumSeaGreen;
+            logsLable.Foreground = Brushes.MediumSeaGreen;
+
             home.GetAllCameras().ConfigureAwait(false);
         }
 
@@ -96,13 +128,42 @@ namespace Activator.Views
 
             ImageSource imageSource = new BitmapImage(fileUri);
 
-            MyPropicImage.Source = imageSource;
+            MyPropicImage.ImageSource = imageSource;
         }
 
         private void ButtonMenuHome_Click(object sender, RoutedEventArgs e)
         {            
             MenuPage.Content = home;
             lblTitle.Content = "HOME";
+
+            ButtonMenuHome.Background = Brushes.MediumSeaGreen;
+            homeIcon.Foreground = Brushes.White;
+            homeLable.Foreground = Brushes.White;
+
+            ButtonMenuPeopleIn.Background = null;
+            historyIcon.Foreground = Brushes.MediumSeaGreen;
+            historyLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuAllPeople.Background = null;
+            refIcon.Foreground = Brushes.MediumSeaGreen;
+            refLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuReaders.Background = null;
+            readerIcon.Foreground = Brushes.MediumSeaGreen;
+            readerLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuCameras.Background = null;
+            cameraIcon.Foreground = Brushes.MediumSeaGreen;
+            cameraLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuAdmins.Background = null;
+            adminIcon.Foreground = Brushes.MediumSeaGreen;
+            adminLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuActivityLogs.Background = null;
+            logsIcon.Foreground = Brushes.MediumSeaGreen;
+            logsLable.Foreground = Brushes.MediumSeaGreen;
+
             home.GetAllCameras().ConfigureAwait(false);
         }
 
@@ -110,12 +171,69 @@ namespace Activator.Views
         {
             MenuPage.Content = peopleInPageView;
             lblTitle.Content = "HISTORY";
+
+            ButtonMenuPeopleIn.Background = Brushes.MediumSeaGreen;
+            historyIcon.Foreground = Brushes.White;
+            historyLable.Foreground = Brushes.White;
+
+            ButtonMenuAllPeople.Background = null;
+            refIcon.Foreground = Brushes.MediumSeaGreen;
+            refLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuHome.Background = null;
+            homeIcon.Foreground = Brushes.MediumSeaGreen;
+            homeLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuReaders.Background = null;
+            readerIcon.Foreground = Brushes.MediumSeaGreen;
+            readerLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuCameras.Background = null;
+            cameraIcon.Foreground = Brushes.MediumSeaGreen;
+            cameraLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuAdmins.Background = null;
+            adminIcon.Foreground = Brushes.MediumSeaGreen;
+            adminLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuActivityLogs.Background = null;
+            logsIcon.Foreground = Brushes.MediumSeaGreen;
+            logsLable.Foreground = Brushes.MediumSeaGreen;
         }
 
         private void ButtonMenuAllPeople_Click(object sender, RoutedEventArgs e)
         {            
             MenuPage.Content = allPeoplePageView;
             lblTitle.Content = "REFERENCES";
+
+            ButtonMenuAllPeople.Background = Brushes.MediumSeaGreen;
+            refIcon.Foreground = Brushes.White;
+            refLable.Foreground = Brushes.White;
+
+            ButtonMenuPeopleIn.Background = null;
+            historyIcon.Foreground = Brushes.MediumSeaGreen;
+            historyLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuHome.Background = null;
+            homeIcon.Foreground = Brushes.MediumSeaGreen;
+            homeLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuReaders.Background = null;
+            readerIcon.Foreground = Brushes.MediumSeaGreen;
+            readerLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuCameras.Background = null;
+            cameraIcon.Foreground = Brushes.MediumSeaGreen;
+            cameraLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuAdmins.Background = null;
+            adminIcon.Foreground = Brushes.MediumSeaGreen;
+            adminLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuActivityLogs.Background = null;
+            logsIcon.Foreground = Brushes.MediumSeaGreen;
+            logsLable.Foreground = Brushes.MediumSeaGreen;
+
             allPeoplePageView.LoadPersonsData().ConfigureAwait(false);
         }
 
@@ -123,6 +241,35 @@ namespace Activator.Views
         {
             MenuPage.Content = readers;
             lblTitle.Content = "READERS";
+
+            ButtonMenuReaders.Background = Brushes.MediumSeaGreen;
+            readerIcon.Foreground = Brushes.White;
+            readerLable.Foreground = Brushes.White;
+
+            ButtonMenuPeopleIn.Background = null;
+            historyIcon.Foreground = Brushes.MediumSeaGreen;
+            historyLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuHome.Background = null;
+            homeIcon.Foreground = Brushes.MediumSeaGreen;
+            homeLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuAllPeople.Background = null;
+            refIcon.Foreground = Brushes.MediumSeaGreen;
+            refLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuCameras.Background = null;
+            cameraIcon.Foreground = Brushes.MediumSeaGreen;
+            cameraLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuAdmins.Background = null;
+            adminIcon.Foreground = Brushes.MediumSeaGreen;
+            adminLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuActivityLogs.Background = null;
+            logsIcon.Foreground = Brushes.MediumSeaGreen;
+            logsLable.Foreground = Brushes.MediumSeaGreen;
+
             readers.LoadData().ConfigureAwait(false);
         }
 
@@ -130,6 +277,35 @@ namespace Activator.Views
         {            
             MenuPage.Content = cameraView;
             lblTitle.Content = "CAMERAS";
+
+            ButtonMenuCameras.Background = Brushes.MediumSeaGreen;
+            cameraIcon.Foreground = Brushes.White;
+            cameraLable.Foreground = Brushes.White;
+
+            ButtonMenuPeopleIn.Background = null;
+            historyIcon.Foreground = Brushes.MediumSeaGreen;
+            historyLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuHome.Background = null;
+            homeIcon.Foreground = Brushes.MediumSeaGreen;
+            homeLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuAllPeople.Background = null;
+            refIcon.Foreground = Brushes.MediumSeaGreen;
+            refLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuReaders.Background = null;
+            readerIcon.Foreground = Brushes.MediumSeaGreen;
+            readerLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuAdmins.Background = null;
+            adminIcon.Foreground = Brushes.MediumSeaGreen;
+            adminLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuActivityLogs.Background = null;
+            logsIcon.Foreground = Brushes.MediumSeaGreen;
+            logsLable.Foreground = Brushes.MediumSeaGreen;
+
             cameraView.LoadCamerasData().ConfigureAwait(false);
         }
 
@@ -137,6 +313,35 @@ namespace Activator.Views
         {
             MenuPage.Content = admins;
             lblTitle.Content = "ADMINS";
+
+            ButtonMenuAdmins.Background = Brushes.MediumSeaGreen;
+            adminIcon.Foreground = Brushes.White;
+            adminLable.Foreground = Brushes.White;
+
+            ButtonMenuPeopleIn.Background = null;
+            historyIcon.Foreground = Brushes.MediumSeaGreen;
+            historyLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuHome.Background = null;
+            homeIcon.Foreground = Brushes.MediumSeaGreen;
+            homeLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuAllPeople.Background = null;
+            refIcon.Foreground = Brushes.MediumSeaGreen;
+            refLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuReaders.Background = null;
+            readerIcon.Foreground = Brushes.MediumSeaGreen;
+            readerLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuCameras.Background = null;
+            cameraIcon.Foreground = Brushes.MediumSeaGreen;
+            cameraLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuActivityLogs.Background = null;
+            logsIcon.Foreground = Brushes.MediumSeaGreen;
+            logsLable.Foreground = Brushes.MediumSeaGreen;
+
             admins.LoadData().ConfigureAwait(false);
         }
 
@@ -153,6 +358,35 @@ namespace Activator.Views
             ActivityLogs activityLogs = new ActivityLogs();
             MenuPage.Content = activityLogs;
             lblTitle.Content = "ACTIVITY LOGS";
+
+            ButtonMenuActivityLogs.Background = Brushes.MediumSeaGreen;
+            logsIcon.Foreground = Brushes.White;
+            logsLable.Foreground = Brushes.White;
+
+            ButtonMenuPeopleIn.Background = null;
+            historyIcon.Foreground = Brushes.MediumSeaGreen;
+            historyLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuHome.Background = null;
+            homeIcon.Foreground = Brushes.MediumSeaGreen;
+            homeLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuAllPeople.Background = null;
+            refIcon.Foreground = Brushes.MediumSeaGreen;
+            refLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuReaders.Background = null;
+            readerIcon.Foreground = Brushes.MediumSeaGreen;
+            readerLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuCameras.Background = null;
+            cameraIcon.Foreground = Brushes.MediumSeaGreen;
+            cameraLable.Foreground = Brushes.MediumSeaGreen;
+
+            ButtonMenuAdmins.Background = null;
+            adminIcon.Foreground = Brushes.MediumSeaGreen;
+            adminLable.Foreground = Brushes.MediumSeaGreen;
+
         }
 
         private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
@@ -172,10 +406,10 @@ namespace Activator.Views
             var result = await this.ShowMessageAsync("Are you sure want to log out ?", "", MessageDialogStyle.AffirmativeAndNegative);
             if (result == MessageDialogResult.Affirmative)
             {
-                this.Hide();
-                LoginView dashboard = new LoginView();
-                dashboard.ShowDialog();
-                //LoginView.ShowDialog();
+                this.Close();
+                loginView.Close();
+                LoginView tempLoginView = new LoginView();
+                tempLoginView.Show();
             }
                 
         }
@@ -203,10 +437,31 @@ namespace Activator.Views
 
             await controller.CloseAsync();
 
-            await cv.LoadCamerasData().ConfigureAwait(false);
+            cv.LoadCamerasData().ConfigureAwait(false);
 
             notifyIcon.Visible = true;
             notifyIcon.ShowBalloonTip(1000, "Deleted", "Camera deleted Successfully", System.Windows.Forms.ToolTipIcon.Info);
+
+        }
+
+        public async void DeleteRefPerson(string id, AllPeoplePageView allPeoplePageView)
+        {
+            ProgressDialogController controller = await this.ShowProgressAsync("Please wait...", "");
+            controller.SetIndeterminate();
+            controller.SetCancelable(false);
+
+            controller.SetMessage("Deleting database record");
+            await Task.Run(() => Models.Dynamodb.DeleteItem(id, Models.MyAWSConfigs.RefPersonsDBTableName));
+
+            controller.SetMessage("Deleting image");
+            await Task.Run(() => Models.S3Bucket.DeleteFile(id, Models.MyAWSConfigs.RefImagesBucketName));
+
+            await controller.CloseAsync();
+
+            allPeoplePageView.LoadPersonsData().ConfigureAwait(false);
+
+            notifyIcon.Visible = true;
+            notifyIcon.ShowBalloonTip(1000, "Deleted", "Person deleted Successfully", System.Windows.Forms.ToolTipIcon.Info);
 
         }
 

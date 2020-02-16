@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Activator"
+        mc:Ignorable="d"        
+                      
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
          TextElement.FontWeight="Regular"
          TextElement.FontSize="13"
@@ -13,15 +14,21 @@
          TextOptions.TextRenderingMode="Auto"
          Background="{DynamicResource MaterialDesignPaper}"
          FontFamily="{DynamicResource MaterialDesignFont}"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" Height="Auto" Width="Auto" WindowState="Maximized" WindowStartupLocation="CenterScreen"
-        x:Name="MainWindow"
-    Title="MainWindow" ResizeMode="NoResize" WindowStyle="None" ShowTitleBar="False"
-                      ShowCloseButton="False" 
-    ShowMaxRestoreButton="False" 
-    ShowMinButton="False"    >
+                              
+        Title="MainWindow"  
+        WindowState="Maximized" 
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        WindowStyle="None" 
+        ShowTitleBar="False"
+        ShowCloseButton="False" 
+        ShowMaxRestoreButton="False" 
+        ShowMinButton="False"    >
+    
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0"/>
     </WindowChrome.WindowChrome>
+    
     <Window.Resources>
         <Storyboard x:Key="OpenMenu">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="GridMain">
@@ -95,22 +102,28 @@
             <BeginStoryboard x:Name="CloseMenu_BeginStoryboard" Storyboard="{StaticResource CloseMenu}"/>
         </EventTrigger>
     </Window.Triggers>
+
     <Grid Background="MediumSeaGreen">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="96*"/>
             <ColumnDefinition Width="665*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Background="Black" x:Name="StackPanelMenu" Width="250" HorizontalAlignment="Left" Margin="-250,0,0,-0.2" RenderTransformOrigin="0.5,0.5">
+
+        <StackPanel x:Name="StackPanelMenu" Background="WhiteSmoke" Width="250" HorizontalAlignment="Left" Margin="-250,0,0,-0.2" RenderTransformOrigin="0.5,0.5">
+            
             <StackPanel.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
                     <RotateTransform/>
                     <TranslateTransform/>
-                </TransformGroup>
+                </TransformGroup>            
             </StackPanel.RenderTransform>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="175" HorizontalAlignment="Center" Margin="27,10" Width="168">
-                <Button x:Name="button" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" BorderBrush="{x:Null}" Padding="0" Width="150" Height="150" Margin="10" RenderTransformOrigin="0.5,0.5">
+            
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="175" 
+                        HorizontalAlignment="Center" Margin="27,50" Width="168">
+                <Button x:Name="button" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" 
+                        BorderBrush="{x:Null}" Padding="0" Width="150" Height="150" Margin="10" RenderTransformOrigin="0.5,0.5">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -127,8 +140,14 @@
                     <materialDesign:PackIcon Kind="InformationOutline" Width="40" Height="40"/>
                 </Button>-->
             </StackPanel>
-            <StackPanel Margin="0,50,-0.4,0" Height="641">
-                <Button x:Name="ButtonMenuHome" Click="ButtonMenuHome_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
+            
+            <StackPanel>
+                <Button x:Name="ButtonMenuHome" Click="ButtonMenuHome_Click" Height="60" Width="220"
+                        RenderTransformOrigin="0.5,0.5" Background="MediumSeaGreen" 
+                        BorderBrush="MediumSeaGreen" Style="{DynamicResource MaterialDesignRaisedButton }"
+                        HorizontalAlignment="Center"
+                        HorizontalContentAlignment="Left"
+                        Margin="10">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -137,12 +156,40 @@
                             <TranslateTransform/>
                         </TransformGroup>
                     </Button.RenderTransform>
-                    <StackPanel Orientation="Horizontal" Margin="10 0">
-                        <materialDesign:PackIcon Kind="Home" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="White"/>
-                        <TextBlock Text="HOME" Margin="10" VerticalAlignment="Center" Height="36" Foreground="White" FontSize="24"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <materialDesign:PackIcon Name="homeIcon" Kind="AccountGroupOutline" Width="25" Height="25" 
+                            VerticalAlignment="Center" Margin="0,0,10,0" Foreground="White"/>
+                        <Label Name="homeLable" Content="HOME" Margin="0" Foreground="White" FontSize="24"/>
+                    </StackPanel>
+                    
+                    
+                </Button>
+                <Button x:Name="ButtonMenuAllPeople" Click="ButtonMenuAllPeople_Click" Height="60" Width="220"
+                        RenderTransformOrigin="0.5,0.5" Background="{x:Null}" 
+                        BorderBrush="MediumSeaGreen" Style="{DynamicResource MaterialDesignRaisedButton }"
+                        HorizontalAlignment="Center"
+                        HorizontalContentAlignment="Left"
+                        Margin="10">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <materialDesign:PackIcon Name="refIcon" Kind="AccountGroupOutline" Width="25" Height="25" 
+                            VerticalAlignment="Center" Margin="0,0,10,0" Foreground="MediumSeaGreen"/>
+                        <Label Name="refLable" Content="REFERENCES" Margin="0" Foreground="MediumSeaGreen" FontSize="24"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="ButtonMenuAllPeople" Click="ButtonMenuAllPeople_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
+                <Button x:Name="ButtonMenuPeopleIn" Click="ButtonMenuPeopleIn_Click" Height="60" Width="220"
+                        RenderTransformOrigin="0.5,0.5" Background="{x:Null}" 
+                        BorderBrush="MediumSeaGreen" Style="{DynamicResource MaterialDesignRaisedButton }"
+                        HorizontalAlignment="Center"
+                        HorizontalContentAlignment="Left"
+                        Margin="10">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -151,12 +198,18 @@
                             <TranslateTransform/>
                         </TransformGroup>
                     </Button.RenderTransform>
-                    <StackPanel Orientation="Horizontal" Margin="10 0">
-                        <materialDesign:PackIcon Kind="AccountGroupOutline" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="White"/>
-                        <TextBlock Text="REFERENCES" Margin="10" VerticalAlignment="Center" Height="35" Foreground="White" FontSize="17.5"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <materialDesign:PackIcon Name="historyIcon" Kind="AccountGroupOutline" Width="25" Height="25" 
+                            VerticalAlignment="Center" Margin="0,0,10,0" Foreground="MediumSeaGreen"/>
+                        <Label Name="historyLable" Content="HISTORY" Margin="0" Foreground="MediumSeaGreen" FontSize="24"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="ButtonMenuPeopleIn" Click="ButtonMenuPeopleIn_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
+                <Button x:Name="ButtonMenuReaders" Click="ButtonMenuReaders_Click" Height="60" Width="220"
+                        RenderTransformOrigin="0.5,0.5" Background="{x:Null}" 
+                        BorderBrush="MediumSeaGreen" Style="{DynamicResource MaterialDesignRaisedButton }"
+                        HorizontalAlignment="Center"
+                        HorizontalContentAlignment="Left"
+                        Margin="10">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -165,12 +218,18 @@
                             <TranslateTransform/>
                         </TransformGroup>
                     </Button.RenderTransform>
-                    <StackPanel Orientation="Horizontal" Margin="10 0">
-                        <materialDesign:PackIcon Kind="AccountGroup" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="White"/>
-                        <TextBlock Text="HISTORY" Margin="10" VerticalAlignment="Center" Height="36" Foreground="White" FontSize="24"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <materialDesign:PackIcon Name="readerIcon" Kind="AccountGroupOutline" Width="25" Height="25" 
+                            VerticalAlignment="Center" Margin="0,0,10,0" Foreground="MediumSeaGreen"/>
+                        <Label Name="readerLable" Content="READERS" Margin="0" Foreground="MediumSeaGreen" FontSize="24"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="ButtonMenuReaders" Click="ButtonMenuReaders_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
+                <Button x:Name="ButtonMenuCameras" Click="ButtonMenuCameras_Click" Height="60" Width="220"
+                        RenderTransformOrigin="0.5,0.5" Background="{x:Null}" 
+                        BorderBrush="MediumSeaGreen" Style="{DynamicResource MaterialDesignRaisedButton }"
+                        HorizontalAlignment="Center"
+                        HorizontalContentAlignment="Left"
+                        Margin="10">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -179,12 +238,18 @@
                             <TranslateTransform/>
                         </TransformGroup>
                     </Button.RenderTransform>
-                    <StackPanel Orientation="Horizontal" Margin="10 0">
-                        <materialDesign:PackIcon Kind="Read" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="White"/>
-                        <TextBlock Text="READERS" Margin="10" VerticalAlignment="Center" Foreground="White" FontSize="24"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <materialDesign:PackIcon Name="cameraIcon" Kind="AccountGroupOutline" Width="25" Height="25" 
+                            VerticalAlignment="Center" Margin="0,0,10,0" Foreground="MediumSeaGreen"/>
+                        <Label Name="cameraLable" Content="CAMERA" Margin="0" Foreground="MediumSeaGreen" FontSize="24"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="ButtonMenuCameras" Click="ButtonMenuCameras_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
+                <Button x:Name="ButtonMenuAdmins" Click="ButtonMenuAdmins_Click" Height="60" Width="220"
+                        RenderTransformOrigin="0.5,0.5" Background="{x:Null}" 
+                        BorderBrush="MediumSeaGreen" Style="{DynamicResource MaterialDesignRaisedButton }"
+                        HorizontalAlignment="Center"
+                        HorizontalContentAlignment="Left"
+                        Margin="10">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -193,12 +258,18 @@
                             <TranslateTransform/>
                         </TransformGroup>
                     </Button.RenderTransform>
-                    <StackPanel Orientation="Horizontal" Margin="10 0">
-                        <materialDesign:PackIcon Kind="Cctv" Width="30" Height="30" Foreground="White" VerticalAlignment="Center" Margin="5"/>
-                        <TextBlock Text="CAMERAS" Margin="10" VerticalAlignment="Center" Foreground="White" FontSize="24"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <materialDesign:PackIcon Name="adminIcon" Kind="AccountGroupOutline" Width="25" Height="25" 
+                            VerticalAlignment="Center" Margin="0,0,10,0" Foreground="MediumSeaGreen"/>
+                        <Label Name="adminLable" Content="ADMINS" Margin="0" Foreground="MediumSeaGreen" FontSize="24"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="ButtonMenuAdmins" Click="ButtonMenuAdmins_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
+                <Button x:Name="ButtonMenuActivityLogs" Click="ButtonMenuActivityLogs_Click" Height="60" Width="220"
+                        RenderTransformOrigin="0.5,0.5" Background="{x:Null}" 
+                        BorderBrush="MediumSeaGreen" Style="{DynamicResource MaterialDesignRaisedButton }"
+                        HorizontalAlignment="Center"
+                        HorizontalContentAlignment="Left"
+                        Margin="10">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -207,28 +278,16 @@
                             <TranslateTransform/>
                         </TransformGroup>
                     </Button.RenderTransform>
-                    <StackPanel Orientation="Horizontal" Margin="10 0">
-                        <materialDesign:PackIcon Kind="ManMan" Width="30" Height="30" Foreground="White" VerticalAlignment="Center" Margin="5"/>
-                        <TextBlock Text="ADMINS" Margin="10" VerticalAlignment="Center" Foreground="White" FontSize="24"/>
-                    </StackPanel>
-                </Button>
-                <Button x:Name="ButtonMenuActivityLogs" Click="ButtonMenuActivityLogs_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
-                    <Button.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Button.RenderTransform>
-                    <StackPanel Orientation="Horizontal" Margin="10 0">
-                        <materialDesign:PackIcon Kind="ManMan" Width="30" Height="30" Foreground="White" VerticalAlignment="Center" Margin="5"/>
-                        <TextBlock Text="ACTIVITY LOGS" Margin="10" VerticalAlignment="Center" Foreground="White" FontSize="16.5"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <materialDesign:PackIcon Name="logsIcon" Kind="AccountGroupOutline" Width="25" Height="25" 
+                            VerticalAlignment="Center" Margin="0,0,10,0" Foreground="MediumSeaGreen"/>
+                        <Label Name="logsLable" Content="LOGS" Margin="0" Foreground="MediumSeaGreen" FontSize="24"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
         </StackPanel>
-        <Grid x:Name="GridMain" Background="Transparent" Width="Auto" RenderTransformOrigin="0.5,0.5" Margin="10,0,9.6,-0.2" Grid.ColumnSpan="2">
+        <Grid x:Name="GridMain" Background="MediumSeaGreen" Width="Auto" RenderTransformOrigin="0.5,0.5" Margin="0,0,9.6,0" Grid.ColumnSpan="2">
+            
             <Grid.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -237,29 +296,29 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </Grid.RenderTransform>
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="250"/>
             </Grid.ColumnDefinitions>
-
-            <Grid Grid.Column="1" Background="MediumSeaGreen" >
-                <Image x:Name="MyPropicImage" Height="150" Opacity=".5" VerticalAlignment="Top" Source="..\Resources\Images\LogoActivator.jpeg" Stretch="UniformToFill" Margin="0,45,0,0">
-                    <Image.Effect>
-                        <BlurEffect Radius="10"/>
-                    </Image.Effect>
-                </Image>
-                <!--<Ellipse Height="100" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,142,25,0" Stroke="White">
+          
+            <Grid Grid.Column="1" Background="MediumSeaGreen">                
+                <Ellipse Height="120" Width="120" VerticalAlignment="Top" HorizontalAlignment="Center" 
+                         Margin="0,80,0,0" Stroke="White">
                     <Ellipse.Fill>
-                        <ImageBrush ImageSource="..\images\alogo22.jpg" Stretch="UniformToFill"/>
+                        <ImageBrush x:Name="MyPropicImage" Stretch="UniformToFill"/>
                     </Ellipse.Fill>
-                </Ellipse>-->
-                <TextBlock x:Name="AdminName" FontWeight="Normal" Foreground="White" FontSize="28" Opacity="50" FontFamily="Nirmala UI" Margin="10,158,10,0" VerticalAlignment="Top"/>
+                </Ellipse>
+                <TextBlock x:Name="AdminName" FontWeight="Normal" Foreground="White" 
+                           FontSize="28" Opacity="50" FontFamily="Nirmala UI" 
+                           Margin="10,220,10,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
                 <Button x:Name="ProfileButton" Cursor="Hand" Click="ProfileButton_Click"  VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,158,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Height="37" Width="240" OpacityMask="Black" Foreground="{x:Null}" >
 
                 </Button>
             </Grid>
 
-            <Grid>
+            <Grid Grid.Column="0" Margin="7,0,0,0">
+                
                 <StackPanel>
                     <Label x:Name="lblTitle" Content="Home" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0" FontSize="22"></Label>
                 </StackPanel>

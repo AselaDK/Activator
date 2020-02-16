@@ -10,13 +10,16 @@ namespace Activator.Views
     /// Interaction logic for AddNewCameraView.xaml
     /// </summary>
     public partial class AddNewCameraView : MetroWindow
-    {        
-        public AddNewCameraView()
+    {
+        CameraView CameraView;
+        public AddNewCameraView(CameraView CameraView)
         {
-            InitializeComponent();           
+            InitializeComponent();
+
+            this.CameraView = CameraView;
         }
 
-        private void BtnClose_Click(object sender, RoutedEventArgs e)
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
@@ -157,7 +160,11 @@ namespace Activator.Views
 
                 // Succeess message
                 await controller.CloseAsync();
+
+                this.CameraView.LoadCamerasData().ConfigureAwait(false);
+
                 await this.ShowMessageAsync("Saved", "New Camera Added Successfully", MessageDialogStyle.Affirmative);
+
                 this.Close();
             }
             else

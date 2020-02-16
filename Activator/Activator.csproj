@@ -250,12 +250,6 @@
     <Compile Include="Views\Admin\RegisterAdmin.xaml.cs">
       <DependentUpon>RegisterAdmin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Ref Person\ConfirmDeleteRef.xaml.cs">
-      <DependentUpon>ConfirmDeleteRef.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Ref Person\EditReference.xaml.cs">
-      <DependentUpon>EditReference.xaml</DependentUpon>
-    </Compile>
     <Page Include="Views\ActivityLogs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -343,14 +337,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ref Person\ConfirmDeleteRef.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Ref Person\EditReference.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -395,6 +381,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\CamImage.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\vectorUpload.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\cctv.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
