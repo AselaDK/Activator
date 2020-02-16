@@ -50,7 +50,8 @@ namespace Activator.Views
 
                 if (!isNameEmpty && !isPhoneEmpty && !isFilePathEmpty && !isFileIdEmpty && !txtEmail.Text.Contains(" ") && !isPasswordEmpty && !isCPasswordEmpty)
                 {
-                    if(txtPassword.Password == txtCPassword.Password){
+                    if (txtPassword.Password == txtCPassword.Password)
+                    {
                         ProgressDialogController controller = await this.ShowProgressAsync("Please wait...", "Uploading data");
                         controller.SetIndeterminate();
                         controller.SetCancelable(false);

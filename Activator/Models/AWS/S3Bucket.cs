@@ -5,8 +5,6 @@ using Amazon.S3.Transfer;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Activator.Models
@@ -56,7 +54,7 @@ namespace Activator.Models
         {
             if (!Directory.Exists("Resources/Images")) Directory.CreateDirectory("Resources/Images");
             string filePath = $"Resources/Images/{fileName}";
-            
+
             using (s3Client = new AmazonS3Client(bucketRegion))
             {
                 DownloadFileAsync().Wait();
@@ -148,7 +146,7 @@ namespace Activator.Models
                 DeleteFileAsync().Wait();
             }
 
-                async Task DeleteFileAsync()
+            async Task DeleteFileAsync()
             {
                 try
                 {
@@ -171,6 +169,6 @@ namespace Activator.Models
                 }
             }
         }
-    }    
+    }
 }
 

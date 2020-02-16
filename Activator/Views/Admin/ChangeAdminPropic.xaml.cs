@@ -1,5 +1,4 @@
-﻿using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DocumentModel;
+﻿using Activator.Models;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
@@ -7,11 +6,8 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Item = Amazon.DynamoDBv2.DocumentModel.Document;
-using Table = Amazon.DynamoDBv2.DocumentModel.Table;
-using Activator.Models;
 
 namespace Activator.Views
 {
@@ -22,38 +18,16 @@ namespace Activator.Views
     {
         private string uploadFilePath;
         private readonly string myId = "";
-        private readonly AmazonDynamoDBClient client;
-        readonly Table table = null;
-        private Item item = null;
 
         public ChangeAdminPropic()
         {
             InitializeComponent();
         }
-        
+
         public ChangeAdminPropic(string id) : this()
         {
             InitializeComponent();
             this.myId = id;
-            try
-            {
-                this.client = new AmazonDynamoDBClient();
-                string tableName = MyAWSConfigs.AdminDBTableName;
-                table = Table.LoadTable(client, tableName);
-                item = table.GetItem(myId);
-            }
-            catch (AmazonDynamoDBException ex)
-            {
-                MessageBox.Show("Message : Server Error", ex.Message);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Message : Unknown Error", ex.Message);
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
-            }
         }
 
         private void ButtonClose_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -78,19 +52,6 @@ namespace Activator.Views
 
         private async void ButtonSubmit_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image files | *.jpg; *.jpeg; *.png";
-            openFileDialog.FilterIndex = 1;
-            openFileDialog.Multiselect = false;
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                uploadFilePath = openFileDialog.FileName;
-
-                Uri fileUri = new Uri(uploadFilePath);
-                imgUploadImage.Source = new BitmapImage(fileUri);
-            }
-
             try
             {
 
@@ -108,7 +69,7 @@ namespace Activator.Views
                     string BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
                     string filePath = BaseDirectoryPath + $"Resources\\Images\\{fileId}";
 
-                    item = table.GetItem(myId);
+                    Item item = Dynamodb.GetItem(myId, MyAWSConfigs.AdminDBTableName);
                     string oldImage = item["aPropic"];
                     Console.WriteLine("><><><><><><><><><><>" + oldImage);
 

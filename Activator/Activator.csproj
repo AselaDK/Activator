@@ -183,6 +183,9 @@
     <Compile Include="Views\ActivityLogs.xaml.cs">
       <DependentUpon>ActivityLogs.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Admin\AdminActivityLog.xaml.cs">
+      <DependentUpon>AdminActivityLog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Background.xaml.cs">
       <DependentUpon>Background.xaml</DependentUpon>
     </Compile>
@@ -251,6 +254,10 @@
       <DependentUpon>RegisterAdmin.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\ActivityLogs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\AdminActivityLog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
 namespace Activator.Models
@@ -21,7 +19,7 @@ namespace Activator.Models
         public string aPropic { get; set; }
 
         public bool root { get; set; }
-        public BitmapImage aImage{ get; set; }
+        public BitmapImage aImage { get; set; }
 
         public static List<Admin> GetAdminDetails()
         {

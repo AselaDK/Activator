@@ -1,17 +1,14 @@
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DocumentModel;
+using Amazon.DynamoDBv2.Model;
+using Amazon.Lambda.Core;
+using Amazon.Lambda.KinesisEvents;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-
-using Amazon.Lambda.Core;
-using Amazon.Lambda.KinesisEvents;
-
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.Model;
-using Amazon.DynamoDBv2.DocumentModel;
-
-using Newtonsoft.Json;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
@@ -37,8 +34,8 @@ namespace kinesisMyDataStreamFunction
                 Rootobject dataObject = JsonConvert.DeserializeObject<Rootobject>(recordData);
 
                 string[] temp = dataObject.InputInformation.KinesisVideo.StreamArn.Split('/');
-                string detectedCamera = temp[temp.Length - 2];                
-                int detectedCameraId = int.Parse(detectedCamera[detectedCamera.Length - 1].ToString());                
+                string detectedCamera = temp[temp.Length - 2];
+                int detectedCameraId = int.Parse(detectedCamera[detectedCamera.Length - 1].ToString());
 
                 if (dataObject.FaceSearchResponse.Length != 0)
                 {
@@ -57,8 +54,8 @@ namespace kinesisMyDataStreamFunction
                             {
                                 if (!detectedList.Contains(matchedface.Face.ExternalImageId))
                                 {
-                                    detectedList.Add(matchedface.Face.ExternalImageId);                                                                      
-                                }                               
+                                    detectedList.Add(matchedface.Face.ExternalImageId);
+                                }
                             }
 
                             foreach (Person person in allRefPersons.Values)
@@ -70,11 +67,11 @@ namespace kinesisMyDataStreamFunction
                                 //context.Logger.LogLine($"id: {id}, status: {status}");
 
                                 if (detectedList.Contains(id))
-                                {                                    
+                                {
                                     if (status == "0")
                                     {
                                         var itemUpdate = new Document();
-                                        
+
                                         itemUpdate["id"] = id;
                                         itemUpdate["status"] = 1;
                                         itemUpdate["camera"] = detectedCameraId.ToString();
@@ -92,7 +89,7 @@ namespace kinesisMyDataStreamFunction
                                     }
                                 }
                                 else
-                                {                                    
+                                {
                                     if (status == "1")
                                     {
                                         var itemUpdate = new Document();
@@ -105,8 +102,8 @@ namespace kinesisMyDataStreamFunction
                                 }
                             }
 
-                        }                      
-                    }  
+                        }
+                    }
                     else
                     {
                         foreach (Person person in allRefPersons.Values)
@@ -160,7 +157,7 @@ namespace kinesisMyDataStreamFunction
         }
 
         private void WriteItemAsync(Document item, ILambdaContext context, string tableName)
-        {            
+        {
             try
             {
                 AmazonDynamoDBClient client;
@@ -178,7 +175,7 @@ namespace kinesisMyDataStreamFunction
             {
                 context.Logger.LogLine("Error: " + e);
             }
-        }        
+        }
 
         private void UpdateItemAsync(Document item, ILambdaContext context, string tableName)
         {
@@ -187,7 +184,7 @@ namespace kinesisMyDataStreamFunction
                 AmazonDynamoDBClient client;
                 using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
                 {
-                    var table = Table.LoadTable(client, tableName);       
+                    var table = Table.LoadTable(client, tableName);
 
                     table.UpdateItemAsync(item);
                 }
@@ -199,11 +196,11 @@ namespace kinesisMyDataStreamFunction
             catch (Exception e)
             {
                 context.Logger.LogLine("Error: " + e);
-            }            
+            }
         }
 
         private async Task GetAllRefPersons(ILambdaContext context)
-        {            
+        {
             try
             {
                 AmazonDynamoDBClient client;
@@ -219,9 +216,9 @@ namespace kinesisMyDataStreamFunction
                             TableName = tableName,
                             Limit = 20,
                             ExclusiveStartKey = lastKeyEvaluated,
-                            AttributesToGet = {"id", "status", "name"},
+                            AttributesToGet = { "id", "status", "name" },
                         };
-                                                
+
                         ScanResponse response = await client.ScanAsync(request);
 
                         allRefPersons.Clear();
@@ -241,7 +238,7 @@ namespace kinesisMyDataStreamFunction
                         lastKeyEvaluated = response.LastEvaluatedKey;
 
                     } while (lastKeyEvaluated != null && lastKeyEvaluated.Count != 0);
-                }                
+                }
             }
             catch (AmazonDynamoDBException e)
             {
@@ -250,7 +247,7 @@ namespace kinesisMyDataStreamFunction
             catch (Exception e)
             {
                 context.Logger.LogLine("Error: " + e);
-            }            
-        }        
+            }
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace Activator.Models
         public static readonly String AdminDBTableName = "admin";
         public static readonly String RefPersonsDBTableName = "ref_persons";
         public static readonly String CamerasDBTableName = "cameras";
-        public static readonly String ReaderDBtableName = "reader";      
+        public static readonly String ReaderDBtableName = "reader";
         public static readonly String HistoryDBtableName = "history";
         public static readonly String ActivitylogsDBtableName = "actvitylogs";
 

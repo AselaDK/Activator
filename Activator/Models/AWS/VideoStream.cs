@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using Amazon.KinesisVideo;
 using Amazon.KinesisVideo.Model;
-using Amazon.KinesisVideo;
+using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Activator.Models
@@ -51,7 +50,7 @@ namespace Activator.Models
             catch (Exception e)
             {
                 Console.WriteLine("Error: " + e);
-            }           
+            }
 
             return streamArn;
         }
@@ -122,7 +121,7 @@ namespace Activator.Models
             catch (Exception e)
             {
                 Console.WriteLine("Error: " + e);
-            }            
+            }
 
             return streamList;
         }

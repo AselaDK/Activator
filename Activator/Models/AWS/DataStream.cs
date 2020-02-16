@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Amazon.Kinesis;
+﻿using Amazon.Kinesis;
 using Amazon.Kinesis.Model;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace Activator.Models
 {
@@ -32,20 +28,20 @@ namespace Activator.Models
                         {
                             CreateStreamRequest createStreamRequest = new CreateStreamRequest()
                             {
-                                StreamName = streamName,                               
+                                StreamName = streamName,
                                 ShardCount = 1,
                             };
 
                             CreateStreamResponse createStreamResponse = kinesisClient.CreateStream(createStreamRequest);
 
                             if (createStreamResponse.HttpStatusCode == System.Net.HttpStatusCode.OK)
-                            {                                
+                            {
                                 StreamDescriptionSummary streamSummary = DescribeDataStream(streamName);
                                 if (streamSummary != null)
                                 {
                                     streamArn = streamSummary.StreamARN;
 
-                                    while (streamSummary.StreamStatus != StreamStatus.ACTIVE || 
+                                    while (streamSummary.StreamStatus != StreamStatus.ACTIVE ||
                                         streamSummary.StreamStatus == StreamStatus.CREATING)
                                     {
                                         Thread.Sleep(1 * 1000);
@@ -54,9 +50,9 @@ namespace Activator.Models
                                         {
                                             streamArn = "";
                                             break;
-                                        }                                                                                    
-                                    }                                    
-                                }                                    
+                                        }
+                                    }
+                                }
                             }
                             else
                                 Console.WriteLine("Error creating kinesis data stream");
@@ -85,7 +81,7 @@ namespace Activator.Models
                 AmazonKinesisClient kinesisClient;
 
                 using (kinesisClient = new AmazonKinesisClient(Models.MyAWSConfigs.KinesisRegion))
-                {                   
+                {
                     ListStreamsRequest listStreamsRequest = new ListStreamsRequest();
                     ListStreamsResponse listStreamsResponse = kinesisClient.ListStreams(listStreamsRequest);
 
@@ -155,7 +151,8 @@ namespace Activator.Models
 
                 using (kinesisClient = new AmazonKinesisClient(Models.MyAWSConfigs.KinesisRegion))
                 {
-                    DescribeStreamSummaryRequest streamSummaryRequest = new DescribeStreamSummaryRequest {
+                    DescribeStreamSummaryRequest streamSummaryRequest = new DescribeStreamSummaryRequest
+                    {
                         StreamName = streamName
                     };
 

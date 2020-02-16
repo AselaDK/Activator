@@ -1,17 +1,14 @@
-﻿using Amazon.DynamoDBv2;
-using System;
-using System.Windows;
-using System.Windows.Input;
-using Table = Amazon.DynamoDBv2.DocumentModel.Table;
-using Item = Amazon.DynamoDBv2.DocumentModel.Document;
-using Activator.Models;
-using System.Windows.Media.Imaging;
-using System.Windows.Media;
+﻿using Activator.Models;
+using Amazon.DynamoDBv2;
 using Microsoft.Win32;
-using MahApps.Metro.Controls.Dialogs;
+using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using Item = Amazon.DynamoDBv2.DocumentModel.Document;
 
 namespace Activator.Views
 {
@@ -21,40 +18,19 @@ namespace Activator.Views
     public partial class AdminProfile : UserControl
     {
         private string uploadFilePath;
-        private readonly string myId = null;
+        private string myId = null;
         private string tableName = null;
-        Table table = null;
         private Item item = null;
-        public AdminProfile()
+
+        public AdminProfile(String id)
         {
             InitializeComponent();
+            myId = id;
         }
 
-        public AdminProfile(String id) : this()
+        public async Task ShowProfileData(string myid)
         {
-            this.myId = id;
-            try
-            {
-                string tableName = MyAWSConfigs.AdminDBTableName;
-                item = Dynamodb.GetItem(myId, tableName);
-            }
-            catch (AmazonDynamoDBException ex)
-            {
-                MessageBox.Show("Message : Server Error", ex.Message);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Message : Unknown Error", ex.Message);
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
-            }
-            ShowProfileData(myId);
-        }
-
-        private void ShowProfileData(string myid)
-        {
+            progressBar.Visibility = Visibility.Visible;
             try
             {
                 Console.WriteLine("name   vvvvv- - - ", myid);
@@ -69,13 +45,13 @@ namespace Activator.Views
 
                     if (item != null)
                     {
-                        Console.WriteLine("name   - - - ",item["aName"]);
+                        Console.WriteLine("name   - - - ", item["aName"]);
                         AdminName.Text = item["aName"];
                         AdminPhone.Text = item["aPhone"];
                         AdminEMail.Text = item["aId"];
 
                         string imagename = item["aPropic"];
-                        S3Bucket.DownloadFile(imagename, MyAWSConfigs.AdminS3BucketName);
+                        await Task.Run(() => Models.S3Bucket.DownloadFile(imagename, MyAWSConfigs.AdminS3BucketName));
                         var BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
                         string filePath = BaseDirectoryPath + $"Resources/Images/{imagename}";
                         AdminDp.Source = new BitmapImage(new Uri(filePath));
@@ -84,7 +60,6 @@ namespace Activator.Views
                     else
                     {
                         MessageBox.Show("Can not Load Data!!!");
-
                     }
 
 
@@ -154,10 +129,10 @@ namespace Activator.Views
 
                     //Delete old profile pic in local
                     string oldFilePath = BaseDirectoryPath + $"Resources\\Images\\{oldImage}";
-                    //DeleteOldPic(oldFilePath);
+                    DeleteOldPic(oldFilePath);
 
                     //Delete old profile pic in s3Bucket
-                    //S3Bucket.DeleteFile(oldImage);
+                    S3Bucket.DeleteFile(oldImage, MyAWSConfigs.AdminS3BucketName);
 
                     item["aPropic"] = fileId;
 

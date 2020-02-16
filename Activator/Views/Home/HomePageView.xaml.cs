@@ -64,9 +64,9 @@ namespace Activator.Views
             try
             {
                 IEnumerable<Models.Camera> temp = await Task.Run(() => Models.Camera.GetAllCamers());
-                
+
                 cameras.Clear();
-                
+
                 foreach (Models.Camera camera in temp)
                 {
                     cameras.Add(camera.id, camera);
@@ -87,7 +87,7 @@ namespace Activator.Views
             ImageSource imageSource = (VisualTreeHelper.GetChild(dataGridDetectedPersons.Columns[0].GetCellContent(row), 0) as Image).Source;
 
             mv.MenuPage.Content = dp;
-            dp.LoadPerson(id.Text, name.Text, description.Text, imageSource, mv, this, "home");            
+            dp.LoadPerson(id.Text, name.Text, description.Text, imageSource, mv, this, "home");
         }
 
         private async Task ReadRefPersonStream()
@@ -331,7 +331,7 @@ namespace Activator.Views
         }
 
         private async Task AddNewNotification(string message, string id)
-        {           
+        {
             string directoryPath = "Resources/Images/";
 
             BitmapImage image = new BitmapImage();
@@ -349,10 +349,10 @@ namespace Activator.Views
             message = DateTime.Now.ToShortTimeString() + " " + message;
 
             var myChip = new MaterialDesignThemes.Wpf.Chip()
-            {                
+            {
                 Content = message,
                 IsDeletable = false,
-                Icon = new Image() { Source = image, Stretch = Stretch.Uniform},
+                Icon = new Image() { Source = image, Stretch = Stretch.Uniform },
             };
 
             Thickness margin = myChip.Margin;

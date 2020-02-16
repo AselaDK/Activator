@@ -2,7 +2,6 @@
 using Amazon.DynamoDBv2.DataModel;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
 
@@ -36,12 +35,12 @@ namespace Activator.Models
         {
             get; set;
         }
-      
-        public List<String> readerList 
-        { 
-            get; set; 
+
+        public List<String> readerList
+        {
+            get; set;
         }
-      
+
         public string description
         {
             get; set;
@@ -65,8 +64,8 @@ namespace Activator.Models
                 DynamoDBContext context = new DynamoDBContext(client);
 
                 IEnumerable<RefPerson> refPersonsData = context.Scan<RefPerson>();
-                
-                var tempPersons = refPersonsData.ToList<RefPerson>();                
+
+                var tempPersons = refPersonsData.ToList<RefPerson>();
 
                 client.Dispose();
 

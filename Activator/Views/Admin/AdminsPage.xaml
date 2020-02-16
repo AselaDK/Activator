@@ -50,7 +50,9 @@
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"                     
                       AutoGenerateColumns="False" CanUserAddRows="False"
                       SelectionMode="Extended"
-                      SelectionUnit="FullRow" Grid.ColumnSpan="2">
+                      SelectionUnit="FullRow" Grid.RowSpan="3"
+                      MouseDoubleClick="AdminDataGrid_MouseDoubleClick"
+                  >
 
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
@@ -62,7 +64,7 @@
             </DataGrid.CellStyle>
 
             <DataGrid.Columns>
-                <DataGridTemplateColumn  Width="100" Header="" IsReadOnly="True">
+                <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Source="{Binding aImage}" Width="60" Height="60" Stretch="UniformToFill"/>

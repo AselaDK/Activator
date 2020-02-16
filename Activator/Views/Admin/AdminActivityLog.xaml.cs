@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace Activator.Views.Admin
+{
+    /// <summary>
+    /// Interaction logic for AdminActivityLog.xaml
+    /// </summary>
+    public partial class AdminActivityLog : UserControl
+    {
+        public AdminActivityLog()
+        {
+            InitializeComponent();
+        }
+        public void LoadActivityLogs(string id)
+        {
+            var aList = Models.Dynamodb.GetActivitiesOfAdmin(id, Models.MyAWSConfigs.ActivitylogsDBtableName, "userid");
+            dataGridActivityLogs.ItemsSource = aList;
+            dataGridActivityLogs.Items.Refresh();
+        }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void dataGridActivityLogs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void BtnBack_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnBack_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
+}
