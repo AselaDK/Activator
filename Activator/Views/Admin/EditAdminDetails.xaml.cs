@@ -28,26 +28,7 @@ namespace Activator.Views
         {
             InitializeComponent();
             this.myId = id;
-            try
-            {
-                this.client = new AmazonDynamoDBClient();
-                string tableName = MyAWSConfigs.AdminDBTableName;
-                table = Table.LoadTable(client, tableName);
-                item = table.GetItem(myId);
-                ShowProfileData();
-            }
-            catch (AmazonDynamoDBException ex)
-            {
-                MessageBox.Show("Message : Server Error", ex.Message);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Message : Unknown Error", ex.Message);
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
-            }
+            ShowProfileData();
         }
 
         private void ButtonSubmit_Click(object sender, RoutedEventArgs e)
@@ -55,8 +36,7 @@ namespace Activator.Views
             try
             {
                 string tableName = MyAWSConfigs.AdminDBTableName;
-                Table table = Table.LoadTable(client, tableName);
-                Item item = table.GetItem(myId);
+                Item item = Dynamodb.GetItem(myId, tableName);
                 Console.Write("my adminid<<<<<<<<<<<<<<<<<<",myId,">>>>>>>>>>>>>>>>>>>");
 
                 bool isFileIdEmpty = string.IsNullOrEmpty(txtEmail.Text);
@@ -79,13 +59,7 @@ namespace Activator.Views
                         doc["aName"] = txtName.Text;
                         doc["aPhone"] = txtPhone.Text;
 
-                        // Optional parameters.
-                        UpdateItemOperationConfig config = new UpdateItemOperationConfig
-                        {
-                            // Get updated item in response.
-                            ReturnValues = ReturnValues.AllNewAttributes
-                        };
-                        Document updatedadmin = table.UpdateItem(doc, config);
+                        Dynamodb.UpdateItem(doc, tableName);
                         Console.WriteLine("UpdateMultipleAttributes: Printing item after updates ...");
                         MessageBox.Show("Successfully Updated!");
 
@@ -118,9 +92,28 @@ namespace Activator.Views
 
         private void ShowProfileData()
         {
-            txtEmail.Text = myId;
-            txtName.Text = item["aName"];
-            txtPhone.Text = item["aPhone"];
+            try
+            {
+                string tableName = MyAWSConfigs.AdminDBTableName;
+                Item item = Dynamodb.GetItem(myId, tableName);
+                Console.Write("my adminid<<<<<<<<<<<<<<<<<<", myId, ">>>>>>>>>>>>>>>>>>>");
+                txtEmail.Text = myId;
+                txtName.Text = item["aName"];
+                txtPhone.Text = item["aPhone"];
+
+            }
+            catch (AmazonDynamoDBException ex)
+            {
+                MessageBox.Show("Message : Server Error", ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Message : Unknown Error", ex.Message);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)

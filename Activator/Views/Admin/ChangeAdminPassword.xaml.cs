@@ -18,8 +18,7 @@ namespace Activator.Views
     public partial class ChangeAdminPassword : MetroWindow
     {
         private readonly string myId = "";
-        readonly Table table = null;
-        readonly Item item = null;
+
         public ChangeAdminPassword()
         {
             InitializeComponent();

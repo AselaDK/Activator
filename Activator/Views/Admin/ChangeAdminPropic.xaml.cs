@@ -22,9 +22,6 @@ namespace Activator.Views
     {
         private string uploadFilePath;
         private readonly string myId = "";
-        private readonly AmazonDynamoDBClient client;
-        readonly Table table = null;
-        private Item item = null;
 
         public ChangeAdminPropic()
         {
@@ -35,25 +32,6 @@ namespace Activator.Views
         {
             InitializeComponent();
             this.myId = id;
-            try
-            {
-                this.client = new AmazonDynamoDBClient();
-                string tableName = MyAWSConfigs.AdminDBTableName;
-                table = Table.LoadTable(client, tableName);
-                item = table.GetItem(myId);
-            }
-            catch (AmazonDynamoDBException ex)
-            {
-                MessageBox.Show("Message : Server Error", ex.Message);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Message : Unknown Error", ex.Message);
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
-            }
         }
 
         private void ButtonClose_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -77,20 +55,7 @@ namespace Activator.Views
         }
 
         private async void ButtonSubmit_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image files | *.jpg; *.jpeg; *.png";
-            openFileDialog.FilterIndex = 1;
-            openFileDialog.Multiselect = false;
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                uploadFilePath = openFileDialog.FileName;
-
-                Uri fileUri = new Uri(uploadFilePath);
-                imgUploadImage.Source = new BitmapImage(fileUri);
-            }
-
+        { 
             try
             {
 
@@ -108,7 +73,7 @@ namespace Activator.Views
                     string BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
                     string filePath = BaseDirectoryPath + $"Resources\\Images\\{fileId}";
 
-                    item = table.GetItem(myId);
+                    Item item = Dynamodb.GetItem(myId, MyAWSConfigs.AdminDBTableName);
                     string oldImage = item["aPropic"];
                     Console.WriteLine("><><><><><><><><><><>" + oldImage);
 

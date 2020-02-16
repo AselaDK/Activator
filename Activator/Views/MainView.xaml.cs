@@ -76,7 +76,7 @@ namespace Activator.Views
             readers = new ReadersPage();
             cameraView = new CameraView(this);
             admins = new AdminsPage(adminId);
-            adminProfile = new AdminProfile();
+            adminProfile = new AdminProfile(adminId);
         }
 
         private async Task InitUserInfo()
@@ -146,6 +146,7 @@ namespace Activator.Views
             adminProfile = new AdminProfile(adminId);
             MenuPage.Content = adminProfile;
             lblTitle.Content = "MY PROFILE";
+            adminProfile.ShowProfileData(adminId).ConfigureAwait(false);
         }
         
         private void ButtonMenuActivityLogs_Click(object sender, RoutedEventArgs e)

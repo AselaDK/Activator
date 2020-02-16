@@ -10,14 +10,17 @@
       mc:Ignorable="d"
       d:DesignHeight="1080" d:DesignWidth="1920">
 
+    
+    
     <Grid Background="#e9e9e9" >
-        <TextBlock Text="Admin One" Foreground="#FF3580BF" FontSize="30" FontWeight="Bold" Margin="5,0,5,0" Grid.Row="1"/>
-
-        <Grid x:Name="AdminDatagrid" Width="Auto" VerticalAlignment="Top" Background="White" Margin="0,40,0,0" Height="475">
+        <Grid  HorizontalAlignment="Stretch" Height="5" Margin="10,10,-10,1065" >
+            <ProgressBar x:Name="progressBar" Style="{DynamicResource MaterialDesignLinearProgressBar}" IsIndeterminate="True" VerticalAlignment="Top" Visibility="Hidden"/>
+        </Grid>
+        <Grid x:Name="AdminDatagrid" Width="Auto" VerticalAlignment="Top" Background="White" Margin="0,0,0,0" Height="475">
 
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation="Vertical" Width="450" Height="450" Margin="10 10 50 10" Background="DarkSeaGreen">
-                    <Image x:Name="AdminDp" Width="440" Height="440" Stretch="Uniform"/>
+                    <Image x:Name="AdminDp" Width="440" Height="440" Stretch="UniformToFill"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="70,50,0,71">
                     <TextBox x:Name="AdminName" Text="My Name" FontSize="50" IsReadOnly="True" />
@@ -27,7 +30,7 @@
             </StackPanel>
 
         </Grid>
-        <StackPanel Margin="301,661,251,156" RenderTransformOrigin="0.504,-0.684">
+        <StackPanel Margin="301,661,251,3" RenderTransformOrigin="0.504,-0.684">
             <Button x:Name="BtnEditDetails" Click="BtnEditDetails_Click" Content="Edit Details" FontSize="20" Margin="10 10 10 10" Foreground="WhiteSmoke" Background="MediumSeaGreen" Height="65"></Button>
             <Button x:Name="BtnEditPassword" Click="BtnEditPassword_Click" Content="Change Password" FontSize="20" Margin="10 10 10 10" Foreground="WhiteSmoke" Background="MediumSeaGreen" Height="65"/>
             <Button x:Name="ChangePropic" Click="BtnChangePropic_Click" Content="Change Profile Picture" FontSize="20" Margin="10 10 10 10" Foreground="WhiteSmoke" Background="MediumSeaGreen" Height="65"></Button>
