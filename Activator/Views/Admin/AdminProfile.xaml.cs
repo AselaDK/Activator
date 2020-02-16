@@ -23,7 +23,6 @@ namespace Activator.Views
         private string uploadFilePath;
         private readonly string myId = null;
         private string tableName = null;
-        Table table = null;
         private Item item = null;
         public AdminProfile()
         {

@@ -4,11 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.DataModel;
+using System.Windows;
+using System.Windows.Input;
+using Item = Amazon.DynamoDBv2.DocumentModel.Document;
+using Table = Amazon.DynamoDBv2.DocumentModel.Table;
+using Activator.Models;
 
 namespace Activator.Models
 {
@@ -194,6 +198,40 @@ namespace Activator.Models
             }
 
             return logsList;
+        }
+
+        public static void UpdateItem(Item doc, String tableName)
+        {
+            AmazonDynamoDBClient client;
+            client = new AmazonDynamoDBClient();
+            Table table = Table.LoadTable(client, tableName);
+
+            try
+            {
+                
+                // Optional parameters.
+                UpdateItemOperationConfig config = new UpdateItemOperationConfig
+                {
+                    // Get updated item in response.
+                    ReturnValues = ReturnValues.AllNewAttributes
+                };
+                Document updatedadmin = table.UpdateItem(doc, config);
+            }
+            catch (AmazonDynamoDBException e)
+            {
+                Console.WriteLine("AmazonDynamoDBException: " + e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e);
+            }
+
+
+
+
+
+            
+            
         }
     }
 }

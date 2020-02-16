@@ -18,7 +18,6 @@ namespace Activator.Views
     public partial class ChangeAdminPassword : MetroWindow
     {
         private readonly string myId = "";
-        private readonly AmazonDynamoDBClient client;
         readonly Table table = null;
         readonly Item item = null;
         public ChangeAdminPassword()
@@ -29,25 +28,6 @@ namespace Activator.Views
         {
             InitializeComponent();
             this.myId = id;
-            try
-            {
-                this.client = new AmazonDynamoDBClient();
-                string tableName = "admin";
-                table = Table.LoadTable(client, tableName);
-                item = table.GetItem(myId);
-            }
-            catch (AmazonDynamoDBException ex)
-            {
-                MessageBox.Show("Message : Server Error", ex.Message);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Message : Unknown Error", ex.Message);
-            }
-            finally
-            {
-                Mouse.OverrideCursor = null;
-            }
         }
 
 
@@ -61,8 +41,7 @@ namespace Activator.Views
             try
             {
                 string tableName = MyAWSConfigs.AdminDBTableName;
-                var table = Table.LoadTable(client, tableName);
-                var item = table.GetItem(myId);
+                var item = Dynamodb.GetItem(myId, tableName);
                 Console.Write("my adminid<<<<<<<<<<<<<<<<<<", myId, ">>>>>>>>>>>>>>>>>>>");
 
                 bool isPasswordEmpty = string.IsNullOrEmpty(txtPassword.Password);
@@ -83,13 +62,7 @@ namespace Activator.Views
                         // The following replaces the existing authors list.
                         doc["aPassword"] = HashMD5.MD5Hash(txtNewPassword.Password);
 
-                        // Optional parameters.
-                        UpdateItemOperationConfig config = new UpdateItemOperationConfig
-                        {
-                            // Get updated item in response.
-                            ReturnValues = ReturnValues.AllNewAttributes
-                        };
-                        Document updatedadmin = table.UpdateItem(doc, config);
+                        Dynamodb.UpdateItem(doc, tableName);
                         Console.WriteLine("UpdateMultipleAttributes: Printing item after updates ...");
                         MessageBox.Show("Successfully Updated!");
 
