@@ -1,9 +1,9 @@
 ﻿using Activator.Models;
-using Amazon.DynamoDBv2.DocumentModel;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Activator.Views
@@ -11,7 +11,7 @@ namespace Activator.Views
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class LoginView : Window
+    public partial class LoginView : MetroWindow
     {
         private System.Windows.Forms.NotifyIcon notifyIcon = null;
 
@@ -50,7 +50,7 @@ namespace Activator.Views
             String aId = TxtUid.Text;
             String aPassword = TxtPassword.Password;
             String hashPassword = HashMD5.MD5Hash(aPassword);
-            
+
             try
             {
                 var item = await Task.Run(() => Dynamodb.GetItem(aId, MyAWSConfigs.AdminDBTableName));
@@ -59,7 +59,7 @@ namespace Activator.Views
                 {
                     notifyIcon.Visible = true;
                     notifyIcon.ShowBalloonTip(2000, "Welcome", $"{item["aName"]}", System.Windows.Forms.ToolTipIcon.Info);
-                                        
+
                     this.Hide();
 
                     string adminName = item["aName"];
@@ -79,7 +79,7 @@ namespace Activator.Views
 
                     MainView mainView = new MainView(adminId, adminName, adminPropic);
                     mainView.ShowDialog();
-                    
+
                 }
                 else
                 {
@@ -106,15 +106,14 @@ namespace Activator.Views
             }
         }
 
-        private void ButtonCloseApplication_Click(object sender, RoutedEventArgs e)
+        private async void btnForget_Click(object sender, RoutedEventArgs e)
+        {
+            await this.ShowMessageAsync("Please Contact the Developer Team. Thank You!", "", MessageDialogStyle.Affirmative);
+        }
+
+        private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
-
-        private void btnForget_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Please Contact the Developer Team. Thank You!");
-        }
-
     }
 }

@@ -183,6 +183,9 @@
     <Compile Include="Views\ActivityLogs.xaml.cs">
       <DependentUpon>ActivityLogs.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Background.xaml.cs">
+      <DependentUpon>Background.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Camera\AddNewCameraView.xaml.cs">
       <DependentUpon>AddNewCameraView.xaml</DependentUpon>
     </Compile>
@@ -254,6 +257,10 @@
       <DependentUpon>EditReference.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\ActivityLogs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Background.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -382,6 +389,12 @@
     <Analyzer Include="packages\AWSSDK.Lambda.3.3.107.7\analyzers\dotnet\cs\AWSSDK.Lambda.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.Rekognition.3.3.103.25\analyzers\dotnet\cs\AWSSDK.Rekognition.CodeAnalysis.dll" />
     <Analyzer Include="packages\AWSSDK.S3.3.3.110.23\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\VideoSurveillance.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\CamImage.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
