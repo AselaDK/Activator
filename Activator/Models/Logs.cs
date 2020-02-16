@@ -10,7 +10,7 @@ namespace Activator.Models
         {
             get; set;
         }
-        
+
         public string Timestamp
         {
             get; set;
@@ -21,8 +21,8 @@ namespace Activator.Models
             get; set;
         }
 
-       
 
-        
+
+
     }
 }

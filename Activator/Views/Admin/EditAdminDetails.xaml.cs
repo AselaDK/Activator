@@ -1,4 +1,5 @@
-﻿using Amazon.DynamoDBv2;
+﻿using Activator.Models;
+using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using MahApps.Metro.Controls;
 using System;
@@ -6,7 +7,6 @@ using System.Windows;
 using System.Windows.Input;
 using Item = Amazon.DynamoDBv2.DocumentModel.Document;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
-using Activator.Models;
 
 namespace Activator.Views
 {
@@ -37,7 +37,7 @@ namespace Activator.Views
             {
                 string tableName = MyAWSConfigs.AdminDBTableName;
                 Item item = Dynamodb.GetItem(myId, tableName);
-                Console.Write("my adminid<<<<<<<<<<<<<<<<<<",myId,">>>>>>>>>>>>>>>>>>>");
+                Console.Write("my adminid<<<<<<<<<<<<<<<<<<", myId, ">>>>>>>>>>>>>>>>>>>");
 
                 bool isFileIdEmpty = string.IsNullOrEmpty(txtEmail.Text);
                 bool isNameEmpty = string.IsNullOrEmpty(txtName.Text);
@@ -64,7 +64,7 @@ namespace Activator.Views
                         MessageBox.Show("Successfully Updated!");
 
                         this.Close();
-                        
+
                     }
                     else
                     {
@@ -74,7 +74,7 @@ namespace Activator.Views
                 else
                 {
                     MessageBox.Show("Message : Please fill all all the fields!!!");
-                } 
+                }
             }
             catch (AmazonDynamoDBException ex)
             {

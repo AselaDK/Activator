@@ -1,19 +1,10 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Activator.Views.Ref_Person;
 
 
 namespace Activator.Views
@@ -37,7 +28,7 @@ namespace Activator.Views
             InitializeComponent();
         }
 
-        public void LoadPerson(string pId, string pName, string pDescription, ImageSource pImageSource, MainView mv, Object parent, string objectType)    
+        public void LoadPerson(string pId, string pName, string pDescription, ImageSource pImageSource, MainView mv, Object parent, string objectType)
         {
             this.pId = pId;
             this.pName = pName;
@@ -70,19 +61,19 @@ namespace Activator.Views
             IEnumerable<Document> result = await Task.Run(() => Models.Dynamodb.GetAllDocumentsWithFilter
             (
                 Models.MyAWSConfigs.HistoryDBtableName,
-                "id", 
+                "id",
                 pId
             ));
 
             List<Document> docs = new List<Document>(result);
-            
+
             foreach (var doc in docs)
                 Console.WriteLine("Detected camera Id" + doc["cameraId"]);
         }
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
-            switch(objectType)
+            switch (objectType)
             {
                 case "home":
                     mv.MenuPage.Content = parent as HomePageView;
@@ -95,7 +86,7 @@ namespace Activator.Views
                     (parent as AllPeoplePageView).LoadPersonsData().ConfigureAwait(false);
                     break;
             }
-            
+
         }
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)

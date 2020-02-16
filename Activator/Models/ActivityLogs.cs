@@ -1,12 +1,10 @@
-﻿using Amazon.DynamoDBv2.DataModel;
-using System.Windows.Media.Imaging;
+﻿using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 using System;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Collections.Generic;
-using Amazon.DynamoDBv2;
 using System.Linq;
+using System.Windows;
 namespace Activator.Models
 {
     [DynamoDBTable("actvitylogs")]
@@ -91,7 +89,7 @@ namespace Activator.Models
                 Console.WriteLine("Error: " + e);
             }
 
-            foreach(var log in logs)
+            foreach (var log in logs)
             {
                 Console.WriteLine(log.activityid + "   " + log.userid + "\n");
             }

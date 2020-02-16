@@ -1,10 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-
-using Amazon.Rekognition;
-using Amazon.Rekognition.Model;
+﻿using System.Windows.Controls;
 
 namespace Activator.Views
 {
@@ -16,6 +10,6 @@ namespace Activator.Views
         public PeopleInPageView()
         {
             InitializeComponent();
-        }        
+        }
     }
 }

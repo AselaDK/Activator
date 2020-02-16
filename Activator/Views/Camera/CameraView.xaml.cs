@@ -1,10 +1,8 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace Activator.Views
 {
@@ -29,7 +27,7 @@ namespace Activator.Views
             progressBar.Visibility = Visibility.Visible;
             BtnRefresh.IsEnabled = false;
             try
-            {                
+            {
                 IEnumerable<Models.Camera> cameras = await Task.Run(() => Models.Camera.GetAllCamers());
 
                 dataGridCameras.ItemsSource = cameras;
@@ -108,9 +106,9 @@ namespace Activator.Views
                 string dataStreamName = $"AmazonRekognitionDataStreamCam{selectedCameraId}";
                 string streamProcessorName = $"StreamProcessorCam{selectedCameraId}";
 
-                mainView.DeleteCamera(selectedCameraId.ToString(), videoStreamArn, dataStreamName, eventSourceUUID, streamProcessorName, this);               
+                mainView.DeleteCamera(selectedCameraId.ToString(), videoStreamArn, dataStreamName, eventSourceUUID, streamProcessorName, this);
             }
-        }        
+        }
 
         private void DataGridCameras_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

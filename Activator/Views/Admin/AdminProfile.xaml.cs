@@ -1,17 +1,14 @@
-﻿using Amazon.DynamoDBv2;
-using System;
-using System.Windows;
-using System.Windows.Input;
-using Table = Amazon.DynamoDBv2.DocumentModel.Table;
-using Item = Amazon.DynamoDBv2.DocumentModel.Document;
-using Activator.Models;
-using System.Windows.Media.Imaging;
-using System.Windows.Media;
+﻿using Activator.Models;
+using Amazon.DynamoDBv2;
 using Microsoft.Win32;
-using MahApps.Metro.Controls.Dialogs;
+using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using Item = Amazon.DynamoDBv2.DocumentModel.Document;
 
 namespace Activator.Views
 {
@@ -48,7 +45,7 @@ namespace Activator.Views
 
                     if (item != null)
                     {
-                        Console.WriteLine("name   - - - ",item["aName"]);
+                        Console.WriteLine("name   - - - ", item["aName"]);
                         AdminName.Text = item["aName"];
                         AdminPhone.Text = item["aPhone"];
                         AdminEMail.Text = item["aId"];

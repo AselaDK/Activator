@@ -100,7 +100,7 @@ namespace Activator.Views
         }
 
         private void ButtonMenuHome_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             MenuPage.Content = home;
             lblTitle.Content = "HOME";
             home.GetAllCameras().ConfigureAwait(false);
@@ -113,7 +113,7 @@ namespace Activator.Views
         }
 
         private void ButtonMenuAllPeople_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             MenuPage.Content = allPeoplePageView;
             lblTitle.Content = "REFERENCES";
             allPeoplePageView.LoadPersonsData().ConfigureAwait(false);
@@ -127,7 +127,7 @@ namespace Activator.Views
         }
 
         private void ButtonMenuCameras_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             MenuPage.Content = cameraView;
             lblTitle.Content = "CAMERAS";
             cameraView.LoadCamerasData().ConfigureAwait(false);
@@ -148,7 +148,7 @@ namespace Activator.Views
             lblTitle.Content = "MY PROFILE";
             adminProfile.ShowProfileData(adminId).ConfigureAwait(false);
         }
-        
+
         private void ButtonMenuActivityLogs_Click(object sender, RoutedEventArgs e)
         {
             ActivityLogs activityLogs = new ActivityLogs();
@@ -178,7 +178,7 @@ namespace Activator.Views
                 dashboard.ShowDialog();
                 //LoginView.ShowDialog();
             }
-                
+
         }
 
         public async void DeleteCamera(string id, string videoStreamArn, string dataStreamName, string eventSourceUUID, string streamProcessorName, CameraView cv)

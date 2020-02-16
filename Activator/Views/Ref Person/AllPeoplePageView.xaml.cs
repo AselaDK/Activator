@@ -1,4 +1,5 @@
 ﻿using Activator.Models;
+using Activator.Views.Ref_Person;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Activator.Views.Ref_Person;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -24,7 +24,7 @@ namespace Activator.Views
             InitializeComponent();
 
             DeleteButton.IsEnabled = false;
-            
+
             this.mv = mv;
             dp = new DetectedPerson();
         }
@@ -43,9 +43,9 @@ namespace Activator.Views
             {
                 IEnumerable<Models.RefPerson> tempPersons = await Task.Run(() => Models.RefPerson.GetAllRefPersons());
                 IEnumerable<Models.Camera> tempCameras = await Task.Run(() => Models.Camera.GetAllCamers());
-                
+
                 List<Models.RefPerson> persons = new List<Models.RefPerson>(tempPersons);
-                List<Models.Camera> cameras= new List<Models.Camera>(tempCameras);
+                List<Models.Camera> cameras = new List<Models.Camera>(tempCameras);
 
                 string directoryPath = "Resources/Images/";
 
@@ -67,7 +67,7 @@ namespace Activator.Views
                     else
                         person.lastLocation = cameras.Find(c => c.id == person.camera).location;
                 }
-                
+
                 dataGridAllRefPersons.ItemsSource = persons;
                 dataGridAllRefPersons.Items.Refresh();
             }
@@ -88,7 +88,7 @@ namespace Activator.Views
 
             mv.MenuPage.Content = dp;
             dp.LoadPerson(id.Text, name.Text, description.Text, imageSource, mv, this, "ref");
-       
+
         }
 
         //private void GetCheckedList()
@@ -152,8 +152,8 @@ namespace Activator.Views
             {
                 DeleteButton.IsEnabled = false;
             }
-            
-            
+
+
         }
 
         public void RefPersonEdit()

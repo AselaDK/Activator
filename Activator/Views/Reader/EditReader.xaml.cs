@@ -54,7 +54,7 @@ namespace Activator.Views.Reader
             progressBar.Visibility = Visibility.Visible;
             try
             {
-                IEnumerable<RefPerson> temp = await Task.Run(()=> RefPerson.GetAllRefPersons());
+                IEnumerable<RefPerson> temp = await Task.Run(() => RefPerson.GetAllRefPersons());
                 List<RefPerson> refs = new List<RefPerson>(temp);
                 List<String> selectedrefs = new List<String>();
                 List<String> tickedreaders = new List<String>();
@@ -70,7 +70,7 @@ namespace Activator.Views.Reader
                     r.isCheckedRef = false;
                 }
 
-                
+
 
                 //Console.WriteLine();
 
@@ -86,7 +86,7 @@ namespace Activator.Views.Reader
                     }
                 }
 
-                
+
 
                 foreach (var j in refs)
                 {

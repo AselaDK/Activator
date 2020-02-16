@@ -1,17 +1,11 @@
 ﻿using Activator.Models;
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DocumentModel;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Table = Amazon.DynamoDBv2.DocumentModel.Table;
 
 namespace Activator.Views
 {
@@ -78,18 +72,18 @@ namespace Activator.Views
             string tableName = MyAWSConfigs.AdminDBTableName;
 
             var item = Dynamodb.GetItem(aId, tableName);
-            
-            if(item["root"].AsBoolean() == true)
+
+            if (item["root"].AsBoolean() == true)
             {
                 RegisterAdmin acv = new RegisterAdmin();
-                RegAdmin.IsEnabled = true;  
+                RegAdmin.IsEnabled = true;
                 acv.ShowDialog();
             }
             else
             {
                 MessageBox.Show("Only the rood admin can register the new users");
             }
-            
+
         }
 
         private void Search_Click(object sender, RoutedEventArgs e)
@@ -102,7 +96,7 @@ namespace Activator.Views
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            LoadData().ConfigureAwait(false); 
+            LoadData().ConfigureAwait(false);
         }
     }
 }

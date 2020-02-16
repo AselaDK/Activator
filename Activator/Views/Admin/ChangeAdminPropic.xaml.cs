@@ -1,5 +1,4 @@
-﻿using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DocumentModel;
+﻿using Activator.Models;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
@@ -7,11 +6,8 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Item = Amazon.DynamoDBv2.DocumentModel.Document;
-using Table = Amazon.DynamoDBv2.DocumentModel.Table;
-using Activator.Models;
 
 namespace Activator.Views
 {
@@ -27,7 +23,7 @@ namespace Activator.Views
         {
             InitializeComponent();
         }
-        
+
         public ChangeAdminPropic(string id) : this()
         {
             InitializeComponent();
@@ -55,7 +51,7 @@ namespace Activator.Views
         }
 
         private async void ButtonSubmit_Click(object sender, RoutedEventArgs e)
-        { 
+        {
             try
             {
 

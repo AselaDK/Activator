@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.Model;
-using Amazon.DynamoDBv2.DocumentModel;
+﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
-using System.Windows;
-using System.Windows.Input;
+using Amazon.DynamoDBv2.DocumentModel;
+using Amazon.DynamoDBv2.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Item = Amazon.DynamoDBv2.DocumentModel.Document;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
-using Activator.Models;
 
 namespace Activator.Models
 {
@@ -114,7 +108,7 @@ namespace Activator.Models
                         };
 
                         ScanResponse scanResponse = client.Scan(scanRequest);
-                        itemCount += scanResponse.Count;                        
+                        itemCount += scanResponse.Count;
 
                         lastKeyEvaluated = scanResponse.LastEvaluatedKey;
                     }
@@ -134,7 +128,7 @@ namespace Activator.Models
         }
 
         public static List<Document> GetAllDocumentsWithFilter(string tableName, string columnName, string filterValue)
-        {          
+        {
             try
             {
                 AmazonDynamoDBClient client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion);
@@ -148,7 +142,7 @@ namespace Activator.Models
                 List<Document> docs = new List<Document>();
                 do
                 {
-                    docs.AddRange(search.GetNextSet().ToList<Document>());                 
+                    docs.AddRange(search.GetNextSet().ToList<Document>());
 
                 } while (!search.IsDone);
 
@@ -208,7 +202,7 @@ namespace Activator.Models
 
             try
             {
-                
+
                 // Optional parameters.
                 UpdateItemOperationConfig config = new UpdateItemOperationConfig
                 {
@@ -230,8 +224,8 @@ namespace Activator.Models
 
 
 
-            
-            
+
+
         }
     }
 }

@@ -1,25 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Activator.Models;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DocumentModel;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Win32;
+using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using MahApps.Metro.Controls.Dialogs;
-using MahApps.Metro.Controls;
-using Amazon.DynamoDBv2.DocumentModel;
-using Microsoft.Win32;
-using Item = Amazon.DynamoDBv2.DocumentModel.Document;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
-using Activator.Models;
-using Amazon.DynamoDBv2;
-using System.IO;
 
 namespace Activator.Views.Ref_Person
 {
@@ -94,7 +85,7 @@ namespace Activator.Views.Ref_Person
 
 
                     string partitionKey = txtId.Text;
-                    Console.WriteLine("oooooooooooooooooooooooooooooooo"+partitionKey);
+                    Console.WriteLine("oooooooooooooooooooooooooooooooo" + partitionKey);
 
                     var item = new Document();
 
@@ -155,7 +146,7 @@ namespace Activator.Views.Ref_Person
             {
                 await this.ShowMessageAsync("Error", "Task not completed", MessageDialogStyle.Affirmative);
             }
-    }
+        }
 
         private void imgUploadImage_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {

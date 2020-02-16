@@ -1,20 +1,12 @@
 ﻿using Activator.Views.Reader;
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DocumentModel;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
+using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Table = Amazon.DynamoDBv2.DocumentModel.Table;
-using Activator.Models;
-using System.Threading.Tasks;
-using System.IO;
 
 namespace Activator.Views
 {
@@ -61,7 +53,7 @@ namespace Activator.Views
 
                     Uri fileUri = new Uri(exeDirectory + directoryPath + reader.propic);
 
-                    reader.rImage = new BitmapImage(fileUri);                    
+                    reader.rImage = new BitmapImage(fileUri);
                 }
 
                 ReaderDataGrid.ItemsSource = readers;
@@ -91,7 +83,7 @@ namespace Activator.Views
             SelectedPeopleIdList = SelectedPeople[0].id;
             Console.WriteLine(SelectedPeopleIdList);
 
-           
+
             return SelectedPeopleIdList;
         }
 
@@ -121,7 +113,7 @@ namespace Activator.Views
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            LoadData().ConfigureAwait(false); 
+            LoadData().ConfigureAwait(false);
         }
     }
 }

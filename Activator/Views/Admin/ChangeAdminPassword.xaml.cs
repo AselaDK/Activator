@@ -1,12 +1,10 @@
-﻿using Amazon.DynamoDBv2;
+﻿using Activator.Models;
+using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using MahApps.Metro.Controls;
 using System;
 using System.Windows;
 using System.Windows.Input;
-using Item = Amazon.DynamoDBv2.DocumentModel.Document;
-using Table = Amazon.DynamoDBv2.DocumentModel.Table;
-using Activator.Models;
 
 namespace Activator.Views
 {

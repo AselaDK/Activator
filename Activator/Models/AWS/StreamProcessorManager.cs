@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Amazon.Rekognition;
+﻿using Amazon.Rekognition;
 using Amazon.Rekognition.Model;
+using System;
+using System.Collections.Generic;
 
 namespace Activator.Models
 {
@@ -11,7 +10,7 @@ namespace Activator.Models
         private static String roleArn = MyAWSConfigs.RoleArn;
         private static String collectionId = MyAWSConfigs.FaceCollectionID;
 
-        private static float matchThreshold = 90f;        
+        private static float matchThreshold = 90f;
 
         public static bool CreateStreamProcessor(String streamProcessorName, String VideoStreamArn, String DataStreamArn)
         {
@@ -105,7 +104,7 @@ namespace Activator.Models
                         Console.WriteLine("Stream Processor " + streamProcessorName + " started.");
 
                         isSuccess = startStreamProcessorResponse.HttpStatusCode == System.Net.HttpStatusCode.OK ? true : false;
-                    }                    
+                    }
                 }
             }
             catch (AmazonRekognitionException e)
@@ -118,7 +117,7 @@ namespace Activator.Models
 
             }
 
-            return isSuccess;            
+            return isSuccess;
         }
 
         public static bool StopStreamProcessor(String streamProcessorName)
@@ -141,7 +140,7 @@ namespace Activator.Models
                         Console.WriteLine("Stream Processor " + streamProcessorName + " stopped.");
 
                         isSuccess = stopStreamProcessorResponse.HttpStatusCode == System.Net.HttpStatusCode.OK ? true : false;
-                    }                        
+                    }
                 }
             }
             catch (AmazonRekognitionException e)
@@ -154,7 +153,7 @@ namespace Activator.Models
 
             }
 
-            return isSuccess;            
+            return isSuccess;
         }
 
         public static bool DeleteStreamProcessor(String streamProcessorName)

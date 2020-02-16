@@ -1,19 +1,17 @@
-﻿using System;
+﻿using Activator.Models;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DocumentModel;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using Microsoft.Win32;
-using MahApps.Metro.Controls.Dialogs;
-using MahApps.Metro.Controls;
-using Amazon.DynamoDBv2.DocumentModel;
-using System.Collections.Generic;
-using System.Windows.Input;
-using Activator.Views.Reader;
-using Activator.Models;
-using Amazon.DynamoDBv2;
 using Item = Amazon.DynamoDBv2.DocumentModel.Document;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
-using System.Linq;
 
 namespace Activator.Views
 {
@@ -31,7 +29,7 @@ namespace Activator.Views
             LoadData();
         }
 
-     
+
         public async Task LoadData()
         {
             progressBar.Visibility = Visibility.Visible;
@@ -193,7 +191,7 @@ namespace Activator.Views
                     {
                         foreach (string i in readersList)
                         {
-                            Console.WriteLine("reader null >>>>>> "+i);
+                            Console.WriteLine("reader null >>>>>> " + i);
                         }
 
                         doc["readerList"] = readersList;
@@ -220,7 +218,7 @@ namespace Activator.Views
             }
             finally
             {
-                
+
             }
         }
 

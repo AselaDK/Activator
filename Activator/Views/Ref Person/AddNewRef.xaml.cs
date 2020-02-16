@@ -1,13 +1,12 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using MahApps.Metro.Controls.Dialogs;
-using MahApps.Metro.Controls;
-using System.Collections.Generic;
-using System.Windows.Input;
 
 namespace Activator.Views
 {
@@ -67,7 +66,7 @@ namespace Activator.Views
                     txtDescription.Text = "";
                     txtId.Text = "";
                     imgUploadImage.Source = null;
-                    
+
                 }
                 else
                 {
@@ -82,7 +81,7 @@ namespace Activator.Views
 
         public AddNewRef()
         {
-            InitializeComponent();         
+            InitializeComponent();
         }
 
         private void ButtonChooseImage_Click(object sender, RoutedEventArgs e)

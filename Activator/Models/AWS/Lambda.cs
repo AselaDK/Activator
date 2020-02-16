@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Amazon.Lambda;
+﻿using Amazon.Lambda;
 using Amazon.Lambda.Model;
+using System;
+using System.Threading;
 
 namespace Activator.Models
 {
@@ -29,7 +24,7 @@ namespace Activator.Models
                         MaximumBatchingWindowInSeconds = 0,
                         StartingPosition = EventSourcePosition.LATEST,
                         Enabled = true,
-                        FunctionName = MyAWSConfigs.LambdaFunctionName,                        
+                        FunctionName = MyAWSConfigs.LambdaFunctionName,
                     };
                     CreateEventSourceMappingResponse eventSourceMappingResponse = lambdaClient.CreateEventSourceMapping(eventSourceMappingRequest);
 
@@ -49,7 +44,7 @@ namespace Activator.Models
                         state = getResponse.State;
                     }
 
-                                        
+
                 }
             }
             catch (AmazonLambdaException e)

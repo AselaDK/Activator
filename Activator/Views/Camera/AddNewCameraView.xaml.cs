@@ -10,10 +10,10 @@ namespace Activator.Views
     /// Interaction logic for AddNewCameraView.xaml
     /// </summary>
     public partial class AddNewCameraView : MetroWindow
-    {        
+    {
         public AddNewCameraView()
         {
-            InitializeComponent();           
+            InitializeComponent();
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
