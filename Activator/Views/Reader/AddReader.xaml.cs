@@ -28,25 +28,16 @@ namespace Activator.Views
         public AddReader()
         {
             InitializeComponent();
-            InitData();
-        }
-
-        private void InitData()
-        {
             LoadData();
         }
-        protected void LoadData()
+
+        public async Task LoadData()
         {
-            Mouse.OverrideCursor = Cursors.Wait;
+            progressBar.Visibility = Visibility.Visible;
             try
             {
-                List<RefPerson> refs = new List<RefPerson>();
-
-                refs = RefPerson.GetAllRefPersons();
-
-                Console.WriteLine();
-
-                lblLoading.Visibility = Visibility.Hidden;
+                IEnumerable<Models.RefPerson> temp = await Task.Run(() => Models.RefPerson.GetAllRefPersons());
+                List<Models.RefPerson> refs = new List<RefPerson>(temp);
 
                 RefDataGrid.ItemsSource = refs;
                 RefDataGrid.Items.Refresh();
@@ -57,7 +48,7 @@ namespace Activator.Views
             }
             finally
             {
-                Mouse.OverrideCursor = null;
+                progressBar.Visibility = Visibility.Hidden;
             }
         }
 
@@ -247,15 +238,5 @@ namespace Activator.Views
                 imgUploadImage.Source = new BitmapImage(fileUri);
             }
         }
-
-        private void AddReferance_Click(object sender, RoutedEventArgs e)
-        {
-            //MessageBox.Show("this is from add referance button");
-            AssignReferences assignReferences = new AssignReferences();
-            assignReferences.ShowDialog();
-            
-        }
-
-
     }
 }

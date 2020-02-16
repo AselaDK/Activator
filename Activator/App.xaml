@@ -1,7 +1,6 @@
 ﻿<Application x:Class="Activator.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Activator"
              StartupUri="Views/LoginView.xaml">
     <Application.Resources>
         <ResourceDictionary>

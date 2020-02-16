@@ -35,7 +35,8 @@ namespace Activator.Views.Reader
         {
             InitializeComponent();
             readid = txtId.Text;
-            InitData(id);
+            LoadData(id).ConfigureAwait(false);
+
             try
             {
                 this.client = new AmazonDynamoDBClient();
@@ -55,16 +56,13 @@ namespace Activator.Views.Reader
 
         }
 
-        private void InitData(string id)
+        private async Task LoadData(string id)
         {
-            LoadData(id);
-        }
-        protected void LoadData(string id)
-        {
-            Mouse.OverrideCursor = Cursors.Wait;
+            progressBar.Visibility = Visibility.Visible;
             try
             {
-                List<RefPerson> refs = new List<RefPerson>();
+                IEnumerable<RefPerson> temp = await Task.Run(() => RefPerson.GetAllRefPersons());
+                List<RefPerson> refs = new List<RefPerson>(temp);
                 List<String> selectedrefs = new List<String>();
                 List<String> tickedreaders = new List<String>();
 
@@ -77,11 +75,7 @@ namespace Activator.Views.Reader
                 foreach (var r in refs)
                 {
                     r.isCheckedRef = false;
-                }
-
-                refs = RefPerson.GetAllRefPersons();
-
-                //Console.WriteLine();
+                }               
 
                 for (int i = 0; i < selectedrefs.Count; i++)
                 {
@@ -114,7 +108,7 @@ namespace Activator.Views.Reader
             }
             finally
             {
-                Mouse.OverrideCursor = null;
+                progressBar.Visibility = Visibility.Hidden;
             }
         }
 

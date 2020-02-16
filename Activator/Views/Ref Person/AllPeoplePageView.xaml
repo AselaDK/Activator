@@ -16,19 +16,14 @@
              d:DesignHeight="1080" d:DesignWidth="1920">
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
-        
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*" />
             <RowDefinition Height="4*" />
             <RowDefinition Height="0.4*" />
             <RowDefinition Height="50*" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Background="White">
-            <Label x:Name="title" Content="REFERENCESS" FontWeight="DemiBold" FontSize="24" VerticalContentAlignment="Center"/>
-        </Grid>
-
-        <Grid Grid.Row="1" HorizontalAlignment="Stretch" Background="WhiteSmoke">
+        <Grid Grid.Row="0" HorizontalAlignment="Stretch" Background="WhiteSmoke">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <Button Click="BtnAddNewRef_Click" Margin="10,0,0,0" 
                         Style="{DynamicResource MaterialDesignRaisedButton}" 
@@ -46,11 +41,11 @@
             </StackPanel>
         </Grid>
 
-        <Grid Grid.Row="2" HorizontalAlignment="Stretch">
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch">
             <ProgressBar x:Name="progressBar" Style="{DynamicResource MaterialDesignLinearProgressBar}" IsIndeterminate="True" Visibility="Hidden"/>
         </Grid>
 
-        <DataGrid Grid.Row="3" x:Name="dataGridAllRefPersons" 
+        <DataGrid Grid.Row="2" x:Name="dataGridAllRefPersons" 
                       HorizontalAlignment="Stretch"                       
                       ScrollViewer.CanContentScroll="False" 
                       ScrollViewer.VerticalScrollBarVisibility="Auto" 
