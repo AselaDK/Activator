@@ -92,9 +92,12 @@
 
         <Grid Grid.Column="1" Background="White"/>
 
-        <ItemsControl Grid.Column="2" VerticalAlignment="Stretch" x:Name="notificationListView" 
+        <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <ItemsControl VerticalAlignment="Stretch" x:Name="notificationListView" 
                       Background="WhiteSmoke">
-        </ItemsControl>
+            </ItemsControl>
+        </ScrollViewer>
+        
     </Grid>            
 
 </UserControl>

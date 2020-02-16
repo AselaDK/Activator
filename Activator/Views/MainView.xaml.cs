@@ -107,8 +107,8 @@ namespace Activator.Views
             allPeoplePageView = new AllPeoplePageView(this);
             readers = new ReadersPage();
             cameraView = new CameraView(this);
-            admins = new AdminsPage(adminId);
-            adminProfile = new AdminProfile();
+            admins = new AdminsPage(adminId, this);
+            adminProfile = new AdminProfile(adminId);
         }
 
         private async Task InitUserInfo()

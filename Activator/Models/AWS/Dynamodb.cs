@@ -215,33 +215,6 @@ namespace Activator.Models
             return logsList;
         }
 
-        public static void UpdateItem(Item doc, String tableName)
-        {
-            AmazonDynamoDBClient client;
-            client = new AmazonDynamoDBClient();
-            Table table = Table.LoadTable(client, tableName);
-
-            try
-            {
-
-                // Optional parameters.
-                UpdateItemOperationConfig config = new UpdateItemOperationConfig
-                {
-                    // Get updated item in response.
-                    ReturnValues = ReturnValues.AllNewAttributes
-                };
-                Document updatedadmin = table.UpdateItem(doc, config);
-            }
-            catch (AmazonDynamoDBException e)
-            {
-                Console.WriteLine("AmazonDynamoDBException: " + e);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: " + e);
-            }
-        }
-
         public static List<ActivityLogs> GetActivitiesOfAdmin(String value, String tableName, String columnName)
         {
             AmazonDynamoDBClient client;

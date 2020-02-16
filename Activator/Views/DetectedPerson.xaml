@@ -65,6 +65,10 @@
                     <ColumnDefinition Width="6*" />
                 </Grid.ColumnDefinitions>
 
+                <!--<ScrollViewer>
+                    
+                </ScrollViewer>-->
+                
                 <ItemsControl Grid.Column="0" VerticalAlignment="Stretch" x:Name="timeList" Margin="20,0,0,0"
                       HorizontalAlignment="Left" Background="White">
                 </ItemsControl>
