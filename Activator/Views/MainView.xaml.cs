@@ -115,7 +115,7 @@ namespace Activator.Views
         private void ButtonMenuAllPeople_Click(object sender, RoutedEventArgs e)
         {            
             MenuPage.Content = allPeoplePageView;
-            lblTitle.Content = "ALL PEOPLE";
+            lblTitle.Content = "REFERENCES";
             allPeoplePageView.LoadPersonsData().ConfigureAwait(false);
         }
 
@@ -152,7 +152,7 @@ namespace Activator.Views
         {
             ActivityLogs activityLogs = new ActivityLogs();
             MenuPage.Content = activityLogs;
-            lblTitle.Content = "Activity Logs";
+            lblTitle.Content = "ACTIVITY LOGS";
         }
 
         private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)

@@ -18,17 +18,12 @@
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*" />
             <RowDefinition Height="4*" />
             <RowDefinition Height="0.4*" />
             <RowDefinition Height="50*" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Background="White">
-            <Label x:Name="title" Content="REFERENCESS" FontWeight="DemiBold" FontSize="24" VerticalContentAlignment="Center"/>
-        </Grid>
-
-        <Grid Grid.Row="1" HorizontalAlignment="Stretch" Background="WhiteSmoke">
+        <Grid Grid.Row="0" HorizontalAlignment="Stretch" Background="WhiteSmoke">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <Button Click="BtnAddNewRef_Click" Margin="10,0,0,0" 
                         Style="{DynamicResource MaterialDesignRaisedButton}" 
@@ -46,11 +41,11 @@
             </StackPanel>
         </Grid>
 
-        <Grid Grid.Row="2" HorizontalAlignment="Stretch">
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch">
             <ProgressBar x:Name="progressBar" Style="{DynamicResource MaterialDesignLinearProgressBar}" IsIndeterminate="True" Visibility="Hidden"/>
         </Grid>
 
-        <DataGrid Grid.Row="3" x:Name="dataGridAllRefPersons" 
+        <DataGrid Grid.Row="2" x:Name="dataGridAllRefPersons" 
                       HorizontalAlignment="Stretch"                       
                       ScrollViewer.CanContentScroll="False" 
                       ScrollViewer.VerticalScrollBarVisibility="Auto" 
@@ -59,9 +54,14 @@
                       SelectionMode="Extended"
                       SelectionUnit="FullRow" Grid.ColumnSpan="2"
                       SelectionChanged="dataGridAllRefPersons_SelectionChanged"
-                      MouseDoubleClick="dataGridAllRefPersons_MouseDoubleClick"
                         >
 
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="dataGridRefPersons_Row_DoubleClick"/>
+                </Style>
+            </DataGrid.Resources>
+            
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
                     <Setter Property="Background" Value="Transparent"/>
@@ -72,7 +72,6 @@
             </DataGrid.CellStyle>
 
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn x:Name="SelectionColumn" Header="" Width="60" IsReadOnly="False" Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected, Mode=TwoWay}" ElementStyle="{DynamicResource MaterialDesignCheckBox}"/>
                 <DataGridTemplateColumn Width="100" Header="" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -85,6 +84,8 @@
                 <DataGridTextColumn Width="1*" Header="Last Detected Camera" Binding="{Binding camera}" IsReadOnly="True"/>
                 <DataGridTextColumn Width="2*" Header="Last Detected Location" Binding="{Binding lastLocation}" IsReadOnly="True"/>
                 <DataGridTextColumn Width="4*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
+                <DataGridCheckBoxColumn x:Name="SelectionColumn" Header="" Width="60" IsReadOnly="False" Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected, Mode=TwoWay}" ElementStyle="{DynamicResource MaterialDesignCheckBox}"/>
+
             </DataGrid.Columns>
 
         </DataGrid>

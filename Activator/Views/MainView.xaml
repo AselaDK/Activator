@@ -61,15 +61,15 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="-250"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="button">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="1"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(ScaleTransform.ScaleX)" Storyboard.TargetName="ButtonMenuAdmins">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="-250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="button">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="1"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(ScaleTransform.ScaleY)" Storyboard.TargetName="ButtonMenuActivityLogs">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="-250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.9" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="CloseMenu">
@@ -153,7 +153,7 @@
                     </Button.RenderTransform>
                     <StackPanel Orientation="Horizontal" Margin="10 0">
                         <materialDesign:PackIcon Kind="AccountGroupOutline" Width="30" Height="30" VerticalAlignment="Center" Margin="5" Foreground="White"/>
-                        <TextBlock Text="ALL PEOPLE" Margin="10" VerticalAlignment="Center" Height="35" Foreground="White" FontSize="24"/>
+                        <TextBlock Text="REFERENCES" Margin="10" VerticalAlignment="Center" Height="35" Foreground="White" FontSize="17.5"/>
                     </StackPanel>
                 </Button>
                 <Button x:Name="ButtonMenuPeopleIn" Click="ButtonMenuPeopleIn_Click" Height="60" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="#FF73F79C" Margin="15">
@@ -223,7 +223,7 @@
                     </Button.RenderTransform>
                     <StackPanel Orientation="Horizontal" Margin="10 0">
                         <materialDesign:PackIcon Kind="ManMan" Width="30" Height="30" Foreground="White" VerticalAlignment="Center" Margin="5"/>
-                        <TextBlock Text="ADMINS" Margin="10" VerticalAlignment="Center" Foreground="White" FontSize="24"/>
+                        <TextBlock Text="ACTIVITY LOGS" Margin="10" VerticalAlignment="Center" Foreground="White" FontSize="16.5"/>
                     </StackPanel>
                 </Button>
             </StackPanel>

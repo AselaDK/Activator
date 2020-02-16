@@ -22,7 +22,6 @@ namespace Activator.Views
     {
         private string uploadFilePath;
         private readonly string myId = null;
-        private AmazonDynamoDBClient client;
         private string tableName = null;
         Table table = null;
         private Item item = null;
@@ -36,10 +35,8 @@ namespace Activator.Views
             this.myId = id;
             try
             {
-                this.client = new AmazonDynamoDBClient();
                 string tableName = MyAWSConfigs.AdminDBTableName;
-                table = Table.LoadTable(client, tableName);
-                item = table.GetItem(myId);
+                item = Dynamodb.GetItem(myId, tableName);
             }
             catch (AmazonDynamoDBException ex)
             {
@@ -66,10 +63,7 @@ namespace Activator.Views
                 try
                 {
                     tableName = MyAWSConfigs.AdminDBTableName;
-
-                    client = new AmazonDynamoDBClient();
-                    table = Table.LoadTable(client, tableName);
-                    item = table.GetItem(myid);
+                    item = Dynamodb.GetItem(myid, tableName);
 
                     //Console.WriteLine(item["aPassword"]);
 
@@ -146,9 +140,7 @@ namespace Activator.Views
 
                 if (!isFilePathEmpty)
                 {
-                    client = new AmazonDynamoDBClient();
                     tableName = MyAWSConfigs.AdminDBTableName;
-                    table = Table.LoadTable(client, tableName);
 
                     string[] temp = uploadFilePath.Split('.');
                     string fileId = $"{myId}.{temp[temp.Length - 1]}";
@@ -156,7 +148,7 @@ namespace Activator.Views
                     string BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
 
                     //get current dp name
-                    item = table.GetItem(myId);
+                    item = Dynamodb.GetItem(myId, tableName);
                     string oldImage = item["aPropic"];
                     Console.WriteLine("><><><><><><><><><><>" + oldImage);
 
