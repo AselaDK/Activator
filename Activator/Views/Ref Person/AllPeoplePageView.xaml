@@ -16,7 +16,7 @@
              d:DesignHeight="1080" d:DesignWidth="1920">
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="4*" />
             <RowDefinition Height="0.4*" />
