@@ -181,6 +181,9 @@
     <Compile Include="Models\Session.cs" />
     <Compile Include="Models\AWS\StreamProcessorManager.cs" />
     <Compile Include="Models\AWS\VideoStream.cs" />
+    <Compile Include="Views\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ActivityLogs.xaml.cs">
       <DependentUpon>ActivityLogs.xaml</DependentUpon>
     </Compile>
@@ -254,6 +257,10 @@
     <Compile Include="Views\Admin\RegisterAdmin.xaml.cs">
       <DependentUpon>RegisterAdmin.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ActivityLogs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -106,7 +106,7 @@
                         <DataGridTemplateColumn  Width="SizeToCells" Header="Photo" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Image Source="{Binding rImage}" Width="100" Height="100" Stretch="Uniform"/>
+                                    <Image Source="{Binding image}" Width="100" Height="100" Stretch="Uniform"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
