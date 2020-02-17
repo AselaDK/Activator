@@ -237,5 +237,10 @@ namespace Activator.Views
                 imgUploadImage.Source = new BitmapImage(fileUri);
             }
         }
+
+        private void BtnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

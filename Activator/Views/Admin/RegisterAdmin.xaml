@@ -3,48 +3,133 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Activator.Views"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
+                      
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
          TextElement.FontWeight="Regular"
          TextElement.FontSize="13"
          TextOptions.TextFormattingMode="Ideal"
          TextOptions.TextRenderingMode="Auto"
-        Title="New Person" Height="450" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None"
-                      ShowTitleBar="False"
-                      ShowCloseButton="False" 
-    ShowMaxRestoreButton="False" 
-    ShowMinButton="False" Topmost="True" IsWindowDraggable="False">
+    
+        Width="800" Height="650"
+        Title="New Person"
+    
+        ResizeMode="NoResize" 
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="None"
+        ShowTitleBar="False"
+        ShowCloseButton="False" 
+        ShowMaxRestoreButton="False" 
+        ShowMinButton="False" 
+        Topmost="false" 
+        IsWindowDraggable="False"
+        WindowState="Normal"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"              
+        >
 
-    <StackPanel Orientation="Horizontal">
-        <Grid>
-            <Label Content="Register New Admin" HorizontalAlignment="Left" Margin="10,0,0,410.6" FontSize="22" FontWeight="Bold"></Label>
-            <Rectangle Height="396" VerticalAlignment="Center" Margin="10,44,0.4,9.6" RadiusY="10" RadiusX="10" Fill="White">
-                <Rectangle.Effect>
-                    <DropShadowEffect BlurRadius="15" Direction="0" RenderingBias="Quality" ShadowDepth="1" Color="#FFBBBBBB"/>
-                </Rectangle.Effect>
-            </Rectangle>
-            <StackPanel Width="350" Margin="20,44,20.4,23.6" Orientation="Vertical" VerticalAlignment="Center" Height="382">
-                <TextBox x:Name="txtEmail" Margin="0,10" materialDesign:HintAssist.Hint="E-Mail" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
-                <TextBox x:Name="txtName" Margin="0,10" materialDesign:HintAssist.Hint="Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
-                <PasswordBox x:Name="txtPassword" Margin="0,10" materialDesign:HintAssist.Hint="Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
-                <PasswordBox x:Name="txtCPassword" Margin="0,10" materialDesign:HintAssist.Hint="Confirm Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
-                <TextBox x:Name="txtPhone" Margin="0,20" materialDesign:HintAssist.Hint="Phone" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
-                <StackPanel Orientation="Horizontal" Background="LightGray" >
-                    <ToggleButton x:Name = "root_toggle" Content = "Toggle" Checked = "root_toggle_Checked" Unchecked = "root_toggle_Unchecked" Margin = "20" Width = "108" HorizontalAlignment = "Center" />
-                    <Label x:Name = "text2"  Content="Root Admin" Margin = "20" Width = "167" HorizontalAlignment = "Center" FontSize = "17" Foreground="DimGray" />
-                </StackPanel>
-            </StackPanel>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="0.4*" />
+            <RowDefinition Height="15*" />
+            <RowDefinition Height="4*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" HorizontalAlignment="Stretch" Background="White">
+            <Grid VerticalAlignment="Top">
+                <Button x:Name="BtnClose" Margin="0,0,0,0" Click="ButtonClose_Click" HorizontalAlignment="Right"
+                        Style="{DynamicResource MaterialDesignIconButton}" Foreground="{DynamicResource MaterialDesignBody}">
+                    <materialDesign:PackIcon Kind="Close" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
+                </Button>
+                <Label x:Name="lblTitle" Content="New Admin" HorizontalAlignment="Center" Margin="0,20,0,0" FontSize="22" FontWeight="Bold"></Label>
+                <Separator Style="{DynamicResource MaterialDesignDarkSeparator}" Margin="60,60,60,0"/>
+            </Grid>
         </Grid>
-        <StackPanel Width="400">
-            <Button x:Name="buttonClose" Content="X" HorizontalAlignment="Right" Margin="0,10,0,0" VerticalAlignment="Top" Width="50" Foreground="Black" Background="Transparent" FontSize="24" Click="ButtonClose_Click"/>
-            <Image x:Name="imgUploadImage" HorizontalAlignment="Left" Height="233" Margin="80,40,0,0" VerticalAlignment="Top" Width="218"/>
-            <Button x:Name="buttonChooseImage" Content="Choose Image" HorizontalAlignment="Left" Margin="80,20,0,0" VerticalAlignment="Top" Width="131" Height="35" Click="ButtonChooseImage_Click"/>
-            <Button x:Name="buttonSubmit" Content="Submit" HorizontalAlignment="Right" Margin="0,20,10,0" VerticalAlignment="Top" Width="91" Click="ButtonSubmit_Click" Height="40" Background="Green" Foreground="White"/>
-        </StackPanel>
-    </StackPanel>
+
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch">
+            <ProgressBar x:Name="progressBar" Style="{DynamicResource MaterialDesignLinearProgressBar}" IsIndeterminate="True" Visibility="Hidden"/>
+        </Grid>
+
+        <Grid Grid.Row="2"  HorizontalAlignment="Stretch" Background="White">
+            <Grid VerticalAlignment="Stretch">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="353*" />
+                    <ColumnDefinition Width="47*"/>
+                    <ColumnDefinition Width="400*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,32,0,31.2">
+                    <Border BorderThickness="2" Width="300" Height="300">
+                        <Border.BorderBrush>
+                            <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
+                                <DrawingBrush.Drawing>
+                                    <DrawingGroup>
+                                        <GeometryDrawing Brush="Black">
+                                            <GeometryDrawing.Geometry>
+                                                <GeometryGroup>
+                                                    <RectangleGeometry Rect="0,0,50,50" />
+                                                    <RectangleGeometry Rect="50,50,50,50" />
+                                                </GeometryGroup>
+                                            </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                    </DrawingGroup>
+                                </DrawingBrush.Drawing>
+                            </DrawingBrush>
+                        </Border.BorderBrush>
+
+                        <Grid Background="WhiteSmoke" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image Width="300" Height="300" Source="..\..\Resources\Images\vectorUpload.jpg" HorizontalAlignment="Center" 
+                               Stretch="Uniform"/>
+                            <Image x:Name="imgUploadImage" Width="300" Height="300" HorizontalAlignment="Center" 
+                               Stretch="UniformToFill" />
+                        </Grid>
+
+                    </Border>
+                    <Button x:Name="buttonChooseImage" Content="Choose File" HorizontalAlignment="Center" 
+                            Margin="0,20" Style="{DynamicResource MaterialDesignRaisedButton}" 
+                            Click="ButtonChooseImage_Click" Foreground="White"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Margin="20,50,20,20" Orientation="Vertical" VerticalAlignment="Center">
+                    <TextBox x:Name="txtEmail" Margin="0,10" materialDesign:HintAssist.Hint="E-Mail" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
+                    <TextBox x:Name="txtName" Margin="0,10" materialDesign:HintAssist.Hint="Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Height="54"/>
+                    <PasswordBox x:Name="txtPassword" Margin="0,10" materialDesign:HintAssist.Hint="Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
+                    <PasswordBox x:Name="txtCPassword" Margin="0,10" materialDesign:HintAssist.Hint="Confirm Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
+                    <TextBox x:Name="txtPhone" Margin="0,20" materialDesign:HintAssist.Hint="Phone" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18"/>
+                    <StackPanel Orientation="Horizontal" Background="LightGray" >
+                        <ToggleButton x:Name = "root_toggle" Content = "Toggle" Checked = "root_toggle_Checked" Unchecked = "root_toggle_Unchecked" Margin = "20" Width = "108" HorizontalAlignment = "Center" />
+                        <Label x:Name = "text2"  Content="Root Admin" Margin = "20" Width = "167" HorizontalAlignment = "Center" FontSize = "17" Foreground="DimGray" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+            <Button x:Name="buttonSubmit" Content="SUBMIT" HorizontalAlignment="Right" Margin="0,0,20,0" 
+                    Click="ButtonSubmit_Click" Foreground="White"
+                    Style="{DynamicResource MaterialDesignRaisedButton}"
+                    />
+        </Grid>
+
+    </Grid>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!--<Grid VerticalAlignment="Center" Margin="20,0,350,0">
 
         <Rectangle Height="331" VerticalAlignment="Bottom" Margin="0,-19,0.6,-22" RadiusY="10" RadiusX="10" Fill="White" Grid.ColumnSpan="2">

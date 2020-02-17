@@ -20,9 +20,13 @@ namespace Activator.Views.Admin
     /// </summary>
     public partial class AdminActivityLog : UserControl
     {
-        public AdminActivityLog()
+        private AdminsPage ap;
+        private MainView mv;
+        public AdminActivityLog(AdminsPage ap, MainView mv)
         {
             InitializeComponent();
+            this.ap = ap;
+            this.mv = mv;
         }
         public void LoadActivityLogs(string id)
         {
@@ -48,7 +52,9 @@ namespace Activator.Views.Admin
 
         private void BtnBack_Click_1(object sender, RoutedEventArgs e)
         {
-
+            ap = new AdminsPage("", mv);
+            mv.MenuPage.Content = ap;
+            ap.LoadData().ConfigureAwait(false);
         }
     }
 }

@@ -23,9 +23,10 @@
                     <Image x:Name="AdminDp" Width="440" Height="440" Stretch="UniformToFill"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="70,50,0,71">
-                    <TextBox x:Name="AdminName" Text="My Name" FontSize="50" IsReadOnly="True" />
-                    <TextBox x:Name="AdminPhone" Text="My Phone" FontSize="40" Foreground="DarkGray" IsReadOnly="True"/>
-                    <TextBox x:Name="AdminEMail" Text="My E-Mail" FontSize="40" Foreground="DarkGray" IsReadOnly="True" Width="351"/>
+                    <TextBox x:Name="AdminName" Text="My Name" FontSize="50" IsReadOnly="True" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0"  />
+                    <TextBox x:Name="AdminPhone" Text="My Phone" FontSize="40" Foreground="DarkGray" IsReadOnly="True" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" />
+                    <TextBox x:Name="AdminEMail" Text="My E-Mail" FontSize="40" Foreground="DarkGray" IsReadOnly="True" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" />
+                    <TextBox x:Name="AdminType" Text="Type" FontSize="30" Foreground="Black" Background="Red" IsReadOnly="True" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" />
                 </StackPanel>
             </StackPanel>
 

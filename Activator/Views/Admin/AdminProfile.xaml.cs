@@ -50,6 +50,14 @@ namespace Activator.Views
                         AdminPhone.Text = item["aPhone"];
                         AdminEMail.Text = item["aId"];
 
+                        AdminType.Text = "Non-Root Admin";
+
+                        if (item["root"].AsBoolean() == true || item["root"].AsInt() == 1)
+                        {
+                            AdminType.Text = "Root Admin - Only you can access other Admins data";
+
+                        }
+
                         string imagename = item["aPropic"];
                         await Task.Run(() => Models.S3Bucket.DownloadFile(imagename, MyAWSConfigs.AdminS3BucketName));
                         var BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;

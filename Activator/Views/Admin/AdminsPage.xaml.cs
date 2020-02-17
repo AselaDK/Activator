@@ -28,7 +28,7 @@ namespace Activator.Views
             aId = getId(aid);
 
             this.mv = mv;
-            al = new AdminActivityLog();
+            al = new AdminActivityLog(this, mv);
         }
 
         public async Task LoadData()

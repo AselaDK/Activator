@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Item = Amazon.DynamoDBv2.DocumentModel.Document;
 
 namespace Activator.Views
 {
@@ -311,8 +312,18 @@ namespace Activator.Views
 
         private void ButtonMenuAdmins_Click(object sender, RoutedEventArgs e)
         {
-            MenuPage.Content = admins;
-            lblTitle.Content = "ADMINS";
+            Item item = Models.Dynamodb.GetItem(adminId, Models.MyAWSConfigs.AdminDBTableName);
+            if (item["root"].AsBoolean() == true)
+            {
+                MenuPage.Content = admins;
+                lblTitle.Content = "ADMINS";
+                admins.LoadData().ConfigureAwait(false);
+            }
+            else
+            {
+
+                MessageBox.Show("Only the Root-Admin can Access the this section");
+            }
 
             ButtonMenuAdmins.Background = Brushes.MediumSeaGreen;
             adminIcon.Foreground = Brushes.White;
@@ -347,10 +358,11 @@ namespace Activator.Views
 
         private void ProfileButton_Click(object sender, RoutedEventArgs e)
         {
-            adminProfile = null;
-            adminProfile = new AdminProfile(adminId);
+            //adminProfile = null;
+            //adminProfile = new AdminProfile(adminId);
             MenuPage.Content = adminProfile;
             lblTitle.Content = "MY PROFILE";
+            adminProfile.ShowProfileData(adminId).ConfigureAwait(false);
         }
         
         private void ButtonMenuActivityLogs_Click(object sender, RoutedEventArgs e)
