@@ -89,6 +89,10 @@ namespace Activator.Views
                     }
                     else
                     {
+                        //activity recorded
+                        string srnd = TxtUid.Text + DateTime.Now.ToString();
+                        Models.ActivityLogs.Activity(srnd, "####"+TxtUid.Text, "User login attempt failed", DateTime.Now.ToString());
+
                         TxtUid.Text = "";
                         TxtUid.BorderBrush = Brushes.Red;
 

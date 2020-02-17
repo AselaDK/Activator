@@ -89,7 +89,11 @@ namespace Activator.Views
 
                     await this.ShowMessageAsync("Success", "New Admin is Successfully Registered", MessageDialogStyle.Affirmative);
 
-                    imgUploadImage.Source = null;
+                    //activity recorded
+                    string srnd = Models.Session.id + DateTime.Now.ToString();
+                    Models.ActivityLogs.Activity(srnd, Models.Session.id, "User Changed Profile Picture", DateTime.Now.ToString());
+
+                    //imgUploadImage.Source = null;
                 }
                 else
                 {

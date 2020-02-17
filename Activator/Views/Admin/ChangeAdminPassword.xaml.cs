@@ -60,6 +60,11 @@ namespace Activator.Views
                         doc["aPassword"] = HashMD5.MD5Hash(txtNewPassword.Password);
 
                         Dynamodb.UpdateItem(doc, tableName);
+
+                        //activity recorded
+                        string srnd = Models.Session.id + DateTime.Now.ToString();
+                        Models.ActivityLogs.Activity(srnd, Models.Session.id, "Updated Password", DateTime.Now.ToString());
+
                         Console.WriteLine("UpdateMultipleAttributes: Printing item after updates ...");
                         MessageBox.Show("Successfully Updated!");
 
@@ -68,6 +73,10 @@ namespace Activator.Views
                     }
                     else
                     {
+                        //activity recorded
+                        string srnd = Models.Session.id + DateTime.Now.ToString();
+                        Models.ActivityLogs.Activity(srnd, Models.Session.id, "Wrong Password for change Password", DateTime.Now.ToString());
+
                         MessageBox.Show("Message : Wrong Password!");
                     }
                 }

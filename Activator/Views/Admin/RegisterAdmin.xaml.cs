@@ -16,6 +16,7 @@ namespace Activator.Views
     {
         private string uploadFilePath;
         private bool isRoot = false;
+        private string aRoot = "";
         public RegisterAdmin()
         {
             InitializeComponent();
@@ -81,6 +82,11 @@ namespace Activator.Views
                         txtCPassword.Password = "";
                         txtPhone.Text = "";
                         imgUploadImage.Source = null;
+
+                        // activity recorded
+                        string srnd = Models.Session.id + DateTime.Now.ToString();
+                        Models.ActivityLogs.Activity(srnd, Models.Session.id, "Added new "+ aRoot + " admin", DateTime.Now.ToString());
+
                     }
                     else
                     {
@@ -106,11 +112,13 @@ namespace Activator.Views
         private void root_toggle_Checked(object sender, RoutedEventArgs e)
         {
             isRoot = true;
+            aRoot = "ROOT";
         }
 
         private void root_toggle_Unchecked(object sender, RoutedEventArgs e)
         {
             isRoot = false;
+            aRoot = "";
         }
     }
 }

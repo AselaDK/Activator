@@ -31,7 +31,7 @@
                 <ColumnDefinition Width="200*"/>
                 <ColumnDefinition Width="200*"/>
             </Grid.ColumnDefinitions>
-            <DataGrid x:Name="dataGridActivityLogs" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Grid.ColumnSpan="4" SelectionChanged="dataGridActivityLogs_SelectionChanged"
+            <DataGrid x:Name="dataGridActivityLogs" PreviewMouseWheel="dataGridActivityLogs_PreviewMouseWheel" ScrollViewer.CanContentScroll="True" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Grid.ColumnSpan="4" SelectionChanged="dataGridActivityLogs_SelectionChanged"
                        >
                 <DataGrid.Columns >
                     <DataGridTextColumn Width="4*" Header="ID" Binding="{Binding activityid}" IsReadOnly="True" />

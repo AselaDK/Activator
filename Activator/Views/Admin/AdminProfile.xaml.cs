@@ -148,6 +148,10 @@ namespace Activator.Views
 
                     item["aPropic"] = fileId;
 
+                    //activity recorded
+                    string srnd = Models.Session.id + DateTime.Now.ToString();
+                    Models.ActivityLogs.Activity(srnd, Models.Session.id, "User Changed Profile Picture", DateTime.Now.ToString());
+
                     await Task.Run(() => S3Bucket.UploadFile(uploadFilePath, fileId, MyAWSConfigs.AdminS3BucketName));
 
                     MessageBox.Show("Success", "Successfully Updated!");
