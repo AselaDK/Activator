@@ -109,7 +109,7 @@ namespace Activator.Views
             readers = new ReadersPage();
             cameraView = new CameraView(this);
             admins = new AdminsPage(adminId, this);
-            adminProfile = new AdminProfile(adminId);
+            adminProfile = new AdminProfile(adminId, this, admins);
         }
 
         private async Task InitUserInfo()

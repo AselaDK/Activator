@@ -21,11 +21,15 @@ namespace Activator.Views
         private string myId = null;
         private string tableName = null;
         private Item item = null;
+        MainView mv;
+        Views.Admin.AdminActivityLog all;
 
-        public AdminProfile(String id)
+        public AdminProfile(String id, MainView mv, Views.AdminsPage al)
         {
             InitializeComponent();
             myId = id;
+            this.mv = mv;
+            this.all = new Admin.AdminActivityLog(al, mv); 
         }
 
         public async Task ShowProfileData(string myid)
@@ -185,6 +189,22 @@ namespace Activator.Views
             {
                 Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>");
                 Console.WriteLine(ioExp.Message);
+            }
+        }
+
+        private void BtnSeeActivityLogs_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine(myId);
+
+            if (myId != null)
+            {
+                mv.MenuPage.Content = all;
+                all.LoadActivityLogs(myId);
+            }
+            else
+            {
+                //DeleteButton.IsEnabled = false;
+                MessageBox.Show("id is null");
             }
         }
     }
