@@ -74,8 +74,8 @@ namespace Activator.Views
                     Console.WriteLine("><><><><><><><><><><>" + oldImage);
 
                     //Delete old profile pic in local
-                    string oldFilePath = BaseDirectoryPath + $"Resources\\Images\\{oldImage}";
-                    DeleteOldPic(oldFilePath);
+                    //string oldFilePath = BaseDirectoryPath + $"Resources\\Images\\{oldImage}";
+                    //DeleteOldPic(oldFilePath);
 
                     //Delete old profile pic in s3Bucket
                     S3Bucket.DeleteFile(oldImage, MyAWSConfigs.AdminS3BucketName);
@@ -83,11 +83,12 @@ namespace Activator.Views
                     item["aPropic"] = fileId;
 
                     await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId, MyAWSConfigs.AdminS3BucketName));
-                    await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.AdminDBTableName));
+                    MessageBox.Show(fileId);
+                    await Task.Run(() => Models.Dynamodb.UpdateItem(item, Models.MyAWSConfigs.AdminDBTableName));
 
                     await controller.CloseAsync();
 
-                    await this.ShowMessageAsync("Success", "New Admin is Successfully Registered", MessageDialogStyle.Affirmative);
+                    await this.ShowMessageAsync("Success", "Changed Successfully..", MessageDialogStyle.Affirmative);
 
                     //activity recorded
                     string srnd = Models.Session.id + DateTime.Now.ToString();

@@ -22,11 +22,13 @@ namespace Activator.Views.Admin
     {
         private AdminsPage ap;
         private MainView mv;
-        public AdminActivityLog(AdminsPage ap, MainView mv)
+        private string id;
+        public AdminActivityLog(AdminsPage ap, MainView mv, string id)
         {
             InitializeComponent();
             this.ap = ap;
             this.mv = mv;
+            this.id = id;
         }
         public void LoadActivityLogs(string id)
         {
@@ -37,7 +39,7 @@ namespace Activator.Views.Admin
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-
+            //LoadActivityLogs(id).ConfigureAwait(false);
         }
 
         private void dataGridActivityLogs_SelectionChanged(object sender, SelectionChangedEventArgs e)
