@@ -68,6 +68,7 @@ namespace Activator.Views
                         item["aPhone"] = txtPhone.Text;
                         item["aPropic"] = fileId;
                         item["root"] = isRoot;
+                        item["blocked"] = false;
 
                         await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId, Models.MyAWSConfigs.AdminS3BucketName));
                         await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.AdminDBTableName));

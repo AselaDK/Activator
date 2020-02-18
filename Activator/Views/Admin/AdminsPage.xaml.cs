@@ -28,7 +28,7 @@ namespace Activator.Views
             aId = getId(aid);
 
             this.mv = mv;
-            al = new AdminActivityLog(this, mv, aId);
+            al = new AdminActivityLog(this, mv, aId, false);
         }
 
         public async Task LoadData()
@@ -125,5 +125,8 @@ namespace Activator.Views
                 MessageBox.Show("id is null");
             }
         }
+
+
+
     }
 }

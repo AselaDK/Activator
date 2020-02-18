@@ -65,26 +65,35 @@ namespace Activator.Views
 
                     if (item != null && item["aPassword"] == hashPassword)
                     {
-                        notifyIcon.Visible = true;
-                        notifyIcon.ShowBalloonTip(2000, "Welcome", $"{item["aName"]}", System.Windows.Forms.ToolTipIcon.Info);
+                        if(item["blocked"].AsBoolean() == false)
+                        {
+                            notifyIcon.Visible = true;
+                            notifyIcon.ShowBalloonTip(2000, "Welcome", $"{item["aName"]}", System.Windows.Forms.ToolTipIcon.Info);
 
-                        this.Hide();
+                            this.Hide();
 
-                        string adminName = item["aName"];
-                        string adminId = item["aId"];
-                        string adminPropic = item["aPropic"];
+                            string adminName = item["aName"];
+                            string adminId = item["aId"];
+                            string adminPropic = item["aPropic"];
 
-                        Models.Session.id = adminId;
+                            //saving session
+                            Models.Session.id = adminId;
 
-                        string srnd = Models.Session.id + DateTime.Now.ToString();
+                            //activity log
+                            string srnd = Models.Session.id + DateTime.Now.ToString();
+                            Models.ActivityLogs.Activity(srnd, Models.Session.id, "User login", DateTime.Now.ToString());
 
-                        Models.ActivityLogs.Activity(srnd, Models.Session.id, "User login", DateTime.Now.ToString());
+                            TxtUid.Clear();
+                            TxtPassword.Clear();
 
-                        TxtUid.Clear();
-                        TxtPassword.Clear();
-
-                        MainView mainView = new MainView(adminId, adminName, adminPropic, this);
-                        mainView.ShowDialog();
+                            MainView mainView = new MainView(adminId, adminName, adminPropic, this);
+                            mainView.ShowDialog();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Your Profile is BLOCKED!");
+                        }
+                        
 
                     }
                     else

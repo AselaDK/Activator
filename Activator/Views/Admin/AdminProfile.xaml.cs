@@ -29,7 +29,7 @@ namespace Activator.Views
             InitializeComponent();
             myId = id;
             this.mv = mv;
-            this.all = new Admin.AdminActivityLog(al, mv, id); 
+            this.all = new Admin.AdminActivityLog(al, mv, id, true); 
         }
 
         public async Task ShowProfileData(string myid)

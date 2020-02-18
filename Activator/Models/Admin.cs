@@ -21,6 +21,8 @@ namespace Activator.Models
         public bool root { get; set; }
         public BitmapImage aImage { get; set; }
 
+        public bool blocked { get; set; }
+
         public static List<Admin> GetAdminDetails()
         {
             string directoryPath = "Resources/Images/";

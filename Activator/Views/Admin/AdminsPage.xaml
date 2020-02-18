@@ -45,9 +45,9 @@
 
         <DataGrid Grid.Row="2" x:Name="AdminDataGrid" 
                       HorizontalAlignment="Stretch"                       
-                      ScrollViewer.CanContentScroll="False" 
+                      ScrollViewer.CanContentScroll="True" 
                       ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"                     
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"                     
                       AutoGenerateColumns="False" CanUserAddRows="False"
                       SelectionMode="Extended"
                       SelectionUnit="FullRow" Grid.RowSpan="3"

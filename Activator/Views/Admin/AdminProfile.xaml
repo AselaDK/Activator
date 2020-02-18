@@ -32,7 +32,7 @@
 
         </Grid>
         <StackPanel Margin="301,661,251,3" RenderTransformOrigin="0.504,-0.684">
-            <Button x:Name="BtnSeeActivityLogs" Click="BtnSeeActivityLogs_Click" Content="View Activity" FontSize="20" Margin="10 10 10 10" Foreground="WhiteSmoke" Background="MediumSeaGreen" Height="65"></Button>
+            <Button x:Name="BtnSeeActivityLogs" Click="BtnSeeActivityLogs_Click" Content="View Activities" FontSize="20" Margin="10 10 10 10" Foreground="WhiteSmoke" Background="MediumSeaGreen" Height="65"></Button>
             <Button x:Name="BtnEditDetails" Click="BtnEditDetails_Click" Content="Edit Details" FontSize="20" Margin="10 10 10 10" Foreground="WhiteSmoke" Background="MediumSeaGreen" Height="65"></Button>
             <Button x:Name="BtnEditPassword" Click="BtnEditPassword_Click" Content="Change Password" FontSize="20" Margin="10 10 10 10" Foreground="WhiteSmoke" Background="MediumSeaGreen" Height="65"/>
             <Button x:Name="ChangePropic" Click="BtnChangePropic_Click" Content="Change Profile Picture" FontSize="20" Margin="10 10 10 10" Foreground="WhiteSmoke" Background="MediumSeaGreen" Height="65"></Button>
