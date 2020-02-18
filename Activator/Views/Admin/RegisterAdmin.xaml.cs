@@ -85,8 +85,7 @@ namespace Activator.Views
                         imgUploadImage.Source = null;
 
                         // activity recorded
-                        string srnd = Models.Session.id + DateTime.Now.ToString();
-                        Models.ActivityLogs.Activity(srnd, Models.Session.id, "Added new "+ aRoot + " admin", DateTime.Now.ToString());
+                        Models.ActivityLogs.Activity(Models.Components.AdminComponent, "Added new " + aRoot + " admin");
 
                     }
                     else

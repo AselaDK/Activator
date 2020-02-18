@@ -8,7 +8,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -18,6 +17,7 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using MahApps.Metro.Controls;
 using Table = Amazon.DynamoDBv2.DocumentModel.Table;
+using System.Drawing;
 
 namespace Activator.Views.Admin
 {
@@ -28,9 +28,11 @@ namespace Activator.Views.Admin
     {
         private AdminsPage ap;
         private MainView mv;
+        private AdminProfile apr;
         private string id;
         private bool blocked;
         private string blockId;
+        private bool isFromProfile;
 
         public AdminActivityLog(AdminsPage ap, MainView mv, string id, bool isFromProfile)
         {
@@ -38,6 +40,7 @@ namespace Activator.Views.Admin
             this.ap = ap;
             this.mv = mv;
             this.id = id;
+            this.isFromProfile = isFromProfile;
 
             if (isFromProfile == true)
             {
@@ -76,6 +79,7 @@ namespace Activator.Views.Admin
                 block_toggle.IsEnabled = false;
                 block_toggle.Visibility = Visibility.Hidden;
                 text2.Text = "Root Admin";
+                text2.DataContext = Color.Red;
 
             }
         }
@@ -92,9 +96,22 @@ namespace Activator.Views.Admin
 
         private void BtnBack_Click_1(object sender, RoutedEventArgs e)
         {
-            ap = new AdminsPage("", mv);
-            mv.MenuPage.Content = ap;
-            ap.LoadData().ConfigureAwait(false);
+            if (isFromProfile == true)
+            {
+                apr = new AdminProfile(id, mv, null);
+                mv.MenuPage.Content = apr;
+                apr.ShowProfileData(id).ConfigureAwait(false);
+                Console.WriteLine("<<<<<<<<<<<<<<<<<<<< From Profilr");
+                //apr.LoadData().ConfigureAwait(false);
+            }
+            else
+            {
+                ap = new AdminsPage("", mv);
+                mv.MenuPage.Content = ap;
+                ap.LoadData().ConfigureAwait(false);
+                Console.WriteLine("<<<<<<<<<<<<<<<<<<<< not From Profilr");
+
+            }
         }
 
         private void dataGridActivityLogs_PreviewMouseWheel(object sender, MouseWheelEventArgs e)

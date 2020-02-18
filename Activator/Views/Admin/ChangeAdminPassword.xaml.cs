@@ -62,8 +62,8 @@ namespace Activator.Views
                         Dynamodb.UpdateItem(doc, tableName);
 
                         //activity recorded
-                        string srnd = Models.Session.id + DateTime.Now.ToString();
-                        Models.ActivityLogs.Activity(srnd, Models.Session.id, "Updated Password", DateTime.Now.ToString());
+                        Models.ActivityLogs.Activity(Models.Components.AdminComponent, "User Changed Password");
+
 
                         Console.WriteLine("UpdateMultipleAttributes: Printing item after updates ...");
                         MessageBox.Show("Successfully Updated!");
@@ -74,8 +74,7 @@ namespace Activator.Views
                     else
                     {
                         //activity recorded
-                        string srnd = Models.Session.id + DateTime.Now.ToString();
-                        Models.ActivityLogs.Activity(srnd, Models.Session.id, "Wrong Password for change Password", DateTime.Now.ToString());
+                        Models.ActivityLogs.Activity(Models.Components.AdminComponent, "Wrong Password for change Password");
 
                         MessageBox.Show("Message : Wrong Password!");
                     }

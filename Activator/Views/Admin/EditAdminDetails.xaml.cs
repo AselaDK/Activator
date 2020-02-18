@@ -64,8 +64,7 @@ namespace Activator.Views
                         MessageBox.Show("Successfully Updated!");
 
                         //activity recorded
-                        string srnd = Models.Session.id + DateTime.Now.ToString();
-                        Models.ActivityLogs.Activity(srnd, Models.Session.id, "Admin Updated his Details", DateTime.Now.ToString());
+                        Models.ActivityLogs.Activity(Models.Components.AdminComponent, "Admin Updated his Details");
 
                         this.Close();
 
@@ -73,8 +72,7 @@ namespace Activator.Views
                     else
                     {
                         //activity recorded
-                        string srnd = Models.Session.id + DateTime.Now.ToString();
-                        Models.ActivityLogs.Activity(srnd, "#### " +Models.Session.id, "Failed:Attempt: Wrong Pwd, update Details", DateTime.Now.ToString());
+                        Models.ActivityLogs.Activity(Models.Components.AdminComponent, "Failed:Attempt: Wrong Pwd, update Details");
 
                         MessageBox.Show("Message : Wrong Password!");
                     }

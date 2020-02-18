@@ -33,18 +33,20 @@ namespace Activator.Models
             get; set;
         }
 
-        public static void Activity(string id, string uid, string description, string timestamp)
+        public static void Activity(int comp, string description)
+        //public static void Activity(string id, string uid, string description, string timestamp)
         {
             var act_item = new Document();
 
+            string id = DateTime.Now + "_" + Session.id + "_" + comp.ToString();
             act_item["activityid"] = id;
-            act_item["userid"] = uid;
+            act_item["userid"] = Session.id;
             act_item["description"] = description;
-            act_item["timestamp"] = timestamp;
+            act_item["timestamp"] = DateTime.UtcNow;
 
             Task.Run(() => Dynamodb.PutItem(act_item, MyAWSConfigs.ActivitylogsDBtableName));
 
-            Console.WriteLine($"{id} - {uid} - {description} - {timestamp}");
+            //Console.WriteLine($"{id} - {Session.id} - {description} - {timestamp}");
 
         }
 

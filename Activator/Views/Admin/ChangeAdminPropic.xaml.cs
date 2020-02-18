@@ -91,8 +91,7 @@ namespace Activator.Views
                     await this.ShowMessageAsync("Success", "Changed Successfully..", MessageDialogStyle.Affirmative);
 
                     //activity recorded
-                    string srnd = Models.Session.id + DateTime.Now.ToString();
-                    Models.ActivityLogs.Activity(srnd, Models.Session.id, "User Changed Profile Picture", DateTime.Now.ToString());
+                    Models.ActivityLogs.Activity(Models.Components.AdminComponent, "User Changed Profile Picture");
 
                     //imgUploadImage.Source = null;
                 }

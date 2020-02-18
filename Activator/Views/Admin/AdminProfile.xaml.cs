@@ -54,19 +54,21 @@ namespace Activator.Views
                         AdminPhone.Text = item["aPhone"];
                         AdminEMail.Text = item["aId"];
 
-                        AdminType.Text = "Non-Root Admin";
-
-                        if (item["root"].AsBoolean() == true || item["root"].AsInt() == 1)
-                        {
-                            AdminType.Text = "Root Admin - Only you can access other Admins data";
-
-                        }
-
                         string imagename = item["aPropic"];
                         await Task.Run(() => Models.S3Bucket.DownloadFile(imagename, MyAWSConfigs.AdminS3BucketName));
                         var BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
                         string filePath = BaseDirectoryPath + $"Resources/Images/{imagename}";
                         AdminDp.Source = new BitmapImage(new Uri(filePath));
+
+                        AdminType.Text = "Non-Root Admin";
+
+                        if (item["root"].AsBoolean() == true)
+                        {
+                            AdminType.Text = "Root Admin - Only you can access other Admins data";
+
+                        }
+
+                        
 
                     }
                     else
@@ -149,8 +151,7 @@ namespace Activator.Views
                     item["aPropic"] = fileId;
 
                     //activity recorded
-                    string srnd = Models.Session.id + DateTime.Now.ToString();
-                    Models.ActivityLogs.Activity(srnd, Models.Session.id, "User Changed Profile Picture", DateTime.Now.ToString());
+                    Models.ActivityLogs.Activity( Models.Components.AdminComponent, "User Changed Profile Picture");
 
                     await Task.Run(() => S3Bucket.UploadFile(uploadFilePath, fileId, MyAWSConfigs.AdminS3BucketName));
 

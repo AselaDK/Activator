@@ -170,6 +170,7 @@
     <Compile Include="Models\AWS\DataStream.cs" />
     <Compile Include="Models\AWS\Dynamodb.cs" />
     <Compile Include="Models\AWS\FaceCollection.cs" />
+    <Compile Include="Models\Components.cs" />
     <Compile Include="Models\HashMD5.cs" />
     <Compile Include="Models\History.cs" />
     <Compile Include="Models\Logs.cs" />

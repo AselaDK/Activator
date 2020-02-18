@@ -4,6 +4,10 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using Activator.Models;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DocumentModel;
+using System.Windows.Input;
 
 namespace Activator.Views
 {
@@ -58,6 +62,7 @@ namespace Activator.Views
 
                     TxtPassword.Password = "";
                     TxtPassword.BorderBrush = Brushes.Red;
+                    MessageBox.Show("Please Fill All Fields!");
                 }
                 else
                 {
@@ -79,10 +84,8 @@ namespace Activator.Views
                             //saving session
                             Models.Session.id = adminId;
 
-                            Random r;
                             //activity log
-                            string srnd = Models.Session.id + DateTime.Now.Ticks;
-                            Models.ActivityLogs.Activity(srnd, Models.Session.id, "User login", DateTime.Now.ToString());
+                            Models.ActivityLogs.Activity(Models.Components.AdminComponent, "User login");
 
                             TxtUid.Clear();
                             TxtPassword.Clear();
@@ -100,20 +103,30 @@ namespace Activator.Views
                     else
                     {
                         //activity recorded
-                        string srnd = TxtUid.Text + DateTime.Now.ToString();
-                        Models.ActivityLogs.Activity(srnd, "####"+TxtUid.Text, "User login attempt failed", DateTime.Now.ToString());
+                        Models.ActivityLogs.Activity(Models.Components.AdminComponent, "User login attempt failed");
 
                         TxtUid.Text = "";
                         TxtUid.BorderBrush = Brushes.Red;
 
                         TxtPassword.Password = "";
                         TxtPassword.BorderBrush = Brushes.Red;
+                        MessageBox.Show("User Name or Password is INCORRECT!");
                     }
                 }
             }
+            catch (AmazonDynamoDBException ex)
+            {
+                MessageBox.Show("Message : Server Error", ex.Message);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show("Message : Unknown Error", ex.Message);
+                //MessageBox.Show("Message : Unknown Error", ex.Message);
+                MessageBox.Show("Message : User Name or Password is INCORRECT!");
+                TxtUid.Text = "";
+                TxtUid.BorderBrush = Brushes.Red;
+
+                TxtPassword.Password = "";
+                TxtPassword.BorderBrush = Brushes.Red;
             }
             finally
             {
