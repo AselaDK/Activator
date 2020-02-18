@@ -17,18 +17,20 @@ namespace Activator.Views
     /// </summary>
     public partial class AdminProfile : UserControl
     {
-        private string uploadFilePath;
+        private string uploadFilePath;  
         private string myId = null;
         private string tableName = null;
         private Item item = null;
         MainView mv;
         Views.Admin.AdminActivityLog all;
 
-        public AdminProfile(String id, MainView mv, Views.AdminsPage al)
+        public AdminProfile(String id, MainView mv, AdminsPage al)
         {
             InitializeComponent();
             myId = id;
             this.mv = mv;
+
+            //create object of AdminActivitylogs
             this.all = new Admin.AdminActivityLog(al, mv, id, true); 
         }
 
@@ -37,7 +39,7 @@ namespace Activator.Views
             progressBar.Visibility = Visibility.Visible;
             try
             {
-                Console.WriteLine("name   vvvvv- - - ", myid);
+                //Console.WriteLine("name   vvvvv- - - ", myid);
                 ////Console.WriteLine(aPassword);
 
                 try
@@ -47,13 +49,15 @@ namespace Activator.Views
 
                     //Console.WriteLine(item["aPassword"]);
 
+                    //check item is there
                     if (item != null)
                     {
-                        Console.WriteLine("name   - - - ", item["aName"]);
+                        //Console.WriteLine("name   - - - ", item["aName"]);
                         AdminName.Text = item["aName"];
                         AdminPhone.Text = item["aPhone"];
                         AdminEMail.Text = item["aId"];
 
+                        //set pro pic to image
                         string imagename = item["aPropic"];
                         await Task.Run(() => Models.S3Bucket.DownloadFile(imagename, MyAWSConfigs.AdminS3BucketName));
                         var BaseDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
@@ -62,6 +66,7 @@ namespace Activator.Views
 
                         AdminType.Text = "Non-Root Admin";
 
+                        //check admin is root or not
                         if (item["root"].AsBoolean() == true)
                         {
                             AdminType.Text = "Root Admin - Only you can access other Admins data";

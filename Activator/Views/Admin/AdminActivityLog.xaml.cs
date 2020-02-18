@@ -30,9 +30,9 @@ namespace Activator.Views.Admin
         private MainView mv;
         private AdminProfile apr;
         private string id;
-        private bool blocked;
-        private string blockId;
-        private bool isFromProfile;
+        private bool blocked;   //blocked admins check
+        private string blockId;     //blocked admins id
+        private bool isFromProfile;     //page loaded from profile or not
 
         public AdminActivityLog(AdminsPage ap, MainView mv, string id, bool isFromProfile)
         {
@@ -42,6 +42,7 @@ namespace Activator.Views.Admin
             this.id = id;
             this.isFromProfile = isFromProfile;
 
+            //hide block button if page is loaded from ProfilePage
             if (isFromProfile == true)
             {
                 block_toggle.Visibility = Visibility.Hidden;
@@ -49,11 +50,13 @@ namespace Activator.Views.Admin
             }
 
         }
+
+        //load admins activity logs for each clicked
         public void LoadActivityLogs(string id)
         {
             blockId = id;
 
-            var aList = Models.Dynamodb.GetActivitiesOfAdmin(blockId, Models.MyAWSConfigs.ActivitylogsDBtableName, "userid");
+            var aList = Models.Dynamodb.GetActivitiesOfAdmin(blockId, "userid");
             dataGridActivityLogs.ItemsSource = aList;
             dataGridActivityLogs.Items.Refresh();
 
@@ -89,13 +92,9 @@ namespace Activator.Views.Admin
             LoadActivityLogs(blockId);
         }
 
-        private void dataGridActivityLogs_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         private void BtnBack_Click_1(object sender, RoutedEventArgs e)
         {
+            // if page loaded from profile it will back to profile
             if (isFromProfile == true)
             {
                 apr = new AdminProfile(id, mv, null);
@@ -106,6 +105,8 @@ namespace Activator.Views.Admin
             }
             else
             {
+                // if page loaded from adminspage it will back to adminspage
+
                 ap = new AdminsPage("", mv);
                 mv.MenuPage.Content = ap;
                 ap.LoadData().ConfigureAwait(false);
@@ -114,24 +115,7 @@ namespace Activator.Views.Admin
             }
         }
 
-        private void dataGridActivityLogs_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            if (!e.Handled)
-            {
-                e.Handled = true;
-                var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
-                eventArg.RoutedEvent = MouseWheelEvent;
-                eventArg.Source = sender;
-                var parent = ((Control)sender).Parent as UIElement;
-                parent?.RaiseEvent(eventArg);
-            }
-        }
-
-        private void BlockButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+        //toggle button to block admins
         private void block_toggle_Checked(object sender, RoutedEventArgs e)
         {                
             Document doc = new Document();

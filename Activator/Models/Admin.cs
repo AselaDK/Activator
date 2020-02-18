@@ -23,8 +23,10 @@ namespace Activator.Models
 
         public bool blocked { get; set; }
 
+        //Get All Admin details list
         public static List<Admin> GetAdminDetails()
         {
+            //dp image location
             string directoryPath = "Resources/Images/";
 
             List<Admin> admins = new List<Admin>();
@@ -36,22 +38,27 @@ namespace Activator.Models
                 AmazonDynamoDBClient client;
                 using (client = new AmazonDynamoDBClient(MyAWSConfigs.DynamodbRegion))
                 {
+                    //get admin list from database
                     DynamoDBContext context = new DynamoDBContext(client);
                     IEnumerable<Admin> adminData = context.Scan<Admin>();
                     admins = adminData.ToList();
 
+                    // assign their dps to from s3 bucket
                     foreach (Admin admin in admins)
                     {
-
+                        //check file exists in local
                         if (!File.Exists(directoryPath + admin.aPropic))
                         {
+                            //download files if not exists
                             S3Bucket.DownloadFile(admin.aPropic, MyAWSConfigs.AdminS3BucketName);
                         }
-
+                        //derectory path to application
                         string exeDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\";
 
+                        //get file uri
                         Uri fileUri = new Uri(exeDirectory + directoryPath + admin.aPropic);
 
+                        //bind it to aImage attribute
                         admin.aImage = new BitmapImage(fileUri);
                     }
                 }

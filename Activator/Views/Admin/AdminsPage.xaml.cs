@@ -23,7 +23,7 @@ namespace Activator.Views
         public AdminsPage(string aid, MainView mv)
         {
             aId = aid;
-            Console.WriteLine(">>>>>>>>>><<<<<<<<<<<<<,,,,,,,,,Constructor " + aid);
+            //Console.WriteLine(">>>>>>>>>><<<<<<<<<<<<<,,,,,,,,,Constructor " + aid);
             InitializeComponent();
             aId = getId(aid);
 
@@ -31,10 +31,13 @@ namespace Activator.Views
             al = new AdminActivityLog(this, mv, aId, false);
         }
 
+        //get admins list
         public async Task LoadData()
         {
+            // progress bar
             progressBar.Visibility = Visibility.Visible;
             BtnRefresh.IsEnabled = false;
+
             try
             {
                 IEnumerable<Models.Admin> tempAdmins = await Task.Run(() => Models.Admin.GetAdminDetails());
@@ -43,6 +46,7 @@ namespace Activator.Views
 
                 string directoryPath = "Resources/Images/";
 
+                // set images to list
                 foreach (Models.Admin admin in admins)
                 {
                     if (!File.Exists(directoryPath + admin.aPropic))
@@ -73,6 +77,7 @@ namespace Activator.Views
             return id;
         }
 
+        // only root admins can register admins, otherwise gives warnings
         private void RegAdmin_Click(object sender, RoutedEventArgs e)
         {
             string tableName = MyAWSConfigs.AdminDBTableName;
@@ -112,10 +117,11 @@ namespace Activator.Views
 
             SelectedPeople.Add((Models.Admin)AdminDataGrid.SelectedItems[0]);
             SelectedPeopleIdList = SelectedPeople[0].aId;
-            Console.WriteLine(SelectedPeopleIdList);
+            //Console.WriteLine(SelectedPeopleIdList);
 
             if (SelectedPeopleIdList != null)
             {
+                //load activity logs for selected admin
                 mv.MenuPage.Content = al;
                 al.LoadActivityLogs(SelectedPeopleIdList);
             }

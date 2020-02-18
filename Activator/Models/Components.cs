@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Activator.Models
 {
-    class Components
+    class Components    // components' names for activity logs
     {
         public static readonly int LoginComponent = 1;
         public static readonly int AdminComponent = 2;

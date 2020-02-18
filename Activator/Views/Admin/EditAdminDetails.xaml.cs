@@ -16,9 +16,7 @@ namespace Activator.Views
     public partial class EditAdminDetails : MetroWindow
     {
         private readonly string myId = null;
-        private readonly AmazonDynamoDBClient client;
-        readonly Table table = null;
-        readonly Item item = null;
+
         public EditAdminDetails()
         {
             InitializeComponent();
@@ -37,15 +35,17 @@ namespace Activator.Views
             {
                 string tableName = MyAWSConfigs.AdminDBTableName;
                 Item item = Dynamodb.GetItem(myId, tableName);
-                Console.Write("my adminid<<<<<<<<<<<<<<<<<<", myId, ">>>>>>>>>>>>>>>>>>>");
+                //Console.Write("my adminid<<<<<<<<<<<<<<<<<<", myId, ">>>>>>>>>>>>>>>>>>>");
 
                 bool isFileIdEmpty = string.IsNullOrEmpty(txtEmail.Text);
                 bool isNameEmpty = string.IsNullOrEmpty(txtName.Text);
                 bool isPasswordEmpty = string.IsNullOrEmpty(txtPassword.Password);
                 bool isPhoneEmpty = string.IsNullOrEmpty(txtPhone.Text);
 
+                // check wether the fields are empty
                 if (!isNameEmpty && !isPhoneEmpty && !isFileIdEmpty && !txtEmail.Text.Contains(" ") && !isPasswordEmpty)
                 {
+                    // check the password is correct
                     if (Models.HashMD5.MD5Hash(txtPassword.Password) == item["aPassword"])
                     {
                         Console.WriteLine("\n*** Executing UpdateMultipleAttributes() ***");
@@ -59,6 +59,7 @@ namespace Activator.Views
                         doc["aName"] = txtName.Text;
                         doc["aPhone"] = txtPhone.Text;
 
+                        //update item
                         Dynamodb.UpdateItem(doc, tableName);
                         Console.WriteLine("UpdateMultipleAttributes: Printing item after updates ...");
                         MessageBox.Show("Successfully Updated!");
@@ -96,6 +97,7 @@ namespace Activator.Views
             }
         }
 
+        //show profile in the edit window
         private void ShowProfileData()
         {
             try

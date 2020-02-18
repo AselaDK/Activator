@@ -58,6 +58,7 @@ namespace Activator.Models
             }
         }
 
+        //update item query
         public static void UpdateItem(Document item, string tableName)
         {
             try
@@ -79,6 +80,7 @@ namespace Activator.Models
             }
         }
 
+        //delete query
         public static void DeleteItem(string id, string tableName)
         {
             try
@@ -148,6 +150,7 @@ namespace Activator.Models
             return itemCount;
         }
 
+        
         public static List<Document> GetAllDocumentsWithFilter(string tableName, string columnName, string filterValue)
         {
             try
@@ -215,7 +218,8 @@ namespace Activator.Models
             return logsList;
         }
 
-        public static List<ActivityLogs> GetActivitiesOfAdmin(String value, String tableName, String columnName)
+        //filter query to 'where' clause activitylogs table for admin names
+        public static List<ActivityLogs> GetActivitiesOfAdmin(String value, String columnName)
         {
             AmazonDynamoDBClient client;
             client = new AmazonDynamoDBClient();

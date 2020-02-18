@@ -39,7 +39,7 @@ namespace Activator.Views
             {
                 string tableName = MyAWSConfigs.AdminDBTableName;
                 var item = Dynamodb.GetItem(myId, tableName);
-                Console.Write("my adminid<<<<<<<<<<<<<<<<<<", myId, ">>>>>>>>>>>>>>>>>>>");
+                //Console.Write("my adminid<<<<<<<<<<<<<<<<<<", myId, ">>>>>>>>>>>>>>>>>>>");
 
                 bool isPasswordEmpty = string.IsNullOrEmpty(txtPassword.Password);
                 bool isNewPasswordEmpty = string.IsNullOrEmpty(txtNewPassword.Password);
@@ -47,6 +47,7 @@ namespace Activator.Views
 
                 if (!isPasswordEmpty && !isNewPasswordEmpty && !isCPasswordEmpty)
                 {
+                    //check enetered and saved password hashes are same
                     if (HashMD5.MD5Hash(txtPassword.Password) == item["aPassword"])
                     {
                         Console.WriteLine("\n*** Executing UpdateMultipleAttributes() ***");
@@ -59,6 +60,7 @@ namespace Activator.Views
                         // The following replaces the existing authors list.
                         doc["aPassword"] = HashMD5.MD5Hash(txtNewPassword.Password);
 
+                        // update password
                         Dynamodb.UpdateItem(doc, tableName);
 
                         //activity recorded

@@ -53,40 +53,51 @@ namespace Activator.Views
                 {
                     if (txtPassword.Password == txtCPassword.Password)
                     {
-                        ProgressDialogController controller = await this.ShowProgressAsync("Please wait...", "Uploading data");
-                        controller.SetIndeterminate();
-                        controller.SetCancelable(false);
+                        string checkExists =  Models.Dynamodb.GetItem(txtEmail.Text, Models.MyAWSConfigs.AdminDBTableName);
+                        if (checkExists == null)
+                        {
+                            await this.ShowMessageAsync("Invalid", "User ID Already exists!", MessageDialogStyle.Affirmative);
 
-                        string[] temp = uploadFilePath.Split('.');
-                        string fileId = $"{txtEmail.Text}.{temp[temp.Length - 1]}";
+                            // activity recorded
+                            Models.ActivityLogs.Activity(Models.Components.AdminComponent, "Adding new user failed " + aRoot + " admin");
+                        }
+                        else
+                        {
+                            ProgressDialogController controller = await this.ShowProgressAsync("Please wait...", "Uploading data");
+                            controller.SetIndeterminate();
+                            controller.SetCancelable(false);
 
-                        var item = new Document();
+                            string[] temp = uploadFilePath.Split('.');
+                            string fileId = $"{txtEmail.Text}.{temp[temp.Length - 1]}";
 
-                        item["aId"] = txtEmail.Text;
-                        item["aName"] = txtName.Text;
-                        item["aPassword"] = Models.HashMD5.MD5Hash(txtPassword.Password);
-                        item["aPhone"] = txtPhone.Text;
-                        item["aPropic"] = fileId;
-                        item["root"] = isRoot;
-                        item["blocked"] = false;
+                            var item = new Document();
 
-                        await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId, Models.MyAWSConfigs.AdminS3BucketName));
-                        await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.AdminDBTableName));
+                            item["aId"] = txtEmail.Text;
+                            item["aName"] = txtName.Text;
+                            item["aPassword"] = Models.HashMD5.MD5Hash(txtPassword.Password);
+                            item["aPhone"] = txtPhone.Text;
+                            item["aPropic"] = fileId;
+                            item["root"] = isRoot;
+                            item["blocked"] = false;
 
-                        await controller.CloseAsync();
+                            await Task.Run(() => Models.S3Bucket.UploadFile(uploadFilePath, fileId, Models.MyAWSConfigs.AdminS3BucketName));
+                            await Task.Run(() => Models.Dynamodb.PutItem(item, Models.MyAWSConfigs.AdminDBTableName));
 
-                        await this.ShowMessageAsync("Success", "New Admin is Successfully Registered", MessageDialogStyle.Affirmative);
+                            await controller.CloseAsync();
 
-                        txtEmail.Text = "";
-                        txtName.Text = "";
-                        txtPassword.Password = "";
-                        txtCPassword.Password = "";
-                        txtPhone.Text = "";
-                        imgUploadImage.Source = null;
+                            await this.ShowMessageAsync("Success", "New Admin is Successfully Registered", MessageDialogStyle.Affirmative);
 
-                        // activity recorded
-                        Models.ActivityLogs.Activity(Models.Components.AdminComponent, "Added new " + aRoot + " admin");
+                            txtEmail.Text = "";
+                            txtName.Text = "";
+                            txtPassword.Password = "";
+                            txtCPassword.Password = "";
+                            txtPhone.Text = "";
+                            imgUploadImage.Source = null;
 
+                            // activity recorded
+                            Models.ActivityLogs.Activity(Models.Components.AdminComponent, "Added new " + aRoot + " admin");
+                        }
+    
                     }
                     else
                     {
@@ -100,7 +111,9 @@ namespace Activator.Views
             }
             catch
             {
-                await this.ShowMessageAsync("Error", "Task not completed", MessageDialogStyle.Affirmative);
+                // activity recorded
+                Models.ActivityLogs.Activity(Models.Components.AdminComponent, "Adding new user failed " + aRoot + " admin");
+                await this.ShowMessageAsync("Error", "Task not completed! User ID Already Exists", MessageDialogStyle.Affirmative);
             }
         }
 
