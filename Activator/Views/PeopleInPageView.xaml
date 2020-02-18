@@ -69,13 +69,6 @@
             </DataGrid.CellStyle>
 
             <DataGrid.Columns>
-                <DataGridTemplateColumn  Width="100" Header="" IsReadOnly="True">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Image Source="{Binding rImage}" Width="60" Height="60" Stretch="UniformToFill"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
                 <DataGridTextColumn Width="2*" x:Name="id" Header="Event Id" Binding="{Binding event_id}" IsReadOnly="True" />
                 <DataGridTextColumn Width="2*" x:Name="status" Header="Camera Id" Binding="{Binding cameraId}" IsReadOnly="True" />
                 <DataGridTextColumn Width="4*" x:Name="name" Header="Id" Binding="{Binding id}" IsReadOnly="True" />

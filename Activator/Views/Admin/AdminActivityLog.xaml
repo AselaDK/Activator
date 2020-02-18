@@ -1,5 +1,108 @@
 ﻿<UserControl x:Class="Activator.Views.Admin.AdminActivityLog"
+             
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"           
+             mc:Ignorable="d" 
+             
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="18"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             d:DesignHeight="1080" d:DesignWidth="1920">
+
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*" />
+            <RowDefinition Height="0.4*" />
+            <RowDefinition Height="50*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" HorizontalAlignment="Stretch" Background="WhiteSmoke" Margin="0,0,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                    <Button x:Name="BtnBack" Margin="20,0,0,0" Click="BtnBack_Click_1" Style="{DynamicResource MaterialDesignToolButton}" Foreground="{DynamicResource MaterialDesignBody}">
+                        <materialDesign:PackIcon Kind="ArrowBack" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
+                    </Button>
+                    <Button x:Name="RefreshButton" Margin="20,0,0,0" Click="RefreshButton_Click" Style="{DynamicResource MaterialDesignToolButton}" Foreground="Black">
+                        <materialDesign:PackIcon Kind="Refresh" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0"/>
+                    </Button>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20,0,0,0" >
+                        <StackPanel.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                                <GradientStop Color="#FFDAD7D7" Offset="1"/>
+                                <GradientStop Color="White" Offset="0.74"/>
+                            </LinearGradientBrush>
+                        </StackPanel.Background>
+                        <TextBlock x:Name = "text2"  Text="      Block"  Width = "100" HorizontalAlignment = "Right" VerticalAlignment="Bottom" FontSize = "17" Foreground="DimGray" Margin="0,0,0,29" />
+                        <ToggleButton x:Name = "block_toggle" Content = "Block" Checked = "block_toggle_Checked" Unchecked = "block_toggle_Unchecked" Background="Red" Width = "74" HorizontalAlignment = "Center" />
+                    </StackPanel>
+                    <TextBlock x:Name="txtAdminName" Text="Admin Name" FontSize="40" Margin="380,0,0,0" ></TextBlock>
+                </StackPanel>
+
+                <!--<TextBox x:Name="txtSearch"  materialDesign:HintAssist.Hint="Search" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="18" Width="500" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                <materialDesign:PackIcon x:Name="icnSearch" Kind="Search" Width="30" Height="30" VerticalAlignment="Center"  HorizontalAlignment="Center" Cursor="Hand" Margin="10,0,0,0"/>-->
+
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch" >
+            <ProgressBar x:Name="progressBar" Style="{DynamicResource MaterialDesignLinearProgressBar}" IsIndeterminate="True" Visibility="Hidden"/>
+        </Grid>
+
+        <DataGrid Grid.Row="2" x:Name="dataGridActivityLogs" 
+                      HorizontalAlignment="Stretch"                       
+                      ScrollViewer.CanContentScroll="False" 
+                      ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"                     
+                      AutoGenerateColumns="False" CanUserAddRows="False"                  
+                      SelectionMode="Extended"
+                      SelectionUnit="FullRow" Grid.ColumnSpan="2">
+
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <Trigger Property="DataGridRow.IsSelected" Value="True">
+                            <Setter Property="Background" Value="MediumSeaGreen" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
+
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="Margin" Value="13,0,8,0"/>
+                    <Setter Property="Height" Value="75"/>
+                </Style>
+            </DataGrid.CellStyle>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="3*" x:Name="acid" Header="ID" Binding="{Binding activityid}" IsReadOnly="True" />
+                <DataGridTextColumn Width="2*" x:Name="UserId" Header="User Id" Binding="{Binding userid}" IsReadOnly="True" />
+                <DataGridTextColumn Width="4*" x:Name="Description" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
+                <DataGridTextColumn Width="4*" x:Name="Timestamp" Header="Timestamp" Binding="{Binding timestamp}" IsReadOnly="True" />
+            </DataGrid.Columns>
+
+        </DataGrid>
+    </Grid>
+</UserControl>
+
+
+
+
+
+
+
+<!--xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
@@ -29,24 +132,53 @@
 
         </Grid>
         <Grid >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="83*"/>
-                <ColumnDefinition Width="17*"/>
-                <ColumnDefinition Width="100*"/>
-                <ColumnDefinition Width="100*"/>
-                <ColumnDefinition Width="100*"/>
-            </Grid.ColumnDefinitions>
-            <DataGrid x:Name="dataGridActivityLogs" AutoGenerateColumns="False" CanUserAddRows="False" HorizontalAlignment="Left" Grid.ColumnSpan="5" SelectionChanged="dataGridActivityLogs_SelectionChanged"
-                       >
-                <DataGrid.Columns >
-                    <DataGridTextColumn Width="4*" Header="ID" Binding="{Binding activityid}" IsReadOnly="True" />
-                    <!-- binding, read only ?? comment -->
-                    <DataGridTextColumn Width="4*" Header="UserId" Binding="{Binding userid}" IsReadOnly="True"/>
-                    <DataGridTextColumn Width="4*" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
-                    <DataGridTextColumn Width="4*" Header="Timestamp" Binding="{Binding timestamp}" IsReadOnly="True" />
+ 
+            <DataGrid Grid.Row="2" x:Name="dataGridActivityLogs" 
+                      HorizontalAlignment="Stretch"                       
+                      ScrollViewer.CanContentScroll="True" 
+                      ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"                     
+                      AutoGenerateColumns="False" CanUserAddRows="False"                  
+                      SelectionMode="Extended"
+                      SelectionUnit="FullRow" Grid.ColumnSpan="2">
+
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <Trigger Property="DataGridRow.IsSelected" Value="True">
+                                <Setter Property="Background" Value="MediumSeaGreen" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.Resources>
+
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Setter Property="Margin" Value="13,0,8,0"/>
+                        <Setter Property="Height" Value="75"/>
+                    </Style>
+                </DataGrid.CellStyle>
+
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn Width="3*" x:Name="acid" Header="ID" Binding="{Binding activityid}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="2*" x:Name="UserId" Header="User Id" Binding="{Binding userid}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="4*" x:Name="Description" Header="Description" Binding="{Binding description}" IsReadOnly="True" />
+                    <DataGridTextColumn Width="4*" x:Name="Timestamp" Header="Timestamp" Binding="{Binding timestamp}" IsReadOnly="True" />
                 </DataGrid.Columns>
+
             </DataGrid>
+
+
+
+
+
+
+
+         
         </Grid>
 
     </StackPanel>
-</UserControl>
+</UserControl>-->

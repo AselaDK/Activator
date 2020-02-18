@@ -57,6 +57,7 @@ namespace Activator.Views.Admin
             //check admin is blocked or not
             Item item = Models.Dynamodb.GetItem(blockId, Models.MyAWSConfigs.AdminDBTableName);
             blocked = item["blocked"].AsBoolean();
+            txtAdminName.Text = item["aName"];
 
             if (blocked == true)
             {
@@ -73,12 +74,15 @@ namespace Activator.Views.Admin
             {
                 //MessageBox.Show("You can't Block Root Admins!");
                 block_toggle.IsEnabled = false;
+                block_toggle.Visibility = Visibility.Hidden;
+                text2.Text = "Root Admin";
+
             }
         }
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            LoadActivityLogs(id);
+            LoadActivityLogs(blockId);
         }
 
         private void dataGridActivityLogs_SelectionChanged(object sender, SelectionChangedEventArgs e)

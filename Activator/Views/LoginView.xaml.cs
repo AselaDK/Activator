@@ -79,8 +79,9 @@ namespace Activator.Views
                             //saving session
                             Models.Session.id = adminId;
 
+                            Random r;
                             //activity log
-                            string srnd = Models.Session.id + DateTime.Now.ToString();
+                            string srnd = Models.Session.id + DateTime.Now.Ticks;
                             Models.ActivityLogs.Activity(srnd, Models.Session.id, "User login", DateTime.Now.ToString());
 
                             TxtUid.Clear();
