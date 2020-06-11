@@ -7,9 +7,13 @@ Activator System Repository
 ##Contributions to the projects - https://github.com/AselaDK/Activator/graphs/contributors?from=2019-09-08&to=2020-06-11&type=c
 
 ##Technologies
+
   Standalone application - WPF (.net Framework) 
+  
   Database - AWS DynamoDb
+  
   Cloud Services - Amazon Rekognition, Amazon S3, Amazon Kenesis, AWS Lambda
+  
 
 ACTIVATOR is a Smart Video Surveillance Software System that mainly controls the inner
 facial recognition application to generate a notification to inform the person who has offered
@@ -31,9 +35,13 @@ It  generates notifications when pre-recognized person enters into the premises.
 It tracks the person that has been identified.
 It creates various reports when needed.
 
-Standalone Application for Admin - .NET Framework (WPF)
-Mobile Application for Readers - Flutter
-Reusable Serverless Engine - AWS (Amazon Web Services)
+
+  Standalone Application for Admin - .NET Framework (WPF)
+
+  Mobile Application for Readers - Flutter
+
+  Reusable Serverless Engine - AWS (Amazon Web Services)
+
 
 ![alt text](https://github.com/AselaDK/Activator/blob/master/develop-custom-desktop-applications-for-your-requirements.jfif?raw=true)
 ![alt text](https://github.com/AselaDK/Activator/blob/master/develop-custom-desktop-applications-for-your-requirements%20(1).png?raw=true)
